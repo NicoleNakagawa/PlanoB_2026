@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLANOB | Treinos em Casa Redefinidos</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-tint": "#0058ba",
+            "surface-container-high": "#dde1ff",
+            "tertiary": "#6c5a00",
+            "surface-container": "#e4e7ff",
+            "primary-container": "#6c9fff",
+            "on-primary-fixed": "#000000",
+            "on-secondary-fixed": "#003a48",
+            "primary-dim": "#004da4",
+            "outline": "#6c759e",
+            "primary-fixed": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-primary-container": "#00214e",
+            "surface-dim": "#cad2ff",
+            "secondary-dim": "#00576c",
+            "on-error-container": "#570008",
+            "on-tertiary-container": "#5b4b00",
+            "background": "#f7f5ff",
+            "error-dim": "#9f0519",
+            "on-secondary-container": "#004e61",
+            "error-container": "#fb5151",
+            "tertiary-dim": "#5e4e00",
+            "outline-variant": "#a2abd7",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-bright": "#f7f5ff",
+            "tertiary-fixed": "#ffd709",
+            "error": "#b31b25",
+            "inverse-surface": "#020a2f",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#5091ff",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-fixed-variant": "#00586d",
+            "surface-variant": "#d5dbff",
+            "on-surface": "#232c51",
+            "on-tertiary-fixed": "#453900",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "inverse-primary": "#4a8eff",
+            "on-error": "#ffefee",
+            "tertiary-container": "#ffd709",
+            "on-tertiary": "#fff2cd",
+            "secondary-container": "#80deff",
+            "surface-container-low": "#efefff",
+            "on-primary": "#f0f2ff",
+            "on-tertiary-fixed-variant": "#665500",
+            "inverse-on-surface": "#929bc6",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "secondary-fixed": "#80deff",
+            "on-background": "#232c51",
+            "secondary": "#00647b"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline": ["Lexend"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #f7f5ff;
+      color: #232c51;
+    }
+    .font-headline { font-family: 'Lexend', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .primary-gradient { background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%); }
+    .text-editorial { letter-spacing: -0.02em; line-height: 0.85; }
+    .text-outline {
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
+      color: transparent;
+    }
+    /* Garante que elementos semânticos usados como containers de layout se comportem como blocos */
+    article, section, aside { display: block; }
+  </style>
+</head>
+
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- ===================== HEADER / NAV ===================== -->
+  <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transition-all duration-300">
+    <nav class="flex justify-between items-center max-w-[90rem] mx-auto px-8 lg:px-12 h-24" aria-label="Navegação principal">
+
+      <a href="../html/home.html" class="text-3xl font-black tracking-tighter text-blue-800 dark:text-blue-200 font-headline uppercase" aria-label="PlanoB - Página Inicial">
+        PLANOB
+      </a>
+
+      <!-- Links desktop -->
+      <ul class="hidden md:flex items-center gap-12" role="list">
+        <li>
+          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="../html/home.html" aria-current="page">Treinos</a>
+        </li>
+        <li>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="../html/planos.html">Planos</a>
+        </li>
+        <li>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="../html/suporte.html">Suporte</a>
+        </li>
+      </ul>
+
+      <!-- Ações CTA -->
+      <nav class="flex items-center gap-8" aria-label="Ações do usuário">
+        <a href="../html/loginaluno.html" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+          Login
+        </a>
+        <a href="../html/cadastroaluno.html" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+          Começar Agora
+        </a>
+      </nav>
+
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="relative min-h-screen flex items-center pt-32 pb-20 bg-surface" aria-labelledby="hero-heading">
+
+      <article class="max-w-[90rem] mx-auto px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Texto -->
+        <section class="flex flex-col">
+          <h1 id="hero-heading" class="font-headline text-editorial text-[4.5rem] md:text-[7rem] lg:text-[8.5rem] font-black text-primary leading-none mb-10">
+            SUPERE SEUS <br />
+            <em class="not-italic text-on-surface">LIMITES.</em>
+          </h1>
+
+          <p class="text-2xl md:text-3xl text-on-surface-variant max-w-2xl mb-12 leading-relaxed font-body">
+            Eleve sua experiência de treino em casa com programas de alta precisão e treinadores de elite. Fitness moderno, em qualquer lugar.
+          </p>
+
+          <nav class="flex flex-wrap gap-6" aria-label="Ações principais">
+            <a href="../html/treinos.html" class="primary-gradient text-white px-12 py-6 rounded-full font-black text-xl flex items-center gap-3 group transition-all duration-300">
+              Iniciar Treino
+              <i class="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform not-italic" aria-hidden="true">arrow_forward</i>
+            </a>
+            <a href="../html/planos.html" class="px-12 py-6 rounded-full font-black text-xl border-2 border-outline/20 hover:bg-surface-container transition-colors">
+              Ver Programas
+            </a>
+          </nav>
+        </section>
+
+        <!-- Imagem + Badge -->
+        <figure class="relative flex justify-center lg:justify-end">
+          <picture class="relative w-full max-w-[500px] aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-surface-container-high shadow-2xl block">
+            <img
+              src="https://lh3.googleusercontent.com/aida/ADBb0ugSbM2nzq32Ts3HLXDMeeirh6CFfnBvNqZGDXvSLM3LvZflck6UOzs9DwKBONS4smBvKrOg04XI2xe_05xGaOBJI3E2TDF4VJbtATsFH15Fl6BDkY-ufiFuCR6i1apTh08B-UWlY_27Z9vI3wGv2eDkr-39nydie6T-WxII7xTN48ZO00Lj_ExeVJl9OGo1PVXs9gu3X2DaNiUYnMgIOxu2bTs0-H6Atq3_yIKclK8lPBvg7Q6qqeQM13p2"
+              alt="Atleta Profissional Treinando"
+              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            />
+          </picture>
+
+          <aside class="absolute bottom-6 -left-6 lg:-left-12 bg-tertiary-fixed p-8 lg:p-10 rounded-3xl shadow-2xl border-4 border-white transform -rotate-3" aria-label="Estatística de treinos">
+            <strong class="text-on-tertiary-fixed font-headline text-4xl lg:text-5xl font-black block">150+</strong>
+            <p class="text-on-tertiary-fixed-variant font-bold text-xs lg:text-sm tracking-widest uppercase">Treinos de Elite</p>
+          </aside>
+        </figure>
+
+      </article>
+
+      <!-- Marca d'água decorativa -->
+      <p class="absolute bottom-10 right-10 font-headline text-[15vw] font-black text-on-surface/[0.03] leading-none select-none pointer-events-none" aria-hidden="true">
+        PLANOB
+      </p>
+
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section class="py-40 bg-surface-container-low" aria-labelledby="about-heading">
+      <article class="max-w-[90rem] mx-auto px-8 lg:px-12">
+
+        <header class="mb-24">
+          <h2 id="about-heading" class="font-headline text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 tracking-tight">
+            PROJETADO PARA <mark class="text-primary bg-transparent">RESULTADOS.</mark>
+          </h2>
+          <p class="text-on-surface-variant max-w-3xl text-xl md:text-2xl leading-relaxed">
+            Removemos o ruído para focar no que importa: eficiência, ciência e estado de fluxo absoluto.
+          </p>
+        </header>
+
+        <ul class="grid grid-cols-1 lg:grid-cols-3 gap-12" role="list">
+
+          <li class="bg-surface-container-lowest p-10 lg:p-16 rounded-[3rem] border border-outline/5 flex flex-col justify-between hover:shadow-xl transition-shadow lg:col-span-3">
+
+            <section class="mb-12">
+              <i class="material-symbols-outlined text-6xl text-primary mb-8 block not-italic" aria-hidden="true">bolt</i>
+              <h3 class="font-headline text-3xl lg:text-5xl font-bold mb-6">Programação de Precisão</h3>
+              <p class="text-on-surface-variant text-lg lg:text-2xl leading-relaxed max-w-2xl">
+                Cada treino é desenhado por atletas profissionais para maximizar o rendimento metabólico enquanto minimiza o estresse articular.
+              </p>
+            </section>
+
+            <figure class="rounded-[2.5rem] overflow-hidden aspect-video relative group">
+              <img
+                src="https://lh3.googleusercontent.com/aida/ADBb0ug6Vp4L6TDTFzT0t5pFqocgv1IRc8xPiaTqSUjf4bt4Oxj7wPp8ASWhnx0hBiYjc7U_N2XYOLiIk8gfIq33ETBpfN0m8vUTTuX1ntCuc6P04I7im7pXx0WvjA3GqvfRKG5xfBcRrUdGljCmSL_-oBZIwzjWdrdsdVokdn3xJ1TycxaK0PACb-YvX7zbzGRWx2bqHWJQXF-pjEzIPld2waiZbtBA1v8YoF2TZddJ-5sD0ucrjXcvjDxyPr6B"
+                alt="Sessão de treinamento pessoal remoto mostrando o instrutor e o atleta em ambientes modernos"
+                class="w-full h-full object-cover object-center"
+              />
+              <!-- Overlay de cor: usando <b> como elemento vazio puramente visual -->
+              <b class="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:bg-primary/0 transition-all duration-500 block font-normal" aria-hidden="true"></b>
+
+              <!-- HUD decorativo com cantos -->
+              <figure class="absolute inset-0 p-8 flex flex-col justify-between pointer-events-none opacity-80" aria-hidden="true">
+                <header class="flex justify-between items-start">
+                  <ins class="w-16 h-16 border-t-2 border-r-2 border-primary/50 no-underline block"></ins>
+                </header>
+                <footer class="flex justify-between items-end">
+                  <ins class="w-16 h-16 border-b-2 border-l-2 border-primary/50 no-underline block"></ins>
+                </footer>
+              </figure>
+            </figure>
+
+          </li>
+
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== PRICING ===================== -->
+    <section class="py-40 bg-surface" aria-labelledby="pricing-heading">
+      <article class="max-w-[90rem] mx-auto px-8 lg:px-12">
+
+        <header class="text-center mb-32">
+          <h2 id="pricing-heading" class="font-headline text-5xl md:text-7xl lg:text-8xl font-black mb-8 uppercase">
+            ESCOLHA SEU <mark class="text-primary bg-transparent">FLUXO.</mark>
+          </h2>
+          <p class="text-on-surface-variant text-xl md:text-3xl">
+            Investir em si mesmo é o único retorno garantido.
+          </p>
+        </header>
+
+        <ul class="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-6xl mx-auto" role="list">
+
+          <!-- Plano Lazuli -->
+          <li class="bg-primary p-12 rounded-[3rem] text-on-primary flex flex-col w-full md:w-1/2 shadow-2xl shadow-blue-500/30 transform lg:scale-105 z-10">
+            <header class="mb-6">
+              <strong class="bg-white/20 px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">Mais Popular</strong>
+            </header>
+
+            <section class="mb-12">
+              <h3 class="font-headline text-3xl font-black mb-3">Plano Lazuli</h3>
+              <p class="flex items-baseline gap-1">
+                <strong class="text-6xl font-black">R$249</strong>
+                <em class="text-lg opacity-80 not-italic">/mês</em>
+              </p>
+            </section>
+
+            <ul class="space-y-6 mb-16 flex-grow" role="list" aria-label="Benefícios do Plano Lazuli">
+              <li class="flex items-center gap-4">
+                <i class="material-symbols-outlined text-white not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">stars</i>
+                <b class="text-lg font-bold">Acesso a todos os vídeos</b>
+              </li>
+              <li class="flex items-center gap-4">
+                <i class="material-symbols-outlined text-white not-italic" aria-hidden="true">check_circle</i>
+                <b class="text-lg font-bold">Página de planos</b>
+              </li>
+              <li class="flex items-start gap-4">
+                <i class="material-symbols-outlined text-white not-italic" aria-hidden="true">check_circle</i>
+                <section class="flex flex-col">
+                  <b class="text-lg font-bold">Ofensiva/Descontos</b>
+                  <small class="text-white/70 font-semibold">*Desconto apenas com ofensiva ativa</small>
+                </section>
+              </li>
+            </ul>
+
+            <a href="../html/planos.html?plano=lazuli" class="w-full py-6 rounded-full font-black bg-white text-primary text-xl shadow-xl hover:bg-opacity-90 transition-all text-center">
+              Saiba Mais
+            </a>
+          </li>
+
+          <!-- Plano Diamante -->
+          <li class="bg-surface-container-lowest p-10 rounded-[2.5rem] flex flex-col w-full md:w-1/2 border border-outline/5 shadow-lg">
+            <header class="flex justify-between items-start mb-8">
+              <h3 class="font-headline text-2xl font-bold">Plano Diamante</h3>
+              <strong class="bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter">Premium</strong>
+            </header>
+
+            <section class="mb-10">
+              <p class="flex items-baseline gap-1">
+                <strong class="text-4xl font-black">R$499</strong>
+                <em class="text-lg text-on-surface-variant not-italic">/mês</em>
+              </p>
+            </section>
+
+            <ul class="space-y-6 mb-16 flex-grow" role="list" aria-label="Benefícios do Plano Diamante">
+              <li class="flex items-center gap-4">
+                <i class="material-symbols-outlined text-primary text-2xl not-italic" aria-hidden="true">check_circle</i>
+                <b class="text-on-surface font-bold text-lg">Acesso a todos os vídeos</b>
+              </li>
+              <li class="flex items-center gap-4">
+                <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
+                <b class="text-on-surface font-medium text-lg">Planos montados pelo professor</b>
+              </li>
+              <li class="flex items-center gap-4">
+                <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
+                <b class="text-on-surface font-medium text-lg">Página de planos</b>
+              </li>
+              <li class="flex items-center gap-4">
+                <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
+                <b class="text-on-surface font-medium text-lg">Ofensiva/Descontos</b>
+              </li>
+            </ul>
+
+            <a href="../html/planos.html?plano=diamante" class="w-full py-5 rounded-full font-black text-lg primary-gradient text-white shadow-lg hover:opacity-90 transition-all text-center">
+              Saiba Mais
+            </a>
+          </li>
+
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-black" aria-labelledby="cta-heading">
+
+      <!-- Fundo com imagem -->
+      <figure class="absolute inset-0" aria-hidden="true">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvbi9FrYK1nUKEsRyoSb5E0GMd0eZSfDDm-5tHyI4Ep8j346Nzqs2O1YRrB1qZzzndI_fp_jMwOFSJaopnP3uxQuTx0p0HgtKI0uNeI8c-44rQzeg2-wenWIctHrI1YRjisNiz-emxB8gF8bMMMWQcZzkTjTpqWYxLMjpU-9kHlfMk0ZhajQ6Pu1DYCq1-TbJvAxchd7LcaxSKh1st5IcqpohU3LizLwvL3wna9DFwW_-luibsr3d3tpSEKnMlFn5ACK1mpQA7BUDJ"
+          alt=""
+          class="w-full h-full object-cover opacity-40 mix-blend-luminosity"
+        />
+        <b class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-90 block font-normal"></b>
+        <b class="absolute inset-0 bg-primary/10 mix-blend-overlay block font-normal"></b>
+      </figure>
+
+      <!-- Conteúdo CTA -->
+      <article class="relative z-10 text-center px-8 flex flex-col items-center">
+
+        <p class="text-primary font-black tracking-[0.5em] uppercase text-sm md:text-lg mb-4">
+          Sua Jornada Começa Aqui
+        </p>
+
+        <section class="relative mb-16">
+          <h2 id="cta-heading" class="font-headline text-[15vw] md:text-[12vw] font-black text-white leading-none uppercase tracking-tighter drop-shadow-2xl">
+            SEM<br />
+            <em class="not-italic text-outline">DESCULPAS</em>
+          </h2>
+
+          <!-- Cantos decorativos -->
+          <b class="absolute -top-10 -left-10 w-20 h-20 border-t-4 border-l-4 border-primary block font-normal" aria-hidden="true"></b>
+          <b class="absolute -bottom-10 -right-10 w-20 h-20 border-b-4 border-r-4 border-primary block font-normal" aria-hidden="true"></b>
+        </section>
+
+        <a href="../html/cadastro.html" class="primary-gradient hover:scale-110 active:scale-95 text-white font-headline font-black text-2xl md:text-3xl px-20 py-8 rounded-full shadow-[0_0_50px_rgba(0,88,186,0.4)] transition-all uppercase tracking-widest ring-4 ring-white/10">
+          COMECE JÁ
+        </a>
+
+        <p class="mt-12 flex gap-4 items-center opacity-60">
+          <hr class="w-12 border-white/30 border-t" aria-hidden="true" />
+          <b class="text-white/80 font-bold uppercase tracking-widest text-xs">Junte-se a 50k+ atletas</b>
+          <hr class="w-12 border-white/30 border-t" aria-hidden="true" />
+        </p>
+
+      </article>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-white dark:bg-slate-950 w-full py-24 border-t border-slate-200 dark:border-slate-800">
+    <article class="max-w-[90rem] mx-auto px-8 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-16">
+
+      <!-- Identidade -->
+      <section class="col-span-1">
+        <p class="text-3xl font-black text-primary dark:text-blue-200 font-headline mb-8 uppercase">PLANOB</p>
+        <p class="text-slate-500 font-body text-lg leading-relaxed max-w-xs">
+          Redefinindo os limites do fitness em casa através da ciência e do design editorial.
+        </p>
+      </section>
+
+      <!-- Programas -->
+      <nav aria-label="Programas">
+        <h3 class="font-headline font-black text-xl text-slate-900 dark:text-slate-100 mb-8 uppercase tracking-wide">Programas</h3>
+        <ul class="space-y-6" role="list">
+          <li><a class="text-lg text-slate-500 hover:text-primary transition-all underline decoration-2 decoration-transparent hover:decoration-primary underline-offset-8" href="#">Fluxo HIIT</a></li>
+          <li><a class="text-lg text-slate-500 hover:text-primary transition-all underline decoration-2 decoration-transparent hover:decoration-primary underline-offset-8" href="#">Força Elite</a></li>
+          <li><a class="text-lg text-slate-500 hover:text-primary transition-all underline decoration-2 decoration-transparent hover:decoration-primary underline-offset-8" href="#">Yoga de Precisão</a></li>
+        </ul>
+      </nav>
+
+      <!-- Empresa -->
+      <nav aria-label="Empresa">
+        <h3 class="font-headline font-black text-xl text-slate-900 dark:text-slate-100 mb-8 uppercase tracking-wide">Empresa</h3>
+        <ul class="space-y-6" role="list">
+          <li><a class="text-lg text-slate-500 hover:text-primary transition-all font-medium" href="#">Carreiras</a></li>
+          <li><a class="text-lg text-slate-500 hover:text-primary transition-all font-medium" href="../html/suporte.html">Suporte</a></li>
+          <li><a class="text-lg text-slate-500 hover:text-primary transition-all font-medium" href="#">Privacidade</a></li>
+        </ul>
+      </nav>
+
+      <!-- Newsletter -->
+      <section>
+        <h3 class="font-headline font-black text-xl text-slate-900 dark:text-slate-100 mb-8 uppercase tracking-wide">Newsletter</h3>
+        <form class="flex gap-3" onsubmit="return false;" novalidate>
+          <label for="newsletter-email" class="sr-only">Seu e-mail</label>
+          <input
+            id="newsletter-email"
+            type="email"
+            placeholder="email@exemplo.com"
+            class="bg-surface-container-highest border-none rounded-full px-6 py-4 w-full text-lg focus:ring-4 focus:ring-primary/20 transition-all"
+          />
+          <button type="submit" class="primary-gradient p-4 rounded-full text-white shadow-lg hover:scale-110 transition-transform" aria-label="Inscrever na newsletter">
+            <i class="material-symbols-outlined text-2xl not-italic" aria-hidden="true">send</i>
+          </button>
+        </form>
+        <p class="text-slate-400 text-sm mt-6">Receba treinos exclusivos semanalmente.</p>
+      </section>
+
+    </article>
+
+    <!-- Copyright -->
+    <aside class="max-w-[90rem] mx-auto px-8 mt-24 pt-10 border-t border-slate-200 dark:border-slate-800 text-center">
+      <small class="text-slate-400 text-sm font-bold tracking-widest uppercase">
+        © 2024 PlanoB Elegância. Todos os direitos reservados.
+      </small>
+    </aside>
+  </footer>
+
+</body>
+</html>

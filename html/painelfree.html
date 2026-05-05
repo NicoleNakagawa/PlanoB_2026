@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Painel do Aluno</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#f7f5ff",
+            "tertiary-dim": "#5e4e00",
+            "error": "#b31b25",
+            "surface-dim": "#cad2ff",
+            "outline-variant": "#a2abd7",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "inverse-primary": "#4a8eff",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "outline": "#6c759e",
+            "inverse-on-surface": "#929bc6",
+            "error-container": "#fb5151",
+            "surface-variant": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "primary-container": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-error": "#ffefee",
+            "on-tertiary": "#fff2cd",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-high": "#dde1ff",
+            "secondary-dim": "#00576c",
+            "on-secondary-fixed-variant": "#00586d",
+            "on-tertiary-container": "#5b4b00",
+            "tertiary-fixed": "#ffd709",
+            "on-primary-fixed": "#000000",
+            "on-primary": "#f0f2ff",
+            "on-error-container": "#570008",
+            "secondary-fixed": "#80deff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "primary-fixed-dim": "#5091ff",
+            "surface-container": "#e4e7ff",
+            "primary-dim": "#004da4",
+            "on-background": "#232c51",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-primary-container": "#00214e",
+            "surface-container-low": "#efefff",
+            "secondary": "#00647b",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "surface-tint": "#0058ba",
+            "background": "#f7f5ff",
+            "on-secondary-fixed": "#003a48",
+            "error-dim": "#9f0519",
+            "tertiary": "#6c5a00"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3, .headline { font-family: 'Lexend', sans-serif; }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface">
+
+  <!-- ── Top App Bar ──────────────────────────────────────────── -->
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <strong class="text-2xl font-black text-primary font-headline tracking-tight">PlanoB</strong>
+      <ul class="hidden md:flex gap-6 ml-8 list-none p-0 m-0" role="list">
+        <li><a class="text-primary font-bold transition-colors" href="#">Treinos</a></li>
+        <li><a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="#">Planos</a></li>
+        <li><a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="#">Mensagens</a></li>
+      </ul>
+    </nav>
+
+    <menu class="flex items-center gap-4 p-0 m-0">
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Perfil">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">account_circle</i>
+        </button>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary/10 to-transparent font-normal" aria-hidden="true"></b>
+  </header>
+
+  <!-- ── Side Nav (Desktop) ───────────────────────────────────── -->
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <img
+            class="w-12 h-12 rounded-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXBWQL_ZXZem9hoA9giue5xdlGPs9h7fOphbdya-vSajPdFkjYPlUsZ-0m0ItXUHr9Ju9SAbSD44hX7cLi09EeDHiuhkhwV7EQlZ8Ciy6KUjZ19E3-_mtneyoFFdblgnZS2XNoioSv75N7E2FOy4PCkROxYxNyFohfDG9cq4Ud8FSpOFg_OoNRpxWBsvAqoPtV2qdsqek3lLIiNNQGkcTkYqDPtqFTXq59_CoVzcmnsWdEj8T61TZQDUU4HcRGYlhV9cbFI3URIP8Z"
+            alt="Foto de perfil do aluno"
+          />
+        </picture>
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">Portal do Aluno</p>
+          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="bg-gradient-to-br from-[#0058ba] to-[#6c9fff] text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="#" aria-current="page">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+        <em class="not-italic">Treinos</em>
+      </a>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+        <em class="not-italic">Planos</em>
+      </a>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">chat</i>
+        <em class="not-italic">Mensagens</em>
+      </a>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">settings</i>
+        <em class="not-italic">Configurações</em>
+      </a>
+    </nav>
+
+    <footer class="mt-auto px-4 pb-8">
+      <button class="w-full bg-primary text-white rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">add</i>
+        Novo Treino
+      </button>
+    </footer>
+
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────────────── -->
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <!-- ── Hero: Trial Progress ──────────────────────────────── -->
+      <article class="md:col-span-12 relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary-container p-8 md:p-12 text-white shadow-2xl">
+
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+
+          <hgroup class="max-w-xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Teste Gratuito Ativo
+            </mark>
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              SUA JORNADA ESTÁ APENAS COMEÇANDO.
+            </h1>
+            <p class="text-lg opacity-90 max-w-md">
+              Você está aproveitando o poder do PlanoB. Mantenha o ritmo para transformar seu corpo e mente.
+            </p>
+          </hgroup>
+
+          <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-8 rounded-3xl border border-white/10 w-full md:w-auto m-0">
+            <svg class="w-32 h-32 transform -rotate-90" role="img" aria-label="6 de 7 dias restantes">
+              <circle class="text-white/20" cx="64" cy="64" fill="transparent" r="58"
+                      stroke="currentColor" stroke-width="8" />
+              <circle class="text-white" cx="64" cy="64" fill="transparent" r="58"
+                      stroke="currentColor" stroke-dasharray="364" stroke-dashoffset="52"
+                      stroke-width="8" />
+              <text x="64" y="60" text-anchor="middle" dominant-baseline="middle"
+                    class="text-white" fill="white"
+                    font-size="28" font-weight="900" font-family="Lexend"
+                    transform="rotate(90, 64, 64)">6</text>
+              <text x="64" y="76" text-anchor="middle" dominant-baseline="middle"
+                    fill="white" font-size="8" font-weight="700" font-family="Manrope"
+                    letter-spacing="1" transform="rotate(90, 64, 64)">DIAS RESTANTES</text>
+            </svg>
+            <p class="text-sm font-medium opacity-80 italic">de 7 dias totais</p>
+          </figure>
+
+        </section>
+
+        <!-- Decorações de fundo -->
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary-fixed opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <!-- ── Warning + Counter ─────────────────────────────────── -->
+      <section class="md:col-span-5 flex flex-col gap-6">
+
+        <!-- Aviso de encerramento -->
+        <article class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6 relative overflow-hidden">
+          <i class="material-symbols-outlined text-error text-4xl opacity-20 not-italic absolute top-0 right-0 p-4" aria-hidden="true">warning</i>
+          <hgroup class="flex flex-col gap-2">
+            <h2 class="text-2xl font-extrabold headline text-on-surface">Aviso de Encerramento</h2>
+            <p class="text-on-surface-variant leading-relaxed">
+              Seu acesso gratuito expira em breve. Após este período, suas métricas e planos personalizados ficarão bloqueados.
+            </p>
+          </hgroup>
+          <button class="w-full bg-gradient-to-r from-primary to-primary-container text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+            Fazer Upgrade para Lazuli
+          </button>
+        </article>
+
+        <!-- Próximo acesso gratuito -->
+        <article class="bg-surface-container rounded-3xl p-8 flex flex-col gap-4">
+          <p class="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Próximo Acesso Gratuito</p>
+          <p class="flex items-end gap-2">
+            <strong class="text-5xl font-black text-primary">06</strong>
+            <em class="text-xl font-bold text-on-surface-variant mb-1 not-italic">Meses</em>
+          </p>
+          <p class="text-xs text-on-surface-variant italic">Os benefícios do plano gratuito são renovados semestralmente.</p>
+        </article>
+
+      </section>
+
+      <!-- ── Vídeos Demonstrativos ─────────────────────────────── -->
+      <section class="md:col-span-7 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
+
+        <header class="flex items-center justify-between">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Vídeos Demonstrativos</h2>
+          <mark class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase text-on-surface-variant">
+            3 de 15 liberados
+          </mark>
+        </header>
+
+        <ul role="list" class="grid grid-cols-1 gap-4 list-none p-0 m-0">
+
+          <!-- Vídeo 1 -->
+          <li class="group relative rounded-2xl overflow-hidden bg-surface-container-lowest h-32 flex items-center cursor-pointer transition-transform hover:scale-[1.01]">
+            <figure class="w-40 h-full relative m-0 shrink-0">
+              <img
+                class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUlvyA1HC-hP75Q0K7udfIZVOpSL4wiLBbB9B45qNFzLg4KwO1rv3s_SGspCGtPOY0C7Zgv9shHviPROv_w4fGlQ4zXINuVk_XEKwiVL5OPqKnUOa7mJHigqrCC-0H7xYLcenpO2XcwtG3vJWzBbOYWdqKj181pFupU-CYqSZs0heNgo7pZi14SWfQrdh77WEb9h9HvhVCZbQqNnTuomXzpTSCTJDlZ8KnZALjR0L1UFusXDBnwHzT-Jct2pY_7Yg30oX2Nw4jzlHF"
+                alt="Homem realizando levantamento terra em academia"
+              />
+              <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
+              </figcaption>
+            </figure>
+            <hgroup class="p-4 flex-1">
+              <h3 class="font-bold text-on-surface">Fundamentos do Agachamento</h3>
+              <p class="text-xs text-on-surface-variant">Duração: 4:20 • Nível Básico</p>
+            </hgroup>
+          </li>
+
+          <!-- Vídeo 2 -->
+          <li class="group relative rounded-2xl overflow-hidden bg-surface-container-lowest h-32 flex items-center cursor-pointer transition-transform hover:scale-[1.01]">
+            <figure class="w-40 h-full relative m-0 shrink-0">
+              <img
+                class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAHY8EwRSsnioJ6BUuZjjmePfGbtDp7_73Rlhrj8ySRIvkd7nxz31O5bdFqXPDFiKnwTrdYClJYXeKvV4GYKNktiq0baS3WTjL864Lp9e4VOuIxzSwfgm82qEINaXjseDaNptEsKwxSSQRMY1-OjQJFmDogEYIoVUuhqWJ9jEQgBe5RM5s3Gzinc8hYRNlbS3ZJ4h1vEPigDfX4azOGa4gYr8RiTuzSwz6e0BUT1L6tbkbO5LBcT2EDgQDI1w0LE8A6w0WAWWs_nOM"
+                alt="Atleta correndo em esteira com iluminação azul"
+              />
+              <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
+              </figcaption>
+            </figure>
+            <hgroup class="p-4 flex-1">
+              <h3 class="font-bold text-on-surface">Cardio de Alta Intensidade</h3>
+              <p class="text-xs text-on-surface-variant">Duração: 8:15 • Nível Intermediário</p>
+            </hgroup>
+          </li>
+
+          <!-- Vídeo bloqueado -->
+          <li class="relative rounded-2xl overflow-hidden bg-surface-container-highest/50 h-32 flex items-center grayscale opacity-60" aria-label="Conteúdo bloqueado">
+            <figure class="w-40 h-full bg-surface-dim flex items-center justify-center m-0 shrink-0">
+              <i class="material-symbols-outlined text-on-surface-variant text-4xl not-italic" aria-hidden="true">lock</i>
+            </figure>
+            <hgroup class="p-4 flex-1">
+              <h3 class="font-bold text-on-surface">Mestria em Mobilidade</h3>
+              <p class="text-xs text-on-surface-variant">Disponível apenas em planos Premium</p>
+            </hgroup>
+          </li>
+
+        </ul>
+
+        <button class="mt-2 text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
+          Ver todos os vídeos demonstrativos
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+        </button>
+
+      </section>
+
+      <!-- ── Prévia de Planos ───────────────────────────────────── -->
+      <section class="md:col-span-12 mt-8">
+
+        <h2 class="text-3xl font-black headline text-on-surface mb-8">NÃO PARE AGORA. ESCOLHA SEU PRÓXIMO NÍVEL.</h2>
+
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none p-0 m-0" role="list" aria-label="Planos disponíveis">
+
+          <!-- Plano Grátis -->
+          <li class="bg-surface-container-low rounded-[2rem] p-8 flex flex-col gap-6">
+            <header class="flex justify-between items-start">
+              <hgroup>
+                <h3 class="text-xl font-bold">Grátis</h3>
+                <p class="text-xs text-on-surface-variant">O seu atual</p>
+              </hgroup>
+              <i class="material-symbols-outlined text-on-surface-variant not-italic" aria-hidden="true">check_circle</i>
+            </header>
+            <p class="text-4xl font-black">R$ 0<em class="text-sm font-normal text-on-surface-variant not-italic">/mês</em></p>
+            <ul class="flex flex-col gap-3 text-sm text-on-surface-variant list-none p-0 m-0" role="list">
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> 3 Vídeos Liberados
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Suporte Comunitário
+              </li>
+              <li class="flex items-center gap-2 opacity-30">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">close</i> Planos Personalizados
+              </li>
+            </ul>
+          </li>
+
+          <!-- Plano Lazuli -->
+          <li class="bg-primary rounded-[2rem] p-8 flex flex-col gap-6 text-white shadow-xl shadow-primary/30 relative">
+            <mark class="absolute top-0 right-8 -translate-y-1/2 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+              Mais Popular
+            </mark>
+            <header class="flex justify-between items-start">
+              <hgroup>
+                <h3 class="text-xl font-bold">Lazuli</h3>
+                <p class="text-xs opacity-70">Transformação Ativa</p>
+              </hgroup>
+            </header>
+            <p class="text-4xl font-black">R$ 59<em class="text-sm font-normal opacity-70 not-italic">/mês</em></p>
+            <ul class="flex flex-col gap-3 text-sm list-none p-0 m-0" role="list">
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Biblioteca Completa
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Planos de Treino
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Chat com Instrutor
+              </li>
+            </ul>
+            <button class="mt-auto w-full bg-white text-primary py-4 rounded-full font-bold active:scale-95 transition-transform">
+              Selecionar Lazuli
+            </button>
+          </li>
+
+          <!-- Plano Diamante -->
+          <li class="bg-surface-container-lowest rounded-[2rem] p-8 flex flex-col gap-6 shadow-sm border border-outline-variant/10">
+            <header class="flex justify-between items-start">
+              <hgroup>
+                <h3 class="text-xl font-bold">Diamante</h3>
+                <p class="text-xs text-on-surface-variant">Elite Performance</p>
+              </hgroup>
+            </header>
+            <p class="text-4xl font-black">R$ 149<em class="text-sm font-normal text-on-surface-variant not-italic">/mês</em></p>
+            <ul class="flex flex-col gap-3 text-sm text-on-surface-variant list-none p-0 m-0" role="list">
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Tudo do Plano Lazuli
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Consultoria VIP 1-on-1
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i> Kit de Suplementos
+              </li>
+            </ul>
+            <button class="mt-auto w-full bg-surface-container-highest text-on-surface py-4 rounded-full font-bold active:scale-95 transition-transform">
+              Selecionar Diamante
+            </button>
+          </li>
+
+        </ul>
+      </section>
+
+    </section>
+  </main>
+
+  <!-- ── Nav Mobile (Bottom) ─────────────────────────────────── -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
+
+    <a href="../html/painelfree.html" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity"
+       aria-current="page">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true"
+         style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">fitness_center</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinos</em>
+    </a>
+
+    <a href="../html/planos.html" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+    </a>
+
+    <a href="../html/login.html" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+
+  </nav>
+
+</body>
+</html>

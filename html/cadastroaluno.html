@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline-variant": "#a2abd7",
+            "tertiary-dim": "#5e4e00",
+            "inverse-surface": "#020a2f",
+            primary: "#0058ba",
+            "secondary-fixed-dim": "#37d4ff",
+            "secondary-fixed": "#80deff",
+            "on-primary": "#f0f2ff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "on-tertiary-container": "#5b4b00",
+            "primary-fixed-dim": "#5091ff",
+            error: "#b31b25",
+            "on-tertiary-fixed-variant": "#665500",
+            "surface-container-highest": "#d5dbff",
+            "error-dim": "#9f0519",
+            background: "#f7f5ff",
+            "on-secondary-container": "#004e61",
+            "error-container": "#fb5151",
+            "tertiary-container": "#ffd709",
+            "on-tertiary": "#fff2cd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#929bc6",
+            "primary-container": "#6c9fff",
+            "surface-tint": "#0058ba",
+            "on-surface-variant": "#505a81",
+            "surface-bright": "#f7f5ff",
+            tertiary: "#6c5a00",
+            "surface-container": "#e4e7ff",
+            "secondary-dim": "#00576c",
+            "tertiary-fixed": "#ffd709",
+            surface: "#f7f5ff",
+            "on-surface": "#232c51",
+            "surface-container-high": "#dde1ff",
+            "primary-fixed": "#6c9fff",
+            "on-error-container": "#570008",
+            "on-primary-fixed-variant": "#002a60",
+            "on-primary-fixed": "#000000",
+            outline: "#6c759e",
+            "on-background": "#232c51",
+            "on-secondary-fixed": "#003a48",
+            "on-secondary-fixed-variant": "#00586d",
+            "surface-dim": "#cad2ff",
+            "on-error": "#ffefee",
+            "on-secondary": "#e2f6ff",
+            secondary: "#00647b",
+            "surface-variant": "#d5dbff",
+            "primary-dim": "#004da4",
+            "on-primary-container": "#00214e",
+            "inverse-primary": "#4a8eff",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-low": "#efefff"
+          },
+
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: "Manrope", sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+    }
+
+    .action-gradient {
+      background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%);
+    }
+  </style>
+</head>
+
+<body class="overflow-x-hidden bg-surface font-body text-on-surface">
+
+  <main class="flex min-h-screen flex-col md:flex-row">
+
+    <!-- Painel esquerdo -->
+    <aside class="sticky top-0 relative hidden h-screen overflow-hidden md:flex md:w-1/2 lg:w-3/5">
+
+      <img
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-ucD8BXcQBtF9lwoWkG9ILtmvn39xeC70rBb47fvAKJY4MHRVUGiKwHa79b2JxmddKza3IxwtCpXiYtctaGgh8PHEskTN5WMTIxvu46_a-2N-g3HYswt0Gmm4kBqA5ACLxdZCil7iNFiIjdHm8vVzYMbo4sfw_rF8yVNVSbL1-ZZv0RAoU4SvaTVa3i1NKGlMEsPHPBqn_OW9G1NjS387ayz8Hqv1vahZdPsKHfFobCzpoP0Porh3zKaaJXfMxJDbK42UkPnQDdIX"
+        alt="Studio fitness premium"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+
+      <figure class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent"></figure>
+
+      <header class="absolute bottom-16 left-16 right-16 z-10">
+        <h1 class="font-headline mb-6 text-6xl font-black uppercase leading-none tracking-tighter text-white lg:text-8xl">
+          Mova seu <br />
+          <mark class="bg-transparent text-primary-fixed">Potencial.</mark>
+        </h1>
+
+        <p class="max-w-lg text-xl leading-relaxed text-surface-container-highest">
+          A plataforma definitiva para quem leva o treinamento a sério. Junte-se à comunidade PlanoB hoje.
+        </p>
+      </header>
+
+    </aside>
+
+    <!-- Painel direito -->
+    <section class="flex min-h-screen flex-1 items-center justify-center bg-surface p-8 md:p-16 lg:p-24">
+
+      <main class="w-full max-w-md space-y-10">
+
+        <!-- Voltar -->
+        <nav>
+          <a
+            href="../html/home.html"
+            class="group mb-8 inline-flex items-center gap-2 text-xs font-bold tracking-widest text-primary transition-opacity hover:opacity-70"
+          >
+            <i class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-1">
+              arrow_back
+            </i>
+
+            VOLTAR
+          </a>
+        </nav>
+
+        <!-- Topo -->
+        <header class="mb-16 flex items-center justify-between">
+
+          <h2 class="font-headline text-3xl font-black tracking-tighter text-primary">
+            PlanoB
+          </h2>
+
+          <nav class="flex w-48 rounded-full bg-surface-container p-1 shadow-sm">
+
+            <button
+              type="button"
+              class="flex-1 rounded-full bg-primary py-2 text-xs font-bold text-on-primary"
+            >
+              Aluno
+            </button>
+
+            <a
+              href="../html/cadastroprofessor.html"
+              class="flex-1 rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 hover:text-on-surface"
+            >
+              Professor
+            </a>
+
+          </nav>
+        </header>
+
+        <!-- Título -->
+        <header class="space-y-2">
+          <h3 class="font-headline text-4xl font-bold tracking-tight text-on-surface">
+            Criar conta
+          </h3>
+
+          <p class="text-lg text-on-surface-variant">
+            Comece sua jornada fitness agora.
+          </p>
+        </header>
+
+        <!-- Formulário -->
+        <form class="space-y-6">
+
+          <!-- Nome -->
+          <fieldset class="space-y-1">
+            <label for="name" class="ml-1 block text-sm font-bold text-on-surface-variant">
+              Nome Completo
+            </label>
+
+            <label class="group relative block">
+              <input
+                id="name"
+                type="text"
+                placeholder="Como devemos te chamar?"
+                class="w-full rounded-xl border-none bg-surface-container-highest px-6 py-4 text-lg placeholder:text-outline-variant transition-all focus:bg-surface-container-lowest focus:ring-0"
+              />
+
+              <small class="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-primary transition-all duration-300 group-focus-within:w-full"></small>
+            </label>
+          </fieldset>
+
+          <!-- Email -->
+          <fieldset class="space-y-1">
+            <label for="email" class="ml-1 block text-sm font-bold text-on-surface-variant">
+              E-mail
+            </label>
+
+            <label class="group relative block">
+              <input
+                id="email"
+                type="email"
+                placeholder="seu@email.com"
+                class="w-full rounded-xl border-none bg-surface-container-highest px-6 py-4 text-lg placeholder:text-outline-variant transition-all focus:bg-surface-container-lowest focus:ring-0"
+              />
+
+              <small class="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-primary transition-all duration-300 group-focus-within:w-full"></small>
+            </label>
+          </fieldset>
+
+          <!-- Senha -->
+          <fieldset class="space-y-1">
+            <label for="password" class="ml-1 block text-sm font-bold text-on-surface-variant">
+              Senha
+            </label>
+
+            <label class="group relative block">
+              <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                class="w-full rounded-xl border-none bg-surface-container-highest px-6 py-4 text-lg placeholder:text-outline-variant transition-all focus:bg-surface-container-lowest focus:ring-0"
+              />
+
+              <small class="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-primary transition-all duration-300 group-focus-within:w-full"></small>
+            </label>
+          </fieldset>
+
+          <!-- Termos -->
+          <label class="flex items-center gap-3 py-2">
+
+            <input
+              id="terms"
+              type="checkbox"
+              class="h-5 w-5 rounded border-none bg-surface-container-highest text-primary focus:ring-primary focus:ring-offset-background"
+            />
+
+            <span class="text-sm text-on-surface-variant">
+              Eu aceito os
+              <a href="#" class="font-bold text-primary hover:underline">Termos de Uso</a>
+              e a
+              <a href="#" class="font-bold text-primary hover:underline">Política de Privacidade</a>.
+            </span>
+
+          </label>
+
+          <!-- Botão -->
+          <button
+            type="submit"
+            class="action-gradient w-full rounded-full py-5 text-xl font-bold text-white shadow-lg shadow-primary/20 transition-transform active:scale-95"
+          >
+            Criar minha conta
+          </button>
+
+        </form>
+
+        <!-- Entrar -->
+        <footer class="pt-6 text-center">
+          <p class="text-on-surface-variant">
+            Já possui uma conta?
+
+            <a
+              href="../html/loginaluno.html"
+              class="ml-1 font-bold text-primary transition-all hover:tracking-wide"
+            >
+              Entrar no PlanoB
+            </a>
+          </p>
+        </footer>
+
+      </main>
+    </section>
+  </main>
+</body>
+</html>

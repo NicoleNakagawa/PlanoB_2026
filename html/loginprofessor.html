@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PlanoB - Professor Login</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;800;900&family=Manrope:wght@400;500;600;700&display=swap"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  />
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed-dim": "#37d4ff",
+            "on-background": "#232c51",
+            "surface-variant": "#d5dbff",
+            "tertiary-dim": "#5e4e00",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "primary-fixed-dim": "#5091ff",
+            "error-dim": "#9f0519",
+            "on-error": "#ffefee",
+            "on-primary-fixed": "#000000",
+            "on-error-container": "#570008",
+            "tertiary-container": "#ffd709",
+            "tertiary-fixed-dim": "#efc900",
+            "on-secondary-container": "#004e61",
+            "secondary-fixed": "#80deff",
+            "on-tertiary": "#fff2cd",
+            "tertiary-fixed": "#ffd709",
+            "primary-fixed": "#6c9fff",
+            "surface-container": "#e4e7ff",
+            "inverse-primary": "#4a8eff",
+            "primary-dim": "#004da4",
+            "on-surface-variant": "#505a81",
+            "on-primary-fixed-variant": "#002a60",
+            error: "#b31b25",
+            "secondary-dim": "#00576c",
+            "primary-container": "#6c9fff",
+            "outline-variant": "#a2abd7",
+            "inverse-on-surface": "#929bc6",
+            "surface-container-low": "#efefff",
+            primary: "#0058ba",
+            "on-surface": "#232c51",
+            "on-tertiary-container": "#5b4b00",
+            "on-secondary-fixed-variant": "#00586d",
+            "surface-bright": "#f7f5ff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "inverse-surface": "#020a2f",
+            "on-primary": "#f0f2ff",
+            tertiary: "#6c5a00",
+            "surface-tint": "#0058ba",
+            "surface-container-high": "#dde1ff",
+            outline: "#6c759e",
+            background: "#f7f5ff",
+            surface: "#f7f5ff",
+            "on-primary-container": "#00214e",
+            "on-secondary-fixed": "#003a48",
+            "surface-container-lowest": "#ffffff",
+            "error-container": "#fb5151",
+            "surface-dim": "#cad2ff",
+            secondary: "#00647b",
+            "on-tertiary-fixed-variant": "#665500"
+          },
+
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+    }
+
+    .kinetic-gradient {
+      background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%);
+    }
+
+    .text-editorial-glow {
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+
+  <main class="flex min-h-screen overflow-hidden">
+
+    <!-- Painel esquerdo -->
+    <aside class="relative hidden items-end overflow-hidden bg-inverse-surface p-20 lg:flex lg:w-1/2">
+
+      <figure class="absolute inset-0 z-0">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcYOd8v34F69H8L4r69bWcVAxLnYhdZmWHylhoSXDW6ia89mVsQD1RU8L1ALIy0Y90fO05vzXQi0on6qy3v5I-HL9blWyazub1yzup80YmCL7pa0_eLZk3WO-K534fxLHuhtuLBZLQTPNM6zfHlCz4sdqJNizqjoYP-FjTwVCao1wGL7wuFbtqRFH5LUNfm9m7e10be_U5gUa7tfaZfJdnTFzdcajSpcTkmLgnqAXILFDiuO3_Pkf7hKv-8MSyqbYwmPJRHXcyP3Fp"
+          alt="Athletic male fitness trainer performing a powerful rope exercise"
+          class="h-full w-full object-cover opacity-60 grayscale-[0.3]"
+        />
+
+        <figcaption class="absolute inset-0 bg-gradient-to-t from-inverse-surface via-transparent to-transparent"></figcaption>
+      </figure>
+
+      <header class="relative z-10 max-w-lg">
+        <h1 class="font-headline mb-6 text-6xl font-black uppercase leading-[0.9] tracking-tighter text-on-primary text-editorial-glow lg:text-8xl">
+          Mova seu <br />
+          <mark class="bg-transparent text-primary-fixed">Potencial.</mark>
+        </h1>
+
+        <p class="max-w-lg text-xl leading-relaxed text-surface-container-highest">
+          A plataforma definitiva para quem leva o treinamento a sério. Junte-se à comunidade PlanoB hoje.
+        </p>
+
+        <hr class="mt-8 h-1 w-24 border-0 kinetic-gradient" />
+      </header>
+    </aside>
+
+    <!-- Painel direito -->
+    <section class="relative flex w-full flex-col overflow-y-auto bg-surface-container-lowest p-8 md:p-16 lg:w-1/2 lg:p-24">
+
+      <!-- Voltar -->
+      <nav class="mb-8">
+        <a
+          href="../html/home.html"
+          class="group inline-flex items-center gap-2 text-primary transition-all hover:text-primary-dim"
+        >
+          <i class="material-symbols-outlined transition-transform duration-300 group-hover:-translate-x-1">
+            arrow_back
+          </i>
+
+          <strong class="font-headline text-sm font-bold uppercase tracking-widest">
+            Voltar
+          </strong>
+        </a>
+      </nav>
+
+      <!-- Cabeçalho -->
+      <header class="mb-16 flex items-center justify-between">
+
+        <h2 class="font-headline text-3xl font-black tracking-tighter text-primary">
+          PlanoB
+        </h2>
+
+        <nav class="flex w-48 rounded-full bg-surface-container p-1 shadow-sm">
+
+          <a
+            href="../html/loginaluno.html"
+            class="flex-1 rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 hover:bg-surface-container-high hover:text-on-surface"
+          >
+            Aluno
+          </a>
+
+          <strong
+            class="flex-1 cursor-default rounded-full bg-primary py-2 text-center text-xs font-bold text-on-primary"
+          >
+            Professor
+          </strong>
+
+        </nav>
+      </header>
+
+      <!-- Conteúdo -->
+      <section class="mx-auto flex w-full max-w-md flex-col">
+
+        <!-- Introdução -->
+        <header class="mb-10">
+          <h3 class="font-headline mb-2 text-4xl font-extrabold tracking-tight text-on-surface">
+            Bem-vindo, Mestre.
+          </h3>
+
+          <p class="text-lg font-medium leading-relaxed text-on-surface-variant">
+            Gerencie seus treinos e acompanhe seus alunos.
+          </p>
+        </header>
+
+        <!-- Formulário -->
+        <form action="#" class="space-y-6">
+
+          <!-- Email -->
+          <fieldset class="space-y-2">
+            <label
+              for="email"
+              class="ml-1 block text-sm font-bold text-on-surface-variant"
+            >
+              E-mail Profissional
+            </label>
+
+            <label class="relative block">
+              <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[20px] text-outline">
+                mail
+              </i>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="seu@email.com"
+                class="w-full rounded-xl border-none border-b-2 border-transparent bg-surface-container-highest py-4 pl-12 pr-4 font-medium text-on-surface transition-all duration-200 placeholder-outline focus:border-primary focus:bg-surface-container-lowest focus:ring-0"
+              />
+            </label>
+          </fieldset>
+
+
+          <!-- Senha -->
+          <fieldset class="space-y-2">
+
+            <header class="flex items-center justify-between px-1">
+              <label
+                for="password"
+                class="text-sm font-bold text-on-surface-variant"
+              >
+                Senha
+              </label>
+
+              <a
+                href="#"
+                class="text-sm font-bold text-primary transition-colors hover:text-primary-dim"
+              >
+                Esqueceu a senha?
+              </a>
+            </header>
+
+            <label class="relative block">
+              <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[20px] text-outline">
+                lock
+              </i>
+
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                class="w-full rounded-xl border-none border-b-2 border-transparent bg-surface-container-highest py-4 pl-12 pr-12 font-medium text-on-surface transition-all duration-200 placeholder-outline focus:border-primary focus:bg-surface-container-lowest focus:ring-0"
+              />
+
+              <button
+                type="button"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-outline transition-colors hover:text-primary"
+              >
+                <i class="material-symbols-outlined text-[20px]">
+                  visibility
+                </i>
+              </button>
+            </label>
+          </fieldset>
+
+          <!-- Botão -->
+          <section class="pt-4">
+            <button
+              type="submit"
+              class="group flex w-full items-center justify-center gap-3 rounded-full py-5 font-headline font-bold text-on-primary shadow-xl shadow-primary/20 transition-all duration-200 active:scale-95 kinetic-gradient"
+            >
+              Acessar Dashboard
+
+              <i class="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-1">
+                arrow_forward
+              </i>
+            </button>
+          </section>
+        </form>
+
+        <!-- Rodapé -->
+        <footer class="mt-12 text-center">
+          <p class="font-medium text-on-surface-variant">
+            Ainda não faz parte do time?
+
+            <a
+              href="../html/cadastroprofessor.html"
+              class="ml-1 font-bold text-primary underline-offset-4 hover:underline"
+            >
+              Solicite seu acesso.
+            </a>
+          </p>
+        </footer>
+
+      </section>
+
+      <!-- Efeitos -->
+      <figure class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-primary/5 blur-3xl"></figure>
+      <figure class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-tertiary-container/10 blur-3xl"></figure>
+
+    </section>
+  </main>
+</body>
+</html>

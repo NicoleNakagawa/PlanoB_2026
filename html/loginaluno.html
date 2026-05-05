@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-high": "#dde1ff",
+            "on-surface-variant": "#505a81",
+            "tertiary-container": "#ffd709",
+            "surface-dim": "#cad2ff",
+            "tertiary-dim": "#5e4e00",
+            "on-primary-container": "#00214e",
+            "secondary-fixed": "#80deff",
+            "on-secondary-fixed-variant": "#00586d",
+            "primary-fixed-dim": "#5091ff",
+            "on-primary": "#f0f2ff",
+            "tertiary-fixed": "#ffd709",
+            "surface-container": "#e4e7ff",
+            "surface-variant": "#d5dbff",
+            primary: "#0058ba",
+            "on-secondary": "#e2f6ff",
+            secondary: "#00647b",
+            "tertiary-fixed-dim": "#efc900",
+            "on-tertiary": "#fff2cd",
+            outline: "#6c759e",
+            "surface-container-low": "#efefff",
+            "on-primary-fixed-variant": "#002a60",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "inverse-on-surface": "#929bc6",
+            "secondary-fixed-dim": "#37d4ff",
+            "primary-dim": "#004da4",
+            "on-error": "#ffefee",
+            "inverse-primary": "#4a8eff",
+            "primary-container": "#6c9fff",
+            "outline-variant": "#a2abd7",
+            "surface-bright": "#f7f5ff",
+            "secondary-container": "#80deff",
+            "on-primary-fixed": "#000000",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-error-container": "#570008",
+            "error-container": "#fb5151",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "on-background": "#232c51",
+            "on-tertiary-container": "#5b4b00",
+            surface: "#f7f5ff",
+            tertiary: "#6c5a00",
+            "surface-container-highest": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "on-tertiary-fixed": "#453900",
+            "on-secondary-fixed": "#003a48",
+            "surface-tint": "#0058ba",
+            "error-dim": "#9f0519",
+            background: "#f7f5ff",
+            error: "#b31b25",
+            "secondary-dim": "#00576c"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body { font-family: "Manrope", sans-serif; }
+    h1, h2, h3, .headline { font-family: "Lexend", sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center p-0 md:p-6 lg:p-0">
+
+  <main class="flex w-full min-h-screen max-w-[1440px] overflow-hidden bg-surface-container-lowest lg:rounded-3xl lg:shadow-2xl">
+
+    <!-- ── Painel esquerdo ── -->
+    <aside class="relative hidden overflow-hidden bg-primary-dim lg:flex lg:w-1/2">
+
+      <picture>
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuApM84iwpJg_o7rWHbCNIQ6LsC4v-8Dii4gGIySlGzqDyYjy-w6jczrcYJViEUZ0w_wz8IOfpuSxj2KeqxlgweD1l0myH_zi0RPM5ZMLmDUHMDHGVQQZLnqeXc6n6hfe64E6bH_UJlUSXFmjk4Ok5cpLgzKVBgT2I4f856cjUsNuIi-aJq6rNf1qoNcn-t4lkkV2vnTyKcSpAz3Us6A0WGGTBPMyty4z_txondCIcAdyr4yFPvA0NrZvwVCi8OyT5KJL6sL_eNHbvCg"
+          alt="Atleta em treino de alta performance"
+          class="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-overlay"
+        />
+      </picture>
+
+      <b class="absolute inset-0 bg-gradient-to-tr from-primary/80 to-transparent block font-normal" aria-hidden="true"></b>
+
+      <header class="relative z-10 flex h-full w-full flex-col justify-end p-16">
+        <p class="mb-6 text-sm font-bold tracking-widest text-tertiary-fixed">PLANO B GYM</p>
+        <h1 class="headline text-7xl font-black leading-[1.1] tracking-tighter text-on-primary">
+          DOMINE SEU <br /> RITMO
+        </h1>
+        <p class="mt-6 max-w-md text-lg font-medium leading-relaxed text-on-primary/80">
+          Acesse sua zona de performance e acompanhe sua evolução diária com nossa plataforma de elite.
+        </p>
+      </header>
+
+    </aside>
+
+    <!-- ── Painel direito ── -->
+    <section class="flex w-full flex-col bg-surface-container-lowest px-8 py-12 md:px-24 lg:w-1/2 lg:px-20">
+
+      <!-- Voltar -->
+      <nav aria-label="Navegação de retorno">
+        <a
+          href="../html/home.html"
+          class="group mb-8 flex w-fit items-center gap-2 text-xs font-bold text-primary transition-opacity hover:opacity-80"
+        >
+          <i class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-1 not-italic" aria-hidden="true">arrow_back</i>
+          <strong class="headline uppercase tracking-widest">Voltar</strong>
+        </a>
+      </nav>
+
+      <!-- Topo: logo + seletor de tipo -->
+      <header class="mb-12 flex items-center justify-between">
+        <h2 class="text-3xl font-black tracking-tighter text-primary headline">PlanoB</h2>
+
+        <form class="flex w-48 rounded-full bg-surface-container p-1 shadow-sm" aria-label="Tipo de usuário">
+          <label class="flex-1 cursor-pointer">
+            <input type="radio" name="user_type" value="aluno" checked class="peer sr-only" />
+            <strong class="block rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 peer-checked:bg-primary peer-checked:text-on-primary">
+              Aluno
+            </strong>
+          </label>
+          <a
+            href="../html/loginprofessor.html"
+            class="flex-1 rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 hover:bg-surface-container-high"
+          >
+            Professor
+          </a>
+        </form>
+      </header>
+
+      <!-- Conteúdo do formulário -->
+      <section class="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
+
+        <header class="mb-10 space-y-2">
+          <h3 class="headline text-4xl font-bold tracking-tight text-on-surface">Bem-vindo de volta</h3>
+          <p class="font-medium text-on-surface-variant">Insira suas credenciais para acessar sua conta.</p>
+        </header>
+
+        <form class="space-y-6" aria-label="Formulário de login">
+
+          <!-- Email -->
+          <fieldset class="space-y-2">
+            <legend class="sr-only">E-mail</legend>
+            <label for="email" class="ml-1 text-sm font-bold text-on-surface-variant">E-mail</label>
+            <label class="relative block">
+              <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant not-italic" aria-hidden="true">mail</i>
+              <input
+                id="email"
+                type="email"
+                placeholder="nome@exemplo.com"
+                class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-4 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
+                autocomplete="email"
+              />
+            </label>
+          </fieldset>
+
+          <!-- Senha -->
+          <fieldset class="space-y-2">
+            <legend class="sr-only">Senha</legend>
+            <header class="flex items-center justify-between px-1">
+              <label for="password" class="text-sm font-bold text-on-surface-variant">Senha</label>
+              <a href="#" class="text-sm font-bold text-primary transition-colors hover:text-primary-dim">
+                Esqueceu a senha?
+              </a>
+            </header>
+            <label class="relative block">
+              <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant not-italic" aria-hidden="true">lock</i>
+              <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-12 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant"
+                aria-label="Mostrar ou ocultar senha"
+              >
+                <i class="material-symbols-outlined not-italic" aria-hidden="true">visibility</i>
+              </button>
+            </label>
+          </fieldset>
+
+          <!-- Lembrar -->
+          <label class="flex items-center space-x-3 px-1 cursor-pointer">
+            <input
+              id="remember"
+              type="checkbox"
+              class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary"
+            />
+            <em class="text-sm font-medium text-on-surface-variant not-italic">Lembrar de mim</em>
+          </label>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full rounded-full bg-gradient-to-r from-primary to-primary-container py-4 text-lg font-bold text-on-primary shadow-lg shadow-primary/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            Entrar na Plataforma
+          </button>
+
+        </form>
+
+        <!-- Rodapé -->
+        <footer class="mt-16 text-center">
+          <p class="text-sm font-medium text-on-surface-variant">
+            Ainda não tem uma conta?
+            <a href="../html/cadastroaluno.html" class="font-bold text-primary hover:underline">Crie sua Conta</a>
+          </p>
+        </footer>
+
+      </section>
+    </section>
+
+  </main>
+</body>
+</html>

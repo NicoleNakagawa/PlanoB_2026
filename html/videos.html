@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB | Biblioteca de Vídeos</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#f7f5ff",
+            "tertiary-dim": "#5e4e00",
+            "error": "#b31b25",
+            "surface-dim": "#cad2ff",
+            "outline-variant": "#a2abd7",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "inverse-primary": "#4a8eff",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "outline": "#6c759e",
+            "inverse-on-surface": "#929bc6",
+            "error-container": "#fb5151",
+            "surface-variant": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "primary-container": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-error": "#ffefee",
+            "on-tertiary": "#fff2cd",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-high": "#dde1ff",
+            "secondary-dim": "#00576c",
+            "on-secondary-fixed-variant": "#00586d",
+            "on-tertiary-container": "#5b4b00",
+            "tertiary-fixed": "#ffd709",
+            "on-primary-fixed": "#000000",
+            "on-primary": "#f0f2ff",
+            "on-error-container": "#570008",
+            "secondary-fixed": "#80deff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "primary-fixed-dim": "#5091ff",
+            "surface-container": "#e4e7ff",
+            "primary-dim": "#004da4",
+            "on-background": "#232c51",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-primary-container": "#00214e",
+            "surface-container-low": "#efefff",
+            "secondary": "#00647b",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "surface-tint": "#0058ba",
+            "background": "#f7f5ff",
+            "on-secondary-fixed": "#003a48",
+            "error-dim": "#9f0519",
+            "tertiary": "#6c5a00"
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "2xl": "1.5rem",
+            "3xl": "2rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline": ["Lexend"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Manrope', sans-serif; background-color: #f7f5ff; color: #232c51; }
+    .lexend { font-family: 'Lexend', sans-serif; }
+    .editorial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+
+<body class="bg-surface selection:bg-primary-container selection:text-on-primary-container pb-24 md:pb-0">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <section class="flex items-center gap-4">
+      <a href="../html/home.html" class="text-2xl font-black text-primary font-headline tracking-tight" aria-label="PlanoB - Página Inicial">PlanoB</a>
+      <nav class="hidden md:flex gap-6 ml-8" aria-label="Navegação principal">
+        <a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="../html/home.html">Explorar</a>
+        <a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="../html/planos.html">Meus Planos</a>
+        <a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="#">Treinadores</a>
+      </nav>
+    </section>
+
+    <nav class="flex items-center gap-4" aria-label="Ações do usuário">
+      <search class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-1.5">
+        <i class="material-symbols-outlined text-outline text-sm not-italic" aria-hidden="true">search</i>
+        <input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder:text-outline-variant w-48" placeholder="Procurar treinos..." type="search" aria-label="Buscar treinos" />
+      </search>
+      <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+        <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+      </button>
+      <a href="../html/login.html" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Perfil do usuário">
+        <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">account_circle</i>
+      </a>
+    </nav>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary/10 to-transparent block font-normal" aria-hidden="true"></b>
+  </header>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low py-8 z-40 border-r border-outline-variant/10" aria-label="Menu lateral">
+    <section class="px-6 mb-8 pt-12">
+      <figure class="flex items-center gap-3 mb-6">
+        <picture class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-primary/20 block">
+          <img
+            alt="Foto de perfil do usuário"
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDubtPFxAm9MAo7THbsw2jHPowLJlyvzqupx7L2ik1qZ16tug6SKNkmfUOIXUNr73cGpQPEBZDZEp8EGjjeYG2Lb1ofDamca3zn3w8eYg6Jf4Ez8V4HKOLKtuHt8QPhfqAcWfHR7wGmF_emIru_M5LHyUT8mN4MB6wUrSdfHcRtx_AwL1Iv3AxoAJ0kUJMZaY3XkR1E3etwW876kEmVYZSoJYs6J30U9pFxVlurG7-8USwDoFHJlKBxbQT_Sauc3j8GtdL1AQVlOZt5"
+          />
+        </picture>
+        <hgroup>
+          <p class="text-xs text-on-surface-variant font-medium">Portal do Atleta</p>
+          <h3 class="text-primary font-bold font-headline text-sm">Nível: Pro</h3>
+        </hgroup>
+      </figure>
+    </section>
+
+    <nav class="flex flex-col gap-1 px-4 flex-grow" aria-label="Menu de navegação lateral">
+      <a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="../html/home.html">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+        <em class="font-medium not-italic">Início</em>
+      </a>
+      <a class="flex items-center gap-3 py-3 px-6 bg-gradient-to-br from-primary to-primary-fixed text-white rounded-full shadow-lg shadow-primary/20" href="../html/treinos.html" aria-current="page">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+        <em class="font-medium not-italic">Treinos</em>
+      </a>
+      <a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="../html/planos.html">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">event_note</i>
+        <em class="font-medium not-italic">Planos</em>
+      </a>
+      <a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">chat</i>
+        <em class="font-medium not-italic">Mensagens</em>
+      </a>
+      <a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">settings</i>
+        <em class="font-medium not-italic">Configurações</em>
+      </a>
+    </nav>
+
+    <footer class="mt-auto flex flex-col gap-1 px-4 pb-4">
+      <aside class="mx-2 mb-4 p-4 bg-gradient-to-br from-primary to-primary-fixed rounded-2xl text-white shadow-lg" aria-label="Promoção de upgrade">
+        <p class="text-[10px] font-black uppercase tracking-wider mb-1 opacity-80">Upgrade</p>
+        <p class="text-sm font-bold mb-3 leading-tight">Benefícios do Plano Diamond</p>
+        <a href="../html/cadastro.html?plano=diamante" class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-2 rounded-full text-xs font-black active:scale-95 transition-transform uppercase text-center block">
+          Assinar Diamond
+        </a>
+      </aside>
+      <a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-primary transition-colors" href="../html/suporte.html">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">help</i>
+        <em class="font-medium not-italic">Ajuda</em>
+      </a>
+      <a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-error transition-colors" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="font-medium not-italic">Sair</em>
+      </a>
+    </footer>
+  </aside>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="md:ml-64 pt-24 px-8 pb-12">
+
+    <!-- Hero Banner -->
+    <section class="mb-12 relative overflow-hidden rounded-[2.5rem] bg-surface-container p-12" aria-labelledby="biblioteca-heading">
+      <figure class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none" aria-hidden="true">
+        <img
+          alt=""
+          class="w-full h-full object-cover"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4cYPfB5lfxjY8MWiPd4y9giHyBeEpCASVVTjL7B-zAnKKtAgJ2GD-8zSBtpxbXU92X1GqOuD7Suh7GVgHw4W79SyyvLjkptWSyi368xxpvJq8Pqbu13FRyBB5RPJQQj3j67KbSHlFQ_SDUdlSJx8CqpBwCY2GmqASs5Hpsjk_ooncoApDxazcidr16LKOCkGtH61B4-exRz-hG8uYVQ3TgeEbGk7qNiIuhX60yi5d2hl0b5KjITCiGNXwHrHMpyKrNjH9Kof8X4Uf"
+        />
+      </figure>
+      <hgroup class="relative z-10 max-w-2xl">
+        <h1 id="biblioteca-heading" class="lexend text-5xl font-black text-on-surface mb-4 tracking-tighter leading-tight uppercase">
+          BIBLIOTECA DE <em class="text-primary italic not-italic" style="font-style: italic;">VÍDEOS</em>
+        </h1>
+        <p class="text-on-surface-variant text-xl font-medium leading-relaxed">
+          Acesse todos os treinos e masterclasses da plataforma com instrução profissional e qualidade cinematográfica.
+        </p>
+      </hgroup>
+    </section>
+
+    <!-- Filtros -->
+    <nav class="flex items-center gap-4 mb-10 overflow-x-auto pb-4 scrollbar-hide" aria-label="Filtros de categoria">
+      <button class="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 transition-all active:scale-95">Todos</button>
+      <button class="bg-surface-container-lowest text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest transition-all active:scale-95">Ioga</button>
+      <button class="bg-surface-container-lowest text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest transition-all active:scale-95">Força</button>
+      <button class="bg-surface-container-lowest text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest transition-all active:scale-95">HIIT</button>
+      <button class="bg-surface-container-lowest text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest transition-all active:scale-95">Cardio</button>
+      <button class="bg-surface-container-lowest text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest transition-all active:scale-95">Mobilidade</button>
+    </nav>
+
+    <!-- Grade de Vídeos -->
+    <ul class="editorial-grid" role="list" aria-label="Biblioteca de treinos">
+
+      <!-- Card 1: Fluxo Cinético -->
+      <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+        <figure class="relative aspect-video overflow-hidden">
+          <img alt="Treino Fluxo Cinético - ioga vinyasa e mobilidade funcional" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH4AeqawmxayfZJbrYYzZxJIFbq38xvASMrZaHz1c17m74q7uaQSKoCE2Dywg86qJhdLVHMuxu67oViDg8AKWnoc5mtShQnYx8fnA7pB6vXvu3pMO2Zp7IYPhyL7Z0XXG7gNKWfsWG6m-kAyPagkNR185gSaWYKGkVeZCRBSi7gfuY906LFXP9m_iCtuI25q5YN33AwMT6ToChzXhFG128ClXU11wtO0O50CJgKOBx-JobHWMDT8JMrpPkW0JkkHcXzLB-_HgMpiNy" />
+          <b class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent block font-normal" aria-hidden="true"></b>
+          <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+            <strong class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black uppercase px-2 py-1 rounded">MASTERCLASS</strong>
+            <time class="text-white text-xs font-bold flex items-center gap-1" datetime="PT45M">
+              <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">schedule</i> 45 min
+            </time>
+          </footer>
+          <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform" aria-label="Reproduzir Fluxo Cinético">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+          </button>
+        </figure>
+        <article class="p-6">
+          <h3 class="lexend text-xl font-bold text-on-surface mb-2">Fluxo Cinético</h3>
+          <p class="text-on-surface-variant text-sm line-clamp-2">Uma fusão fluida de ioga vinyasa e mobilidade funcional para expandir seus limites físicos.</p>
+          <footer class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+            <em class="text-xs font-bold text-primary uppercase tracking-widest not-italic">Nível: Intermediário</em>
+            <ul class="flex -space-x-2" role="list" aria-label="Instrutores">
+              <li class="w-6 h-6 rounded-full border-2 border-white overflow-hidden">
+                <picture>
+                  <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCweyumolT4FXXyakSReFUSn3nTmQDVIq7xWC-KXIOcs7bPoopNm5SfiDrkhrbIKWncl9x0MBgBNbWEbSHds-6oPfNoh-0ZfYKppHvEnR-OQUqg9KsvpBxpEi2wdACmUADOoKvEb9FHpmF8EJrvKbNyv9rMRN23h5jB7git_2b8bDIJzT_DWeMsDpJvv5CWja-n7tIv86QxFa-QpFHt4vBx8bbacpJraseY-Maez5ZQDl5P5FY8Q_HDrsWHJ4cfOfY9cFouBJ-udRKw" alt="Instrutor 1" />
+                </picture>
+              </li>
+              <li class="w-6 h-6 rounded-full border-2 border-white overflow-hidden">
+                <picture>
+                  <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1gdiG7-9ngNhUV9akC08sWWufv7wzK3RJYK6tk0cT_vvzFy89UQSnHcYfXAuGyD3iu9XaLVexYSihNlTmjTn4OUhQPahxEsa75Jry0yUq1KUFp41vGkZB0HjZlhoKiVE33bA0dMqQ6UcvkyAdKM-8jbcxXdmXyuiUWI_-uc5w3WUATZxJq55KU3fc75HRQ-qK--6Ku7NkUzec9NGvBhiYhWvRqsNKgVp_VXGeNJdNzrwQOdUQxwz0j9KO8w0no-rpUW86feBAgv4Q" alt="Instrutor 2" />
+                </picture>
+              </li>
+            </ul>
+          </footer>
+        </article>
+      </li>
+
+      <!-- Card 2: Força Total -->
+      <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+        <figure class="relative aspect-video overflow-hidden">
+          <img alt="Treino Força Total - hipertrofia muscular" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8wwmuUU4ZBlrXyihVAj7GJEs20SdLsg3tAVadcUPHH1Cof8VSKFiuDEaEoS9XBDR4TImrCdsayAfUNgnozuFWVoiJr9PQ3MIsw64zyVeFNCjhPWzWUiUHuPjo6L6n7OrrMC5lwU3vYiBye8SSzftWH4VovAPLd2VuS-m6bEMzpmTqf_T6GxNsGBWdfgiI1MVj2inlwrPgDnw0R-2PJxiCbwphl-2Eex5yRKT0X2pDDvwHOvN-yx-myJFVqy3GtkvYu3xOejLBLTAe" />
+          <b class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent block font-normal" aria-hidden="true"></b>
+          <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+            <strong class="bg-primary text-on-primary text-[10px] font-black uppercase px-2 py-1 rounded">WORKOUT</strong>
+            <time class="text-white text-xs font-bold flex items-center gap-1" datetime="PT55M">
+              <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">schedule</i> 55 min
+            </time>
+          </footer>
+          <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform" aria-label="Reproduzir Força Total">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+          </button>
+        </figure>
+        <article class="p-6">
+          <h3 class="lexend text-xl font-bold text-on-surface mb-2">Força Total</h3>
+          <p class="text-on-surface-variant text-sm line-clamp-2">Protocolo de hipertrofia com foco em grandes grupamentos musculares e técnica refinada.</p>
+          <footer class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+            <em class="text-xs font-bold text-primary uppercase tracking-widest not-italic">Nível: Avançado</em>
+            <small class="text-on-surface-variant text-[10px] font-bold">5.4k visualizações</small>
+          </footer>
+        </article>
+      </li>
+
+      <!-- Card 3: Foco no Core -->
+      <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+        <figure class="relative aspect-video overflow-hidden">
+          <img alt="Treino Foco no Core - fortalecimento abdominal e lombar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsFuirWCt44I-wVT0YOd5uXaI3ekVyWAcsvUSUdX4Xmz4eSLcbDBJlTTkwEtOADSCg5Ak36RuLrmWKXmki9gf73OXUFdKQVSPiVstYiH5zZDjIlzxpA-ZmlT4HxapSDPzAasdHyJ1kKz24j0C_C0CRHHVDd_HV4c7AFVsdzApILIS80IrDg9p60iIR7tP_t59Nr7nph_-o2IGRKaCmdEdeg2kA_WDUy8DZCGGlyWM61hputzzkcCltPJR1cvhY0QpTARQQKcyivv42" />
+          <b class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent block font-normal" aria-hidden="true"></b>
+          <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+            <strong class="bg-secondary-container text-on-secondary-container text-[10px] font-black uppercase px-2 py-1 rounded">EXPRESS</strong>
+            <time class="text-white text-xs font-bold flex items-center gap-1" datetime="PT15M">
+              <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">schedule</i> 15 min
+            </time>
+          </footer>
+          <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform" aria-label="Reproduzir Foco no Core">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+          </button>
+        </figure>
+        <article class="p-6">
+          <h3 class="lexend text-xl font-bold text-on-surface mb-2">Foco no Core</h3>
+          <p class="text-on-surface-variant text-sm line-clamp-2">Sessão intensa de estabilização abdominal e fortalecimento lombar para alta performance.</p>
+          <footer class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+            <em class="text-xs font-bold text-primary uppercase tracking-widest not-italic">Nível: Iniciante</em>
+            <meter class="sr-only" min="0" max="5" value="4.9" aria-label="Avaliação: 4.9 de 5"></meter>
+            <p class="flex items-center gap-1 text-tertiary">
+              <i class="material-symbols-outlined text-sm not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">star</i>
+              <strong class="text-xs font-bold">4.9</strong>
+            </p>
+          </footer>
+        </article>
+      </li>
+
+      <!-- Card 4: Cardio Explosivo -->
+      <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+        <figure class="relative aspect-video overflow-hidden">
+          <img alt="Treino Cardio Explosivo - alta intensidade e resistência cardiovascular" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiqqaaimmTwVMwllMRMJuSmAaMHl5h5IRbnOmt8ohp7hAtQU2ZCP4NrXqyw8g3CtRZe7JR1eu1cdWA_OgMj5NfwRXgVQa5RSFu2P6QqOmzDIpNxwA5EOKeDKmM3JqXt_lKZSKPQgiDWX_h-i2WibAvnJqjinQoQrGOG5FUU7qMh6vUicFOhN3K64dE0fyzuvgACFXm-AhQVpxqtkKNbU3qOycJisxCMCNfiqJ3PVjrcmNR9E-29wk5PLKL2zaY3pCkHIRC7_qwY0W4" />
+          <b class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent block font-normal" aria-hidden="true"></b>
+          <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+            <strong class="bg-primary text-on-primary text-[10px] font-black uppercase px-2 py-1 rounded">HIIT</strong>
+            <time class="text-white text-xs font-bold flex items-center gap-1" datetime="PT30M">
+              <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">schedule</i> 30 min
+            </time>
+          </footer>
+          <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform" aria-label="Reproduzir Cardio Explosivo">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+          </button>
+        </figure>
+        <article class="p-6">
+          <h3 class="lexend text-xl font-bold text-on-surface mb-2">Cardio Explosivo</h3>
+          <p class="text-on-surface-variant text-sm line-clamp-2">Treino de alta intensidade projetado para queima calórica máxima e resistência cardiovascular.</p>
+          <footer class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+            <em class="text-xs font-bold text-primary uppercase tracking-widest not-italic">Nível: Avançado</em>
+            <small class="text-on-surface-variant text-[10px] font-bold">2.1k visualizações</small>
+          </footer>
+        </article>
+      </li>
+
+      <!-- Card 5: Mobilidade Dinâmica -->
+      <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+        <figure class="relative aspect-video overflow-hidden">
+          <img alt="Treino Mobilidade Dinâmica - alongamentos ativos e amplitude de movimento" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZrlZYeA3DKbUX56TcwgUFWoqVqcuw725VFQYkrHa7E0WhkMBxxi4lz4ptS-vyp0iwqq27miISkEIAcXCB45UxzjtWEk1240uDmSEI49ZmwoTiAjVlBLSSMSBY1S1AHQ0bL55_vvBE3GNlKn0O72dZARP3RsWBIzX3eh0IFqDZ-cXRBq96qrSC0UhmlZ0Qy12FymUVpJU5Egp9mZPaAwy4xN_repvw8hMW45Yz0sk_IYB1Iim5Rh8TwCdYh6oZ7FWv5Uw6rimIew36" />
+          <b class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent block font-normal" aria-hidden="true"></b>
+          <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+            <strong class="bg-secondary text-on-secondary text-[10px] font-black uppercase px-2 py-1 rounded">RECOVERY</strong>
+            <time class="text-white text-xs font-bold flex items-center gap-1" datetime="PT20M">
+              <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">schedule</i> 20 min
+            </time>
+          </footer>
+          <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform" aria-label="Reproduzir Mobilidade Dinâmica">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+          </button>
+        </figure>
+        <article class="p-6">
+          <h3 class="lexend text-xl font-bold text-on-surface mb-2">Mobilidade Dinâmica</h3>
+          <p class="text-on-surface-variant text-sm line-clamp-2">Sequência de alongamentos ativos para melhorar a amplitude de movimento e prevenir lesões.</p>
+          <footer class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+            <em class="text-xs font-bold text-primary uppercase tracking-widest not-italic">Nível: Todos</em>
+            <p class="flex items-center gap-1 text-tertiary">
+              <i class="material-symbols-outlined text-sm not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">star</i>
+              <strong class="text-xs font-bold">4.8</strong>
+            </p>
+          </footer>
+        </article>
+      </li>
+
+      <!-- Card 6: Mestre da Postura -->
+      <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+        <figure class="relative aspect-video overflow-hidden">
+          <img alt="Masterclass Mestre da Postura - alinhamento biomecânico" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVsRI1dXWsFGRRj1aJ3ulWysmYu1Aiq4PaDHRv02xy27Z3OPxVgED2v2evhRVZ2WAgk_osdHNsS5WKhtARRDYwz3WQdYYC3RxpFT9uI3Uy_LnSwnSltzeRad2Y_K0urGSmQxvbepk_8hdHwUjoqmFBQq9kzDOvoSJXwzeznB6e5A1yt5JroX3ro1TKDsiqikjGZpcEmtLNtxWd10v-IhwRFHoJkLSQzb5emkwTThi92tInB4jq_HAe_A4J1ZFN9WwZ90CQNym4jlbj" />
+          <b class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent block font-normal" aria-hidden="true"></b>
+          <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+            <strong class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black uppercase px-2 py-1 rounded">MASTERCLASS</strong>
+            <time class="text-white text-xs font-bold flex items-center gap-1" datetime="PT60M">
+              <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">schedule</i> 60 min
+            </time>
+          </footer>
+          <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform" aria-label="Reproduzir Mestre da Postura">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+          </button>
+        </figure>
+        <article class="p-6">
+          <h3 class="lexend text-xl font-bold text-on-surface mb-2">Mestre da Postura</h3>
+          <p class="text-on-surface-variant text-sm line-clamp-2">Aulas teóricas e práticas sobre alinhamento biomecânico para treinos mais eficientes e saudáveis.</p>
+          <footer class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+            <em class="text-xs font-bold text-primary uppercase tracking-widest not-italic">Nível: Iniciante</em>
+            <small class="text-on-surface-variant text-[10px] font-bold">1.5k visualizações</small>
+          </footer>
+        </article>
+      </li>
+
+    </ul>
+  </main>
+
+  <!-- ===================== FAB ===================== -->
+  <button class="fixed bottom-24 right-8 md:bottom-8 w-16 h-16 bg-gradient-to-br from-primary to-primary-fixed text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-50" aria-label="Filtrar treinos">
+    <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">filter_list</i>
+  </button>
+
+  <!-- ===================== NAV MOBILE (Bottom) — idêntico ao planos.html ===================== -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
+
+    <a href="../html/home.html" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">home</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+    </a>
+
+    <a href="../html/treinos.html" class="flex flex-col items-center justify-center bg-[#0058ba] text-white rounded-2xl p-3 mb-2 scale-110 active:scale-90 duration-150 ease-in-out" aria-current="page">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinar</em>
+    </a>
+
+    <a href="../html/planos.html" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">stars</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+    </a>
+
+    <a href="../html/login.html" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+
+  </nav>
+
+</body>
+</html>

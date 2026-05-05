@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLANOB | Suporte</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary": "#6c5a00",
+            "error-container": "#fb5151",
+            "background": "#f7f5ff",
+            "on-primary": "#f0f2ff",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-container": "#5b4b00",
+            "on-secondary-fixed": "#003a48",
+            "surface-bright": "#f7f5ff",
+            "on-error-container": "#570008",
+            "surface-tint": "#0058ba",
+            "secondary-container": "#80deff",
+            "error": "#b31b25",
+            "on-secondary-fixed-variant": "#00586d",
+            "primary-fixed-dim": "#5091ff",
+            "on-secondary-container": "#004e61",
+            "on-secondary": "#e2f6ff",
+            "surface": "#f7f5ff",
+            "inverse-primary": "#4a8eff",
+            "inverse-on-surface": "#929bc6",
+            "tertiary-dim": "#5e4e00",
+            "primary-container": "#6c9fff",
+            "inverse-surface": "#020a2f",
+            "on-primary-container": "#00214e",
+            "on-error": "#ffefee",
+            "outline-variant": "#a2abd7",
+            "on-primary-fixed": "#000000",
+            "on-tertiary-fixed-variant": "#665500",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-primary-fixed-variant": "#002a60",
+            "surface-dim": "#cad2ff",
+            "on-surface": "#232c51",
+            "surface-container-highest": "#d5dbff",
+            "surface-variant": "#d5dbff",
+            "secondary": "#00647b",
+            "error-dim": "#9f0519",
+            "surface-container-low": "#efefff",
+            "primary-dim": "#004da4",
+            "outline": "#6c759e",
+            "secondary-dim": "#00576c",
+            "on-tertiary": "#fff2cd",
+            "surface-container-high": "#dde1ff",
+            "secondary-fixed": "#80deff",
+            "on-surface-variant": "#505a81",
+            "primary-fixed": "#6c9fff",
+            "on-tertiary-fixed": "#453900",
+            "on-background": "#232c51",
+            "tertiary-container": "#ffd709",
+            "tertiary-fixed": "#ffd709",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container": "#e4e7ff",
+            "primary": "#0058ba"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline": ["Lexend"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .primary-gradient { background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%); }
+    /* Garante comportamento de bloco para elementos semânticos usados como containers */
+    article, section, aside { display: block; }
+  </style>
+</head>
+
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- ===================== HEADER / NAV ===================== -->
+  <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transition-all duration-300">
+    <nav class="flex justify-between items-center max-w-[90rem] mx-auto px-8 lg:px-12 h-24" aria-label="Navegação principal">
+
+      <a href="../html/home.html" class="text-3xl font-black tracking-tighter text-blue-800 dark:text-blue-200 font-headline uppercase" aria-label="PlanoB - Página Inicial">
+        PLANOB
+      </a>
+
+      <!-- Links desktop -->
+      <ul class="hidden md:flex items-center gap-12" role="list">
+        <li>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="../html/home.html">Treinos</a>
+        </li>
+        <li>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="../html/planos.html">Planos</a>
+        </li>
+        <li>
+          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="../html/suporte.html" aria-current="page">Suporte</a>
+        </li>
+      </ul>
+
+      <!-- Ações CTA -->
+      <nav class="flex items-center gap-8" aria-label="Ações do usuário">
+        <a href="../html/login.html" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+          Login
+        </a>
+        <a href="../html/cadastro.html" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+          Começar Agora
+        </a>
+      </nav>
+
+    </nav>
+  </header>
+
+  <main class="pt-24 min-h-screen">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="relative px-8 py-16 md:py-24 overflow-hidden" aria-labelledby="suporte-heading">
+
+      <article class="max-w-4xl mx-auto text-center relative z-10">
+
+        <!-- Badge de status -->
+        <p class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high mb-8">
+          <b class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse font-normal" aria-hidden="true"></b>
+          <em class="text-sm font-semibold text-on-surface-variant not-italic">Todos os sistemas operacionais</em>
+        </p>
+
+        <h1 id="suporte-heading" class="font-headline text-5xl md:text-7xl font-black tracking-tighter text-on-surface mb-8 leading-none">
+          Como podemos <em class="text-primary italic">ajudar?</em>
+        </h1>
+
+        <!-- Barra de busca -->
+        <search class="relative group max-w-2xl mx-auto block">
+          <label for="busca-suporte" class="sr-only">Pesquisar suporte</label>
+          <i class="material-symbols-outlined text-outline absolute inset-y-0 left-6 flex items-center pointer-events-none not-italic" style="display:flex;align-items:center;" aria-hidden="true">search</i>
+          <input
+            id="busca-suporte"
+            type="search"
+            placeholder="Pesquise por temas, dúvidas ou tutoriais..."
+            class="w-full pl-16 pr-8 py-6 bg-surface-container-lowest rounded-full border-none shadow-xl shadow-on-surface/5 focus:ring-2 focus:ring-primary transition-all text-lg font-medium placeholder:text-outline"
+          />
+          <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-dim transition-colors">
+            Buscar
+          </button>
+        </search>
+
+      </article>
+
+      <!-- Elementos decorativos de fundo -->
+      <b class="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl block font-normal" aria-hidden="true"></b>
+      <b class="absolute -bottom-24 -left-24 w-96 h-96 bg-tertiary-container/10 rounded-full blur-3xl block font-normal" aria-hidden="true"></b>
+
+    </section>
+
+    <!-- ===================== CATEGORIAS ===================== -->
+    <section class="px-8 py-16 bg-surface-container-low" aria-labelledby="categorias-heading">
+      <h2 id="categorias-heading" class="sr-only">Categorias de suporte</h2>
+
+      <article class="max-w-7xl mx-auto">
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
+
+          <!-- Card: Meu Plano -->
+          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
+              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">account_circle</i>
+            </figure>
+            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Meu Plano</h3>
+            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Gerencie sua assinatura, renovações e upgrades.</p>
+          </li>
+
+          <!-- Card: Acesso e Login -->
+          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
+              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">lock_open</i>
+            </figure>
+            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Acesso e Login</h3>
+            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Problemas para entrar? Recupere sua senha aqui.</p>
+          </li>
+
+          <!-- Card: Pagamentos -->
+          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
+              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">payments</i>
+            </figure>
+            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Pagamentos</h3>
+            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Faturas, métodos de pagamento e reembolsos.</p>
+          </li>
+
+          <!-- Card: Treinos e Professores -->
+          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
+              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">exercise</i>
+            </figure>
+            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Treinos e Professores</h3>
+            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Dúvidas sobre rotinas, exercícios e mentores.</p>
+          </li>
+
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="px-8 py-24" aria-labelledby="faq-heading">
+      <article class="max-w-4xl mx-auto">
+
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <section>
+            <h2 id="faq-heading" class="font-headline text-4xl font-black tracking-tight text-on-surface mb-4">Perguntas Frequentes</h2>
+            <p class="font-body text-on-surface-variant text-lg">As respostas mais rápidas para suas dúvidas cotidianas.</p>
+          </section>
+          <a href="#" class="text-primary font-bold flex items-center gap-2 group font-headline">
+            Ver todo o FAQ
+            <i class="material-symbols-outlined transition-transform group-hover:translate-x-1 not-italic" aria-hidden="true">arrow_forward</i>
+          </a>
+        </header>
+
+        <ul class="space-y-4" role="list">
+
+          <!-- FAQ 1 -->
+          <li>
+            <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+              <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
+                <h3 class="font-headline text-xl font-bold text-on-surface">Como faço para cancelar minha assinatura?</h3>
+                <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic" aria-hidden="true">expand_more</i>
+              </summary>
+              <p class="px-8 pb-8 font-body text-on-surface-variant leading-relaxed">
+                Você pode cancelar sua assinatura a qualquer momento através das configurações de perfil em "Assinatura". O acesso permanecerá ativo até o final do período já pago. Não há taxas de cancelamento ocultas.
+              </p>
+            </details>
+          </li>
+
+          <!-- FAQ 2 -->
+          <li>
+            <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+              <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
+                <h3 class="font-headline text-xl font-bold text-on-surface">Posso treinar em mais de um dispositivo ao mesmo tempo?</h3>
+                <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic" aria-hidden="true">expand_more</i>
+              </summary>
+              <p class="px-8 pb-8 font-body text-on-surface-variant leading-relaxed">
+                Sim, o PlanoB permite que você acesse sua conta em múltiplos dispositivos. No entanto, dependendo do seu plano, pode haver um limite de transmissões simultâneas de vídeos de treino.
+              </p>
+            </details>
+          </li>
+
+          <!-- FAQ 3 -->
+          <li>
+            <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+              <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
+                <h3 class="font-headline text-xl font-bold text-on-surface">Como altero meu método de pagamento?</h3>
+                <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic" aria-hidden="true">expand_more</i>
+              </summary>
+              <p class="px-8 pb-8 font-body text-on-surface-variant leading-relaxed">
+                Acesse a aba "Pagamentos" no seu painel de controle. Lá você poderá adicionar novos cartões de crédito, configurar Pix ou boleto bancário como sua forma preferencial de cobrança.
+              </p>
+            </details>
+          </li>
+
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== CONTATO ===================== -->
+    <section class="px-8 py-24 bg-on-surface text-surface relative overflow-hidden" aria-labelledby="contato-heading">
+
+      <!-- Imagem decorativa de fundo -->
+      <figure class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkTPKmS6JuzYtDwVJ94ybSMEgBr1po7o3p4VwLips83ehdGjxNHK2WAlogc7GNSM3wykFbGoqeIifzgUw1xVv6dO5QjEC3nVBFdjYR43JNrbMQlBMF6AtTuynTNJ7aPKl8ijd3X_FJFUAbNmm3-QnMdKtUQ5hfTUuFi1lpX2pzRob9YbbDuIUjoQGvuPeZodPKkSFyMYX6ZjubYSXoMnxC4AaSObGgpKoQzlF5d94qUKYd1hVQ10exsa3ruyVMBuionrvrl9JgsGpQ"
+          alt=""
+          class="w-full h-full object-cover"
+        />
+      </figure>
+
+      <article class="max-w-7xl mx-auto relative z-10 text-center">
+
+        <h2 id="contato-heading" class="font-headline text-4xl md:text-5xl font-black mb-12 italic">Ainda precisa de ajuda?</h2>
+
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-3xl mx-auto" role="list">
+
+          <!-- Canal: E-mail -->
+          <li class="bg-surface/10 backdrop-blur-md p-10 rounded-3xl border border-white/10 hover:border-primary transition-colors flex flex-col items-center text-center">
+            <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">mail</i>
+            <h3 class="font-headline text-2xl font-bold mb-4">E-mail de Suporte</h3>
+            <p class="font-body text-surface/70 mb-8">Para questões mais complexas. Respondemos em até 24 horas úteis.</p>
+            <a href="mailto:suporte@planob.com.br" class="w-full py-4 bg-surface-container-lowest text-on-surface rounded-full font-bold hover:scale-[1.02] transition-transform font-label text-center block">
+              Enviar E-mail
+            </a>
+          </li>
+
+          <!-- Canal: WhatsApp -->
+          <li class="bg-surface/10 backdrop-blur-md p-10 rounded-3xl border border-white/10 hover:border-primary transition-colors flex flex-col items-center text-center">
+            <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">forum</i>
+            <h3 class="font-headline text-2xl font-bold mb-4">WhatsApp</h3>
+            <p class="font-body text-surface/70 mb-8">Suporte rápido direto no seu celular. Disponível das 08h às 22h.</p>
+            <a href="https://wa.me/5519900000000" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-[#25D366] text-white rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 font-label">
+              Acessar Central WhatsApp
+            </a>
+          </li>
+
+        </ul>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-[#efefff] dark:bg-[#121421] w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+
+    <section class="flex flex-col gap-4">
+      <p class="text-lg font-bold text-[#232c51] dark:text-[#ffffff] font-headline">PlanoB Fitness</p>
+      <small class="font-body text-sm text-[#232c51]/70 dark:text-[#d5dbff]/70">© 2024 PlanoB Fitness. Mova-se com Propósito.</small>
+    </section>
+
+    <nav class="flex flex-wrap justify-center gap-8" aria-label="Links do rodapé">
+      <a class="font-body text-sm text-[#232c51]/70 dark:text-[#d5dbff]/70 hover:text-blue-700 transition-all duration-200 underline-offset-4 hover:underline" href="#">Política de Privacidade</a>
+      <a class="font-body text-sm text-[#232c51]/70 dark:text-[#d5dbff]/70 hover:text-blue-700 transition-all duration-200 underline-offset-4 hover:underline" href="#">Termos de Serviço</a>
+      <a class="font-body text-sm text-blue-600 font-semibold transition-all duration-200 underline-offset-4 hover:underline" href="#">Contatar Suporte</a>
+      <a class="font-body text-sm text-[#232c51]/70 dark:text-[#d5dbff]/70 hover:text-blue-700 transition-all duration-200 underline-offset-4 hover:underline" href="#">FAQ</a>
+      <a class="font-body text-sm text-[#232c51]/70 dark:text-[#d5dbff]/70 hover:text-blue-700 transition-all duration-200 underline-offset-4 hover:underline" href="#">Carreiras</a>
+    </nav>
+
+    <nav class="flex gap-4" aria-label="Redes sociais">
+      <a href="#" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" aria-label="Site público">
+        <i class="material-symbols-outlined text-xl not-italic" aria-hidden="true">public</i>
+      </a>
+      <a href="#" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" aria-label="Compartilhar">
+        <i class="material-symbols-outlined text-xl not-italic" aria-hidden="true">share</i>
+      </a>
+    </nav>
+
+  </footer>
+
+</body>
+</html>
