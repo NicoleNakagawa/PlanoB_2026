@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>EduKinetic - Professor Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0058ba",
+                        "on-primary": "#f0f2ff",
+                        "secondary": "#00647b",
+                        "on-secondary": "#e2f6ff",
+                        "surface": "#f7f5ff",
+                        "on-surface": "#232c51",
+                        "on-surface-variant": "#505a81",
+                        "surface-container-low": "#efefff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#d5dbff",
+                        "outline": "#6c759e",
+                        "outline-variant": "#a2abd7",
+                        "tertiary-container": "#ffd709",
+                        "on-tertiary-container": "#5b4b00"
+                    },
+                    fontFamily: { headline: ["Lexend"], body: ["Manrope"] }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+
+    <!-- Menu Lateral -->
+    <aside class="hidden lg:flex h-screen w-64 left-0 top-0 fixed bg-surface border-r border-outline-variant/10 flex-col py-8 z-40">
+        <header class="px-6 mb-8">
+            <h1 class="text-xl font-black text-primary">EduKinetic</h1>
+            <p class="text-xs opacity-70">Professor Admin</p>
+        </header>
+        
+        <nav class="flex-1 flex flex-col gap-1">
+            <a class="flex items-center px-6 py-3 opacity-70 hover:translate-x-1 transition-transform" href="#">
+                <i class="material-symbols-outlined mr-3">dashboard</i>
+                <small class="text-sm font-medium italic-none">Dashboard</small>
+            </a>
+            <a class="flex items-center px-6 py-3 text-primary font-bold bg-white rounded-r-full shadow-sm" href="#">
+                <i class="material-symbols-outlined mr-3">forum</i>
+                <small class="text-sm italic-none">Feedbacks</small>
+            </a>
+            <a class="flex items-center px-6 py-3 opacity-70 hover:translate-x-1 transition-transform" href="#">
+                <i class="material-symbols-outlined mr-3">group</i>
+                <small class="text-sm italic-none">Students</small>
+            </a>
+        </nav>
+
+        <footer class="mt-auto px-6 pt-4 border-t border-outline-variant/20 flex flex-col gap-1">
+            <a class="flex items-center py-3 opacity-70 hover:translate-x-1 transition-transform" href="#">
+                <i class="material-symbols-outlined mr-3">help</i>
+                <small class="text-sm italic-none">Help</small>
+            </a>
+            <button class="flex items-center py-3 opacity-70 hover:translate-x-1 transition-transform text-error">
+                <i class="material-symbols-outlined mr-3">logout</i>
+                <small class="text-sm italic-none">Logout</small>
+            </button>
+        </footer>
+    </aside>
+
+    <!-- Barra de Topo -->
+    <header class="w-full top-0 z-30 sticky bg-surface/80 backdrop-blur-md flex justify-between items-center px-6 py-4 lg:ml-64 lg:w-[calc(100%-16rem)]">
+        <h2 class="tracking-tight text-2xl font-bold">TeacherPortal</h2>
+        
+        <section class="flex items-center gap-6">
+            <form class="relative hidden md:block">
+                <input class="bg-surface-container-low border-none rounded-full px-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary" placeholder="Search students..." type="search"/>
+            </form>
+            
+            <nav class="flex items-center gap-3 text-primary">
+                <button class="material-symbols-outlined hover:bg-surface-container-highest p-2 rounded-full transition-colors">notifications</button>
+                <button class="material-symbols-outlined hover:bg-surface-container-highest p-2 rounded-full transition-colors">settings</button>
+                <figure class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/20">
+                    <img alt="Perfil do Professor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeD9OKUCobuqQ40MlfFDWJGGhFwQJnVARc8orYkxxyxbn7_d1O4KL40p5rmXCBZgXZi0Cq6LikqwnsfA5QjxkTOPSzl-o7Yrx9J-ROFSAVLVMUpP9-NpsfUbfo21_v12s-IuiecyPX5YslFhCyyR-sZ7iPT7hCqdpWlBXk6EFzaeVHMxMWcZEI59Zr1PPEpBUgFW-OLRSeW0-tTFWGsOlJUlPUKsLNoDah6SKSfuKL9wYEb00WKe-YC5u-YtTqmvY0UNAF-A7VoP1w"/>
+                </figure>
+            </nav>
+        </section>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="lg:ml-64 p-4 md:p-8">
+        <section class="max-w-6xl mx-auto">
+            
+            <!-- Caminho (Breadcrumbs) -->
+            <nav class="flex items-center gap-2 text-on-surface-variant text-sm mb-6" aria-label="Breadcrumb">
+                <p>Feedbacks</p>
+                <i class="material-symbols-outlined text-xs">chevron_right</i>
+                <strong class="text-primary font-bold font-manrope">Lucas Oliveira</strong>
+            </nav>
+
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Coluna Esquerda: Dados do Aluno -->
+                <aside class="lg:col-span-5 flex flex-col gap-6">
+                    
+                    <!-- Card de Perfil -->
+                    <article class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm">
+                        <header class="flex items-center gap-4 mb-6">
+                            <figure class="w-16 h-16 rounded-full overflow-hidden border-4 border-surface-container-low">
+                                <img alt="Foto de Lucas Oliveira" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU7j4lFFh5buxkUohNSlq_zADT85fPBm9l9m4mlTFRoIrk4NmK29f5GZsAj14-htlvcg4OTfqXgytREROqB6W6c3rQRk5jJukV4qZWJLGujkUpf3hzOyGrqyqcB7xp_rPgd2wWbWHKL7YSZ110Ttn2QUrtqBhKHbPWlVU0DrvpXJhpWCSkYUmTpmDnwCHKn4gAcGYEv4Hf5w8jUkBFU5YkX6s3HBVwXPyoa0y6C2fNI7hHzM6b6Ma6_T1dzU0GvpLJDqFfJqqu52FA"/>
+                            </figure>
+                            <section>
+                                <h3 class="text-xl font-bold">Lucas Oliveira</h3>
+                                <p class="text-sm text-on-surface-variant">Treino de Força A - Superior</p>
+                            </section>
+                        </header>
+                        
+                        <section class="grid grid-cols-2 gap-4">
+                            <article class="bg-surface-container-low p-4 rounded-xl">
+                                <i class="material-symbols-outlined text-primary mb-2 block">bolt</i>
+                                <h4 class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Intensidade</h4>
+                                <data value="8" class="text-lg font-black text-primary">8 / 10</data>
+                            </article>
+                            <article class="bg-surface-container-low p-4 rounded-xl">
+                                <i class="material-symbols-outlined text-secondary mb-2 block">battery_horiz_000</i>
+                                <h4 class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Cansaço</h4>
+                                <data value="7" class="text-lg font-black text-secondary">7 / 10</data>
+                            </article>
+                        </section>
+                    </article>
+
+                    <!-- Mensagem em Destaque -->
+                    <article class="bg-primary text-on-primary p-8 rounded-3xl relative overflow-hidden">
+                        <i class="material-symbols-outlined text-9xl absolute -right-4 -top-4 opacity-10" aria-hidden="true">format_quote</i>
+                        <h4 class="text-xs font-bold uppercase tracking-widest mb-4 opacity-80">Mensagem do Aluno</h4>
+                        <blockquote class="text-xl leading-relaxed italic font-lexend">
+                            "Professor, senti um pouco de desconforto no ombro direito durante as últimas repetições do desenvolvimento com halteres. O resto do treino foi excelente, consegui manter a carga!"
+                        </blockquote>
+                        <time datetime="2026-05-06T14:32" class="mt-8 flex items-center gap-2 text-sm font-medium">
+                            <i class="material-symbols-outlined text-sm">schedule</i>
+                            Enviado há 15 minutos
+                        </time>
+                    </article>
+
+                    <!-- Gráfico/Métricas -->
+                    <section class="bg-surface-container-highest p-6 rounded-2xl">
+                        <h4 class="text-sm font-bold mb-4">Métricas Recentes</h4>
+                        <figure class="space-y-4">
+                            <section class="h-12 w-full bg-surface-container-low rounded-lg flex items-end gap-1 px-2 overflow-hidden">
+                                <section class="bg-primary h-1/2 w-full rounded-t-sm"></section>
+                                <section class="bg-primary h-2/3 w-full rounded-t-sm"></section>
+                                <section class="bg-primary h-3/4 w-full rounded-t-sm"></section>
+                                <section class="bg-primary h-1/2 w-full rounded-t-sm"></section>
+                                <section class="bg-primary h-5/6 w-full rounded-t-sm"></section>
+                                <section class="bg-primary h-full w-full rounded-t-sm border-t-4 border-white"></section>
+                            </section>
+                            <figcaption class="text-xs text-on-surface-variant text-center">Frequência de treinos - Últimos 7 dias</figcaption>
+                        </figure>
+                    </section>
+                </aside>
+
+                <!-- Coluna Direita: Chat -->
+                <section class="lg:col-span-7">
+                    <article class="bg-surface-container-lowest rounded-3xl shadow-sm h-[750px] flex flex-col border border-outline-variant/10 overflow-hidden">
+                        
+                        <header class="px-8 py-6 border-b border-surface-container flex justify-between items-center bg-white/50 backdrop-blur-md">
+                            <section>
+                                <h3 class="font-bold">Canal de Feedback</h3>
+                                <section class="flex items-center gap-2">
+                                    <mark class="w-2 h-2 rounded-full bg-green-500 animate-pulse bg-transparent"></mark>
+                                    <small class="text-xs text-on-surface-variant font-medium italic-none">Lucas está online</small>
+                                </section>
+                            </section>
+                            <button class="bg-surface-container-high p-2 rounded-full hover:bg-surface-container-highest transition-colors">
+                                <i class="material-symbols-outlined">more_vert</i>
+                            </button>
+                        </header>
+
+                        <section class="flex-1 overflow-y-auto p-8 flex flex-col gap-6">
+                            <time class="self-center">
+                                <strong class="text-[10px] uppercase tracking-widest font-bold text-outline py-1 px-3 bg-surface-container rounded-full">Hoje, 14:30</strong>
+                            </time>
+                            
+                            <article class="self-start max-w-[85%]">
+                                <p class="bg-surface-container-low p-4 rounded-2xl rounded-tl-none text-sm">
+                                    Olá professor! Acabei de finalizar o treino A. Deixei as observações no formulário de feedback.
+                                </p>
+                                <time class="text-[10px] mt-1 text-on-surface-variant px-1 block">14:32</time>
+                            </article>
+
+                            <section class="flex items-center gap-3 w-full opacity-50">
+                                <hr class="flex-1 border-surface-container">
+                                <strong class="text-[10px] font-bold text-primary tracking-widest uppercase">Nova Resposta</strong>
+                                <hr class="flex-1 border-surface-container">
+                            </section>
+                        </section>
+
+                        <footer class="p-8 border-t border-surface-container bg-surface-container-lowest">
+                            <nav class="mb-6">
+                                <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3">Sugestões Rápidas</h4>
+                                <section class="flex flex-wrap gap-2">
+                                    <button class="px-4 py-2 rounded-full border border-primary/20 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">Excelente trabalho!</button>
+                                    <button class="px-4 py-2 rounded-full border border-error/20 text-error text-sm font-bold hover:bg-error hover:text-white transition-all">Cuidado com o ombro!</button>
+                                </section>
+                            </nav>
+
+                            <form class="flex items-end gap-3 bg-surface-container-low p-4 rounded-3xl focus-within:bg-white border-2 border-transparent focus-within:border-primary/30 transition-all">
+                                <button type="button" class="material-symbols-outlined text-outline hover:text-primary">add_circle</button>
+                                <textarea class="flex-1 bg-transparent border-none focus:ring-0 text-sm resize-none max-h-32" placeholder="Digite sua resposta técnica..." rows="2"></textarea>
+                                <button type="submit" class="bg-gradient-to-br from-primary to-primary-container text-on-primary w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all">
+                                    <i class="material-symbols-outlined">send</i>
+                                </button>
+                            </form>
+                            
+                            <footer class="mt-4 flex justify-between items-center text-[10px] font-bold text-outline">
+                                <nav class="flex gap-4">
+                                    <button type="button" class="flex items-center gap-1 hover:text-primary uppercase tracking-tighter">
+                                        <i class="material-symbols-outlined text-sm">attachment</i> Anexar Vídeo
+                                    </button>
+                                    <button type="button" class="flex items-center gap-1 hover:text-primary uppercase tracking-tighter">
+                                        <i class="material-symbols-outlined text-sm">fitness_center</i> Ajustar Treino
+                                    </button>
+                                </nav>
+                                <small class="italic font-normal">Pressione Enter para enviar</small>
+                            </footer>
+                        </footer>
+                    </article>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <!-- Botão Flutuante (FAB) -->
+    <button class="fixed bottom-8 right-8 bg-tertiary-container text-on-tertiary-container p-4 rounded-full shadow-2xl flex items-center gap-2 font-bold hover:scale-110 transition-transform z-50">
+        <i class="material-symbols-outlined">quickreply</i>
+        <small class="text-sm font-bold italic-none">Quick Reply</small>
+    </button>
+
+</body>
+</html>

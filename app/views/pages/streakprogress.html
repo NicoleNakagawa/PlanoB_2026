@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Kinetic | Ofensiva &amp; Descontos</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary-fixed": "#6c9fff",
+                        "tertiary-dim": "#5e4e00",
+                        "on-secondary-fixed-variant": "#00586d",
+                        "outline-variant": "#a2abd7",
+                        "primary-fixed-dim": "#5091ff",
+                        "on-background": "#232c51",
+                        "on-primary-container": "#00214e",
+                        "on-secondary-fixed": "#003a48",
+                        "inverse-surface": "#020a2f",
+                        "error-container": "#fb5151",
+                        "surface-container-highest": "#d5dbff",
+                        "surface-variant": "#d5dbff",
+                        "surface": "#f7f5ff",
+                        "surface-tint": "#0058ba",
+                        "primary": "#0058ba",
+                        "error-dim": "#9f0519",
+                        "on-tertiary-fixed-variant": "#665500",
+                        "on-primary-fixed-variant": "#002a60",
+                        "tertiary-fixed-dim": "#efc900",
+                        "surface-dim": "#cad2ff",
+                        "tertiary": "#6c5a00",
+                        "primary-dim": "#004da4",
+                        "tertiary-container": "#ffd709",
+                        "on-surface": "#232c51",
+                        "outline": "#6c759e",
+                        "background": "#f7f5ff",
+                        "on-primary-fixed": "#000000",
+                        "inverse-primary": "#4a8eff",
+                        "secondary-container": "#80deff",
+                        "surface-container": "#e4e7ff",
+                        "surface-container-high": "#dde1ff",
+                        "on-tertiary": "#fff2cd",
+                        "on-secondary": "#e2f6ff",
+                        "on-surface-variant": "#505a81",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#6c9fff",
+                        "on-error-container": "#570008",
+                        "on-primary": "#f0f2ff",
+                        "secondary-fixed-dim": "#37d4ff",
+                        "tertiary-fixed": "#ffd709",
+                        "secondary-dim": "#00576c",
+                        "surface-container-low": "#efefff",
+                        "error": "#b31b25",
+                        "secondary-fixed": "#80deff",
+                        "surface-bright": "#f7f5ff",
+                        "on-tertiary-container": "#5b4b00",
+                        "secondary": "#00647b",
+                        "on-tertiary-fixed": "#453900",
+                        "on-error": "#ffefee",
+                        "inverse-on-surface": "#929bc6",
+                        "on-secondary-container": "#004e61"
+                },
+                "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                },
+                "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                }
+              },
+            },
+          }
+        </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%);
+        }
+        .tonal-glass {
+            background: rgba(247, 245, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-background font-body min-h-screen pb-32">
+
+    <!-- TopNavBar -->
+    <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 border-b border-outline-variant/10">
+        <strong class="text-2xl font-bold tracking-tighter text-primary uppercase italic font-headline">Kinetic</strong>
+        
+        <nav class="hidden md:flex gap-8" aria-label="Navegação Principal">
+            <a class="text-on-surface-variant font-medium font-lexend tracking-tight hover:text-primary transition-colors duration-200" href="#">Dashboard</a>
+            <a class="text-on-surface-variant font-medium font-lexend tracking-tight hover:text-primary transition-colors duration-200" href="#">Workouts</a>
+            <a class="text-primary font-bold border-b-2 border-primary font-lexend tracking-tight" href="#">Streaks</a>
+            <a class="text-on-surface-variant font-medium font-lexend tracking-tight hover:text-primary transition-colors duration-200" href="#">Rewards</a>
+        </nav>
+
+        <section class="flex items-center gap-4">
+            <button class="material-symbols-outlined text-on-surface-variant" aria-label="Notificações">notifications</button>
+            <button class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;" aria-label="Ofensiva">local_fire_department</button>
+            <figure class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+                <img alt="Foto de perfil do usuário" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz8GyvbIM3ZjSSKMzQElOPhY8wNgINQdZRRFGFdAvyiCA6Lo-blcJP_5JWTsGe80Vd3JDqoMoXz_XRV59v5dJWxoy5dpP7f1hUYqGcOW8MhsGuFEA26glxNzOUZvmIvwSifTgjjoaDJfUAN8Ghf96nAFB4Es1acWVJmxiuwURmRrqOEov35UvmWxLBM9BZFOg-yxe3SCKZ3gP6omIyi0K_4eXE1N3LxsaaQQBCnKuTNu0WOrJwg1u2-DghFKBhcL247ZurXV9n8qzH"/>
+            </figure>
+        </section>
+    </header>
+
+    <main class="pt-24 px-6 max-w-7xl mx-auto space-y-12">
+        
+        <!-- Header Section -->
+        <header class="relative pt-6 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <hgroup>
+                <h2 class="text-primary font-headline font-bold text-xs md:text-sm tracking-[0.25em] uppercase mb-3 opacity-80">Seu Progresso Inabalável</h2>
+                <h1 class="text-on-background font-headline text-5xl md:text-8xl font-extrabold tracking-tighter leading-[0.9]">
+                    FOCO <em class="text-primary not-italic italic">TOTAL.</em>
+                </h1>
+            </hgroup>
+            <article class="flex items-center gap-6 bg-surface-container-lowest p-8 rounded-[2.5rem] shadow-xl shadow-primary/5 border border-outline-variant/10">
+                <section class="flex items-baseline gap-1">
+                    <b class="text-7xl font-headline font-black text-primary tracking-tighter">42</b>
+                    <header class="flex flex-col">
+                        <strong class="text-2xl font-bold font-headline uppercase leading-none text-on-surface">Dias</strong>
+                        <small class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mt-1">Ofensiva</small>
+                    </header>
+                </section>
+                <hr class="w-px h-16 bg-outline-variant/20 mx-2 border-none">
+                <figure class="w-14 h-14 rounded-2xl bg-tertiary-container flex items-center justify-center shadow-lg shadow-tertiary-container/20">
+                    <i class="material-symbols-outlined text-on-tertiary-container text-4xl not-italic" style="font-variation-settings: 'FILL' 1;">bolt</i>
+                </figure>
+            </article>
+        </header>
+
+        <!-- Grid Layout -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <!-- Calendar Section -->
+            <article class="md:col-span-8 bg-surface-container-low rounded-[2.5rem] p-10 space-y-8 border border-outline-variant/5">
+                <header class="flex justify-between items-center">
+                    <hgroup>
+                        <h3 class="font-headline font-bold text-2xl text-on-surface">Frequência Visual</h3>
+                        <p class="text-on-surface-variant text-sm mt-1">Acompanhe sua consistência mensal</p>
+                    </hgroup>
+                    <nav class="flex gap-3" aria-label="Controle de calendário">
+                        <button class="p-3 rounded-2xl bg-surface-container-lowest hover:bg-white transition-colors border border-outline-variant/10 shadow-sm"><i class="material-symbols-outlined text-sm not-italic">chevron_left</i></button>
+                        <button class="p-3 rounded-2xl bg-surface-container-lowest hover:bg-white transition-colors border border-outline-variant/10 shadow-sm"><i class="material-symbols-outlined text-sm not-italic">chevron_right</i></button>
+                    </nav>
+                </header>
+
+                <!-- Grid Calendar -->
+                <section class="grid grid-cols-7 gap-4">
+                    <abbr title="Domingo" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Dom</abbr>
+                    <abbr title="Segunda" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Seg</abbr>
+                    <abbr title="Terça" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Ter</abbr>
+                    <abbr title="Quarta" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Qua</abbr>
+                    <abbr title="Quinta" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Qui</abbr>
+                    <abbr title="Sexta" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Sex</abbr>
+                    <abbr title="Sábado" class="text-center text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant/60 pb-2 no-underline">Sáb</abbr>
+                    
+                    <time class="aspect-square bg-surface-container-highest/20 rounded-2xl flex items-center justify-center text-on-surface-variant/30 font-bold text-lg">28</time>
+                    <time class="aspect-square bg-surface-container-highest/20 rounded-2xl flex items-center justify-center text-on-surface-variant/30 font-bold text-lg">29</time>
+                    <time class="aspect-square bg-surface-container-highest/20 rounded-2xl flex items-center justify-center text-on-surface-variant/30 font-bold text-lg">30</time>
+                    <time class="aspect-square kinetic-gradient rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary/30 relative">1<i class="absolute -top-1 -right-1 w-4 h-4 bg-tertiary-container rounded-full border-2 border-white"></i></time>
+                    <time class="aspect-square kinetic-gradient rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary/30">2</time>
+                    <time class="aspect-square kinetic-gradient rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary/30">3</time>
+                    <time class="aspect-square bg-surface-container-highest rounded-2xl flex items-center justify-center text-on-surface-variant font-bold text-lg border-2 border-primary/10">4</time>
+                    <!-- ... Outros dias seguindo a mesma lógica -->
+                </section>
+
+                <footer class="flex items-center gap-4 p-5 bg-primary-container/20 rounded-[1.5rem] border border-primary/10">
+                    <i class="material-symbols-outlined text-primary text-3xl not-italic" style="font-variation-settings: 'FILL' 1;">celebration</i>
+                    <p class="text-on-primary-container text-sm font-semibold tracking-tight">Impressionante! Você treinou 12 dias seguidos. Mantenha essa energia!</p>
+                </footer>
+            </article>
+
+            <!-- Next Goal -->
+            <aside class="md:col-span-4 bg-surface-container-lowest rounded-[2.5rem] p-10 shadow-xl shadow-primary/5 border border-outline-variant/10 h-full flex flex-col">
+                <header class="flex justify-between items-start mb-6">
+                    <hgroup>
+                        <h3 class="font-headline font-extrabold text-2xl text-on-surface">Próxima Meta</h3>
+                        <p class="text-on-surface-variant text-sm font-medium mt-1">Nível Diamante</p>
+                    </hgroup>
+                    <mark class="bg-tertiary-container/30 text-tertiary font-black px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">Aproximando</mark>
+                </header>
+
+                <section class="bg-surface-container-low p-6 rounded-[2rem] border border-outline-variant/10 mb-8">
+                    <header class="flex justify-between items-end mb-4">
+                        <b class="text-4xl font-headline font-black text-primary leading-none">8</b>
+                        <small class="text-on-surface-variant text-xs font-bold uppercase tracking-widest pb-1">Dias restantes</small>
+                    </header>
+                    <progress class="relative w-full h-4 bg-surface-container-highest rounded-full overflow-hidden appearance-none" value="84" max="100">
+                        <i class="absolute inset-0 kinetic-gradient w-[84%] rounded-full block"></i>
+                    </progress>
+                    <footer class="flex justify-between mt-3">
+                        <small class="text-[10px] font-black text-primary uppercase">Nível Ouro (42)</small>
+                        <small class="text-[10px] font-black text-on-surface-variant uppercase">Meta (50)</small>
+                    </footer>
+                </section>
+
+                <p class="text-on-surface-variant text-sm font-medium leading-relaxed mb-6">Continue com foco total para garantir seu desconto de <strong class="text-primary font-bold">35% OFF</strong> no Nível 50 Dias.</p>
+
+                <figure class="mt-auto relative h-48 rounded-[2rem] overflow-hidden group">
+                    <img alt="Fundo motivacional" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2ViIWfrS2LwfRoY4gpxt9TGuU4cCZxlcUq5OQHoviZG2SUjiiG5CRvsH8lo1tOsjEcROElrt5VrrkQWaeRpCV7oamlgTvT-SkQ-v8lWtVzWzWanlc2N_JviSlkQ3VjLxlv8_KDEXpvtBHdCap0ieCyQ50cM03RWrxwhxDordUgILhMdmt6XyAd13nld0doayJnWnyJYx7oe67uz8HMwIuMfBKHM-trMyTMXImlpWi4QQerP2a8o_QOESlWPetgW5jdC0RrTlYO02M"/>
+                    <figcaption class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent flex flex-col justify-end p-6">
+                        <strong class="text-white font-headline font-bold text-xl leading-tight">O próximo desconto te espera.</strong>
+                        <small class="text-white/80 text-xs font-bold uppercase tracking-widest mt-1">Não pare agora</small>
+                    </figcaption>
+                </figure>
+            </aside>
+        </section>
+
+        <!-- Rewards Section -->
+        <section class="space-y-8 py-8">
+            <header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <hgroup class="max-w-2xl">
+                    <h2 class="text-on-background font-headline text-4xl font-bold tracking-tight">Seus Benefícios <em class="text-primary not-italic italic">Ativos</em></h2>
+                    <p class="text-on-surface-variant mt-2 text-lg">Sua disciplina vale dinheiro.</p>
+                </hgroup>
+                <a class="flex items-center gap-2 text-primary font-black font-label uppercase tracking-widest text-xs group transition-opacity" href="#">
+                    Ver regulamento <i class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform not-italic">arrow_forward</i>
+                </a>
+            </header>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card Unlocked -->
+                <article class="bg-surface-container-low p-8 rounded-[2.5rem] flex flex-col justify-between items-start space-y-10 border border-outline-variant/10 group">
+                    <figure class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center">
+                        <i class="material-symbols-outlined text-primary text-3xl not-italic" style="font-variation-settings: 'FILL' 1;">check_circle</i>
+                    </figure>
+                    <header>
+                        <b class="text-5xl font-headline font-black text-on-surface mb-2 tracking-tighter block">5% OFF</b>
+                        <small class="text-on-surface-variant font-bold text-xs uppercase tracking-[0.15em]">A partir de 10 dias</small>
+                    </header>
+                    <footer class="flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">
+                        <i class="material-symbols-outlined text-sm not-italic">lock_open</i> Desbloqueado
+                    </footer>
+                </article>
+
+                <!-- Card Active -->
+                <article class="kinetic-gradient p-8 rounded-[2.5rem] flex flex-col justify-between items-start space-y-10 shadow-2xl relative overflow-hidden">
+                    <figure class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+                        <i class="material-symbols-outlined text-white text-3xl not-italic" style="font-variation-settings: 'FILL' 1;">verified</i>
+                    </figure>
+                    <header>
+                        <b class="text-5xl font-headline font-black text-white mb-2 tracking-tighter block">20% OFF</b>
+                        <small class="text-white/80 font-bold text-xs uppercase tracking-[0.15em]">A partir de 40 dias</small>
+                    </header>
+                    <footer class="w-full">
+                        <mark class="block bg-tertiary-container text-on-tertiary-container text-center py-3 rounded-2xl text-[11px] font-black uppercase tracking-[0.15em] shadow-lg mb-3">OFENSIVA40</mark>
+                    </footer>
+                </article>
+            </section>
+        </section>
+
+        <!-- Final Motivator -->
+        <section class="bg-on-background rounded-[4rem] p-10 md:p-20 flex flex-col md:flex-row items-center gap-16 overflow-hidden relative">
+            <header class="md:w-1/2 space-y-8 relative z-10">
+                <h2 class="text-white font-headline text-5xl md:text-7xl font-extrabold leading-[0.9] tracking-tighter">
+                    TREINE HOJE, <br/>
+                    <em class="text-primary-container not-italic italic">ECONOMIZE AMANHÃ.</em>
+                </h2>
+                <footer class="flex flex-wrap gap-5 pt-4">
+                    <button class="kinetic-gradient text-white px-10 py-5 rounded-full font-black font-label text-xs uppercase tracking-[0.2em]">Iniciar Treino do Dia</button>
+                </footer>
+            </header>
+            <figure class="md:w-1/2 relative">
+                <img alt="Atleta" class="aspect-square w-full max-w-md mx-auto rounded-[3.5rem] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEjdKFd6Py-skXCJgjKEhJ6WnkSA1OkHLc3jbcYyNH7RgwhihXNq79g8ipTIUTho7RE0dAAPRPJ-x05UoG8aDltn096g9nntgoT6rxz48AO9VhxDnzR46J6whDWKubafvbr0yDK-ejDWA9DAR6HqUviHLbl0FuF10R0YaefrXWA4rJjM_OQNtzaV1FKYJVX9Sk-eT7pftGmJfeSbw5TNsqBIv6c_4fwa2rbQVOkVhYFRv-J2GXTsBbN4_O9_AWUlySIrmQV9zy55Md"/>
+            </figure>
+        </section>
+    </main>
+
+    <!-- BottomNavBar -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-end px-6 pb-8 bg-surface/90 backdrop-blur-2xl z-50 rounded-t-[2.5rem] border-t border-outline-variant/10">
+        <a class="flex flex-col items-center p-3 text-on-surface-variant/40" href="#">
+            <i class="material-symbols-outlined text-2xl not-italic">dashboard</i>
+            <small class="font-manrope text-[9px] font-black uppercase mt-1">Geral</small>
+        </a>
+        <a class="flex flex-col items-center bg-primary text-white rounded-3xl p-5 -mt-8 shadow-2xl" href="#">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;">bolt</i>
+        </a>
+        <!-- Outros ícones aqui -->
+    </nav>
+</body>
+</html>

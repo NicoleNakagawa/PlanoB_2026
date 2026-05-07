@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0058ba",
+                        "on-primary": "#f0f2ff",
+                        "surface": "#f7f5ff",
+                        "on-surface": "#232c51",
+                        "surface-container": "#e4e7ff",
+                        "on-surface-variant": "#505a81",
+                        "outline": "#6c759e",
+                        "tertiary-fixed": "#ffd709",
+                        "on-tertiary-fixed": "#453900",
+                        "secondary-container": "#80deff",
+                        "on-secondary-container": "#004e61",
+                    },
+                    fontFamily: {
+                        headline: ["Lexend"],
+                        body: ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        .lexend { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .editorial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface selection:bg-primary-container">
+
+    <!-- TopAppBar -->
+    <header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl h-16 flex justify-between items-center px-8 border-none">
+        <nav class="flex items-center gap-8" aria-label="Navegação Principal">
+            <strong class="text-2xl font-black text-blue-700 italic tracking-tight lexend">PlanoB</strong>
+            <ul class="hidden md:flex items-center gap-6 font-['Lexend'] tracking-tight list-none">
+                <li><a class="text-blue-700 border-b-2 border-blue-600 font-medium" href="#">Explorar</a></li>
+                <li><a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="#">Meus Planos</a></li>
+                <li><a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="#">Treinadores</a></li>
+            </ul>
+        </nav>
+
+        <section class="flex items-center gap-4">
+            <form class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-1.5">
+                <i class="material-symbols-outlined text-outline text-sm">search</i>
+                <input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Procurar treinos..." type="search"/>
+            </form>
+            <button class="material-symbols-outlined hover:text-primary transition-colors" aria-label="Notificações">notifications</button>
+            <button class="material-symbols-outlined hover:text-primary transition-colors" aria-label="Perfil">account_circle</button>
+        </section>
+    </header>
+
+    <!-- SideNavBar -->
+    <aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-slate-50 border-r border-slate-200/50 flex flex-col gap-2 py-4 pl-4 z-40 hidden md:flex">
+        <header class="mb-8 px-4 flex items-center gap-3">
+            <figure class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
+                <img alt="Perfil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDubtPFxAm9MAo7THbsw2jHPowLJlyvzqupx7L2ik1qZ16tug6SKNkmfUOIXUNr73cGpQPEBZDZEp8EGjjeYG2Lb1ofDamca3zn3w8eYg6Jf4Ez8V4HKOLKtuHt8QPhfqAcWfHR7wGmF_emIru_M5LHyUT8mN4MB6wUrSdfHcRtx_AwL1Iv3AxoAJ0kUJMZaY3XkR1E3etwW876kEmVYZSoJYs6J30U9pFxVlurG7-8USwDoFHJlKBxbQT_Sauc3j8GtdL1AQVlOZt5"/>
+            </figure>
+            <hgroup>
+                <p class="text-sm font-bold uppercase">Portal do Atleta</p>
+                <small class="text-outline text-xs">Nível: Pro</small>
+            </hgroup>
+        </header>
+
+        <nav class="flex-grow flex flex-col gap-1" aria-label="Menu Lateral">
+            <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:bg-slate-200 rounded-r-full mr-4 transition-all" href="#">
+                <i class="material-symbols-outlined">dashboard</i> Início
+            </a>
+            <a class="flex items-center gap-3 py-3 px-4 bg-blue-600 text-white rounded-r-full mr-4 transition-all" href="#">
+                <i class="material-symbols-outlined">play_circle</i> Treinos
+            </a>
+            <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:bg-slate-200 rounded-r-full mr-4 transition-all" href="#">
+                <i class="material-symbols-outlined">event_note</i> Planos
+            </a>
+        </nav>
+
+        <footer class="mt-auto flex flex-col gap-1 pb-4">
+            <article class="mx-4 mb-4 p-4 bg-gradient-to-br from-primary to-blue-400 rounded-2xl text-on-primary">
+                <p class="text-xs font-bold uppercase mb-1">Upgrade</p>
+                <p class="text-sm font-medium mb-3">Benefícios do Plano Diamond</p>
+                <button class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-2 rounded-full text-xs font-bold active:scale-95 transition-transform">Assinar Diamond</button>
+            </article>
+            <nav class="flex flex-col">
+                <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined">help</i> Ajuda</a>
+                <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:text-red-500 transition-colors" href="#"><i class="material-symbols-outlined">logout</i> Sair</a>
+            </nav>
+        </footer>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 pt-24 px-8 pb-12">
+        
+        <!-- Hero Section -->
+        <section class="mb-12 relative overflow-hidden rounded-[2rem] bg-surface-container p-12">
+            <figure class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+                <img alt="Fundo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4cYPfB5lfxjY8MWiPd4y9giHyBeEpCASVVTjL7B-zAnKKtAgJ2GD-8zSBtpxbXU92X1GqOuD7Suh7GVgHw4W79SyyvLjkptWSyi368xxpvJq8Pqbu13FRyBB5RPJQQj3j67KbSHlFQ_SDUdlSJx8CqpBwCY2GmqASs5Hpsjk_ooncoApDxazcidr16LKOCkGtH61B4-exRz-hG8uYVQ3TgeEbGk7qNiIuhX60yi5d2hl0b5KjITCiGNXwHrHMpyKrNjH9Kof8X4Uf"/>
+            </figure>
+            <hgroup class="relative z-10 max-w-2xl">
+                <h1 class="lexend text-5xl font-black mb-4 tracking-tighter">BIBLIOTECA DE <em class="text-primary not-italic">VÍDEOS</em></h1>
+                <p class="text-on-surface-variant text-xl font-medium">Acesse todos os treinos e masterclasses com instrução profissional e qualidade cinematográfica.</p>
+            </hgroup>
+        </section>
+
+        <!-- Filters -->
+        <nav class="flex items-center gap-4 mb-10 overflow-x-auto pb-4 scrollbar-hide" aria-label="Filtro de Categorias">
+            <button class="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 transition-all active:scale-95">Todos</button>
+            <button class="bg-white text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all active:scale-95">Ioga</button>
+            <button class="bg-white text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all active:scale-95">Força</button>
+            <button class="bg-white text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all active:scale-95">HIIT</button>
+        </nav>
+
+        <!-- Video Grid -->
+        <section class="editorial-grid">
+            
+            <!-- Card -->
+            <article class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all transform hover:-translate-y-2">
+                <figure class="relative aspect-video overflow-hidden">
+                    <img alt="Fluxo Cinético" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH4AeqawmxayfZJbrYYzZxJIFbq38xvASMrZaHz1c17m74q7uaQSKoCE2Dywg86qJhdLVHMuxu67oViDg8AKWnoc5mtShQnYx8fnA7pB6vXvu3pMO2Zp7IYPhyL7Z0XXG7gNKWfsWG6m-kAyPagkNR185gSaWYKGkVeZCRBSi7gfuY906LFXP9m_iCtuI25q5YN33AwMT6ToChzXhFG128ClXU11wtO0O50CJgKOBx-JobHWMDT8JMrpPkW0JkkHcXzLB-_HgMpiNy"/>
+                    <footer class="absolute bottom-4 left-4 flex items-center gap-2">
+                        <mark class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black px-2 py-1 rounded">MASTERCLASS</mark>
+                        <time class="text-white text-xs font-bold flex items-center gap-1"><i class="material-symbols-outlined text-xs">schedule</i> 45 min</time>
+                    </footer>
+                    <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform">
+                        <i class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
+                    </button>
+                </figure>
+                <section class="p-6">
+                    <h3 class="lexend text-xl font-bold mb-2">Fluxo Cinético</h3>
+                    <p class="text-on-surface-variant text-sm line-clamp-2">Uma fusão fluida de ioga vinyasa e mobilidade funcional.</p>
+                    <footer class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <small class="text-xs font-bold text-primary uppercase tracking-widest">Nível: Intermediário</small>
+                    </footer>
+                </section>
+            </article>
+
+        </section>
+    </main>
+
+    <!-- Floating Button -->
+    <button class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-br from-primary to-blue-400 text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-50">
+        <i class="material-symbols-outlined text-3xl">filter_list</i>
+    </button>
+
+</body>
+</html>

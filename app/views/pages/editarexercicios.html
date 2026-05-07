@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanoB – Editar Exercício</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container": "#e4e7ff",
+            "primary": "#0058ba",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-error-container": "#570008",
+            "background": "#f7f5ff",
+            "on-surface": "#232c51",
+            "tertiary-fixed": "#ffd709",
+            "surface-container-highest": "#d5dbff",
+            "primary-dim": "#004da4",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-primary-container": "#00214e",
+            "tertiary-dim": "#5e4e00",
+            "primary-fixed": "#6c9fff",
+            "error-dim": "#9f0519",
+            "primary-container": "#6c9fff",
+            "surface-tint": "#0058ba",
+            "on-primary": "#f0f2ff",
+            "on-tertiary-fixed": "#453900",
+            "on-secondary-container": "#004e61",
+            "inverse-primary": "#4a8eff",
+            "inverse-surface": "#020a2f",
+            "surface": "#f7f5ff",
+            "surface-bright": "#f7f5ff",
+            "outline": "#6c759e",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#00647b",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "on-tertiary-container": "#5b4b00",
+            "on-secondary": "#e2f6ff",
+            "tertiary": "#6c5a00",
+            "outline-variant": "#a2abd7",
+            "error-container": "#fb5151",
+            "secondary-container": "#80deff",
+            "surface-dim": "#cad2ff",
+            "secondary-dim": "#00576c",
+            "secondary-fixed": "#80deff",
+            "primary-fixed-dim": "#5091ff",
+            "on-primary-fixed-variant": "#002a60",
+            "error": "#b31b25",
+            "on-background": "#232c51",
+            "on-secondary-fixed-variant": "#00586d",
+            "surface-container-low": "#efefff",
+            "on-error": "#ffefee",
+            "surface-container-high": "#dde1ff",
+            "on-primary-fixed": "#000000",
+            "inverse-on-surface": "#929bc6",
+            "on-secondary-fixed": "#003a48",
+            "on-tertiary": "#fff2cd",
+            "surface-variant": "#d5dbff",
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3 { font-family: 'Lexend', sans-serif; }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface antialiased">
+
+  <!-- ===== Top Navigation Bar ===== -->
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 py-3">
+
+    <a href="#" aria-label="PlanoB – Início">
+      <strong class="text-2xl font-black text-blue-700 dark:text-blue-400 tracking-tighter font-['Lexend'] uppercase">PlanoB</strong>
+    </a>
+
+    <search class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+      <i class="material-symbols-outlined text-outline mr-2" aria-hidden="true">search</i>
+      <label for="top-search" class="sr-only">Buscar</label>
+      <input id="top-search" class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Buscar..." type="search" />
+    </search>
+
+    <nav class="flex items-center gap-4" aria-label="Ações rápidas">
+      <button class="material-symbols-outlined text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors" aria-label="Notificações">notifications</button>
+      <button class="material-symbols-outlined text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors" aria-label="Ajuda">help</button>
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPmuwBXAC0PTGgJXUPcRU7WVwUmmHoEod-UmtPsGLcN0Zpm_HiCRxZriA8dxoF_zuTuU2DsmxV5AenKiisZFyY5Dbrl-kF5ANBwWZ6UEGzdyoC61NRfuiU98gWKGrsjjef_PQPBjWZuIAmZcE_Qkr94gLV4CE9KnLQzj4cvQoZt-ZMQxuSQk8kWWmZmsABI99njNF_u-6tdUqLe5g5A2GNwN2GGkIh2eQq2HAx0OlsYtJaMVC_kz-L0TUpRw0bE_r7rbg7rghJRZAb"
+           alt="Avatar do professor" class="w-8 h-8 rounded-full border-2 border-primary/20" />
+    </nav>
+
+    <hr class="absolute bottom-0 left-0 w-full border-0 bg-gradient-to-b from-[#e4e7ff] to-transparent h-px" aria-hidden="true" />
+  </header>
+
+  <!-- ===== Side Navigation Bar ===== -->
+  <aside class="h-screen w-64 fixed left-0 top-0 bg-[#f7f5ff] dark:bg-slate-900 flex-col p-4 gap-2 z-40 hidden md:flex pt-20" aria-label="Menu lateral">
+
+    <header class="mb-8 px-2">
+      <h2 class="text-xl font-black text-blue-700 dark:text-blue-400 font-['Lexend']">PlanoB Pro</h2>
+      <p class="text-xs text-slate-500 font-medium uppercase tracking-widest">Painel do Professor</p>
+    </header>
+
+    <nav class="flex-1 space-y-1 overflow-y-auto pr-2" aria-label="Navegação principal">
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">dashboard</i>
+        Dashboard
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">group</i>
+        Meus Alunos
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 bg-blue-700 text-white dark:bg-blue-600 rounded-full shadow-lg shadow-blue-500/20 transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#" aria-current="page">
+        <i class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_circle</i>
+        Meus Vídeos
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">star</i>
+        Avaliações
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">monitoring</i>
+        Desempenho
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">calendar_month</i>
+        Calendário
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out hover:translate-x-1 font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">settings</i>
+        Configurações
+      </a>
+    </nav>
+
+    <footer class="mt-auto border-t border-[#efefff] dark:border-slate-800/50 pt-4">
+      <button class="w-full bg-primary text-white py-3 rounded-full font-bold shadow-md hover:shadow-xl transition-all active:scale-95 mb-4">
+        Novo Conteúdo
+      </button>
+      <a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-all duration-300 ease-out font-['Manrope'] font-medium text-sm" href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">logout</i>
+        Sair
+      </a>
+    </footer>
+  </aside>
+
+  <!-- ===== Main Content ===== -->
+  <main class="md:ml-64 pt-24 pb-12 px-6 lg:px-12">
+
+    <!-- Page Header -->
+    <section class="max-w-6xl mx-auto mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4" aria-labelledby="page-title">
+
+      <hgroup>
+        <nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-2" aria-label="Breadcrumb">
+          <a href="#">Vídeos</a>
+          <i class="material-symbols-outlined text-xs" aria-hidden="true">chevron_right</i>
+          <em class="text-primary font-semibold not-italic" aria-current="page">Editar Exercício</em>
+        </nav>
+        <h1 id="page-title" class="text-4xl md:text-5xl font-black text-on-surface tracking-tight leading-tight uppercase">
+          Editar Exercício
+        </h1>
+      </hgroup>
+
+      <menu class="flex gap-4 list-none p-0 m-0">
+        <li>
+          <button class="px-6 py-2.5 rounded-full border border-outline-variant/30 text-on-surface font-semibold hover:bg-surface-container transition-colors">
+            Cancelar
+          </button>
+        </li>
+        <li>
+          <button class="px-8 py-2.5 rounded-full bg-gradient-to-r from-primary to-primary-container text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95">
+            Salvar Alterações
+          </button>
+        </li>
+      </menu>
+    </section>
+
+    <!-- Editor Grid -->
+    <article class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <!-- Left Column: Video Preview & Media -->
+      <section class="lg:col-span-5 space-y-6" aria-labelledby="media-section-title">
+        <h2 id="media-section-title" class="sr-only">Mídia do Exercício</h2>
+
+        <!-- Video Preview -->
+        <figure class="relative group aspect-video rounded-xl overflow-hidden bg-surface-container-highest shadow-xl">
+          <img class="w-full h-full object-cover"
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCrD3OmtjFwpKNFYU8gCMCG6tjQviowsRyMfntMdnN1Djdx_xYvj9MvFxOwqRXyfCf_6EjiDDxx155OmOF9SgKvjR_2SevCd6XpyeVl8gbUC8ZLUbWajcspF2M7oTdbS6SBrsPc1K5SVeS8pxtiCbkh_5D_XKUThtBO1Ytxa5Mvxb9_ho2wNsPWMtgSc2Wn3VsvWsG9z9KIAIUGEYYXWvt5Xoffeya4tOr9oicveNvI-d-f8DvTn2QxBN211VWuFDKBwrNBw4ksw34"
+               alt="Pessoa atlética executando um levantamento terra com barra em academia industrial com iluminação lateral natural" />
+
+          <aside class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-100 group-hover:bg-black/20 transition-all" aria-hidden="true">
+            <button class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 hover:scale-110 transition-transform" aria-label="Reproduzir vídeo">
+              <i class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_arrow</i>
+            </button>
+          </aside>
+
+          <figcaption class="absolute bottom-4 right-4 flex gap-2">
+            <mark class="bg-primary/90 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">00:45</mark>
+            <mark class="bg-black/60 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">HD 1080p</mark>
+          </figcaption>
+        </figure>
+
+        <!-- Media Upload Card -->
+        <section class="bg-surface-container-lowest p-6 rounded-3xl border border-outline-variant/10" aria-labelledby="upload-title">
+          <h3 id="upload-title" class="text-lg font-bold mb-4 flex items-center gap-2">
+            <i class="material-symbols-outlined text-primary" aria-hidden="true">cloud_upload</i>
+            Mídia do Exercício
+          </h3>
+
+          <ul class="flex flex-col gap-3 list-none p-0 m-0">
+            <li>
+              <button class="w-full py-4 rounded-2xl border-2 border-dashed border-primary/30 flex flex-col items-center justify-center hover:bg-primary/5 transition-colors group">
+                <i class="material-symbols-outlined text-primary mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">upload_file</i>
+                <strong class="text-sm font-bold text-primary">Substituir Vídeo</strong>
+                <small class="text-xs text-on-surface-variant mt-1">MP4, MOV ou AVI (Max. 500MB)</small>
+              </button>
+            </li>
+            <li class="flex items-center justify-between p-3 bg-surface-container-low rounded-xl">
+              <figure class="flex items-center gap-3 m-0">
+                <picture class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center" aria-hidden="true">
+                  <i class="material-symbols-outlined text-primary">image</i>
+                </picture>
+                <figcaption>
+                  <p class="text-xs font-bold">Thumbnail Sugerida</p>
+                  <p class="text-[10px] text-on-surface-variant">Automático do vídeo</p>
+                </figcaption>
+              </figure>
+              <button class="text-xs font-bold text-primary hover:underline">Alterar</button>
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Right Column: Form -->
+      <section class="lg:col-span-7" aria-labelledby="form-section-title">
+        <h2 id="form-section-title" class="sr-only">Informações do Exercício</h2>
+
+        <form class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm border border-outline-variant/10 space-y-8" novalidate>
+
+            <!-- Title -->
+            <p class="space-y-2">
+              <label for="exercise-title" class="text-sm font-bold text-on-surface-variant uppercase tracking-wider ml-1">
+                Título do Exercício
+              </label>
+              <input id="exercise-title"
+                     class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-surface font-semibold text-lg transition-all"
+                     type="text"
+                     value="Agachamento Terra com Barra (Deadlift)" />
+            </p>
+
+            <!-- Description -->
+            <p class="space-y-2">
+              <label for="exercise-description" class="text-sm font-bold text-on-surface-variant uppercase tracking-wider ml-1">
+                Descrição / Instruções
+              </label>
+              <textarea id="exercise-description"
+                        class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-surface text-sm leading-relaxed transition-all"
+                        rows="4">Mantenha os pés afastados na largura dos ombros. Flexione os quadris e joelhos para segurar a barra. Mantenha a coluna neutra e o peito aberto enquanto levanta o peso, usando a força das pernas e glúteos. Expire no topo do movimento.</textarea>
+            </p>
+
+            <!-- Category & Duration -->
+            <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <dt class="space-y-2">
+                <p class="text-sm font-bold text-on-surface-variant uppercase tracking-wider ml-1">
+                  Categoria
+                </p>
+                <label for="exercise-category" class="relative block">
+                  <select id="exercise-category"
+                          class="w-full appearance-none bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium transition-all">
+                    <option>Força</option>
+                    <option>Cardio</option>
+                    <option>Flexibilidade</option>
+                    <option>Mobilidade</option>
+                    <option>Hiit</option>
+                  </select>
+                  <i class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant" aria-hidden="true">expand_more</i>
+                </label>
+              </dt>
+
+              <dt class="space-y-2">
+                <label for="exercise-duration" class="text-sm font-bold text-on-surface-variant uppercase tracking-wider ml-1">
+                  Duração Recomendada
+                </label>
+                <p class="flex items-center bg-surface-container-low rounded-2xl px-6 py-4 m-0">
+                  <input id="exercise-duration"
+                         class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium"
+                         type="number"
+                         value="45"
+                         min="1"
+                         aria-describedby="duration-unit" />
+                  <output id="duration-unit" class="text-on-surface-variant font-bold text-xs uppercase whitespace-nowrap">Segundos</output>
+                </p>
+              </dt>
+            </dl>
+
+            <!-- Difficulty -->
+            <fieldset class="space-y-4">
+              <legend class="text-sm font-bold text-on-surface-variant uppercase tracking-wider ml-1">
+                Nível de Dificuldade
+              </legend>
+              <ol class="grid grid-cols-3 gap-4 list-none p-0 m-0">
+
+                <li>
+                  <label class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-surface-container-low border-2 border-transparent hover:border-primary/20 transition-all cursor-pointer has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+                    <input type="radio" name="difficulty" value="iniciante" class="sr-only" />
+                    <i class="material-symbols-outlined text-green-600" aria-hidden="true">signal_cellular_alt_1_bar</i>
+                    <b class="text-xs font-bold">Iniciante</b>
+                  </label>
+                </li>
+
+                <li>
+                  <label class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-primary/10 border-2 border-primary transition-all cursor-pointer has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+                    <input type="radio" name="difficulty" value="intermediario" class="sr-only" checked />
+                    <i class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">signal_cellular_alt_2_bar</i>
+                    <b class="text-xs font-bold text-primary">Intermediário</b>
+                  </label>
+                </li>
+
+                <li>
+                  <label class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-surface-container-low border-2 border-transparent hover:border-primary/20 transition-all cursor-pointer has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+                    <input type="radio" name="difficulty" value="avancado" class="sr-only" />
+                    <i class="material-symbols-outlined text-red-600" aria-hidden="true">signal_cellular_alt</i>
+                    <b class="text-xs font-bold">Avançado</b>
+                  </label>
+                </li>
+
+              </ol>
+            </fieldset>
+
+            <!-- Advanced Settings -->
+            <section class="pt-4 border-t border-surface-container">
+              <button type="button" class="flex items-center justify-between w-full group" aria-expanded="false">
+                <b class="text-sm font-bold text-on-surface">Configurações Avançadas (Metas, Equipamento)</b>
+                <i class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward_ios</i>
+              </button>
+            </section>
+
+        </form>
+      </section>
+    </article>
+  </main>
+
+  <!-- ===== Bottom Navigation Bar (Mobile Only) ===== -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-slate-950 px-6 py-4 flex justify-between items-center z-50 border-t border-outline-variant/10" aria-label="Navegação principal mobile">
+
+    <a href="#" class="flex flex-col items-center gap-1 text-slate-400 no-underline">
+      <i class="material-symbols-outlined" aria-hidden="true">dashboard</i>
+      <b class="text-[10px] font-bold uppercase">Dashboard</b>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-primary no-underline" aria-current="page">
+      <i class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">play_circle</i>
+      <b class="text-[10px] font-bold uppercase">Vídeos</b>
+    </a>
+
+    <aside class="relative -top-8" aria-hidden="true">
+      <button class="bg-primary text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center" aria-label="Criar novo conteúdo">
+        <i class="material-symbols-outlined">add</i>
+      </button>
+    </aside>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-slate-400 no-underline">
+      <i class="material-symbols-outlined" aria-hidden="true">group</i>
+      <b class="text-[10px] font-bold uppercase">Alunos</b>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-slate-400 no-underline">
+      <i class="material-symbols-outlined" aria-hidden="true">person</i>
+      <b class="text-[10px] font-bold uppercase">Perfil</b>
+    </a>
+
+  </nav>
+
+</body>
+</html>

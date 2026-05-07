@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Progresso Semanal | Kinetic</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "primary": "#0058ba",
+                "primary-container": "#6c9fff",
+                "on-surface": "#232c51",
+                "on-surface-variant": "#505a81",
+                "surface-container-low": "#efefff",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-high": "#dde1ff",
+                "surface-container-highest": "#d5dbff"
+              }
+            }
+          }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { font-family: 'Manrope', sans-serif; background-color: #f7f5ff; }
+        h1, h2, h3, h4 { font-family: 'Lexend', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface mb-20 md:mb-0">
+
+    <!-- Navegação Principal -->
+    <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl border-b border-surface-container-high">
+        <nav class="flex justify-between items-center px-6 h-16 max-w-7xl mx-auto" aria-label="Navegação Global">
+            <h1 class="text-2xl font-bold tracking-tighter text-blue-700 uppercase italic font-lexend">KINETIC</h1>
+            
+            <ul class="hidden md:flex items-center gap-8 list-none">
+                <li><a class="text-slate-500 font-medium hover:text-blue-500 transition-colors font-lexend tracking-tight" href="#">Dashboard</a></li>
+                <li><a class="text-blue-700 font-bold border-b-2 border-blue-600 font-lexend tracking-tight" href="#">Workouts</a></li>
+                <li><a class="text-slate-500 font-medium hover:text-blue-500 transition-colors font-lexend tracking-tight" href="#">Streaks</a></li>
+                <li><a class="text-slate-500 font-medium hover:text-blue-500 transition-colors font-lexend tracking-tight" href="#">Rewards</a></li>
+            </ul>
+
+            <aside class="flex items-center gap-4">
+                <button aria-label="Notificações"><i class="material-symbols-outlined text-on-surface-variant">notifications</i></button>
+                <button aria-label="Streak"><i class="material-symbols-outlined text-on-surface-variant">local_fire_department</i></button>
+                <figure class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-primary/10">
+                    <img alt="Minha Foto de Perfil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj13HuZqLbjrbkQvznlfZX6fT4W90BtlribJ8rUU2Ug6CHRC0MjkFMTG2a1AGe-dzCdsePn70TOgai53Ouk3Oz7sMaTxsiCLmkRsAohydxAxrZl7i2-9HiZyzeklO9hR6V--AoMEjaODABpVfGd3Ls88qi9uLGahOTBwuWMpCnP5qsXkj6YWgJctT9jjXH-uLl5_Xb8ACioIKoZ883PdGLPzlN28PuJfUEu0GN7GXCrOmItgYuaNw5WoO8AJUXDZAZ8_lTZG0BDnt5"/>
+                </figure>
+            </aside>
+        </nav>
+    </header>
+
+    <main class="pt-24 pb-12 px-6 max-w-7xl mx-auto">
+        
+        <!-- Hero Section -->
+        <header class="mb-12 relative">
+            <mark class="absolute -top-10 -left-10 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl -z-10 bg-transparent" aria-hidden="true"></mark>
+            <h2 class="text-5xl md:text-7xl font-extrabold tracking-tight text-primary uppercase leading-none mb-4 italic">
+                SEU FLUXO <br><mark class="text-on-surface bg-transparent">DE EVOLUÇÃO</mark>
+            </h2>
+            <p class="text-on-surface-variant max-w-md font-medium text-lg leading-relaxed">
+                Análise detalhada da sua performance semanal. Você está <strong class="text-primary">12% mais rápido</strong> que na semana passada.
+            </p>
+        </header>
+
+        <!-- Bento Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-6" aria-label="Estatísticas de Desempenho">
+            
+            <!-- Gráfico Semanal -->
+            <article class="md:col-span-8 bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm border border-outline-variant/10">
+                <header class="flex justify-between items-start mb-10">
+                    <hgroup>
+                        <h3 class="text-2xl font-bold text-on-surface mb-1">Tempo de Treino</h3>
+                        <p class="text-on-surface-variant text-sm font-semibold uppercase tracking-wider flex items-center gap-2">
+                            Segunda a Domingo 
+                            <mark class="flex items-center text-primary text-[10px] bg-primary/10 px-2 py-0.5 rounded-full font-black bg-transparent">+4.5% DE AUMENTO</mark>
+                        </p>
+                    </hgroup>
+                    <section class="text-right">
+                        <data value="342" class="text-4xl font-black text-primary italic">342 min</data>
+                        <p class="text-xs text-on-surface-variant font-bold mt-1">+15m vs. média anterior</p>
+                    </section>
+                </header>
+
+                <!-- Barras de Gráfico Semânticas -->
+                <figure class="relative h-64 w-full flex items-end justify-between gap-3 px-4">
+                    <mark class="absolute inset-0 flex flex-col justify-between pointer-events-none bg-transparent" aria-hidden="true">
+                        <hr class="w-full border-t border-slate-100">
+                        <hr class="w-full border-t border-slate-100">
+                        <hr class="w-full border-t border-slate-100">
+                    </mark>
+                    
+                    <!-- Exemplo de Barra (Segunda) -->
+                    <section class="flex flex-col items-center flex-1 group h-full justify-end">
+                        <label class="relative w-full bg-primary rounded-t-lg shadow-sm h-[40%] transition-all group-hover:brightness-110">
+                            <small class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] font-bold py-1 px-2 rounded italic-none">42m</small>
+                        </label>
+                        <p class="mt-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Seg</p>
+                    </section>
+                    <!-- Quinta (Destaque) -->
+                    <section class="flex flex-col items-center flex-1 group h-full justify-end">
+                        <label class="relative w-full bg-primary rounded-t-lg shadow-md h-[85%] ring-4 ring-primary/5">
+                            <small class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] font-bold py-1 px-2 rounded italic-none">85m</small>
+                        </label>
+                        <p class="mt-4 text-[11px] font-black text-primary uppercase tracking-widest">Qui</p>
+                    </section>
+                    <!-- ... Outros dias seguem o mesmo padrão ... -->
+                </figure>
+            </article>
+
+            <!-- Card de Recorde Heart Rate -->
+            <aside class="md:col-span-4 flex flex-col gap-6">
+                <article class="bg-gradient-to-br from-primary to-blue-800 text-white p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+                    <header>
+                        <mark class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 bg-transparent">
+                            <i class="material-symbols-outlined text-[12px]">emoji_events</i>
+                            Novo Recorde
+                        </mark>
+                        <h3 class="text-4xl font-black italic mb-2 tracking-tight">RECORDE PESSOAL</h3>
+                    </header>
+                    <p class="text-white/70 font-medium mb-10 text-sm">Maior frequência cardíaca em HIIT.</p>
+                    <section class="flex items-end gap-3">
+                        <data value="182" class="text-6xl font-black italic leading-none">182</data>
+                        <label class="text-sm font-bold opacity-80 uppercase tracking-widest mb-1">BPM</label>
+                        <mark class="mb-1 text-[11px] font-extrabold bg-green-500 text-white px-2 py-0.5 rounded-full bg-transparent">+8 bpm</mark>
+                    </section>
+                    <i class="material-symbols-outlined absolute top-0 right-0 p-4 text-9xl opacity-10" style="font-variation-settings: 'FILL' 1;">stars</i>
+                </article>
+
+                <!-- Calorias -->
+                <article class="bg-surface-container-low p-6 rounded-[2rem] flex items-center justify-between border border-outline-variant/5">
+                    <section>
+                        <h4 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Total Calorias</h4>
+                        <data value="4820" class="text-3xl font-black text-on-surface italic">4,820 <small class="text-xs font-bold text-slate-400 uppercase italic-none">kcal</small></data>
+                    </section>
+                    <figure class="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm">
+                        <i class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</i>
+                    </figure>
+                </article>
+            </aside>
+
+            <!-- Meta Semanal -->
+            <article class="md:col-span-4 bg-surface-container-highest/30 p-8 rounded-[2rem] border border-outline-variant/10">
+                <header class="flex items-center gap-4 mb-6">
+                    <figure class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-sm">
+                        <i class="material-symbols-outlined text-3xl">fitness_center</i>
+                    </figure>
+                    <hgroup>
+                        <h4 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Frequência</h4>
+                        <data value="8" class="text-2xl font-black italic">08 Treinos</data>
+                    </hgroup>
+                </header>
+                <section class="bg-white/50 p-5 rounded-2xl">
+                    <header class="flex justify-between mb-3 text-sm font-bold">
+                        <label>Meta Semanal</label>
+                        <mark class="text-primary italic bg-transparent">80% Concluído</mark>
+                    </header>
+                    <meter class="w-full h-3 block" value="80" min="0" max="100"></meter>
+                    <p class="text-[10px] text-center mt-3 font-bold text-on-surface-variant uppercase tracking-widest">Faltam 2 treinos</p>
+                </section>
+            </article>
+
+            <!-- Análise de Rendimento -->
+            <article class="md:col-span-8 bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm border border-outline-variant/10 flex flex-col md:flex-row gap-10 items-center">
+                <figure class="relative w-44 h-44 flex-shrink-0">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle class="text-surface-container-low" cx="88" cy="88" r="76" fill="transparent" stroke="currentColor" stroke-width="14"></circle>
+                        <circle class="text-primary" cx="88" cy="88" r="76" fill="transparent" stroke="currentColor" stroke-width="14" stroke-dasharray="477" stroke-dashoffset="57" stroke-linecap="round"></circle>
+                    </svg>
+                    <figcaption class="absolute inset-0 flex flex-col items-center justify-center">
+                        <strong class="text-4xl font-black italic">+12%</strong>
+                        <small class="text-[10px] font-bold uppercase tracking-widest">Evolução</small>
+                    </figcaption>
+                </figure>
+                <section>
+                    <h3 class="text-3xl font-black text-on-surface mb-3 italic uppercase">Análise de Rendimento</h3>
+                    <p class="text-on-surface-variant text-base leading-relaxed mb-8">
+                        Seu volume de treino aumentou consideravelmente. Foco mantido nos <strong class="text-primary">membros superiores</strong>.
+                    </p>
+                    <nav class="flex flex-wrap gap-4">
+                        <button class="bg-primary text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                            Ver Detalhes <i class="material-symbols-outlined text-[16px]">insights</i>
+                        </button>
+                    </nav>
+                </section>
+            </article>
+        </section>
+
+        <!-- Próximos Desafios -->
+        <section class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <article class="order-2 md:order-1">
+                <h3 class="text-5xl md:text-6xl font-extrabold text-on-surface uppercase italic leading-none mb-8">Seu Próximo <br><mark class="text-primary bg-transparent">Desafio</mark></h3>
+                <nav class="space-y-4">
+                    <a href="#" class="group flex items-center p-6 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:border-primary/30 transition-all">
+                        <figure class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mr-5 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <i class="material-symbols-outlined text-3xl">bolt</i>
+                        </figure>
+                        <section class="flex-grow">
+                            <h4 class="font-bold text-xl tracking-tight">HIIT Power Blast</h4>
+                            <p class="text-sm text-on-surface-variant font-medium text-primary">Intenso • 45 min</p>
+                        </section>
+                        <i class="material-symbols-outlined text-primary-container">arrow_forward_ios</i>
+                    </a>
+                </nav>
+            </article>
+
+            <!-- Imagem em Destaque -->
+            <article class="relative order-1 md:order-2">
+                <figure class="rounded-[3rem] overflow-hidden rotate-2 shadow-2xl relative z-10 group cursor-pointer">
+                    <img alt="Treino de Halteres" class="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkcOLvW-fg9F6lj119HSNfxNVhQW_T8WVmWURNG1oaO0j0QiWz0cpR0wbHCZ8dQV76tPshizoSDFe4fBwsoRCsdjPx0380j_OadnXDYnBNrqRytOkpxtBYArSpEVQ9SNDvnP5bwLjul881HJGo7XMLyxaOo4jWRC1XK5tc9znvCRrUi3a6NgEUh4_edLplVlTiQAjEIEfOOTl_xZZaKP6ND7DQWHXbPkaWAAgbAjlxauhArJhRp9PqOdo_5yoLeND4hGOthfFpUaCK"/>
+                    <figcaption class="absolute bottom-10 left-10 text-white">
+                        <mark class="bg-white text-primary px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest mb-4 inline-block bg-transparent">Recomendado Hoje</mark>
+                        <h4 class="text-3xl font-black italic">SUPERAÇÃO NOS HALTERES</h4>
+                    </figcaption>
+                </figure>
+                <!-- Card flutuante Smart Pick -->
+                <aside class="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl z-20 flex items-center gap-3 border border-primary/5 animate-bounce">
+                    <i class="material-symbols-outlined text-primary">auto_awesome</i>
+                    <p class="text-xs font-bold">Smart Pick</p>
+                </aside>
+            </article>
+        </section>
+    </main>
+
+    <!-- Navegação Mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-end px-6 pb-6 bg-[#f7f5ff]/90 backdrop-blur-lg z-40 rounded-t-[2.5rem] border-t border-white/40 shadow-xl">
+        <button class="flex flex-col items-center p-2 text-slate-400">
+            <i class="material-symbols-outlined text-[28px]">dashboard</i>
+            <small class="text-[10px] font-bold uppercase mt-1 italic-none">Geral</small>
+        </button>
+        <button class="bg-blue-600 text-white rounded-full w-14 h-14 -mt-8 shadow-xl flex items-center justify-center">
+            <i class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">fitness_center</i>
+        </button>
+        <button class="flex flex-col items-center p-2 text-blue-600 border-t-2 border-blue-600">
+            <i class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">bar_chart</i>
+            <small class="text-[10px] font-bold uppercase mt-1 italic-none">Evolução</small>
+        </button>
+    </nav>
+
+</body>
+</html>

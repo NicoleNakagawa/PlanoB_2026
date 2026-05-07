@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>PlanoB Pro - Painel do Docente</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0058ba",
+                        "on-primary": "#f0f2ff",
+                        "secondary": "#00647b",
+                        "surface": "#f7f5ff",
+                        "on-surface": "#232c51",
+                        "on-surface-variant": "#505a81",
+                        "surface-container-low": "#efefff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#d5dbff",
+                        "outline": "#6c759e",
+                        "outline-variant": "#a2abd7",
+                        "error": "#b31b25"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Lexend', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+
+    <!-- Barra Lateral de Navegação -->
+    <aside class="fixed left-0 top-0 h-screen w-64 z-50 bg-slate-50 dark:bg-slate-950 flex flex-col border-r border-slate-100 dark:border-slate-800 hidden md:flex">
+        <header class="px-6 py-8">
+            <h1 class="font-headline font-extrabold text-blue-600 text-xl">PlanoB Pro</h1>
+            <p class="text-slate-500 text-xs mt-1 font-medium">Painel do Docente</p>
+        </header>
+
+        <nav class="flex-1 flex flex-col gap-1">
+            <a class="bg-gradient-to-r from-blue-700 to-blue-500 text-white rounded-full shadow-lg mx-4 py-3 px-6 flex items-center gap-3 transition-transform active:scale-95" href="#">
+                <i class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</i>
+                <small class="text-sm font-medium italic-none">Dashboard</small>
+            </a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 mx-4 py-3 px-6 flex items-center gap-3 transition-transform hover:translate-x-1" href="#students">
+                <i class="material-symbols-outlined">groups</i>
+                <small class="text-sm font-medium italic-none">Meus Alunos</small>
+            </a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 mx-4 py-3 px-6 flex items-center gap-3 transition-transform hover:translate-x-1" href="#library">
+                <i class="material-symbols-outlined">video_library</i>
+                <small class="text-sm font-medium italic-none">Meus Vídeos</small>
+            </a>
+            <a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 mx-4 py-3 px-6 flex items-center gap-3 transition-transform hover:translate-x-1" href="#">
+                <i class="material-symbols-outlined">assignment</i>
+                <small class="text-sm font-medium italic-none">Avaliações</small>
+            </a>
+        </nav>
+
+        <footer class="px-4 py-6 border-t border-slate-100 dark:border-slate-800">
+            <button class="w-full bg-primary text-on-primary rounded-full py-3 px-4 flex items-center justify-center gap-2 font-bold transition-all hover:brightness-110 active:scale-95">
+                <i class="material-symbols-outlined">add_circle</i>
+                <label>Novo Conteúdo</label>
+            </button>
+            <nav class="mt-6 flex flex-col gap-1">
+                <a class="text-slate-500 hover:text-primary py-2 px-6 flex items-center gap-3 text-sm" href="#">
+                    <i class="material-symbols-outlined">help</i>
+                    <cite class="not-italic">Suporte</cite>
+                </a>
+                <a class="text-slate-500 hover:text-error py-2 px-6 flex items-center gap-3 text-sm" href="#">
+                    <i class="material-symbols-outlined">logout</i>
+                    <cite class="not-italic">Sair</cite>
+                </a>
+            </nav>
+        </footer>
+    </aside>
+
+    <main class="md:ml-64 min-h-screen">
+        <!-- Cabeçalho Superior -->
+        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-40 shadow-sm border-b border-slate-100 dark:border-slate-800">
+            <nav class="flex justify-between items-center w-full px-6 py-3">
+                <section class="flex items-center gap-4">
+                    <button class="md:hidden text-on-surface" aria-label="Menu">
+                        <i class="material-symbols-outlined">menu</i>
+                    </button>
+                    <h2 class="font-headline font-bold tracking-tight text-slate-900 dark:text-slate-100 text-xl">Dashboard</h2>
+                </section>
+
+                <section class="flex items-center gap-6">
+                    <form class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-full w-64">
+                        <i class="material-symbols-outlined text-outline text-sm">search</i>
+                        <input class="bg-transparent border-none focus:ring-0 text-sm w-full ml-2" placeholder="Buscar alunos..." type="search"/>
+                    </form>
+                    
+                    <nav class="flex items-center gap-4">
+                        <button class="text-slate-500 hover:text-primary transition-colors" aria-label="Notificações">
+                            <i class="material-symbols-outlined">notifications</i>
+                        </button>
+                        <button class="text-slate-500 hover:text-primary transition-colors" aria-label="Configurações">
+                            <i class="material-symbols-outlined">settings</i>
+                        </button>
+                        <figure class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/20">
+                            <img alt="Professor Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"/>
+                        </figure>
+                    </nav>
+                </section>
+            </nav>
+        </header>
+
+        <section class="p-6 max-w-7xl mx-auto space-y-8">
+            <!-- Bento Header Otimizado -->
+            <header class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- CTA Principal -->
+                <article class="md:col-span-2 bg-gradient-to-br from-primary to-blue-800 p-8 rounded-3xl text-white relative overflow-hidden flex flex-col justify-center min-h-[300px]">
+                    <section class="relative z-10 max-w-md">
+                        <h3 class="text-3xl font-headline font-bold mb-4 leading-tight">Envie novas aulas em segundos.</h3>
+                        <p class="text-blue-100 mb-8">Arraste seus vídeos para a biblioteca e organize suas turmas com precisão.</p>
+                        <label class="group relative bg-white/10 hover:bg-white/20 border-2 border-dashed border-white/30 rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all">
+                            <i class="material-symbols-outlined text-5xl mb-2 transition-transform group-hover:-translate-y-1">cloud_upload</i>
+                            <strong class="text-lg">Solte o vídeo aqui</strong>
+                            <small class="text-blue-200 mt-1 italic-none">ou clique para selecionar (até 2GB)</small>
+                            <input type="file" class="hidden">
+                        </label>
+                    </section>
+                    <mark class="absolute -right-20 -bottom-20 w-80 h-80 bg-white/10 rounded-full blur-3xl bg-transparent" aria-hidden="true"></mark>
+                </article>
+
+                <!-- Mini Estatísticas -->
+                <section class="flex flex-col gap-6">
+                    <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-5">
+                        <mark class="bg-primary/10 text-primary p-4 rounded-2xl bg-transparent">
+                            <i class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">groups</i>
+                        </mark>
+                        <section>
+                            <h4 class="text-sm text-on-surface-variant font-medium">Alunos Ativos</h4>
+                            <data value="1240" class="text-2xl font-headline font-bold">1.240</data>
+                        </section>
+                    </article>
+                    <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-5">
+                        <mark class="bg-secondary/10 text-secondary p-4 rounded-2xl bg-transparent">
+                            <i class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">movie_filter</i>
+                        </mark>
+                        <section>
+                            <h4 class="text-sm text-on-surface-variant font-medium">Vídeos</h4>
+                            <data value="48" class="text-2xl font-headline font-bold">48</data>
+                        </section>
+                    </article>
+                    <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-5">
+                        <mark class="bg-amber-100 text-amber-700 p-4 rounded-2xl bg-transparent">
+                            <i class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">auto_graph</i>
+                        </mark>
+                        <section>
+                            <h4 class="text-sm text-on-surface-variant font-medium">Progresso</h4>
+                            <data value="76" class="text-2xl font-headline font-bold">76%</data>
+                        </section>
+                    </article>
+                </section>
+            </header>
+
+            <!-- Tabela de Alunos -->
+            <section class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-800" id="students">
+                <header class="flex justify-between items-center mb-6">
+                    <section class="flex items-center gap-3">
+                        <mark class="w-2 h-8 bg-primary rounded-full bg-transparent" aria-hidden="true"></mark>
+                        <h3 class="text-xl font-bold font-headline">Meus Alunos</h3>
+                    </section>
+                    <a class="text-primary font-bold text-sm flex items-center gap-1 hover:underline group" href="#">
+                        Ver Todos
+                        <i class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward_ios</i>
+                    </a>
+                </header>
+
+                <section class="overflow-x-auto">
+                    <table class="w-full text-left border-separate border-spacing-y-2">
+                        <thead>
+                            <tr class="text-on-surface-variant text-xs uppercase tracking-wider">
+                                <th class="px-4 py-2">Estudante</th>
+                                <th class="px-4 py-2">Progresso</th>
+                                <th class="px-4 py-2">Status</th>
+                                <th class="px-4 py-2 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-4 py-3 rounded-l-2xl">
+                                    <article class="flex items-center gap-3">
+                                        <figure class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
+                                            <img alt="Ana Clara" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOU0aUPaOLRZzrrdHUs04eihb_UNxSsmbqYgBLBpS7UftLd0iGYTIRLJ6V9cAnVqyOMh7j2NnyNEMDoZeEb8JTjywn6XxZym36Txykxt9ACP0oJxFl5DMdOX2PJQ8eZ7_6Gf5LxxxxBE3amKs6lyUhf91kpoMeAvmhZu95Y_fXBB7EGRnlF_xdVhDAuD8qDvr-QM8W_C6Obs_dNp9X6b9Orcw2kqtA-d2fJBqZrjRy7q9nZEAya6p4RebWrh6TRUt3ImmHm6hEA3kl"/>
+                                        </figure>
+                                        <section>
+                                            <strong class="block text-on-surface">Ana Clara Silva</strong>
+                                            <small class="text-on-surface-variant italic-none">Engenharia</small>
+                                        </section>
+                                    </article>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <section class="flex items-center gap-3">
+                                        <meter class="flex-1 h-2 min-w-[100px]" value="85" min="0" max="100"></meter>
+                                        <strong class="w-8">85%</strong>
+                                    </section>
+                                </td>
+                                <td class="px-4 py-3 text-right rounded-r-2xl">
+                                    <button class="text-on-surface-variant hover:text-primary"><i class="material-symbols-outlined">more_vert</i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+
+            <!-- Biblioteca -->
+            <section class="space-y-6" id="library">
+                <header class="flex items-center gap-3">
+                    <mark class="w-2 h-8 bg-secondary rounded-full bg-transparent" aria-hidden="true"></mark>
+                    <h3 class="text-xl font-bold font-headline">Biblioteca de Vídeos</h3>
+                </header>
+
+                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <article class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm border border-slate-100 group transition-all hover:shadow-lg">
+                        <figure class="relative aspect-video overflow-hidden">
+                            <img alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYW4lYK1KF2OYkl-77anASJD1c4zyYSV6otvc5MqAPpAQcbHTT-ATFataDkZcL5qfF3s8hUTobSG-osLT3AFNl0GqqQJXkADH1wwV62NYR1i9CkUMITAV7q1w85vH1W38xUjbxXvB6_0IrPOWoI8muGUaIzZsdbAsrzoehQyGZ0W-KW4J0I1oq1Eqzr6dA27RXE9PCsmp8cky62n2jd_SvHNCO5B3tFZ-zlX2bgDpsSCeOEV97Ipd90Iu9kLRcT3mwrmxlna6ziQub"/>
+                            <mark class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-transparent">
+                                <i class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
+                            </mark>
+                            <time class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded">12:45</time>
+                        </figure>
+                        <section class="p-4">
+                            <h4 class="font-bold line-clamp-1">Introdução a Algoritmos</h4>
+                            <time datetime="2023-10-12" class="text-xs text-on-surface-variant block mb-4">12 Out, 2023</time>
+                            <nav class="flex justify-between pt-3 border-t border-slate-50">
+                                <button class="flex items-center gap-1 text-primary text-xs font-bold"><i class="material-symbols-outlined text-sm">edit</i> Editar</button>
+                                <button class="flex items-center gap-1 text-error text-xs font-bold"><i class="material-symbols-outlined text-sm">delete</i> Excluir</button>
+                            </nav>
+                        </section>
+                    </article>
+
+                    <!-- Adicionar Vídeo -->
+                    <label class="bg-surface-container-low border-2 border-dashed border-outline-variant rounded-3xl flex flex-col items-center justify-center min-h-[220px] group cursor-pointer hover:bg-surface-container-highest transition-all">
+                        <mark class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform mb-3 bg-transparent">
+                            <i class="material-symbols-outlined text-3xl">add</i>
+                        </mark>
+                        <strong class="text-on-surface-variant text-sm">Adicionar Vídeo</strong>
+                        <input type="file" class="hidden">
+                    </label>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <!-- Navegação Mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-100 flex justify-around items-center py-3 z-50">
+        <a class="flex flex-col items-center text-primary" href="#">
+            <i class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</i>
+            <small class="text-[10px] font-bold mt-1 italic-none">Home</small>
+        </a>
+        <a class="flex flex-col items-center text-slate-400" href="#students">
+            <i class="material-symbols-outlined">groups</i>
+            <small class="text-[10px] font-bold mt-1 italic-none">Alunos</small>
+        </a>
+        <button class="bg-primary text-white w-14 h-14 rounded-full shadow-lg -mt-10 flex items-center justify-center" aria-label="Adicionar">
+            <i class="material-symbols-outlined text-3xl">add</i>
+        </button>
+        <a class="flex flex-col items-center text-slate-400" href="#library">
+            <i class="material-symbols-outlined">video_library</i>
+            <small class="text-[10px] font-bold mt-1 italic-none">Vídeos</small>
+        </a>
+        <a class="flex flex-col items-center text-slate-400" href="#">
+            <i class="material-symbols-outlined">person</i>
+            <small class="text-[10px] font-bold mt-1 italic-none">Perfil</small>
+        </a>
+    </nav>
+
+</body>
+</html>
