@@ -93,7 +93,7 @@
     }
     .font-headline { font-family: 'Lexend', sans-serif; }
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    .primary-gradient { background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%); }
+    .primary-gradient { background: #0058ba }
     .text-editorial { letter-spacing: -0.02em; line-height: 0.85; }
     .text-outline {
       -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
@@ -101,6 +101,458 @@
     }
     /* Garante que elementos semânticos usados como containers de layout se comportem como blocos */
     article, section, aside { display: block; }
+
+    /* ===================== RESPONSIVIDADE MOBILE COMPLETA ===================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===================== TABLETS E CELULARES ===================== */
+@media (max-width: 768px) {
+
+  /* ===================== HEADER ===================== */
+  header nav {
+    height: 80px !important;
+    padding: 0 1.25rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    flex-wrap: nowrap !important;
+  }
+
+  header nav > a {
+    font-size: 1.6rem !important;
+    width: auto !important;
+    text-align: left !important;
+    white-space: nowrap;
+  }
+
+  header ul[role="list"] {
+    display: none !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.7rem !important;
+    width: auto !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a {
+    white-space: nowrap;
+    font-size: 0.9rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:first-child {
+    padding: 0 !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:last-child {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* ===================== HERO ===================== */
+  section[aria-labelledby="hero-heading"] {
+    padding-top: 7rem !important;
+    padding-bottom: 4rem !important;
+    min-height: auto !important;
+  }
+
+  section[aria-labelledby="hero-heading"] article {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    gap: 3rem !important;
+  }
+
+  #hero-heading {
+    font-size: clamp(3.3rem, 17vw, 5rem) !important;
+    line-height: 0.9 !important;
+    margin-bottom: 1.8rem !important;
+  }
+
+  #hero-heading + p {
+    font-size: 1.15rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 2rem !important;
+  }
+
+  nav[aria-label="Ações principais"] {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem !important;
+  }
+
+  nav[aria-label="Ações principais"] a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 1.1rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+
+  figure picture {
+    max-width: 100% !important;
+    border-radius: 1.8rem !important;
+  }
+
+  figure aside {
+    left: 1rem !important;
+    bottom: 1rem !important;
+    padding: 1.25rem !important;
+    border-radius: 1.5rem !important;
+  }
+
+  figure aside strong {
+    font-size: 2rem !important;
+  }
+
+  figure aside p {
+    font-size: 0.65rem !important;
+  }
+
+  /* Marca d'água PLANOB */
+  section[aria-labelledby="hero-heading"] > p[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  /* ===================== ABOUT ===================== */
+  section[aria-labelledby="about-heading"] {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  section[aria-labelledby="about-heading"] article {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  section[aria-labelledby="about-heading"] header {
+    margin-bottom: 3rem !important;
+  }
+
+  #about-heading {
+    font-size: clamp(2.4rem, 11vw, 4rem) !important;
+    line-height: 1 !important;
+  }
+
+  #about-heading + p {
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+  }
+
+  section[aria-labelledby="about-heading"] li {
+    padding: 2rem !important;
+    border-radius: 2rem !important;
+  }
+
+  section[aria-labelledby="about-heading"] h3 {
+    font-size: 2rem !important;
+    line-height: 1.1 !important;
+  }
+
+  section[aria-labelledby="about-heading"] p {
+    font-size: 1rem !important;
+  }
+
+  section[aria-labelledby="about-heading"] i {
+    font-size: 3rem !important;
+  }
+
+  /* ===================== PRICING ===================== */
+  section[aria-labelledby="pricing-heading"] {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] article {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] header {
+    margin-bottom: 4rem !important;
+  }
+
+  #pricing-heading {
+    font-size: clamp(2.8rem, 13vw, 4.5rem) !important;
+    line-height: 1 !important;
+  }
+
+  #pricing-heading + p {
+    font-size: 1.1rem !important;
+    line-height: 1.5 !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] ul[role="list"] {
+    gap: 1.5rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] li {
+    padding: 2rem !important;
+    border-radius: 2rem !important;
+    transform: none !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] strong.text-6xl {
+    font-size: 3rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] strong.text-4xl {
+    font-size: 2.5rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] h3 {
+    font-size: 1.7rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] b {
+    font-size: 1rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] a {
+    padding: 1.1rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+
+  /* ===================== CTA FINAL ===================== */
+  section[aria-labelledby="cta-heading"] {
+    min-height: 70vh !important;
+    padding: 5rem 0 !important;
+  }
+
+  section[aria-labelledby="cta-heading"] article {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  section[aria-labelledby="cta-heading"] article > p:first-child {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.3em !important;
+  }
+
+  #cta-heading {
+    font-size: clamp(4rem, 24vw, 7rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+  }
+
+  section[aria-labelledby="cta-heading"] a {
+    width: 100%;
+    max-width: 330px;
+    padding: 1.3rem 1.5rem !important;
+    font-size: 1.2rem !important;
+  }
+
+  section[aria-labelledby="cta-heading"] b[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  section[aria-labelledby="cta-heading"] p:last-child {
+    flex-direction: column;
+    gap: 0.75rem !important;
+  }
+
+  section[aria-labelledby="cta-heading"] p:last-child hr {
+    width: 4rem !important;
+  }
+
+  /* ===================== FOOTER ===================== */
+  footer {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  footer article {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    gap: 3rem !important;
+  }
+
+  footer p.text-3xl {
+    font-size: 2rem !important;
+  }
+
+  footer h3 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  footer ul {
+    gap: 1rem !important;
+  }
+
+  footer form {
+    flex-direction: column;
+  }
+
+  footer input {
+    font-size: 1rem !important;
+  }
+
+  footer button {
+    width: 100%;
+    border-radius: 9999px !important;
+  }
+
+  footer aside {
+    margin-top: 4rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+}
+
+/* ===================== CELULARES PEQUENOS ===================== */
+@media (max-width: 420px) {
+
+  /* HEADER */
+  header nav {
+    padding: 0 0.9rem !important;
+    gap: 0.6rem !important;
+  }
+
+  header nav > a {
+    font-size: 1.35rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] {
+    gap: 0.5rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:first-child {
+    font-size: 0.8rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:last-child {
+    padding: 0.65rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* HERO */
+  #hero-heading {
+    font-size: 3.1rem !important;
+  }
+
+  #hero-heading + p {
+    font-size: 1rem !important;
+  }
+
+  figure aside {
+    padding: 1rem !important;
+  }
+
+  figure aside strong {
+    font-size: 1.7rem !important;
+  }
+
+  /* ABOUT */
+  #about-heading {
+    font-size: 2.3rem !important;
+  }
+
+  section[aria-labelledby="about-heading"] li {
+    padding: 1.5rem !important;
+  }
+
+  /* PRICING */
+  #pricing-heading {
+    font-size: 2.6rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] li {
+    padding: 1.5rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] strong.text-6xl,
+  section[aria-labelledby="pricing-heading"] strong.text-4xl {
+    font-size: 2.4rem !important;
+  }
+
+  /* CTA */
+  #cta-heading {
+    font-size: 3.7rem !important;
+  }
+
+  section[aria-labelledby="cta-heading"] a {
+    font-size: 1rem !important;
+    padding: 1.1rem 1.2rem !important;
+  }
+}
+/* Espaço para o menu mobile não cobrir o conteúdo */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: 7rem !important;
+  }
+}
+
+/* Ajustes do menu inferior */
+nav[aria-label="Navegação mobile"] {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  padding-bottom: 1rem !important;
+  padding-top: 0.5rem !important;
+  border-radius: 1.5rem 1.5rem 0 0 !important;
+}
+
+nav[aria-label="Navegação mobile"] a {
+  padding: 0.65rem !important;
+}
+
+nav[aria-label="Navegação mobile"] em {
+  font-size: 0.6rem !important;
+}
+
+nav[aria-label="Navegação mobile"] i {
+  font-size: 1.5rem !important;
+}
+
+/* Item ativo */
+nav[aria-label="Navegação mobile"] a.ativo {
+  background-color: #0058ba !important;
+  color: white !important;
+  opacity: 1 !important;
+  border-radius: 1rem !important;
+  margin-bottom: 0.5rem !important;
+  transform: scale(1.1) !important;
+}
+
+nav[aria-label="Navegação mobile"] a.ativo i,
+nav[aria-label="Navegação mobile"] a.ativo em {
+  color: white !important;
+}
+
+/* Celulares pequenos */
+@media (max-width: 420px) {
+  nav[aria-label="Navegação mobile"] {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a {
+    padding: 0.55rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] em {
+    font-size: 0.52rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a.ativo {
+    transform: scale(1.05) !important;
+  }
+}
   </style>
 </head>
 
@@ -117,7 +569,7 @@
       <!-- Links desktop -->
       <ul class="hidden md:flex items-center gap-12" role="list">
         <li>
-          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="../html/home.html" aria-current="page">Treinos</a>
+          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="home" aria-current="page">Treinos</a>
         </li>
         <li>
           <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="planos">Planos</a>
@@ -219,25 +671,7 @@
               </p>
             </section>
 
-            <figure class="rounded-[2.5rem] overflow-hidden aspect-video relative group">
-              <img
-                src="https://lh3.googleusercontent.com/aida/ADBb0ug6Vp4L6TDTFzT0t5pFqocgv1IRc8xPiaTqSUjf4bt4Oxj7wPp8ASWhnx0hBiYjc7U_N2XYOLiIk8gfIq33ETBpfN0m8vUTTuX1ntCuc6P04I7im7pXx0WvjA3GqvfRKG5xfBcRrUdGljCmSL_-oBZIwzjWdrdsdVokdn3xJ1TycxaK0PACb-YvX7zbzGRWx2bqHWJQXF-pjEzIPld2waiZbtBA1v8YoF2TZddJ-5sD0ucrjXcvjDxyPr6B"
-                alt="Sessão de treinamento pessoal remoto mostrando o instrutor e o atleta em ambientes modernos"
-                class="w-full h-full object-cover object-center"
-              />
-              <!-- Overlay de cor: usando <b> como elemento vazio puramente visual -->
-              <b class="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:bg-primary/0 transition-all duration-500 block font-normal" aria-hidden="true"></b>
-
-              <!-- HUD decorativo com cantos -->
-              <figure class="absolute inset-0 p-8 flex flex-col justify-between pointer-events-none opacity-80" aria-hidden="true">
-                <header class="flex justify-between items-start">
-                  <ins class="w-16 h-16 border-t-2 border-r-2 border-primary/50 no-underline block"></ins>
-                </header>
-                <footer class="flex justify-between items-end">
-                  <ins class="w-16 h-16 border-b-2 border-l-2 border-primary/50 no-underline block"></ins>
-                </footer>
-              </figure>
-            </figure>
+           
 
           </li>
 
@@ -444,6 +878,46 @@
       </small>
     </aside>
   </footer>
+<!-- ===================== NAV MOBILE (Bottom) ===================== -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
 
+  <a href="home" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="home">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">home</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+  </a>
+
+  <a href="planos" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="planos">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">stars</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+  </a>
+
+  <a href="suporte" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="suporte">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">support_agent</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Suporte</em>
+  </a>
+
+  <a href="loginaluno" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="loginaluno">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+  </a>
+
+</nav>
+<script>
+  const paginaAtual = window.location.pathname.split("/").pop().replace(".html", "");
+
+  const linksMobile = document.querySelectorAll(".mobile-link");
+
+  linksMobile.forEach(link => {
+    const paginaDoLink = link.dataset.page;
+
+    if (
+      paginaAtual === paginaDoLink ||
+      (paginaAtual === "" && paginaDoLink === "home")
+    ) {
+      link.classList.add("ativo");
+      link.setAttribute("aria-current", "page");
+    }
+  });
+</script>
 </body>
 </html>

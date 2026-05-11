@@ -88,9 +88,388 @@
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
-    .primary-gradient { background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%); }
+    .primary-gradient { background:  #0058ba 0%; }
     /* Garante comportamento de bloco para elementos semânticos usados como containers */
     article, section, aside { display: block; }
+
+    /* ===================== RESPONSIVIDADE MOBILE - PÁGINA SUPORTE ===================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===================== TABLETS E CELULARES ===================== */
+@media (max-width: 768px) {
+
+  body {
+    padding-bottom: 7rem !important;
+  }
+
+  /* ===================== HEADER ===================== */
+  header nav[aria-label="Navegação principal"] {
+    height: 80px !important;
+    padding: 0 1.25rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    flex-wrap: nowrap !important;
+  }
+
+  header nav[aria-label="Navegação principal"] > a {
+    font-size: 1.6rem !important;
+    width: auto !important;
+    text-align: left !important;
+    white-space: nowrap;
+  }
+
+  header ul[role="list"] {
+    display: none !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.7rem !important;
+    width: auto !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a {
+    white-space: nowrap;
+    font-size: 0.9rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:first-child {
+    padding: 0 !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:last-child {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* ===================== MAIN ===================== */
+  main {
+    padding-top: 80px !important;
+  }
+
+  /* ===================== HERO ===================== */
+  section[aria-labelledby="suporte-heading"] {
+    padding: 4rem 1.25rem 3rem !important;
+  }
+
+  section[aria-labelledby="suporte-heading"] article {
+    max-width: 100% !important;
+  }
+
+  section[aria-labelledby="suporte-heading"] p.inline-flex {
+    margin-bottom: 1.8rem !important;
+    padding: 0.6rem 1rem !important;
+  }
+
+  section[aria-labelledby="suporte-heading"] p.inline-flex em {
+    font-size: 0.8rem !important;
+  }
+
+  #suporte-heading {
+    font-size: clamp(2.8rem, 13vw, 4.5rem) !important;
+    line-height: 1 !important;
+    margin-bottom: 2rem !important;
+  }
+
+/* Barra de busca */
+search {
+  width: 100% !important;
+  display: block !important;
+  position: relative !important;
+}
+
+search input {
+  width: 100% !important;
+  padding: 1.2rem 1.2rem 1.2rem 3.3rem !important;
+  font-size: 0.95rem !important;
+  border-radius: 1.5rem !important;
+}
+
+search i {
+  position: absolute !important;
+  left: 1.2rem !important;
+  top: 1.35rem !important;
+  bottom: auto !important;
+  transform: none !important;
+  display: block !important;
+  line-height: 1 !important;
+  z-index: 2 !important;
+}
+
+search button {
+  position: static !important;
+  transform: none !important;
+  width: 100% !important;
+  margin-top: 0.8rem !important;
+  padding: 1rem !important;
+  border-radius: 1.5rem !important;
+}
+
+  section[aria-labelledby="suporte-heading"] > b {
+    display: none !important;
+  }
+
+  /* ===================== CATEGORIAS ===================== */
+  section[aria-labelledby="categorias-heading"] {
+    padding: 4rem 1.25rem !important;
+  }
+
+  section[aria-labelledby="categorias-heading"] ul {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+  }
+
+  section[aria-labelledby="categorias-heading"] li {
+    padding: 1.6rem !important;
+    border-radius: 1.6rem !important;
+    transform: none !important;
+  }
+
+  section[aria-labelledby="categorias-heading"] li:hover {
+    transform: none !important;
+  }
+
+  section[aria-labelledby="categorias-heading"] figure {
+    width: 3rem !important;
+    height: 3rem !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  section[aria-labelledby="categorias-heading"] h3 {
+    font-size: 1.2rem !important;
+  }
+
+  section[aria-labelledby="categorias-heading"] p {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* ===================== FAQ ===================== */
+  section[aria-labelledby="faq-heading"] {
+    padding: 4rem 1.25rem !important;
+  }
+
+  section[aria-labelledby="faq-heading"] header {
+    margin-bottom: 2.5rem !important;
+    gap: 1rem !important;
+  }
+
+  #faq-heading {
+    font-size: 2.2rem !important;
+    line-height: 1.1 !important;
+  }
+
+  #faq-heading + p {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+
+  section[aria-labelledby="faq-heading"] summary {
+    padding: 1.4rem !important;
+    gap: 1rem !important;
+  }
+
+  section[aria-labelledby="faq-heading"] summary h3 {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+  }
+
+  section[aria-labelledby="faq-heading"] details p {
+    padding-left: 1.4rem !important;
+    padding-right: 1.4rem !important;
+    padding-bottom: 1.4rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  section[aria-labelledby="faq-heading"] details {
+    border-radius: 1.5rem !important;
+  }
+
+  /* ===================== CONTATO ===================== */
+  section[aria-labelledby="contato-heading"] {
+    padding: 4rem 1.25rem !important;
+  }
+
+  #contato-heading {
+    font-size: 2.2rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  section[aria-labelledby="contato-heading"] ul {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  section[aria-labelledby="contato-heading"] li {
+    padding: 2rem !important;
+    border-radius: 1.6rem !important;
+  }
+
+  section[aria-labelledby="contato-heading"] h3 {
+    font-size: 1.5rem !important;
+  }
+
+  section[aria-labelledby="contato-heading"] p {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+
+  section[aria-labelledby="contato-heading"] a {
+    padding: 1rem 1.2rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* ===================== FOOTER ===================== */
+  footer {
+    padding: 3rem 1.25rem 8rem !important;
+    text-align: center !important;
+  }
+
+  footer section {
+    align-items: center !important;
+  }
+
+  footer nav[aria-label="Links do rodapé"] {
+    gap: 1rem !important;
+    flex-direction: column !important;
+  }
+
+  footer nav[aria-label="Redes sociais"] {
+    justify-content: center !important;
+  }
+
+  /* ===================== NAV MOBILE INFERIOR ===================== */
+  nav[aria-label="Navegação mobile"] {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    padding-bottom: 1rem !important;
+    padding-top: 0.5rem !important;
+    border-radius: 1.5rem 1.5rem 0 0 !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a {
+    padding: 0.65rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] em {
+    font-size: 0.6rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] i {
+    font-size: 1.5rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a.ativo {
+    background-color: #0058ba !important;
+    color: white !important;
+    opacity: 1 !important;
+    border-radius: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    transform: scale(1.1) !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a.ativo i,
+  nav[aria-label="Navegação mobile"] a.ativo em {
+    color: white !important;
+  }
+}
+
+/* ===================== CELULARES PEQUENOS ===================== */
+@media (max-width: 420px) {
+
+  /* HEADER */
+  header nav[aria-label="Navegação principal"] {
+    padding: 0 0.9rem !important;
+    gap: 0.6rem !important;
+  }
+
+  header nav[aria-label="Navegação principal"] > a {
+    font-size: 1.35rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] {
+    gap: 0.5rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:first-child {
+    font-size: 0.8rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:last-child {
+    padding: 0.65rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* HERO */
+  #suporte-heading {
+    font-size: 2.6rem !important;
+  }
+
+  search input {
+    font-size: 0.85rem !important;
+  }
+
+  /* CATEGORIAS */
+  section[aria-labelledby="categorias-heading"] li {
+    padding: 1.4rem !important;
+  }
+
+  /* FAQ */
+  #faq-heading {
+    font-size: 2rem !important;
+  }
+
+  section[aria-labelledby="faq-heading"] summary {
+    padding: 1.2rem !important;
+  }
+
+  section[aria-labelledby="faq-heading"] summary h3 {
+    font-size: 0.95rem !important;
+  }
+
+  /* CONTATO */
+  #contato-heading {
+    font-size: 2rem !important;
+  }
+
+  section[aria-labelledby="contato-heading"] li {
+    padding: 1.5rem !important;
+  }
+
+  /* NAV MOBILE */
+  nav[aria-label="Navegação mobile"] {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a {
+    padding: 0.55rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] em {
+    font-size: 0.52rem !important;
+  }
+
+  nav[aria-label="Navegação mobile"] a.ativo {
+    transform: scale(1.05) !important;
+  }
+}
   </style>
 </head>
 
@@ -100,29 +479,29 @@
   <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transition-all duration-300">
     <nav class="flex justify-between items-center max-w-[90rem] mx-auto px-8 lg:px-12 h-24" aria-label="Navegação principal">
 
-      <a href="../html/home.html" class="text-3xl font-black tracking-tighter text-blue-800 dark:text-blue-200 font-headline uppercase" aria-label="PlanoB - Página Inicial">
+      <a href="home" class="text-3xl font-black tracking-tighter text-blue-800 dark:text-blue-200 font-headline uppercase" aria-label="PlanoB - Página Inicial">
         PLANOB
       </a>
 
       <!-- Links desktop -->
       <ul class="hidden md:flex items-center gap-12" role="list">
         <li>
-          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="../html/home.html">Treinos</a>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="home">Treinos</a>
         </li>
         <li>
-          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="../html/planos.html">Planos</a>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="planos">Planos</a>
         </li>
         <li>
-          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="../html/suporte.html" aria-current="page">Suporte</a>
+          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="suporte" aria-current="page">Suporte</a>
         </li>
       </ul>
 
       <!-- Ações CTA -->
       <nav class="flex items-center gap-8" aria-label="Ações do usuário">
-        <a href="../html/login.html" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+        <a href="loginaluno" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
           Login
         </a>
-        <a href="../html/cadastro.html" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+        <a href="cadastroaluno" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
           Começar Agora
         </a>
       </nav>
@@ -347,6 +726,47 @@
     </nav>
 
   </footer>
+<!-- ===================== NAV MOBILE (Bottom) ===================== -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
 
+  <a href="home" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="home">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">home</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+  </a>
+
+  <a href="planos" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="planos">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">stars</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+  </a>
+
+  <a href="suporte" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="suporte">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">support_agent</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Suporte</em>
+  </a>
+
+  <a href="loginaluno" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="loginaluno">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+    <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+  </a>
+
+</nav>
+
+<script>
+  const paginaAtual = window.location.pathname.split("/").pop().replace(".html", "");
+
+  const linksMobile = document.querySelectorAll(".mobile-link");
+
+  linksMobile.forEach(link => {
+    const paginaDoLink = link.dataset.page;
+
+    if (
+      paginaAtual === paginaDoLink ||
+      (paginaAtual === "" && paginaDoLink === "home")
+    ) {
+      link.classList.add("ativo");
+      link.setAttribute("aria-current", "page");
+    }
+  });
+</script>
 </body>
 </html>
