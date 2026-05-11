@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/NicoleNakagawa/PlanoB_2026/issues"
   },
-  "homepage": "https://github.com/NicoleNakagawa/PlanoB_2026#readme"
+  "homepage": "https://github.com/NicoleNakagawa/PlanoB_2026#readme",
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0"
+  }
 }
