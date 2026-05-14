@@ -99,7 +99,6 @@
 
   <main class="flex w-full min-h-screen max-w-[1440px] overflow-hidden bg-surface-container-lowest lg:rounded-3xl lg:shadow-2xl">
 
-    <!-- ── Painel esquerdo ── -->
     <aside class="relative hidden overflow-hidden bg-primary-dim lg:flex lg:w-1/2">
 
       <picture>
@@ -124,13 +123,11 @@
 
     </aside>
 
-    <!-- ── Painel direito ── -->
     <section class="flex w-full flex-col bg-surface-container-lowest px-8 py-12 md:px-24 lg:w-1/2 lg:px-20">
 
-      <!-- Voltar -->
       <nav aria-label="Navegação de retorno">
         <a
-          href="home"
+          href="/home"
           class="group mb-8 flex w-fit items-center gap-2 text-xs font-bold text-primary transition-opacity hover:opacity-80"
         >
           <i class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-1 not-italic" aria-hidden="true">arrow_back</i>
@@ -138,27 +135,23 @@
         </a>
       </nav>
 
-      <!-- Topo: logo + seletor de tipo -->
       <header class="mb-12 flex items-center justify-between">
         <h2 class="text-3xl font-black tracking-tighter text-primary headline">PlanoB</h2>
 
-        <form class="flex w-48 rounded-full bg-surface-container p-1 shadow-sm" aria-label="Tipo de usuário">
-          <label class="flex-1 cursor-pointer">
-            <input type="radio" name="user_type" value="aluno" checked class="peer sr-only" />
-            <strong class="block rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 peer-checked:bg-primary peer-checked:text-on-primary">
-              Aluno
-            </strong>
-          </label>
+        <div class="flex w-48 rounded-full bg-surface-container p-1 shadow-sm" aria-label="Tipo de usuário">
+          <span class="flex-1 rounded-full bg-primary py-2 text-center text-xs font-bold text-on-primary">
+            Aluno
+          </span>
+
           <a
-            href="loginprofessor"
+            href="/loginprofessor"
             class="flex-1 rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 hover:bg-surface-container-high"
           >
             Professor
           </a>
-        </form>
+        </div>
       </header>
 
-      <!-- Conteúdo do formulário -->
       <section class="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
 
         <header class="mb-10 space-y-2">
@@ -166,9 +159,8 @@
           <p class="font-medium text-on-surface-variant">Insira suas credenciais para acessar sua conta.</p>
         </header>
 
-        <form class="space-y-6" aria-label="Formulário de login">
+        <form class="space-y-6" action="/loginaluno" method="POST" data-form="loginaluno" aria-label="Formulário de login" novalidate>
 
-          <!-- Email -->
           <fieldset class="space-y-2">
             <legend class="sr-only">E-mail</legend>
             <label for="email" class="ml-1 text-sm font-bold text-on-surface-variant">E-mail</label>
@@ -176,6 +168,7 @@
               <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant not-italic" aria-hidden="true">mail</i>
               <input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="nome@exemplo.com"
                 class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-4 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
@@ -184,7 +177,6 @@
             </label>
           </fieldset>
 
-          <!-- Senha -->
           <fieldset class="space-y-2">
             <legend class="sr-only">Senha</legend>
             <header class="flex items-center justify-between px-1">
@@ -197,6 +189,7 @@
               <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant not-italic" aria-hidden="true">lock</i>
               <input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="••••••••"
                 class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-12 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
@@ -212,17 +205,16 @@
             </label>
           </fieldset>
 
-          <!-- Lembrar -->
           <label class="flex items-center space-x-3 px-1 cursor-pointer">
             <input
               id="remember"
+              name="remember"
               type="checkbox"
               class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary"
             />
             <em class="text-sm font-medium text-on-surface-variant not-italic">Lembrar de mim</em>
           </label>
 
-          <!-- Submit -->
           <button
             type="submit"
             class="w-full rounded-full bg-gradient-to-r from-primary to-primary-container py-4 text-lg font-bold text-on-primary shadow-lg shadow-primary/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
@@ -232,11 +224,10 @@
 
         </form>
 
-        <!-- Rodapé -->
         <footer class="mt-16 text-center">
           <p class="text-sm font-medium text-on-surface-variant">
             Ainda não tem uma conta?
-            <a href="cadastroaluno" class="font-bold text-primary hover:underline">Crie sua Conta</a>
+            <a href="/cadastroaluno" class="font-bold text-primary hover:underline">Crie sua Conta</a>
           </p>
         </footer>
 
@@ -244,5 +235,7 @@
     </section>
 
   </main>
+
+  <script src="/js/validacoes.js"></script>
 </body>
 </html>

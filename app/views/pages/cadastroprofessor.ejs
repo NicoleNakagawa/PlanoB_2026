@@ -94,7 +94,6 @@
 
 <body class="bg-surface text-on-surface min-h-screen flex flex-col overflow-x-hidden md:flex-row">
 
-  <!-- ── Painel esquerdo ── -->
   <aside class="relative hidden min-h-screen items-end overflow-hidden bg-primary p-12 lg:flex lg:w-1/2">
 
     <figure class="absolute inset-0 z-0">
@@ -121,13 +120,11 @@
 
   </aside>
 
-  <!-- ── Painel direito ── -->
   <main class="relative flex min-h-screen w-full flex-col overflow-y-auto bg-surface-container-lowest p-8 md:p-16 lg:w-1/2 lg:p-24">
 
-    <!-- Voltar -->
     <nav class="mb-8" aria-label="Navegação de retorno">
       <a
-        href="home"
+        href="/home"
         class="group inline-flex items-center gap-2 text-on-surface-variant transition-colors duration-200 hover:text-primary"
       >
         <i class="material-symbols-outlined text-xl transition-transform group-hover:-translate-x-1 not-italic" aria-hidden="true">arrow_back</i>
@@ -135,13 +132,12 @@
       </a>
     </nav>
 
-    <!-- Topo: logo + seletor de tipo -->
     <header class="mb-16 flex items-center justify-between">
       <h2 class="lexend text-3xl font-black tracking-tighter text-primary">PlanoB</h2>
 
       <nav class="flex w-48 rounded-full bg-surface-container p-1 shadow-sm" aria-label="Tipo de usuário">
         <a
-          href="cadastroaluno"
+          href="/cadastroaluno"
           class="flex-1 rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 hover:text-on-surface"
         >
           Aluno
@@ -156,7 +152,6 @@
       </nav>
     </header>
 
-    <!-- Conteúdo do formulário -->
     <section class="mx-auto w-full max-w-md">
 
       <header class="mb-10">
@@ -164,14 +159,14 @@
         <p class="font-medium text-on-surface-variant">Preencha os dados abaixo para começar sua jornada profissional.</p>
       </header>
 
-      <form class="space-y-6" aria-label="Formulário de cadastro de professor">
+      <form class="space-y-6" action="/cadastroprofessor" method="POST" data-form="cadastroprofessor" aria-label="Formulário de cadastro de professor" novalidate>
 
-        <!-- Nome -->
         <fieldset class="space-y-2">
           <legend class="sr-only">Nome</legend>
           <label for="name" class="ml-1 text-sm font-bold text-on-surface-variant">Nome Completo</label>
           <input
             id="name"
+            name="name"
             type="text"
             placeholder="Seu nome profissional"
             autocomplete="name"
@@ -179,12 +174,12 @@
           />
         </fieldset>
 
-        <!-- Email -->
         <fieldset class="space-y-2">
           <legend class="sr-only">E-mail</legend>
           <label for="email" class="ml-1 text-sm font-bold text-on-surface-variant">E-mail Profissional</label>
           <input
             id="email"
+            name="email"
             type="email"
             placeholder="nome@exemplo.com"
             autocomplete="email"
@@ -192,25 +187,25 @@
           />
         </fieldset>
 
-        <!-- CREF -->
         <fieldset class="space-y-2">
           <legend class="sr-only">CREF</legend>
           <label for="cref" class="ml-1 text-sm font-bold text-on-surface-variant">Registro CREF</label>
           <input
             id="cref"
+            name="cref"
             type="text"
             placeholder="000000-G/XX"
             class="w-full rounded-xl border-none bg-surface-container-highest px-4 py-4 text-on-surface transition-all duration-200 placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none"
           />
         </fieldset>
 
-        <!-- Senhas -->
         <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <fieldset class="space-y-2">
             <legend class="sr-only">Senha</legend>
             <label for="password" class="ml-1 text-sm font-bold text-on-surface-variant">Senha</label>
             <input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               autocomplete="new-password"
@@ -222,6 +217,7 @@
             <label for="confirm-password" class="ml-1 text-sm font-bold text-on-surface-variant">Confirmar Senha</label>
             <input
               id="confirm-password"
+              name="confirm-password"
               type="password"
               placeholder="••••••••"
               autocomplete="new-password"
@@ -230,22 +226,23 @@
           </fieldset>
         </section>
 
-        <!-- Termos -->
-        <label for="terms" class="flex items-start gap-3 py-2 cursor-pointer">
-          <input
-            id="terms"
-            type="checkbox"
-            class="h-5 w-5 rounded border-none bg-surface-container-highest text-primary focus:ring-primary focus:ring-offset-0"
-          />
-          <p class="text-sm leading-tight text-on-surface-variant">
-            Eu aceito os
-            <strong class="cursor-pointer text-primary">Termos de Uso</strong>
-            e a
-            <strong class="cursor-pointer text-primary">Política de Privacidade</strong>.
-          </p>
-        </label>
+        <fieldset>
+          <label for="terms" class="flex items-start gap-3 py-2 cursor-pointer">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              class="h-5 w-5 rounded border-none bg-surface-container-highest text-primary focus:ring-primary focus:ring-offset-0"
+            />
+            <p class="text-sm leading-tight text-on-surface-variant">
+              Eu aceito os
+              <strong class="cursor-pointer text-primary">Termos de Uso</strong>
+              e a
+              <strong class="cursor-pointer text-primary">Política de Privacidade</strong>.
+            </p>
+          </label>
+        </fieldset>
 
-        <!-- Submit -->
         <button
           type="submit"
           class="group flex w-full items-center justify-center gap-3 rounded-full bg-gradient-to-r from-primary to-primary-container py-5 font-bold text-on-primary shadow-lg shadow-primary/20 transition-transform active:scale-[0.98]"
@@ -256,17 +253,15 @@
 
       </form>
 
-      <!-- Rodapé interno -->
       <footer class="mt-12 text-center">
         <p class="font-medium text-on-surface-variant">
           Já possui uma conta?
-          <a href="loginprofessor" class="ml-1 font-extrabold text-primary hover:underline">Acesse agora</a>
+          <a href="/loginprofessor" class="ml-1 font-extrabold text-primary hover:underline">Acesse agora</a>
         </p>
       </footer>
 
     </section>
 
-    <!-- Rodapé final -->
     <footer class="mt-auto flex flex-col items-center justify-between gap-4 border-t border-surface-container-low pt-16 text-xs text-on-surface-variant opacity-60 md:flex-row">
       <p>© 2024 PlanoB. The Kinetic Editorial.</p>
       <nav class="flex gap-6" aria-label="Links legais">
@@ -277,5 +272,7 @@
     </footer>
 
   </main>
+
+  <script src="/js/validacoes.js"></script>
 </body>
 </html>

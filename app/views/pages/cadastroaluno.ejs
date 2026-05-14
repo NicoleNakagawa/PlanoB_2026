@@ -61,8 +61,6 @@
             "on-primary-fixed": "#000000",
             outline: "#6c759e",
             "on-background": "#232c51",
-            "on-secondary-fixed": "#003a48",
-            "on-secondary-fixed-variant": "#00586d",
             "surface-dim": "#cad2ff",
             "on-error": "#ffefee",
             "on-secondary": "#e2f6ff",
@@ -71,17 +69,14 @@
             "primary-dim": "#004da4",
             "on-primary-container": "#00214e",
             "inverse-primary": "#4a8eff",
-            "tertiary-fixed-dim": "#efc900",
             "surface-container-low": "#efefff"
           },
-
           borderRadius: {
             DEFAULT: "0.25rem",
             lg: "0.5rem",
             xl: "0.75rem",
             full: "9999px"
           },
-
           fontFamily: {
             headline: ["Lexend"],
             body: ["Manrope"],
@@ -115,7 +110,6 @@
 
   <main class="flex min-h-screen flex-col md:flex-row">
 
-    <!-- Painel esquerdo -->
     <aside class="sticky top-0 relative hidden h-screen overflow-hidden md:flex md:w-1/2 lg:w-3/5">
 
       <img
@@ -139,15 +133,13 @@
 
     </aside>
 
-    <!-- Painel direito -->
     <section class="flex min-h-screen flex-1 items-center justify-center bg-surface p-8 md:p-16 lg:p-24">
 
       <main class="w-full max-w-md space-y-10">
 
-        <!-- Voltar -->
         <nav>
           <a
-            href="home"
+            href="/home"
             class="group mb-8 inline-flex items-center gap-2 text-xs font-bold tracking-widest text-primary transition-opacity hover:opacity-70"
           >
             <i class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-1">
@@ -158,7 +150,6 @@
           </a>
         </nav>
 
-        <!-- Topo -->
         <header class="mb-16 flex items-center justify-between">
 
           <h2 class="font-headline text-3xl font-black tracking-tighter text-primary">
@@ -175,7 +166,7 @@
             </button>
 
             <a
-              href="cadastroprofessor"
+              href="/cadastroprofessor"
               class="flex-1 rounded-full py-2 text-center text-xs font-bold text-on-surface-variant transition-all duration-300 hover:text-on-surface"
             >
               Professor
@@ -184,7 +175,6 @@
           </nav>
         </header>
 
-        <!-- Título -->
         <header class="space-y-2">
           <h3 class="font-headline text-4xl font-bold tracking-tight text-on-surface">
             Criar conta
@@ -195,10 +185,8 @@
           </p>
         </header>
 
-        <!-- Formulário -->
-        <form class="space-y-6">
+        <form class="space-y-6" action="/cadastroaluno" method="POST" data-form="cadastroaluno" novalidate>
 
-          <!-- Nome -->
           <fieldset class="space-y-1">
             <label for="name" class="ml-1 block text-sm font-bold text-on-surface-variant">
               Nome Completo
@@ -207,8 +195,10 @@
             <label class="group relative block">
               <input
                 id="name"
+                name="name"
                 type="text"
                 placeholder="Como devemos te chamar?"
+                autocomplete="name"
                 class="w-full rounded-xl border-none bg-surface-container-highest px-6 py-4 text-lg placeholder:text-outline-variant transition-all focus:bg-surface-container-lowest focus:ring-0"
               />
 
@@ -216,7 +206,6 @@
             </label>
           </fieldset>
 
-          <!-- Email -->
           <fieldset class="space-y-1">
             <label for="email" class="ml-1 block text-sm font-bold text-on-surface-variant">
               E-mail
@@ -225,8 +214,10 @@
             <label class="group relative block">
               <input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="seu@email.com"
+                autocomplete="email"
                 class="w-full rounded-xl border-none bg-surface-container-highest px-6 py-4 text-lg placeholder:text-outline-variant transition-all focus:bg-surface-container-lowest focus:ring-0"
               />
 
@@ -234,7 +225,6 @@
             </label>
           </fieldset>
 
-          <!-- Senha -->
           <fieldset class="space-y-1">
             <label for="password" class="ml-1 block text-sm font-bold text-on-surface-variant">
               Senha
@@ -243,8 +233,10 @@
             <label class="group relative block">
               <input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="••••••••"
+                autocomplete="new-password"
                 class="w-full rounded-xl border-none bg-surface-container-highest px-6 py-4 text-lg placeholder:text-outline-variant transition-all focus:bg-surface-container-lowest focus:ring-0"
               />
 
@@ -252,25 +244,26 @@
             </label>
           </fieldset>
 
-          <!-- Termos -->
-          <label class="flex items-center gap-3 py-2">
+          <fieldset>
+            <label class="flex items-center gap-3 py-2">
 
-            <input
-              id="terms"
-              type="checkbox"
-              class="h-5 w-5 rounded border-none bg-surface-container-highest text-primary focus:ring-primary focus:ring-offset-background"
-            />
+              <input
+                id="terms"
+                name="terms"
+                type="checkbox"
+                class="h-5 w-5 rounded border-none bg-surface-container-highest text-primary focus:ring-primary focus:ring-offset-background"
+              />
 
-            <span class="text-sm text-on-surface-variant">
-              Eu aceito os
-              <a href="#" class="font-bold text-primary hover:underline">Termos de Uso</a>
-              e a
-              <a href="#" class="font-bold text-primary hover:underline">Política de Privacidade</a>.
-            </span>
+              <span class="text-sm text-on-surface-variant">
+                Eu aceito os
+                <a href="#" class="font-bold text-primary hover:underline">Termos de Uso</a>
+                e a
+                <a href="#" class="font-bold text-primary hover:underline">Política de Privacidade</a>.
+              </span>
 
-          </label>
+            </label>
+          </fieldset>
 
-          <!-- Botão -->
           <button
             type="submit"
             class="action-gradient w-full rounded-full py-5 text-xl font-bold text-white shadow-lg shadow-primary/20 transition-transform active:scale-95"
@@ -280,13 +273,12 @@
 
         </form>
 
-        <!-- Entrar -->
         <footer class="pt-6 text-center">
           <p class="text-on-surface-variant">
             Já possui uma conta?
 
             <a
-              href="loginaluno"
+              href="/loginaluno"
               class="ml-1 font-bold text-primary transition-all hover:tracking-wide"
             >
               Entrar no PlanoB
@@ -297,5 +289,7 @@
       </main>
     </section>
   </main>
+
+  <script src="/js/validacoes.js"></script>
 </body>
 </html>
