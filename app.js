@@ -18,6 +18,8 @@ app.use(session({
     }
 }))
 
+app.use(express.static(path.join(__dirname, 'public')))
+
 // Arquivos estáticos: CSS, JS, imagens etc.
 app.use(express.static(path.join(__dirname, 'app', 'public')))
 app.use(express.static(path.join(__dirname, 'public')))
