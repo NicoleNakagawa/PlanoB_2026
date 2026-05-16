@@ -1,313 +1,312 @@
 <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<html class="light" lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>PlanoB Digital - Biblioteca de Treinos</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-container-lowest": "#ffffff",
-                        "on-tertiary": "#fff2cd",
-                        "on-error-container": "#570008",
-                        "secondary-container": "#80deff",
-                        "on-tertiary-fixed": "#453900",
-                        "surface-dim": "#cad2ff",
-                        "secondary": "#00647b",
-                        "primary-fixed-dim": "#5091ff",
-                        "primary-fixed": "#6c9fff",
-                        "inverse-surface": "#020a2f",
-                        "secondary-dim": "#00576c",
-                        "outline-variant": "#a2abd7",
-                        "surface-container-high": "#dde1ff",
-                        "background": "#f7f5ff",
-                        "on-surface": "#232c51",
-                        "tertiary-container": "#ffd709",
-                        "surface-bright": "#f7f5ff",
-                        "on-primary": "#f0f2ff",
-                        "on-surface-variant": "#505a81",
-                        "on-secondary-fixed": "#003a48",
-                        "surface-container": "#e4e7ff",
-                        "secondary-fixed-dim": "#37d4ff",
-                        "primary": "#0058ba",
-                        "on-primary-container": "#00214e",
-                        "on-secondary": "#e2f6ff",
-                        "surface-container-low": "#efefff",
-                        "on-primary-fixed-variant": "#002a60",
-                        "tertiary-fixed-dim": "#efc900",
-                        "outline": "#6c759e",
-                        "on-secondary-fixed-variant": "#00586d",
-                        "on-primary-fixed": "#000000",
-                        "tertiary-fixed": "#ffd709",
-                        "error-dim": "#9f0519",
-                        "on-error": "#ffefee",
-                        "on-background": "#232c51",
-                        "inverse-primary": "#4a8eff",
-                        "on-tertiary-container": "#5b4b00",
-                        "inverse-on-surface": "#929bc6",
-                        "primary-dim": "#004da4",
-                        "surface-container-highest": "#d5dbff",
-                        "primary-container": "#6c9fff",
-                        "tertiary": "#6c5a00",
-                        "surface-variant": "#d5dbff",
-                        "error": "#b31b25",
-                        "surface": "#f7f5ff",
-                        "tertiary-dim": "#5e4e00",
-                        "surface-tint": "#0058ba",
-                        "error-container": "#fb5151",
-                        "secondary-fixed": "#80deff",
-                        "on-secondary-container": "#004e61",
-                        "on-tertiary-fixed-variant": "#665500"
-                    },
-                    "fontFamily": {
-                        "headline": ["Lexend"],
-                        "display": ["Lexend"],
-                        "body": ["Manrope"],
-                        "label": ["Manrope"]
-                    }
-                },
-            },
-        }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        body { font-family: 'Manrope', sans-serif; background-color: #f7f5ff; }
-        .lexend { font-family: 'Lexend', sans-serif; }
-    </style>
+  <title>PlanoB - Vídeos Demonstrativos</title>
+
+  <link rel="stylesheet" href="/css/videosfree.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 </head>
-<body class="bg-surface text-on-surface">
-<!-- Top Navigation Bar -->
-<header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-<div class="flex items-center gap-4">
-<span class="text-2xl font-black text-primary font-headline tracking-tight">PlanoB</span>
-<div class="hidden md:flex gap-6 ml-8">
-<a class="text-primary font-bold transition-colors" href="#">Treinos</a>
-<a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="#">Planos</a>
-<a class="text-on-background hover:bg-surface-container transition-colors px-3 py-1 rounded-full font-medium" href="#">Mensagens</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95">
-<span class="material-symbols-outlined text-on-background">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95">
-<span class="material-symbols-outlined text-on-background">account_circle</span>
-</button>
-</div>
-<div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary/10 to-transparent"></div>
-</header>
-<!-- Side Navigation Bar (Hidden on Mobile) -->
-<aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low py-8 z-40 border-r border-outline-variant/10">
-<div class="px-6 mb-8 pt-12">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-primary/20">
-<img alt="Foto de perfil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHy3rjOxhMcVFYD5SQNpaBOl8c3RdZ2CMrDK2AC2sn5vBVNa9rJhKmlXCaVzyMHQLIdsh05zaosNP-Np_5DM3pfX_vtQPwTVhuNX7_BiafEaJZ5bcfk8WsjYMbQp4sEgDO1Al0DvH-u0U51dDx9ZYUHKxI5SKw_LRPqo5kMoDe7xnMLOTAsHB1xIf2GayLRmgI_eVoW1QjZjYNKvevFTCS1zgifNbNgAyIIRChhPeRiERgLnDgk9KhpAULfGT_LSg51LH2LQHLa2tU"/>
-</div>
-<div>
-<p class="text-xs text-on-surface-variant font-medium">Portal do Aluno</p>
-<h3 class="text-primary font-bold font-headline text-sm">Nível: Pro</h3>
-</div>
-</div>
-</div>
-<nav class="flex flex-col gap-1 px-4 flex-grow">
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-medium">Início</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-6 bg-gradient-to-br from-primary to-primary-fixed text-white rounded-full shadow-lg shadow-primary/20" href="#">
-<span class="material-symbols-outlined">play_circle</span>
-<span class="font-medium">Treinos</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">event_note</span>
-<span class="font-medium">Planos</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">chat</span>
-<span class="font-medium">Mensagens</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-medium">Configurações</span>
-</a>
-</nav>
-<div class="mt-auto flex flex-col gap-1 px-4 pb-4">
-<div class="mx-2 mb-4 p-4 bg-gradient-to-br from-primary to-primary-fixed rounded-2xl text-white shadow-lg">
-<p class="text-[10px] font-black uppercase tracking-wider mb-1 opacity-80">Upgrade</p>
-<p class="text-sm font-bold mb-3 leading-tight">Benefícios do Plano Diamond</p>
-<button class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-2 rounded-full text-xs font-black active:scale-95 transition-transform uppercase">Assinar Diamond</button>
-</div>
-<a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-primary transition-colors" href="#">
-<span class="material-symbols-outlined">help</span>
-<span class="font-medium">Ajuda</span>
-</a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-error transition-colors" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-medium">Sair</span>
-</a>
-</div>
-</aside>
-<!-- Main Content Canvas -->
-<main class="md:ml-64 pt-24 pb-12 px-6 md:px-12 bg-surface min-h-screen">
-<!-- Hero Banner Section -->
-<section class="relative rounded-3xl overflow-hidden mb-12 shadow-2xl">
-<div class="absolute inset-0 bg-gradient-to-r from-[#0058ba] to-transparent z-10"></div>
-<img alt="Destaque de Treino" class="w-full h-[400px] object-cover" data-alt="A powerful action shot of a professional athlete performing a high-intensity workout in a modern, sun-drenched industrial gym. The lighting is dramatic and cinematic, highlighting movement and sweat. The overall aesthetic follows the PlanoB brand colors with vibrant blue highlights and a clean, premium light-mode feeling. The atmosphere is energetic and motivational, capturing the essence of peak performance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ25wGvp89ZWp-q_wgmN4zlTksHejznpDyMFkVzY8hA1PZfwXkiH5AeveRNaMH6Gmo9jDbw_-fGnSPZSCyClC-LhjZPPcwqTR250tBOiixcyBjQyt27-_Iazsp42_Mm5U6woJm0XOrjQH7cStx247aZfGtybfKsNttn5XyO8VIhbI7Yom2uE8Pswu-zvBz0mqrIgihphjWm45pmD-k5nXlQA9iCupQVWr512lhmQPUjpCGpvzK8ztyzKWNEpqqqxdi_zdW_jStPndy"/>
-<div class="absolute inset-0 z-20 flex flex-col justify-center px-12 md:w-2/3">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1 rounded-full text-xs font-bold w-fit mb-4 lexend">PLANO GRATUITO</span>
-<h2 class="text-4xl md:text-6xl font-black text-white lexend leading-tight tracking-tighter mb-4">LIBERE O SEU POTENCIAL MÁXIMO</h2>
-<p class="text-white/90 text-lg md:text-xl max-w-lg mb-8">
-                    Você está acessando apenas 5% da nossa biblioteca. Melhore para Lazuli ou Diamante e tenha acesso a rotinas personalizadas e vídeos exclusivos.
-                </p>
-<div class="flex flex-wrap gap-4">
-<button class="bg-surface-container-lowest text-primary px-8 py-3 rounded-full font-bold lexend active:scale-95 transition-transform">Conhecer Planos</button>
 
-</div>
-</div>
-</section>
-<!-- Library Section 1: Beginners -->
-<section class="mb-16">
-<div class="flex justify-between items-end mb-8">
-<div>
-<h3 class="text-3xl font-extrabold text-[#232c51] lexend tracking-tight">Biblioteca para Iniciantes</h3>
-<p class="text-on-surface-variant font-medium">Os primeiros passos para uma vida mais ativa e saudável.</p>
-</div>
-<button class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all">Ver todos <span class="material-symbols-outlined">arrow_forward</span></button>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Video Card 1 -->
-<div class="group cursor-pointer">
-<div class="relative rounded-2xl overflow-hidden aspect-video bg-surface-container mb-4">
-<img alt="Agachamento" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up demonstration of a proper squat exercise in a bright, minimalist home studio. The lighting is soft and even, highlighting correct posture and form. The scene is clean with high-key lighting, maintaining a premium and professional fitness tutorial aesthetic. Vibrant blue accents from the athlete's apparel tie into the PlanoB brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo-fkwrI2vN175z62Qq2gtPN-gdAd45gJquHcF0ZyrskfDFnSeAOf9qOhdizqb5DBMp13lLNffweE1YO5GUZ3viG9nx3MFst660mShuHltw7_RvBzPduY5hMovRZvbapvnBuzg-XYEdMKaWK9kN3V28Y2an46LQ9E2pTycTtnHgEHfZDIpEX568pGUlfrSTwT46rRNZXGn9VgpeNGF0sq_dR0rO3fExyys5u2-rmWN5MnFUS8r-kbm68aDMtPi_IV3RtycExLYFKWZ"/>
-<div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-white text-5xl">play_circle</span>
-</div>
-<div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded text-xs font-bold">08:45</div>
-</div>
-<div class="flex justify-between items-start">
-<div>
-<span class="text-xs font-bold text-primary uppercase tracking-widest">Fundamentos</span>
-<h4 class="text-lg font-bold text-on-surface lexend mt-1">Fundamentos do Agachamento</h4>
-</div>
-<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold">INICIANTE</span>
-</div>
-</div>
-<!-- Video Card 2 -->
-<div class="group cursor-pointer">
-<div class="relative rounded-2xl overflow-hidden aspect-video bg-surface-container mb-4">
-<img alt="Cardio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High-energy fitness scene showing a woman doing mountain climbers during a quick cardio session in a modern loft gym. Dynamic perspective with a shallow depth of field. Soft sunlight filters through large windows, creating a bright and airy atmosphere. The color palette is clean, with the athlete wearing a vibrant blue sports top to match the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjgvCFuIJdPrEMcolFmqhwO_PBewj-gbMz37PihA1HWzsWFP_PbNVgEQTi-OeHMr7imOcIebYDzZmlos5ZFu7gEVZT3Buue-qMWf6VjoNywEnrFfQ20PLGYKk5BGVGdoZXdmuIih5JJ2QtUgPlv-u4civPcntZgkgLa9-FRldHUsj0GNPdUsylv_RvoleCGxb3cF1wLrpG25h-zBmU7-tH4g7XcRjP7udlVDOvPOg9HAdXhy56YsgnyQ0sKyrhfUjXrZ09Q9YiKkci"/>
-<div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-white text-5xl">play_circle</span>
-</div>
-<div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded text-xs font-bold">10:00</div>
-</div>
-<div class="flex justify-between items-start">
-<div>
-<span class="text-xs font-bold text-primary uppercase tracking-widest">Cardio</span>
-<h4 class="text-lg font-bold text-on-surface lexend mt-1">Cardio de 10 minutos</h4>
-</div>
-<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold">INICIANTE</span>
-</div>
-</div>
-<!-- Video Card 3 -->
-<div class="group cursor-pointer">
-<div class="relative rounded-2xl overflow-hidden aspect-video bg-surface-container mb-4">
-<img alt="Mobilidade" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A serene person performing a hip mobility stretch on a yoga mat in a minimalist, bright living room. The scene is filled with natural, soft morning light, creating a peaceful and professional instructional atmosphere. The color palette includes neutral whites and grays, with a single vibrant blue yoga block for visual pop consistent with PlanoB's branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBznhSUh7EuakqvmDPkaRGFV73qpdMbNqGjupfUsEPKslvaPKPMxVzKR_aJSFaeMmJ_2d5spIjxtp5u6OmeUgVi0r8nBTmiwTS-deyShfHpHjhV71lKrBcpzjbcUls7bAzawG7bYq2Ny5cObCsJIBmy3FaAdg6ZAEB6_V53u32BKizMc-hpx1CT3d27UQtgZG10Y50ZAGOHXFsnmw77CfTeEA0B52gG80kv8UZ6XLGwFN6NJyiZfTjlCYOxW-Wd42UbAXl_sBOxS3w5"/>
-<div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-white text-5xl">play_circle</span>
-</div>
-<div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white px-2 py-1 rounded text-xs font-bold">12:30</div>
-</div>
-<div class="flex justify-between items-start">
-<div>
-<span class="text-xs font-bold text-primary uppercase tracking-widest">Flexibilidade</span>
-<h4 class="text-lg font-bold text-on-surface lexend mt-1">Mobilidade Básica</h4>
-</div>
-<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold">INICIANTE</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Rapid Demonstrations Bento Grid -->
-<section class="mb-16">
-<h3 class="text-3xl font-extrabold text-[#232c51] lexend tracking-tight mb-8">Demonstrações Rápidas</h3>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-<div class="relative group rounded-3xl overflow-hidden h-64 bg-surface-container-low">
-<img alt="Flexão" class="w-full h-full object-cover" data-alt="Close-up artistic shot of a push-up being performed, focusing on muscle engagement and perfect form. The lighting is high-contrast with deep shadows and bright highlights, creating a professional and athletic mood. The athlete wears PlanoB signature blue gear. The setting is a clean, modern gym environment with a light-mode color scheme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Te23qaQIP4sDEyhs5iPl36s9SMamoVzTUfKEV6GeYjwb8AkWCdFbdWUyjaVZEYOVXSz3w5XdWkMrYcX8fYu7_vtBSn2zUq62m9tNxd6QC-hSR-SXvTuewWJNXtE2ghd9-fK_g_A3kl4BNQ7l5HhM-CJjRSewpFwaM3YO_w_egiqP-jubNlDXGOqBokOdD6FDYThpRhuBOU4PqqWu2BEJd23D_NOM3uFVxS2pTQeTpg3QnJmG_0eG3MQScGOQSQNa1Yc86RQ6TVzR"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#0058ba]/80 to-transparent flex flex-col justify-end p-6">
-<span class="text-white/80 text-xs font-bold mb-1">BRAÇOS</span>
-<p class="text-white font-bold lexend">Flexão Perfeita</p>
-</div>
-</div>
-<div class="relative group rounded-3xl overflow-hidden h-64 bg-surface-container-low">
-<img alt="Afundo" class="w-full h-full object-cover" data-alt="Dynamic shot of a lunging exercise, capturing the explosive energy of the movement. Bright, high-key studio lighting with a clean white background. The focus is on the leg muscles and athletic power. Corporate professional fitness aesthetic with vibrant blue accents in the composition to maintain brand cohesion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNbv4owisX8CeqniNla6_8dRp3ZaqrmlC6ESnV5-hk_skn1D3HE7IsZkf-9wcqV9BLb570D23Oohasvrapm5J42VUEjGGHBBAt4rGsBn9remgGIVrQIXlYZmnpupLuGiRWZMhWH_0Yp2A6ZhSCIT9-6dMG5KWTefqWuF2JqoPbHWC45KBzqMa4QGbiYiX0FbVD_SSiB6VIodeltSt3cygjfVIAYGTLpzM66eSqxz4e1dy-Cn5aZlDTj21yBEt_SsJdSkj5CqZ02pME"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#0058ba]/80 to-transparent flex flex-col justify-end p-6">
-<span class="text-white/80 text-xs font-bold mb-1">PERNAS</span>
-<p class="text-white font-bold lexend">Afundo Explosivo</p>
-</div>
-</div>
-<div class="relative group rounded-3xl overflow-hidden h-64 bg-surface-container-low">
-<img alt="Prancha" class="w-full h-full object-cover" data-alt="A high-angle shot of an athlete holding a perfect plank position on a yoga mat. Modern minimalist aesthetic, soft diffuse lighting, high-key palette. The atmosphere is focused and steady. Subtle blue lighting highlights or brand-aligned apparel ensures consistency with the PlanoB design language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Yw2rBZzu25lDVT60lbXslUxzdUVoYe9Z2NJW76C23iVOmyYbytq8CkMXEcSWqYf0CwINekPUaiNBZYJ5TuM_DSF3ww1jJkmDhH5QDRDqblhocwcfDeARboOYmc3_WEXV8utnL9nWyNjo9xBas7zsNkm2iERXNpXR1VjiXNGSw9PObHr03ce9pB5DEdcE-HT5ucROn8BOlPcFurHxdp8_AQNj4S4r8sbN6kpEaZZX1PQWZUDXxCnn6IfG_Ndvea4aXZF7vpz_uzgl"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#0058ba]/80 to-transparent flex flex-col justify-end p-6">
-<span class="text-white/80 text-xs font-bold mb-1">CORE</span>
-<p class="text-white font-bold lexend">Prancha Isométrica</p>
-</div>
-</div>
-<!-- Upgrade Bento Card -->
-<div class="bg-gradient-to-br from-[#0058ba] to-[#6c9fff] rounded-3xl h-64 p-8 flex flex-col justify-center items-center text-center shadow-xl hover:scale-105 transition-transform duration-300">
-<span class="material-symbols-outlined text-white text-5xl mb-4" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
-<h4 class="text-white font-black text-xl lexend mb-2 tracking-tighter uppercase">LIBERAR MAIS +100 VÍDEOS</h4>
-<p class="text-white/80 text-xs mb-6 px-4">Tenha acesso a conteúdos exclusivos de treinadores Pro.</p>
-<button class="bg-white text-primary px-6 py-2 rounded-full text-xs font-bold lexend uppercase tracking-widest shadow-lg active:scale-95 transition-transform">Upgrade Agora</button>
-</div>
-</div>
-</section>
-<!-- Newsletter / Community Section (Asymmetric) -->
-<section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-surface-container-low rounded-[40px] p-8 md:p-12">
-<div class="md:col-span-7">
-<h3 class="text-4xl font-black text-on-surface lexend tracking-tighter mb-4">Dúvidas sobre os movimentos?</h3>
-<p class="text-on-surface-variant text-lg mb-8 max-w-xl">
-                    Nossa comunidade de alunos e mentores está pronta para te ajudar. Poste seus vídeos de execução e receba feedback em tempo real.
-                </p>
-<div class="flex flex-col sm:flex-row gap-4">
-<input class="bg-surface-container-lowest border-none rounded-full px-6 py-4 flex-grow focus:ring-2 focus:ring-primary shadow-sm font-medium" placeholder="Perguntar para a IA do PlanoB..." type="text"/>
-<button class="bg-primary text-on-primary px-8 py-4 rounded-full font-bold lexend active:scale-95 transition-transform flex items-center justify-center gap-2">
-                        Enviar <span class="material-symbols-outlined">send</span>
-</button>
-</div>
-</div>
-<div class="md:col-span-5 relative">
-<div class="aspect-square bg-gradient-to-tr from-[#0058ba] to-[#6c9fff] rounded-full absolute -top-8 -right-8 w-64 h-64 blur-3xl opacity-20"></div>
-<img alt="Comunidade" class="relative z-10 rounded-3xl shadow-xl w-full h-64 object-cover" data-alt="A diverse group of happy fitness enthusiasts interacting and checking a workout app together in a modern, bright gym setting. The lighting is optimistic and warm. High-key light-mode aesthetic with clean lines and premium finish. The scene emphasizes community, technology, and health, with vibrant blue accents throughout the gym equipment and clothing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjqPaepIlTnw7c0c8LLkpPpDedS09Kk3z-qk07_YGsOEJHtw8e6LP_mLcgnOTxjLsIbgnpV5ZTDMRPVPP9d-_BonfxjyJqgsUmi7g6jLcGPJVo1FgJ8-VY9u2jFtRE9McFeDfqE_I1rrFfxKXicwwAdEy46ZzupiW5-QsDbCS8WihT2uvBxNxNTiCqa2reHLScZ46VHw64diQThQnoPyIF7V3jtOcEN06I1daASVxg0FfUw5xPjoDYIIhEraOB8QoHGPB9WqsUB8-V"/>
-</div>
-</section>
-</main>
-<!-- Bottom Navigation (Mobile Only) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-xl flex justify-around items-center py-4 px-2 border-none shadow-[0_-4px_16px_rgba(0,0,0,0.05)] z-50">
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined">home</span>
-<span class="text-[10px] font-bold">Início</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-primary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
-<span class="text-[10px] font-bold">Treinos</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined">chat</span>
-<span class="text-[10px] font-bold">Mensagens</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined">account_circle</span>
-<span class="text-[10px] font-bold">Perfil</span>
-</button>
-</nav>
-</body></html>
+<body>
+  <header class="topbar">
+    <nav class="topbar-logo" aria-label="Navegação principal">
+      <a href="/painelfree" class="logo">PlanoB</a>
+    </nav>
+
+    <menu class="topbar-actions">
+      <li>
+        <button type="button" aria-label="Notificações">
+          <i class="material-symbols-outlined" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+
+      <li>
+        <button type="button" aria-label="Perfil">
+          <i class="material-symbols-outlined" aria-hidden="true">account_circle</i>
+        </button>
+      </li>
+    </menu>
+  </header>
+
+  <aside class="sidebar">
+    <header class="sidebar-profile">
+      <figure>
+        <picture>
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXBWQL_ZXZem9hoA9giue5xdlGPs9h7fOphbdya-vSajPdFkjYPlUsZ-0m0ItXUHr9Ju9SAbSD44hX7cLi09EeDHiuhkhwV7EQlZ8Ciy6KUjZ19E3-_mtneyoFFdblgnZS2XNoioSv75N7E2FOy4PCkROxYxNyFohfDG9cq4Ud8FSpOFg_OoNRpxWBsvAqoPtV2qdsqek3lLIiNNQGkcTkYqDPtqFTXq59_CoVzcmnsWdEj8T61TZQDUU4HcRGYlhV9cbFI3URIP8Z"
+            alt="Foto de perfil do aluno"
+          />
+        </picture>
+
+        <figcaption>
+          <p>Portal do Aluno</p>
+          <p>Bem-vindo de volta</p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="sidebar-menu" aria-label="Menu lateral">
+      <a href="/painelfree">
+        <i class="material-symbols-outlined" aria-hidden="true">fitness_center</i>
+        <em>Treinos</em>
+      </a>
+
+      <a class="active" href="/videosfree" aria-current="page">
+        <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
+        <em>Vídeos</em>
+      </a>
+
+      <a href="/painelfree#planos">
+        <i class="material-symbols-outlined" aria-hidden="true">payments</i>
+        <em>Planos</em>
+      </a>
+
+      <a href="#">
+        <i class="material-symbols-outlined" aria-hidden="true">settings</i>
+        <em>Configurações</em>
+      </a>
+    </nav>
+
+    <footer class="sidebar-footer">
+      <button type="button">
+        <i class="material-symbols-outlined" aria-hidden="true">add</i>
+        Novo Treino
+      </button>
+    </footer>
+  </aside>
+
+  <main class="content">
+    <section class="hero">
+      <picture>
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ25wGvp89ZWp-q_wgmN4zlTksHejznpDyMFkVzY8hA1PZfwXkiH5AeveRNaMH6Gmo9jDbw_-fGnSPZSCyClC-LhjZPPcwqTR250tBOiixcyBjQyt27-_Iazsp42_Mm5U6woJm0XOrjQH7cStx247aZfGtybfKsNttn5XyO8VIhbI7Yom2uE8Pswu-zvBz0mqrIgihphjWm45pmD-k5nXlQA9iCupQVWr512lhmQPUjpCGpvzK8ztyzKWNEpqqqxdi_zdW_jStPndy"
+          alt="Atleta realizando treino intenso"
+        />
+      </picture>
+
+      <article class="hero-text">
+        <mark>Plano gratuito</mark>
+
+        <h1>Libere o seu potencial máximo</h1>
+
+        <p>
+          Você está acessando uma parte da nossa biblioteca. Melhore para Lazuli ou Diamante e tenha acesso a rotinas personalizadas e vídeos exclusivos.
+        </p>
+
+        <a href="/painelfree#planos">Conhecer Planos</a>
+      </article>
+    </section>
+
+    <section class="library">
+      <header class="section-title">
+        <hgroup>
+          <h2>Biblioteca para Iniciantes</h2>
+          <p>Os primeiros passos para uma vida mais ativa e saudável.</p>
+        </hgroup>
+
+        <a href="#" class="see-all">
+          Ver todos
+          <i class="material-symbols-outlined" aria-hidden="true">arrow_forward</i>
+        </a>
+      </header>
+
+      <ul class="video-grid" role="list">
+        <li>
+          <article class="video-card">
+            <figure>
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo-fkwrI2vN175z62Qq2gtPN-gdAd45gJquHcF0ZyrskfDFnSeAOf9qOhdizqb5DBMp13lLNffweE1YO5GUZ3viG9nx3MFst660mShuHltw7_RvBzPduY5hMovRZvbapvnBuzg-XYEdMKaWK9kN3V28Y2an46LQ9E2pTycTtnHgEHfZDIpEX568pGUlfrSTwT46rRNZXGn9VgpeNGF0sq_dR0rO3fExyys5u2-rmWN5MnFUS8r-kbm68aDMtPi_IV3RtycExLYFKWZ"
+                alt="Demonstração de agachamento"
+              />
+
+              <figcaption>
+                <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
+                <time datetime="PT8M45S">08:45</time>
+              </figcaption>
+            </figure>
+
+            <footer>
+              <hgroup>
+                <p>Fundamentos</p>
+                <h3>Fundamentos do Agachamento</h3>
+              </hgroup>
+
+              <mark>Iniciante</mark>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="video-card">
+            <figure>
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjgvCFuIJdPrEMcolFmqhwO_PBewj-gbMz37PihA1HWzsWFP_PbNVgEQTi-OeHMr7imOcIebYDzZmlos5ZFu7gEVZT3Buue-qMWf6VjoNywEnrFfQ20PLGYKk5BGVGdoZXdmuIih5JJ2QtUgPlv-u4civPcntZgkgLa9-FRldHUsj0GNPdUsylv_RvoleCGxb3cF1wLrpG25h-zBmU7-tH4g7XcRjP7udlVDOvPOg9HAdXhy56YsgnyQ0sKyrhfUjXrZ09Q9YiKkci"
+                alt="Mulher realizando exercício de cardio"
+              />
+
+              <figcaption>
+                <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
+                <time datetime="PT10M">10:00</time>
+              </figcaption>
+            </figure>
+
+            <footer>
+              <hgroup>
+                <p>Cardio</p>
+                <h3>Cardio de 10 minutos</h3>
+              </hgroup>
+
+              <mark>Iniciante</mark>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="video-card">
+            <figure>
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBznhSUh7EuakqvmDPkaRGFV73qpdMbNqGjupfUsEPKslvaPKPMxVzKR_aJSFaeMmJ_2d5spIjxtp5u6OmeUgVi0r8nBTmiwTS-deyShfHpHjhV71lKrBcpzjbcUls7bAzawG7bYq2Ny5cObCsJIBmy3FaAdg6ZAEB6_V53u32BKizMc-hpx1CT3d27UQtgZG10Y50ZAGOHXFsnmw77CfTeEA0B52gG80kv8UZ6XLGwFN6NJyiZfTjlCYOxW-Wd42UbAXl_sBOxS3w5"
+                alt="Pessoa realizando mobilidade"
+              />
+
+              <figcaption>
+                <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
+                <time datetime="PT12M30S">12:30</time>
+              </figcaption>
+            </figure>
+
+            <footer>
+              <hgroup>
+                <p>Flexibilidade</p>
+                <h3>Mobilidade Básica</h3>
+              </hgroup>
+
+              <mark>Iniciante</mark>
+            </footer>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <section class="quick-demos">
+      <h2>Demonstrações Rápidas</h2>
+
+      <ul class="demo-grid" role="list">
+        <li>
+          <article class="demo-card">
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Te23qaQIP4sDEyhs5iPl36s9SMamoVzTUfKEV6GeYjwb8AkWCdFbdWUyjaVZEYOVXSz3w5XdWkMrYcX8fYu7_vtBSn2zUq62m9tNxd6QC-hSR-SXvTuewWJNXtE2ghd9-fK_g_A3kl4BNQ7l5HhM-CJjRSewpFwaM3YO_w_egiqP-jubNlDXGOqBokOdD6FDYThpRhuBOU4PqqWu2BEJd23D_NOM3uFVxS2pTQeTpg3QnJmG_0eG3MQScGOQSQNa1Yc86RQ6TVzR"
+              alt="Pessoa fazendo flexão"
+            />
+
+            <footer>
+              <p>Braços</p>
+              <h3>Flexão Perfeita</h3>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="demo-card">
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNbv4owisX8CeqniNla6_8dRp3ZaqrmlC6ESnV5-hk_skn1D3HE7IsZkf-9wcqV9BLb570D23Oohasvrapm5J42VUEjGGHBBAt4rGsBn9remgGIVrQIXlYZmnpupLuGiRWZMhWH_0Yp2A6ZhSCIT9-6dMG5KWTefqWuF2JqoPbHWC45KBzqMa4QGbiYiX0FbVD_SSiB6VIodeltSt3cygjfVIAYGTLpzM66eSqxz4e1dy-Cn5aZlDTj21yBEt_SsJdSkj5CqZ02pME"
+              alt="Pessoa fazendo afundo"
+            />
+
+            <footer>
+              <p>Pernas</p>
+              <h3>Afundo Explosivo</h3>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="demo-card">
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Yw2rBZzu25lDVT60lbXslUxzdUVoYe9Z2NJW76C23iVOmyYbytq8CkMXEcSWqYf0CwINekPUaiNBZYJ5TuM_DSF3ww1jJkmDhH5QDRDqblhocwcfDeARboOYmc3_WEXV8utnL9nWyNjo9xBas7zsNkm2iERXNpXR1VjiXNGSw9PObHr03ce9pB5DEdcE-HT5ucROn8BOlPcFurHxdp8_AQNj4S4r8sbN6kpEaZZX1PQWZUDXxCnn6IfG_Ndvea4aXZF7vpz_uzgl"
+              alt="Pessoa fazendo prancha"
+            />
+
+            <footer>
+              <p>Core</p>
+              <h3>Prancha Isométrica</h3>
+            </footer>
+          </article>
+        </li>
+
+        <li>
+          <article class="premium-card">
+            <i class="material-symbols-outlined" aria-hidden="true">workspace_premium</i>
+
+            <h3>Liberar mais +100 vídeos</h3>
+
+            <p>Tenha acesso a conteúdos exclusivos de treinadores Pro.</p>
+
+            <a href="/painelfree#planos">Upgrade Agora</a>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <section class="community">
+      <article class="community-text">
+        <h2>Dúvidas sobre os movimentos?</h2>
+
+        <p>
+          Nossa comunidade de alunos e mentores está pronta para te ajudar. Poste seus vídeos de execução e receba feedback em tempo real.
+        </p>
+
+        <form action="#" method="post">
+          <label for="pergunta">Perguntar para a IA do PlanoB</label>
+
+          <input
+            id="pergunta"
+            name="pergunta"
+            type="text"
+            placeholder="Perguntar para a IA do PlanoB..."
+          />
+
+          <button type="submit">
+            Enviar
+            <i class="material-symbols-outlined" aria-hidden="true">send</i>
+          </button>
+        </form>
+      </article>
+
+      <figure class="community-image">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjqPaepIlTnw7c0c8LLkpPpDedS09Kk3z-qk07_YGsOEJHtw8e6LP_mLcgnOTxjLsIbgnpV5ZTDMRPVPP9d-_BonfxjyJqgsUmi7g6jLcGPJVo1FgJ8-VY9u2jFtRE9McFeDfqE_I1rrFfxKXicwwAdEy46ZzupiW5-QsDbCS8WihT2uvBxNxNTiCqa2reHLScZ46VHw64diQThQnoPyIF7V3jtOcEN06I1daASVxg0FfUw5xPjoDYIIhEraOB8QoHGPB9WqsUB8-V"
+          alt="Comunidade de alunos treinando"
+        />
+      </figure>
+    </section>
+  </main>
+
+  <nav class="mobile-menu" aria-label="Navegação mobile">
+    <a href="/painelfree">
+      <i class="material-symbols-outlined" aria-hidden="true">fitness_center</i>
+      <em>Treinos</em>
+    </a>
+
+    <a class="active" href="/videosfree" aria-current="page">
+      <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
+      <em>Vídeos</em>
+    </a>
+
+    <a href="/painelfree#planos">
+      <i class="material-symbols-outlined" aria-hidden="true">payments</i>
+      <em>Planos</em>
+    </a>
+
+    <a href="/login">
+      <i class="material-symbols-outlined" aria-hidden="true">person</i>
+      <em>Perfil</em>
+    </a>
+  </nav>
+</body>
+</html>

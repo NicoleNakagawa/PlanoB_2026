@@ -92,6 +92,30 @@
       font-family: "Manrope", sans-serif;
     }
 
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+        .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .logo-footer {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+
     .material-symbols-outlined {
       font-variation-settings:
         "FILL" 0,
@@ -152,7 +176,7 @@
 
         <header class="mb-16 flex items-center justify-between">
 
-          <h2 class="font-headline text-3xl font-black tracking-tighter text-primary">
+          <h2 class="font-headline logo-font text-3xl font-black tracking-tighter text-primary">
             PlanoB
           </h2>
 
