@@ -1,332 +1,247 @@
 <!DOCTYPE html>
-<html class="light" lang="pt-BR">
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>PlanoB - Gestão de Alunos</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-          tailwind.config = {
-            darkMode: "class",
-            theme: {
-              extend: {
-                "colors": {
-                        "primary-fixed-dim": "#5091ff",
-                        "on-surface-variant": "#505a81",
-                        "on-primary-fixed": "#000000",
-                        "on-tertiary-fixed": "#453900",
-                        "secondary-dim": "#00576c",
-                        "tertiary-container": "#ffd709",
-                        "inverse-on-surface": "#929bc6",
-                        "on-tertiary-container": "#5b4b00",
-                        "on-surface": "#232c51",
-                        "tertiary-dim": "#5e4e00",
-                        "on-secondary-container": "#004e61",
-                        "error-dim": "#9f0519",
-                        "outline-variant": "#a2abd7",
-                        "on-error": "#ffefee",
-                        "on-primary": "#f0f2ff",
-                        "on-tertiary-fixed-variant": "#665500",
-                        "on-primary-container": "#00214e",
-                        "inverse-surface": "#020a2f",
-                        "on-secondary": "#e2f6ff",
-                        "error-container": "#fb5151",
-                        "tertiary-fixed": "#ffd709",
-                        "surface-variant": "#d5dbff",
-                        "on-secondary-fixed-variant": "#00586d",
-                        "surface-dim": "#cad2ff",
-                        "on-background": "#232c51",
-                        "secondary-fixed-dim": "#37d4ff",
-                        "secondary": "#00647b",
-                        "surface-container": "#e4e7ff",
-                        "secondary-fixed": "#80deff",
-                        "tertiary-fixed-dim": "#efc900",
-                        "on-error-container": "#570008",
-                        "surface-bright": "#f7f5ff",
-                        "primary-container": "#6c9fff",
-                        "primary-fixed": "#6c9fff",
-                        "inverse-primary": "#4a8eff",
-                        "surface-container-highest": "#d5dbff",
-                        "background": "#f7f5ff",
-                        "surface-tint": "#0058ba",
-                        "on-tertiary": "#fff2cd",
-                        "surface": "#f7f5ff",
-                        "primary": "#0058ba",
-                        "secondary-container": "#80deff",
-                        "tertiary": "#6c5a00",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-high": "#dde1ff",
-                        "error": "#b31b25",
-                        "on-primary-fixed-variant": "#002a60",
-                        "outline": "#6c759e",
-                        "on-secondary-fixed": "#003a48",
-                        "primary-dim": "#004da4",
-                        "surface-container-low": "#efefff"
-                },
-                "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                },
-                "fontFamily": {
-                        "headline": ["Lexend"],
-                        "body": ["Manrope"],
-                        "label": ["Manrope"]
-                }
-              },
-            },
-          }
-    </script>
-    <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        .glass-panel {
-            background: rgba(247, 245, 255, 0.8);
-            backdrop-filter: blur(20px);
-        }
-        .action-gradient {
-            background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%);
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PlanoB Pro - Gestão de Alunos</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode:"class",
+      theme:{ extend:{
+        colors:{
+          "surface-tint":"#0058ba","surface-container-high":"#dde1ff","tertiary":"#6c5a00",
+          "surface-container":"#e4e7ff","primary-container":"#6c9fff","primary-dim":"#004da4",
+          "outline":"#6c759e","primary-fixed":"#6c9fff","on-primary-container":"#00214e",
+          "surface-dim":"#cad2ff","secondary-dim":"#00576c","background":"#f7f5ff",
+          "on-secondary-container":"#004e61","error-container":"#fb5151","tertiary-dim":"#5e4e00",
+          "outline-variant":"#a2abd7","on-surface-variant":"#505a81","tertiary-fixed-dim":"#efc900",
+          "surface-bright":"#f7f5ff","tertiary-fixed":"#ffd709","error":"#b31b25",
+          "inverse-surface":"#020a2f","surface-container-lowest":"#ffffff","primary-fixed-dim":"#5091ff",
+          "surface-variant":"#d5dbff","on-surface":"#232c51","surface-container-highest":"#d5dbff",
+          "inverse-primary":"#4a8eff","tertiary-container":"#ffd709","on-tertiary":"#fff2cd",
+          "secondary-container":"#80deff","surface-container-low":"#efefff","on-primary":"#f0f2ff",
+          "inverse-on-surface":"#929bc6","surface":"#f7f5ff","primary":"#0058ba",
+          "on-background":"#232c51","secondary":"#00647b","on-tertiary-fixed":"#453900",
+          "on-tertiary-container":"#5b4b00","on-tertiary-fixed-variant":"#665500",
+          "on-error":"#ffefee","on-error-container":"#570008","error-dim":"#9f0519",
+          "on-secondary":"#e2f6ff","secondary-fixed":"#80deff","secondary-fixed-dim":"#37d4ff",
+          "on-secondary-fixed":"#003a48","on-secondary-fixed-variant":"#00586d",
+          "on-primary-fixed":"#000000","on-primary-fixed-variant":"#002a60"
+        },
+        borderRadius:{ DEFAULT:"0.25rem", lg:"0.5rem", xl:"0.75rem", full:"9999px" },
+        fontFamily:{ headline:["Lexend"], body:["Manrope"], label:["Manrope"] }
+      }}
+    }
+  </script>
+  <style>
+    @font-face { font-family:'Baumans'; src:url('/fonts/Baumans-Regular.ttf') format('truetype'); }
+    .logo-font { font-family:'Baumans',sans-serif !important; font-weight:400 !important; letter-spacing:0.02em; }
+    .logo-header { font-size:2.7rem; line-height:1; }
+    body { font-family:'Manrope',sans-serif; }
+    h1,h2,h3,h4 { font-family:'Lexend',sans-serif; }
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align:middle; }
+    .action-gradient { background:linear-gradient(135deg,#0058ba 0%,#6c9fff 100%); }
+    @media (max-width:768px) {
+      html,body { overflow-x:hidden; }
+      main { margin-left:0 !important; padding:88px 16px 120px !important; }
+    }
+  </style>
 </head>
-<body class="bg-surface font-body text-on-surface flex min-h-screen">
+<body class="bg-surface text-on-surface min-h-screen">
 
-<!-- SideNavBar -->
-<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 border-r-0 bg-[#f7f5ff] dark:bg-slate-950 flex-col py-6 z-40">
-    <header class="px-6 mb-10">
-        <h1 class="font-headline font-black text-blue-700 dark:text-blue-400 text-2xl tracking-tighter">PlanoB</h1>
-        <p class="font-headline font-medium text-xs text-on-surface-variant mt-1">Gestão de Aprendizado</p>
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
+    <section class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+      <i class="material-symbols-outlined text-outline text-sm not-italic" aria-hidden="true">search</i>
+      <label for="search-alunos" class="sr-only">Buscar aluno</label>
+      <input id="search-alunos" class="bg-transparent border-none focus:ring-0 text-sm w-56 ml-2" placeholder="Buscar aluno por nome..." type="search"/>
+    </section>
+    <menu class="flex items-center gap-2 p-0 m-0">
+      <li><button class="p-2 rounded-full hover:bg-surface-container transition-colors" aria-label="Notificações"><i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i></button></li>
+      <li><button class="p-2 rounded-full hover:bg-surface-container transition-colors" aria-label="Configurações"><i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">settings</i></button></li>
+      <li><figure class="h-9 w-9 rounded-full overflow-hidden border-2 border-primary/20 m-0"><img alt="Professor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"/></figure></li>
+    </menu>
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <!-- Sidebar Desktop -->
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] flex-col gap-2 py-8 z-40 mt-16">
+    <header class="px-6 mb-6">
+      <figure class="flex items-center gap-3 m-0">
+        <picture><img class="w-12 h-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft" alt="Professor"/></picture>
+        <figcaption><p class="text-sm font-bold text-on-surface">Portal do Professor</p><p class="text-xs text-on-surface-variant">Bem-vindo de volta</p></figcaption>
+      </figure>
     </header>
-    
-    <nav class="flex-1 space-y-2">
-        <a class="flex items-center px-4 py-3 text-[#232c51] dark:text-slate-300 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</i>
-            <b class="font-headline font-medium text-sm">Dashboard</b>
-        </a>
-        <a class="flex items-center px-4 py-3 bg-[#0058ba] text-white rounded-full mx-2 shadow-lg shadow-blue-500/20 transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="group">group</i>
-            <b class="font-headline font-medium text-sm">Meus Alunos</b>
-        </a>
-        <a class="flex items-center px-4 py-3 text-[#232c51] dark:text-slate-300 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="video_library">video_library</i>
-            <b class="font-headline font-medium text-sm">Meus Vídeos</b>
-        </a>
-        <a class="flex items-center px-4 py-3 text-[#232c51] dark:text-slate-300 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="assignment">assignment</i>
-            <b class="font-headline font-medium text-sm">Avaliações</b>
-        </a>
-        <a class="flex items-center px-4 py-3 text-[#232c51] dark:text-slate-300 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="analytics">analytics</i>
-            <b class="font-headline font-medium text-sm">Desempenho</b>
-        </a>
-        <a class="flex items-center px-4 py-3 text-[#232c51] dark:text-slate-300 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full mx-2 transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="calendar_today">calendar_today</i>
-            <b class="font-headline font-medium text-sm">Calendário</b>
-        </a>
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="/painelprofessor"><i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i><em class="not-italic font-medium">Dashboard</em></a>
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-primary/20 px-4 py-3 flex items-center gap-3" href="/todosalunos" aria-current="page"><i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">groups</i><em class="not-italic font-medium">Meus Alunos</em></a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="/todosvideos"><i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i><em class="not-italic font-medium">Meus Vídeos</em></a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="#"><i class="material-symbols-outlined not-italic" aria-hidden="true">assignment</i><em class="not-italic font-medium">Avaliações</em></a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="#"><i class="material-symbols-outlined not-italic" aria-hidden="true">analytics</i><em class="not-italic font-medium">Desempenho</em></a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="#"><i class="material-symbols-outlined not-italic" aria-hidden="true">settings</i><em class="not-italic font-medium">Configurações</em></a>
     </nav>
-
-    <footer class="px-2 mt-auto border-t border-surface-container py-4">
-        <a class="flex items-center px-4 py-3 text-[#232c51] dark:text-slate-300 hover:bg-[#e4e7ff] dark:hover:bg-slate-800 rounded-full transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="help">help</i>
-            <b class="font-headline font-medium text-sm">Suporte</b>
-        </a>
-        <a class="flex items-center px-4 py-3 text-error-dim hover:bg-error-container/10 rounded-full transition-transform duration-200 hover:translate-x-1" href="#">
-            <i class="material-symbols-outlined mr-3" data-icon="logout">logout</i>
-            <b class="font-headline font-medium text-sm">Sair</b>
-        </a>
+    <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <button class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform"><i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>Novo Conteúdo</button>
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="#"><i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i><em class="not-italic">Sair</em></a>
     </footer>
-</aside>
+  </aside>
 
-<!-- Main Content Area -->
-<main class="flex-1 md:ml-64 min-h-screen relative">
-    <!-- TopNavBar -->
-    <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-40 shadow-sm dark:shadow-none">
-        <section class="flex justify-between items-center w-full px-6 py-3">
-            <nav class="flex items-center gap-4">
-                <button class="md:hidden text-on-surface">
-                    <i class="material-symbols-outlined">menu</i>
-                </button>
-                <h2 class="font-lexend font-bold tracking-tight text-slate-900 dark:text-slate-100 text-xl">Gestão de Alunos</h2>
-            </nav>
-            <section class="flex items-center gap-6">
-                <label class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-full w-64">
-                    <i class="material-symbols-outlined text-outline text-sm">search</i>
-                    <input class="bg-transparent border-none focus:ring-0 text-sm w-full ml-2 text-on-surface-variant" placeholder="Buscar aluno por nome..." type="text"/>
-                </label>
-                <nav class="flex items-center gap-4">
-                    <button class="text-slate-500 hover:text-primary transition-colors">
-                        <i class="material-symbols-outlined">notifications</i>
-                    </button>
-                    <button class="text-slate-500 hover:text-primary transition-colors">
-                        <i class="material-symbols-outlined">settings</i>
-                    </button>
-                    <figure class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary-container">
-                        <img alt="Professor Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChUJmzhZlQ6JU15M_LabZvQrkVSE8z49C5P8enNk45Pc5XN_MEFIDBG8ChgOFZNTvktgFR8rBphEL770LxmH069_WXYoBKz3DUjXoN6ssQJhH2WCGOUeUvmliIxHJH1co5N8I6fAQgmdxGKZ7Pa-0FyleJ0k7vTtS3KHR3lX1YI3mwAmTGhc62U1gz48y7jHCFrMqwojsMCCRynCzZApZCgnIbnf75d92PD4pWNLKyOpgEe3GERVuLcRsZjkYCx-EdE6JhV6IuBUCs"/>
+  <!-- Main -->
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <article class="max-w-6xl mx-auto space-y-8">
+
+      <!-- Hero Title -->
+      <header class="relative">
+        <h1 class="font-headline font-extrabold text-5xl md:text-7xl text-primary tracking-tighter mb-2 leading-none uppercase">
+          Gestão de <b class="text-on-surface">Alunos</b>
+        </h1>
+        <section class="h-1 w-24 bg-primary-container rounded-full mb-4"></section>
+        <p class="text-on-surface-variant max-w-lg font-medium">Acompanhe o desempenho e progresso de cada aluno da sua comunidade fitness em tempo real.</p>
+        <figure class="absolute top-0 right-0 hidden lg:block opacity-5 m-0">
+          <i class="material-symbols-outlined not-italic" style="font-size:180px;color:#0058ba" aria-hidden="true">fitness_center</i>
+        </figure>
+      </header>
+
+      <!-- Stats + Filtros -->
+      <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm md:col-span-1 flex flex-col justify-between group hover:bg-primary-container transition-colors duration-300 cursor-default">
+          <strong class="text-xs font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-on-primary">Total Ativos</strong>
+          <section class="flex items-baseline gap-2 mt-4">
+            <b class="text-4xl font-headline font-black group-hover:text-on-primary">124</b>
+            <small class="text-primary group-hover:text-on-primary-container text-xs font-bold">+12%</small>
+          </section>
+        </article>
+        <nav class="bg-surface-container p-4 rounded-3xl md:col-span-3 flex flex-wrap items-center gap-3" aria-label="Filtrar por plano">
+          <strong class="text-sm font-bold ml-2 text-on-surface-variant">Filtrar:</strong>
+          <button class="px-6 py-2 rounded-full bg-surface-container-lowest text-on-surface text-sm font-bold shadow-sm hover:-translate-y-0.5 transition-transform active:scale-95">Todos</button>
+          <button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-primary-container hover:text-on-primary transition-colors active:scale-95">Gratuito</button>
+          <button class="px-6 py-2 rounded-full bg-primary text-white text-sm font-bold shadow-md shadow-primary/20 hover:scale-105 transition-transform active:scale-95">Lazuli</button>
+          <button class="px-6 py-2 rounded-full bg-tertiary-container text-on-tertiary-container text-sm font-bold hover:brightness-95 transition-colors active:scale-95">Diamante</button>
+        </nav>
+      </section>
+
+      <!-- Tabela de Alunos -->
+      <section class="bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm">
+        <section class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low">
+                <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Aluno</th>
+                <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Plano</th>
+                <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Progresso</th>
+                <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Status</th>
+                <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-surface-container">
+              <tr class="group hover:bg-surface-container-low transition-colors">
+                <td class="px-6 py-4">
+                  <article class="flex items-center gap-3">
+                    <figure class="h-12 w-12 rounded-2xl overflow-hidden bg-surface-container rotate-3 group-hover:rotate-0 transition-transform m-0">
+                      <img alt="Pedro Silva" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw4VobRkOTvnj_jP7OEfQMLQqNNer0kB8ogD73W66atiChjACgIZMNIPBjk3AiWdbhyMqnjcUJn91agQBsPZq6-1WPODjQ4dKCAhwz6dEutKKU8840O2spl0KjC8oe6DF86mGtIerYxAEBQtkuwVmyp0xLP5sDEEOeo0Qh1PE2SByGm1pLfCg5vAdv89zegRvPcE7Gcy8_LIYIHR115BVfC99MNGLJAB7kgpv-8i9Bl9ybRzyQG-duT31vgq4P1ZFPFeM_3UHQ-77I"/>
                     </figure>
-                </nav>
-            </section>
+                    <hgroup>
+                      <p class="font-headline font-bold text-on-surface">Pedro Silva</p>
+                      <p class="text-xs text-on-surface-variant">pedro.silva@email.com</p>
+                    </hgroup>
+                  </article>
+                </td>
+                <td class="px-6 py-4"><strong class="px-3 py-1 rounded-full bg-primary text-on-primary text-[10px] font-black uppercase tracking-tighter">Lazuli</strong></td>
+                <td class="px-6 py-4">
+                  <section class="w-full max-w-[120px]">
+                    <header class="flex justify-between items-center mb-1"><b class="text-[10px] font-bold text-primary">85%</b></header>
+                    <progress class="w-full h-1.5 rounded-full overflow-hidden appearance-none" value="85" max="100" style="accent-color:#0058ba"></progress>
+                  </section>
+                </td>
+                <td class="px-6 py-4">
+                  <section class="flex items-center gap-1.5">
+                    <i class="h-2 w-2 rounded-full bg-emerald-500 inline-block"></i>
+                    <b class="text-xs font-bold text-on-surface">Ativo</b>
+                  </section>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <section class="flex justify-end gap-2">
+                    <button class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors" aria-label="Mensagem"><i class="material-symbols-outlined not-italic" aria-hidden="true">chat</i></button>
+                    <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors" aria-label="Ver perfil"><i class="material-symbols-outlined not-italic" aria-hidden="true">account_circle</i></button>
+                  </section>
+                </td>
+              </tr>
+              <tr class="group hover:bg-surface-container-low transition-colors">
+                <td class="px-6 py-4">
+                  <article class="flex items-center gap-3">
+                    <figure class="h-12 w-12 rounded-2xl overflow-hidden bg-surface-container -rotate-3 group-hover:rotate-0 transition-transform m-0">
+                      <img alt="Mariana Costa" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvZSv-U8ATQ778VaR3PTa8Dz3AVDysCZC2p2smPMjJfhiL-R2BlB4V2pHVIfSI25SldYwQWJw0-tMV-6WgIqFXAdcbLLkSlhTevAHOhzShyDm96qiQmOr4VfFB9xAyQ7O7QQpXpnWp7D4Ybi5-89dxxKANAgzXKgo-l3aLWFFjpNvUFMbTpRqKZbaR8_Euxk-O96Tc2DRNgfKrsNO-N_1go5Js-DZYcA5raHUBJ6QnuL91H2xSzr_AFAEm7TTC7sDu7wr2Z4iYD0Se"/>
+                    </figure>
+                    <hgroup>
+                      <p class="font-headline font-bold text-on-surface">Mariana Costa</p>
+                      <p class="text-xs text-on-surface-variant">mari.yoga@email.com</p>
+                    </hgroup>
+                  </article>
+                </td>
+                <td class="px-6 py-4"><strong class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-black uppercase tracking-tighter">Diamante</strong></td>
+                <td class="px-6 py-4">
+                  <section class="w-full max-w-[120px]">
+                    <header class="flex justify-between items-center mb-1"><b class="text-[10px] font-bold text-primary">42%</b></header>
+                    <progress class="w-full h-1.5 rounded-full overflow-hidden appearance-none" value="42" max="100" style="accent-color:#0058ba"></progress>
+                  </section>
+                </td>
+                <td class="px-6 py-4">
+                  <section class="flex items-center gap-1.5">
+                    <i class="h-2 w-2 rounded-full bg-emerald-500 inline-block"></i>
+                    <b class="text-xs font-bold text-on-surface">Ativo</b>
+                  </section>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <section class="flex justify-end gap-2">
+                    <button class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors" aria-label="Mensagem"><i class="material-symbols-outlined not-italic" aria-hidden="true">chat</i></button>
+                    <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors" aria-label="Ver perfil"><i class="material-symbols-outlined not-italic" aria-hidden="true">account_circle</i></button>
+                  </section>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </section>
-        <hr class="bg-slate-100 dark:bg-slate-800 h-px w-full border-none"/>
-    </header>
-
-    <!-- Page Canvas -->
-    <article class="p-6 md:p-10 max-w-7xl mx-auto">
-        <!-- Hero Title Section -->
-        <header class="mb-12 relative">
-            <h2 class="font-headline font-extrabold text-5xl md:text-7xl text-primary tracking-tighter mb-2 leading-none uppercase">
-                Gestão de <br/><b class="text-on-surface">Alunos</b>
-            </h2>
-            <section class="h-1 w-24 bg-primary-container rounded-full mb-6"></section>
-            <p class="text-on-surface-variant max-w-lg font-medium">Acompanhe o desempenho, progresso e status de cada integrante da sua comunidade fitness em tempo real.</p>
-            <figure class="absolute top-0 right-0 hidden lg:block opacity-10">
-                <i class="material-symbols-outlined text-[180px] text-primary">fitness_center</i>
-            </figure>
-        </header>
-
-        <!-- Filters & Stats Bento Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
-            <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm md:col-span-1 flex flex-col justify-between group hover:bg-primary-container transition-colors duration-300">
-                <strong class="text-xs font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-on-primary">Total Ativos</strong>
-                <section class="flex items-baseline gap-2 mt-4">
-                    <b class="text-4xl font-headline font-black group-hover:text-on-primary">124</b>
-                    <small class="text-primary group-hover:text-on-primary-container text-xs font-bold">+12%</small>
-                </section>
-            </article>
-            <nav class="bg-surface-container p-4 rounded-3xl md:col-span-3 flex flex-wrap items-center gap-3">
-                <strong class="text-sm font-bold ml-2 text-on-surface-variant">Filtrar por Plano:</strong>
-                <button class="px-6 py-2 rounded-full bg-surface-container-lowest text-on-surface text-sm font-bold shadow-sm hover:translate-y-[-2px] transition-transform">Todos</button>
-                <button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-primary-container hover:text-on-primary transition-colors">Gratuito</button>
-                <button class="px-6 py-2 rounded-full bg-primary text-white text-sm font-bold shadow-md shadow-primary/20 hover:scale-105 transition-transform">Lazuli</button>
-                <button class="px-6 py-2 rounded-full bg-tertiary-container text-on-tertiary-container text-sm font-bold hover:bg-tertiary transition-colors">Diamante</button>
-            </nav>
-        </section>
-
-        <!-- Main Students Data Table/List -->
-        <section class="bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm">
-            <section class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-surface-container-low">
-                            <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Aluno</th>
-                            <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Plano</th>
-                            <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Progresso</th>
-                            <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant">Status</th>
-                            <th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-wider text-on-surface-variant text-right">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-surface-container">
-                        <!-- Student Row 1 -->
-                        <tr class="group hover:bg-surface-container-low transition-colors">
-                            <td class="px-6 py-4">
-                                <article class="flex items-center gap-3">
-                                    <figure class="h-12 w-12 rounded-2xl overflow-hidden bg-surface-container rotate-3 group-hover:rotate-0 transition-transform">
-                                        <img alt="Student Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw4VobRkOTvnj_jP7OEfQMLQqNNer0kB8ogD73W66atiChjACgIZMNIPBjk3AiWdbhyMqnjcUJn91agQBsPZq6-1WPODjQ4dKCAhwz6dEutKKU8840O2spl0KjC8oe6DF86mGtIerYxAEBQtkuwVmyp0xLP5sDEEOeo0Qh1PE2SByGm1pLfCg5vAdv89zegRvPcE7Gcy8_LIYIHR115BVfC99MNGLJAB7kgpv-8i9Bl9ybRzyQG-duT31vgq4P1ZFPFeM_3UHQ-77I"/>
-                                    </figure>
-                                    <hgroup>
-                                        <p class="font-headline font-bold text-on-surface">Pedro Silva</p>
-                                        <p class="text-xs text-on-surface-variant">pedro.silva@email.com</p>
-                                    </hgroup>
-                                </article>
-                            </td>
-                            <td class="px-6 py-4">
-                                <strong class="px-3 py-1 rounded-full bg-primary text-on-primary text-[10px] font-black uppercase tracking-tighter">Lazuli</strong>
-                            </td>
-                            <td class="px-6 py-4">
-                                <section class="w-full max-w-[120px]">
-                                    <header class="flex justify-between items-center mb-1">
-                                        <b class="text-[10px] font-bold text-primary">85%</b>
-                                    </header>
-                                    <progress class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden appearance-none" value="85" max="100">
-                                        <i class="h-full action-gradient block" style="width: 85%"></i>
-                                    </progress>
-                                </section>
-                            </td>
-                            <td class="px-6 py-4">
-                                <section class="flex items-center gap-1.5">
-                                    <i class="h-2 w-2 rounded-full bg-emerald-500"></i>
-                                    <b class="text-xs font-bold text-on-surface">Ativo</b>
-                                </section>
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <section class="flex justify-end gap-2">
-                                    <button class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors">
-                                        <i class="material-symbols-outlined">chat</i>
-                                    </button>
-                                    <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
-                                        <i class="material-symbols-outlined">account_circle</i>
-                                    </button>
-                                </section>
-                            </td>
-                        </tr>
-                        <!-- Student Row 2 (Repeats pattern...) -->
-                        <tr class="group hover:bg-surface-container-low transition-colors">
-                            <td class="px-6 py-4">
-                                <article class="flex items-center gap-3">
-                                    <figure class="h-12 w-12 rounded-2xl overflow-hidden bg-surface-container -rotate-3 group-hover:rotate-0 transition-transform">
-                                        <img alt="Student Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvZSv-U8ATQ778VaR3PTa8Dz3AVDysCZC2p2smPMjJfhiL-R2BlB4V2pHVIfSI25SldYwQWJw0-tMV-6WgIqFXAdcbLLkSlhTevAHOhzShyDm96qiQmOr4VfFB9xAyQ7O7QQpXpnWp7D4Ybi5-89dxxKANAgzXKgo-l3aLWFFjpNvUFMbTpRqKZbaR8_Euxk-O96Tc2DRNgfKrsNO-N_1go5Js-DZYcA5raHUBJ6QnuL91H2xSzr_AFAEm7TTC7sDu7wr2Z4iYD0Se"/>
-                                    </figure>
-                                    <hgroup>
-                                        <p class="font-headline font-bold text-on-surface">Mariana Costa</p>
-                                        <p class="text-xs text-on-surface-variant">mari.yoga@email.com</p>
-                                    </hgroup>
-                                </article>
-                            </td>
-                            <td class="px-6 py-4">
-                                <strong class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-black uppercase tracking-tighter">Diamante</strong>
-                            </td>
-                            <td class="px-6 py-4">
-                                <section class="w-full max-w-[120px]">
-                                    <header class="flex justify-between items-center mb-1">
-                                        <b class="text-[10px] font-bold text-primary">42%</b>
-                                    </header>
-                                    <progress class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden appearance-none" value="42" max="100">
-                                        <i class="h-full action-gradient block" style="width: 42%"></i>
-                                    </progress>
-                                </section>
-                            </td>
-                            <td class="px-6 py-4">
-                                <section class="flex items-center gap-1.5">
-                                    <i class="h-2 w-2 rounded-full bg-emerald-500"></i>
-                                    <b class="text-xs font-bold text-on-surface">Ativo</b>
-                                </section>
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <section class="flex justify-end gap-2">
-                                    <button class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors">
-                                        <i class="material-symbols-outlined">chat</i>
-                                    </button>
-                                    <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
-                                        <i class="material-symbols-outlined">account_circle</i>
-                                    </button>
-                                </section>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- Table Footer Pagination -->
-            <footer class="px-6 py-6 border-t border-surface-container flex items-center justify-between">
-                <time class="text-xs font-medium text-on-surface-variant">Exibindo 4 de 124 alunos</time>
-                <nav class="flex gap-2">
-                    <button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors">
-                        <i class="material-symbols-outlined">chevron_left</i>
-                    </button>
-                    <button class="h-10 w-10 flex items-center justify-center rounded-full bg-primary text-white font-bold shadow-lg shadow-primary/20">1</button>
-                    <button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors">2</button>
-                    <button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors">
-                        <i class="material-symbols-outlined">chevron_right</i>
-                    </button>
-                </nav>
-            </footer>
-        </section>
+        <footer class="px-6 py-5 border-t border-surface-container flex items-center justify-between">
+          <time class="text-xs font-medium text-on-surface-variant">Exibindo 2 de 124 alunos</time>
+          <nav class="flex gap-2" aria-label="Paginação">
+            <button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors active:scale-95"><i class="material-symbols-outlined not-italic text-sm" aria-hidden="true">chevron_left</i></button>
+            <button class="h-10 w-10 flex items-center justify-center rounded-full bg-primary text-white font-bold shadow-lg shadow-primary/20">1</button>
+            <button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors active:scale-95">2</button>
+            <button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors active:scale-95"><i class="material-symbols-outlined not-italic text-sm" aria-hidden="true">chevron_right</i></button>
+          </nav>
+        </footer>
+      </section>
     </article>
-</main>
+  </main>
+
+  <!-- Menu Mobile Professor com botão + -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2
+              bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
+    <a href="/painelprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+    </a>
+    <a href="/todosalunos" class="flex flex-col items-center justify-center text-[#0058ba] p-3 rounded-[18px] bg-[#d5dbff]" aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">groups</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
+    </a>
+    <button class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform" aria-label="Adicionar aluno">
+      <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
+    </button>
+    <a href="/todosvideos" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+    <a href="#" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+  </nav>
 
 </body>
 </html>

@@ -1,159 +1,248 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#0058ba",
-                        "on-primary": "#f0f2ff",
-                        "surface": "#f7f5ff",
-                        "on-surface": "#232c51",
-                        "surface-container": "#e4e7ff",
-                        "on-surface-variant": "#505a81",
-                        "outline": "#6c759e",
-                        "tertiary-fixed": "#ffd709",
-                        "on-tertiary-fixed": "#453900",
-                        "secondary-container": "#80deff",
-                        "on-secondary-container": "#004e61",
-                    },
-                    fontFamily: {
-                        headline: ["Lexend"],
-                        body: ["Manrope"]
-                    }
-                }
-            }
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PlanoB Pro - Biblioteca de Vídeos</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-tint": "#0058ba", "surface-container-high": "#dde1ff",
+            "tertiary": "#6c5a00", "surface-container": "#e4e7ff",
+            "primary-container": "#6c9fff", "primary-dim": "#004da4",
+            "outline": "#6c759e", "primary-fixed": "#6c9fff",
+            "on-primary-container": "#00214e", "surface-dim": "#cad2ff",
+            "secondary-dim": "#00576c", "background": "#f7f5ff",
+            "on-secondary-container": "#004e61", "error-container": "#fb5151",
+            "tertiary-dim": "#5e4e00", "outline-variant": "#a2abd7",
+            "on-surface-variant": "#505a81", "tertiary-fixed-dim": "#efc900",
+            "surface-bright": "#f7f5ff", "tertiary-fixed": "#ffd709",
+            "error": "#b31b25", "inverse-surface": "#020a2f",
+            "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#5091ff",
+            "surface-variant": "#d5dbff", "on-surface": "#232c51",
+            "surface-container-highest": "#d5dbff", "inverse-primary": "#4a8eff",
+            "tertiary-container": "#ffd709", "on-tertiary": "#fff2cd",
+            "secondary-container": "#80deff", "surface-container-low": "#efefff",
+            "on-primary": "#f0f2ff", "inverse-on-surface": "#929bc6",
+            "surface": "#f7f5ff", "primary": "#0058ba",
+            "on-background": "#232c51", "secondary": "#00647b",
+            "on-tertiary-fixed": "#453900", "on-tertiary-container": "#5b4b00",
+            "on-tertiary-fixed-variant": "#665500", "on-error": "#ffefee",
+            "on-error-container": "#570008", "error-dim": "#9f0519"
+          },
+          borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          fontFamily: { headline: ["Lexend"], body: ["Manrope"], label: ["Manrope"] }
         }
-    </script>
-    <style>
-        body { font-family: 'Manrope', sans-serif; }
-        .lexend { font-family: 'Lexend', sans-serif; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .editorial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-    </style>
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+    }
+    .logo-font { font-family: 'Baumans', sans-serif !important; font-weight: 400 !important; letter-spacing: 0.02em; }
+    .logo-header { font-size: 2.7rem; line-height: 1; }
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3, h4 { font-family: 'Lexend', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .action-gradient { background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%); }
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+      main { margin-left: 0 !important; padding: 88px 16px 120px !important; }
+    }
+  </style>
 </head>
 
-<body class="bg-surface text-on-surface selection:bg-primary-container">
+<body class="bg-surface text-on-surface min-h-screen">
 
-    <!-- TopAppBar -->
-    <header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl h-16 flex justify-between items-center px-8 border-none">
-        <nav class="flex items-center gap-8" aria-label="Navegação Principal">
-            <strong class="text-2xl font-black text-blue-700 italic tracking-tight lexend">PlanoB</strong>
-            <ul class="hidden md:flex items-center gap-6 font-['Lexend'] tracking-tight list-none">
-                <li><a class="text-blue-700 border-b-2 border-blue-600 font-medium" href="#">Explorar</a></li>
-                <li><a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="#">Meus Planos</a></li>
-                <li><a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="#">Treinadores</a></li>
-            </ul>
-        </nav>
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
 
-        <section class="flex items-center gap-4">
-            <form class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-1.5">
-                <i class="material-symbols-outlined text-outline text-sm">search</i>
-                <input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Procurar treinos..." type="search"/>
-            </form>
-            <button class="material-symbols-outlined hover:text-primary transition-colors" aria-label="Notificações">notifications</button>
-            <button class="material-symbols-outlined hover:text-primary transition-colors" aria-label="Perfil">account_circle</button>
-        </section>
+    <section class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+      <i class="material-symbols-outlined text-outline text-sm not-italic" aria-hidden="true">search</i>
+      <label for="search-videos" class="sr-only">Buscar vídeos</label>
+      <input id="search-videos" class="bg-transparent border-none focus:ring-0 text-sm w-48 ml-2" placeholder="Buscar vídeos..." type="search"/>
+    </section>
+
+    <menu class="flex items-center gap-2 p-0 m-0">
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors" aria-label="Notificações">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+      <li>
+        <figure class="h-9 w-9 rounded-full overflow-hidden border-2 border-primary/20 m-0">
+          <img alt="Professor" class="w-full h-full object-cover"
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"/>
+        </figure>
+      </li>
+    </menu>
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <!-- Sidebar Desktop -->
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] flex-col gap-2 py-8 z-40 mt-16">
+    <header class="px-6 mb-6">
+      <figure class="flex items-center gap-3 m-0">
+        <picture>
+          <img class="w-12 h-12 rounded-full object-cover"
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"
+               alt="Foto do professor"/>
+        </picture>
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">Portal do Professor</p>
+          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+        </figcaption>
+      </figure>
     </header>
 
-    <!-- SideNavBar -->
-    <aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-slate-50 border-r border-slate-200/50 flex flex-col gap-2 py-4 pl-4 z-40 hidden md:flex">
-        <header class="mb-8 px-4 flex items-center gap-3">
-            <figure class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
-                <img alt="Perfil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDubtPFxAm9MAo7THbsw2jHPowLJlyvzqupx7L2ik1qZ16tug6SKNkmfUOIXUNr73cGpQPEBZDZEp8EGjjeYG2Lb1ofDamca3zn3w8eYg6Jf4Ez8V4HKOLKtuHt8QPhfqAcWfHR7wGmF_emIru_M5LHyUT8mN4MB6wUrSdfHcRtx_AwL1Iv3AxoAJ0kUJMZaY3XkR1E3etwW876kEmVYZSoJYs6J30U9pFxVlurG7-8USwDoFHJlKBxbQT_Sauc3j8GtdL1AQVlOZt5"/>
-            </figure>
-            <hgroup>
-                <p class="text-sm font-bold uppercase">Portal do Atleta</p>
-                <small class="text-outline text-xs">Nível: Pro</small>
-            </hgroup>
-        </header>
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="/painelprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+        <em class="not-italic font-medium">Dashboard</em>
+      </a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="/todosalunos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">groups</i>
+        <em class="not-italic font-medium">Meus Alunos</em>
+      </a>
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-primary/20 px-4 py-3 flex items-center gap-3" href="/todosvideos" aria-current="page">
+        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">video_library</i>
+        <em class="not-italic font-medium">Meus Vídeos</em>
+      </a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">assignment</i>
+        <em class="not-italic font-medium">Avaliações</em>
+      </a>
+      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">settings</i>
+        <em class="not-italic font-medium">Configurações</em>
+      </a>
+    </nav>
 
-        <nav class="flex-grow flex flex-col gap-1" aria-label="Menu Lateral">
-            <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:bg-slate-200 rounded-r-full mr-4 transition-all" href="#">
-                <i class="material-symbols-outlined">dashboard</i> Início
-            </a>
-            <a class="flex items-center gap-3 py-3 px-4 bg-blue-600 text-white rounded-r-full mr-4 transition-all" href="#">
-                <i class="material-symbols-outlined">play_circle</i> Treinos
-            </a>
-            <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:bg-slate-200 rounded-r-full mr-4 transition-all" href="#">
-                <i class="material-symbols-outlined">event_note</i> Planos
-            </a>
-        </nav>
+    <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <button class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
+        Novo Conteúdo
+      </button>
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="#">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="not-italic">Sair</em>
+      </a>
+    </footer>
+  </aside>
 
-        <footer class="mt-auto flex flex-col gap-1 pb-4">
-            <article class="mx-4 mb-4 p-4 bg-gradient-to-br from-primary to-blue-400 rounded-2xl text-on-primary">
-                <p class="text-xs font-bold uppercase mb-1">Upgrade</p>
-                <p class="text-sm font-medium mb-3">Benefícios do Plano Diamond</p>
-                <button class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-2 rounded-full text-xs font-bold active:scale-95 transition-transform">Assinar Diamond</button>
-            </article>
-            <nav class="flex flex-col">
-                <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:text-primary transition-colors" href="#"><i class="material-symbols-outlined">help</i> Ajuda</a>
-                <a class="flex items-center gap-3 py-3 px-4 text-slate-500 hover:text-red-500 transition-colors" href="#"><i class="material-symbols-outlined">logout</i> Sair</a>
+  <!-- Main -->
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto space-y-8">
+
+      <!-- Hero -->
+      <header class="relative overflow-hidden rounded-3xl action-gradient p-10 text-white">
+        <hgroup class="relative z-10 max-w-2xl">
+          <h1 class="text-4xl md:text-5xl font-black mb-3 tracking-tight leading-tight">
+            BIBLIOTECA DE <em class="not-italic opacity-80">VÍDEOS</em>
+          </h1>
+          <p class="text-blue-100 text-lg font-medium">Gerencie e organize todos os seus conteúdos de treino em um só lugar.</p>
+        </hgroup>
+        <b class="absolute -right-16 -top-16 w-64 h-64 bg-white/10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+      </header>
+
+      <!-- Filtros -->
+      <nav class="flex items-center gap-3 overflow-x-auto pb-2" aria-label="Filtros de categoria" style="scrollbar-width:none">
+        <button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/20 whitespace-nowrap active:scale-95 transition-transform">Todos</button>
+        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Força</button>
+        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Cardio</button>
+        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">HIIT</button>
+        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Mobilidade</button>
+        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Ioga</button>
+      </nav>
+
+      <!-- Grid de Vídeos -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        <article class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm group hover:shadow-xl transition-all hover:-translate-y-1">
+          <figure class="relative aspect-video overflow-hidden m-0">
+            <img alt="Fluxo Cinético" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYW4lYK1KF2OYkl-77anASJD1c4zyYSV6otvc5MqAPpAQcbHTT-ATFataDkZcL5qfF3s8hUTobSG-osLT3AFNl0GqqQJXkADH1wwV62NYR1i9CkUMITAV7q1w85vH1W38xUjbxXvB6_0IrPOWoI8muGUaIzZsdbAsrzoehQyGZ0W-KW4J0I1oq1Eqzr6dA27RXE9PCsmp8cky62n2jd_SvHNCO5B3tFZ-zlX2bgDpsSCeOEV97Ipd90Iu9kLRcT3mwrmxlna6ziQub"/>
+            <figcaption class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <i class="material-symbols-outlined text-white text-5xl not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">play_arrow</i>
+            </figcaption>
+            <footer class="absolute bottom-3 left-3 right-3 flex justify-between items-center pointer-events-none">
+              <mark class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black px-2 py-1 rounded">MASTERCLASS</mark>
+              <time class="text-white text-xs font-bold bg-black/60 px-2 py-1 rounded">45:00</time>
+            </footer>
+          </figure>
+          <section class="p-5">
+            <h3 class="font-bold text-on-surface mb-1 line-clamp-1">Fundamentos do Agachamento</h3>
+            <p class="text-on-surface-variant text-xs mb-3 line-clamp-2">Técnica completa do agachamento com e sem barra para todos os níveis.</p>
+            <nav class="flex justify-between pt-3 border-t border-surface-container items-center">
+              <small class="text-[10px] font-bold text-primary uppercase tracking-widest">Força · Intermediário</small>
+              <section class="flex gap-1">
+                <a href="/editarexercicios" class="p-1.5 text-primary hover:bg-primary/10 rounded-full transition-colors">
+                  <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">edit</i>
+                </a>
+                <button class="p-1.5 text-error hover:bg-error/10 rounded-full transition-colors">
+                  <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">delete</i>
+                </button>
+              </section>
             </nav>
-        </footer>
-    </aside>
+          </section>
+        </article>
 
-    <!-- Main Content -->
-    <main class="md:ml-64 pt-24 px-8 pb-12">
-        
-        <!-- Hero Section -->
-        <section class="mb-12 relative overflow-hidden rounded-[2rem] bg-surface-container p-12">
-            <figure class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
-                <img alt="Fundo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4cYPfB5lfxjY8MWiPd4y9giHyBeEpCASVVTjL7B-zAnKKtAgJ2GD-8zSBtpxbXU92X1GqOuD7Suh7GVgHw4W79SyyvLjkptWSyi368xxpvJq8Pqbu13FRyBB5RPJQQj3j67KbSHlFQ_SDUdlSJx8CqpBwCY2GmqASs5Hpsjk_ooncoApDxazcidr16LKOCkGtH61B4-exRz-hG8uYVQ3TgeEbGk7qNiIuhX60yi5d2hl0b5KjITCiGNXwHrHMpyKrNjH9Kof8X4Uf"/>
-            </figure>
-            <hgroup class="relative z-10 max-w-2xl">
-                <h1 class="lexend text-5xl font-black mb-4 tracking-tighter">BIBLIOTECA DE <em class="text-primary not-italic">VÍDEOS</em></h1>
-                <p class="text-on-surface-variant text-xl font-medium">Acesse todos os treinos e masterclasses com instrução profissional e qualidade cinematográfica.</p>
-            </hgroup>
-        </section>
+        <!-- Card Adicionar -->
+        <label class="bg-surface-container-low border-2 border-dashed border-outline-variant rounded-3xl flex flex-col items-center justify-center min-h-[220px] group cursor-pointer hover:bg-surface-container transition-all">
+          <figure class="w-14 h-14 bg-surface-container-lowest rounded-full flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform mb-3 m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
+          </figure>
+          <strong class="text-on-surface-variant text-sm">Adicionar Vídeo</strong>
+          <small class="text-xs text-on-surface-variant/60 mt-1">MP4, MOV (Max. 2GB)</small>
+          <input type="file" class="hidden" accept="video/*"/>
+        </label>
 
-        <!-- Filters -->
-        <nav class="flex items-center gap-4 mb-10 overflow-x-auto pb-4 scrollbar-hide" aria-label="Filtro de Categorias">
-            <button class="bg-primary text-on-primary px-8 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 transition-all active:scale-95">Todos</button>
-            <button class="bg-white text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all active:scale-95">Ioga</button>
-            <button class="bg-white text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all active:scale-95">Força</button>
-            <button class="bg-white text-on-surface-variant px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container transition-all active:scale-95">HIIT</button>
-        </nav>
+      </section>
+    </section>
+  </main>
 
-        <!-- Video Grid -->
-        <section class="editorial-grid">
-            
-            <!-- Card -->
-            <article class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all transform hover:-translate-y-2">
-                <figure class="relative aspect-video overflow-hidden">
-                    <img alt="Fluxo Cinético" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH4AeqawmxayfZJbrYYzZxJIFbq38xvASMrZaHz1c17m74q7uaQSKoCE2Dywg86qJhdLVHMuxu67oViDg8AKWnoc5mtShQnYx8fnA7pB6vXvu3pMO2Zp7IYPhyL7Z0XXG7gNKWfsWG6m-kAyPagkNR185gSaWYKGkVeZCRBSi7gfuY906LFXP9m_iCtuI25q5YN33AwMT6ToChzXhFG128ClXU11wtO0O50CJgKOBx-JobHWMDT8JMrpPkW0JkkHcXzLB-_HgMpiNy"/>
-                    <footer class="absolute bottom-4 left-4 flex items-center gap-2">
-                        <mark class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black px-2 py-1 rounded">MASTERCLASS</mark>
-                        <time class="text-white text-xs font-bold flex items-center gap-1"><i class="material-symbols-outlined text-xs">schedule</i> 45 min</time>
-                    </footer>
-                    <button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform">
-                        <i class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
-                    </button>
-                </figure>
-                <section class="p-6">
-                    <h3 class="lexend text-xl font-bold mb-2">Fluxo Cinético</h3>
-                    <p class="text-on-surface-variant text-sm line-clamp-2">Uma fusão fluida de ioga vinyasa e mobilidade funcional.</p>
-                    <footer class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
-                        <small class="text-xs font-bold text-primary uppercase tracking-widest">Nível: Intermediário</small>
-                    </footer>
-                </section>
-            </article>
+  <!-- Menu Mobile Professor com botão + -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2
+              bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
 
-        </section>
-    </main>
+    <a href="/painelprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+    </a>
 
-    <!-- Floating Button -->
-    <button class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-br from-primary to-blue-400 text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-50">
-        <i class="material-symbols-outlined text-3xl">filter_list</i>
+    <a href="/todosalunos" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">groups</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
+    </a>
+
+    <button class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform"
+            aria-label="Adicionar novo vídeo">
+      <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
     </button>
+
+    <a href="/todosvideos" class="flex flex-col items-center justify-center text-[#0058ba] p-3 rounded-[18px] bg-[#d5dbff]" aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">video_library</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+
+    <a href="#" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+  </nav>
 
 </body>
 </html>

@@ -1,211 +1,135 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Checkout PlanoB</title>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PlanoB - Checkout</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <script id="tailwind-config">
     tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "secondary-dim": "#00576c",
-            "primary-fixed-dim": "#5091ff",
-            "on-tertiary": "#fff2cd",
-            "surface": "#f7f5ff",
-            "surface-tint": "#0058ba",
-            "on-surface": "#232c51",
-            "surface-container-low": "#efefff",
-            "secondary-container": "#80deff",
-            "tertiary-fixed": "#ffd709",
-            "on-tertiary-container": "#5b4b00",
-            "inverse-surface": "#020a2f",
-            "primary-fixed": "#6c9fff",
-            "surface-container-highest": "#d5dbff",
-            "tertiary-dim": "#5e4e00",
-            "on-secondary-container": "#004e61",
-            "outline-variant": "#a2abd7",
-            "surface-container-lowest": "#ffffff",
-            "surface-dim": "#cad2ff",
-            "on-secondary": "#e2f6ff",
-            "on-error-container": "#570008",
-            "on-background": "#232c51",
-            "on-secondary-fixed": "#003a48",
-            "surface-variant": "#d5dbff",
-            "inverse-on-surface": "#929bc6",
-            "surface-container-high": "#dde1ff",
-            "on-tertiary-fixed-variant": "#665500",
-            "on-tertiary-fixed": "#453900",
-            "secondary": "#00647b",
-            "on-primary-container": "#00214e",
-            "on-primary-fixed-variant": "#002a60",
-            "surface-container": "#e4e7ff",
-            "background": "#f7f5ff",
-            "on-secondary-fixed-variant": "#00586d",
-            "on-error": "#ffefee",
-            "primary-dim": "#004da4",
-            "tertiary-container": "#ffd709",
-            "outline": "#6c759e",
-            "inverse-primary": "#4a8eff",
-            "on-primary": "#f0f2ff",
-            "error-container": "#fb5151",
-            "secondary-fixed": "#80deff",
-            "primary-container": "#6c9fff",
-            "primary": "#0058ba",
-            "surface-bright": "#f7f5ff",
-            "error-dim": "#9f0519",
-            "tertiary": "#6c5a00",
-            "on-primary-fixed": "#000000",
-            "tertiary-fixed-dim": "#efc900",
-            "on-surface-variant": "#505a81",
-            "secondary-fixed-dim": "#37d4ff",
-            "error": "#b31b25"
-          },
-          borderRadius: {
-            DEFAULT: "0.25rem",
-            lg: "0.5rem",
-            xl: "0.75rem",
-            full: "9999px"
-          },
-          fontFamily: {
-            headline: ["Lexend"],
-            body: ["Manrope"],
-            label: ["Manrope"]
-          }
-        }
-      }
+      darkMode:"class",
+      theme:{ extend:{
+        colors:{
+          "surface-tint":"#0058ba","surface-container-high":"#dde1ff","tertiary":"#6c5a00",
+          "surface-container":"#e4e7ff","primary-container":"#6c9fff","primary-dim":"#004da4",
+          "outline":"#6c759e","primary-fixed":"#6c9fff","on-primary-container":"#00214e",
+          "surface-dim":"#cad2ff","secondary-dim":"#00576c","background":"#f7f5ff",
+          "on-secondary-container":"#004e61","error-container":"#fb5151","tertiary-dim":"#5e4e00",
+          "outline-variant":"#a2abd7","on-surface-variant":"#505a81","tertiary-fixed-dim":"#efc900",
+          "surface-bright":"#f7f5ff","tertiary-fixed":"#ffd709","error":"#b31b25",
+          "inverse-surface":"#020a2f","surface-container-lowest":"#ffffff","primary-fixed-dim":"#5091ff",
+          "surface-variant":"#d5dbff","on-surface":"#232c51","surface-container-highest":"#d5dbff",
+          "inverse-primary":"#4a8eff","tertiary-container":"#ffd709","on-tertiary":"#fff2cd",
+          "secondary-container":"#80deff","surface-container-low":"#efefff","on-primary":"#f0f2ff",
+          "inverse-on-surface":"#929bc6","surface":"#f7f5ff","primary":"#0058ba",
+          "on-background":"#232c51","secondary":"#00647b","on-tertiary-fixed":"#453900",
+          "on-tertiary-container":"#5b4b00","on-tertiary-fixed-variant":"#665500",
+          "on-error":"#ffefee","on-error-container":"#570008","error-dim":"#9f0519"
+        },
+        borderRadius:{ DEFAULT:"0.25rem", lg:"0.5rem", xl:"0.75rem", full:"9999px" },
+        fontFamily:{ headline:["Lexend"], body:["Manrope"], label:["Manrope"] }
+      }}
     }
   </script>
   <style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    @font-face { font-family:'Baumans'; src:url('/fonts/Baumans-Regular.ttf') format('truetype'); }
+    .logo-font { font-family:'Baumans',sans-serif !important; font-weight:400 !important; letter-spacing:0.02em; }
+    .logo-header { font-size:2.7rem; line-height:1; }
+    body { font-family:'Manrope',sans-serif; }
+    h1,h2,h3,h4 { font-family:'Lexend',sans-serif; }
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align:middle; }
+    .action-gradient { background:linear-gradient(135deg,#0058ba 0%,#6c9fff 100%); }
+    @media (max-width:768px) {
+      html,body { overflow-x:hidden; }
+      main { padding-bottom:32px !important; }
     }
-    body { font-family: 'Manrope', sans-serif; }
-    h1, h2, h3 { font-family: 'Lexend', sans-serif; }
   </style>
 </head>
-
 <body class="bg-surface text-on-surface min-h-screen">
 
-  <!-- ── Header ─────────────────────────────────────────────── -->
-  <header class="bg-[#f7f5ff]/80 dark:bg-[#1a1b26]/80 backdrop-blur-xl sticky top-0 z-50 px-6 py-6 lg:px-24">
-    <nav class="flex justify-between items-center max-w-7xl mx-auto w-full">
-      <strong class="text-2xl font-black tracking-tight text-[#0058ba] dark:text-[#6c9fff]">PlanoB</strong>
-      <p class="flex items-center gap-2 text-on-surface-variant text-sm font-semibold">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-[#f7f5ff]/80 backdrop-blur-xl px-6 py-5 lg:px-16">
+    <nav class="flex justify-between items-center max-w-7xl mx-auto w-full" aria-label="Header checkout">
+      <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
+      <section class="flex items-center gap-2 text-on-surface-variant text-sm font-semibold">
         <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">lock</i>
         Checkout Seguro
-      </p>
+      </section>
     </nav>
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
   </header>
 
-  <!-- ── Main ───────────────────────────────────────────────── -->
-  <main class="max-w-7xl mx-auto px-6 py-12 lg:px-24">
-    <section class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-6 py-12 lg:px-16">
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
-      <!-- ── Payment Form ──────────────────────────────────── -->
-      <article class="lg:col--7">
-
+      <!-- Formulário de pagamento -->
+      <article class="lg:col-span-7">
         <header class="mb-10">
-          <h1 class="text-4xl font-black tracking-tight text-primary mb-4">Pagamento</h1>
+          <h1 class="text-4xl font-black tracking-tight text-primary mb-3">Pagamento</h1>
           <p class="text-on-surface-variant font-medium">Finalize sua assinatura para começar a treinar hoje mesmo.</p>
         </header>
 
-        <form id="checkout-form" class="space-y-8">
+        <form id="checkout-form" class="space-y-6" data-form="pagamento" novalidate>
 
-          <!-- Card Details fieldset -->
-          <fieldset class="bg-surface-container-low rounded-[32px] p-8 space-y-6">
-            <legend class="text-xl font-bold flex items-center gap-3">
+          <!-- Dados do cartão -->
+          <fieldset class="bg-surface-container-low rounded-[2rem] p-8 space-y-6">
+            <legend class="text-xl font-bold flex items-center gap-3 pb-2">
               <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">credit_card</i>
               Detalhes do Cartão
             </legend>
 
-            <ul role="list" class="grid grid-cols-1 gap-6 list-none p-0 m-0">
+            <ul role="list" class="grid grid-cols-1 gap-5 list-none p-0 m-0">
 
-              <!-- Nome no Cartão -->
               <li class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1"
-                       for="card-name">
-                  Nome no Cartão
-                </label>
-                <input id="card-name"
-                       class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:opacity-40"
-                       placeholder="Como impresso no cartão"
-                       type="text"
-                       autocomplete="cc-name" />
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-name">Nome no Cartão</label>
+                <input id="card-name" name="card-name"
+                       class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                       placeholder="Como impresso no cartão" type="text" autocomplete="cc-name"/>
               </li>
 
-              <!-- Número do Cartão -->
               <li class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1"
-                       for="card-number">
-                  Número do Cartão
-                </label>
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-number">Número do Cartão</label>
                 <figure class="relative m-0">
-                  <input id="card-number"
-                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:opacity-40"
-                         placeholder="0000 0000 0000 0000"
-                         type="text"
-                         autocomplete="cc-number"
-                         inputmode="numeric"
-                         maxlength="19" />
-                  <aside class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1 opacity-60"
-                         aria-label="Bandeiras aceitas">
-                    <img alt="Visa" class="h-4"
-                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcWCaBNXFoxyMvw9_huLbUBW7YaGAi4dBJrV-HjvSRWKvcnfteu8XXWa0AZ45F4WjYlC4i8ifhKRAtOoTPiqeLTBKnslut_-0jxtvvxNF2O81joQisDJ4ijiEIF-Mxw04KeeoWdthVUKM40OePUZ4voSkdbFkR4H2vxYWpu3Tg-2Y6gQghOKydUBY3z__eNbSdcDOuvf9EKpoLl8rGpBMfZYoqR4jP6cTNjKKYK_42bQyKjqSn3Zk3GoOrwC9TldDSwu36qzOCQk" />
-                    <img alt="Mastercard" class="h-4"
-                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC24WrvejDz-YcTaUuzbpzqRdM_MSz5Rl866KQhvWs1X38xVggbywkQs_nKt8-bDtYXvH_l6FTwGlR8wpKMbKKasfZV8w9JfyvWe5kn-nnVVw31kjjPbqQ2mR3Arb2YafanDCerubf97N_ri7DX0CQVdDnvQ_PtdF-3BHBeWDW3hvsfemj2R9comr1CUYDaF2NQBPY9ucj0iT00-Xvi_XnXHBMbCYiQA9gMqRcERsUGDfqPvZYWhX_8r2z4uq8Raj7reegOKQckso5" />
+                  <input id="card-number" name="card-number"
+                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 pr-28 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                         placeholder="0000 0000 0000 0000" type="text" autocomplete="cc-number" inputmode="numeric" maxlength="19"/>
+                  <aside class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2 opacity-50" aria-label="Bandeiras aceitas">
+                    <img alt="Visa" class="h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcWCaBNXFoxyMvw9_huLbUBW7YaGAi4dBJrV-HjvSRWKvcnfteu8XXWa0AZ45F4WjYlC4i8ifhKRAtOoTPiqeLTBKnslut_-0jxtvvxNF2O81joQisDJ4ijiEIF-Mxw04KeeoWdthVUKM40OePUZ4voSkdbFkR4H2vxYWpu3Tg-2Y6gQghOKydUBY3z__eNbSdcDOuvf9EKpoLl8rGpBMfZYoqR4jP6cTNjKKYK_42bQyKjqSn3Zk3GoOrwC9TldDSwu36qzOCQk"/>
+                    <img alt="Mastercard" class="h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC24WrvejDz-YcTaUuzbpzqRdM_MSz5Rl866KQhvWs1X38xVggbywkQs_nKt8-bDtYXvH_l6FTwGlR8wpKMbKKasfZV8w9JfyvWe5kn-nnVVw31kjjPbqQ2mR3Arb2YafanDCerubf97N_ri7DX0CQVdDnvQ_PtdF-3BHBeWDW3hvsfemj2R9comr1CUYDaF2NQBPY9ucj0iT00-Xvi_XnXHBMbCYiQA9gMqRcERsUGDfqPvZYWhX_8r2z4uq8Raj7reegOKQckso5"/>
                   </aside>
                 </figure>
               </li>
 
-              <!-- Validade + CVV -->
-              <li class="grid grid-cols-2 gap-6">
+              <li class="grid grid-cols-2 gap-5">
                 <label class="space-y-2 flex flex-col" for="card-expiry">
                   <small class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1 not-italic">Validade</small>
-                  <input id="card-expiry"
-                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:opacity-40"
-                         placeholder="MM/AA"
-                         type="text"
-                         autocomplete="cc-exp"
-                         inputmode="numeric"
-                         maxlength="5" />
+                  <input id="card-expiry" name="card-expiry"
+                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                         placeholder="MM/AA" type="text" autocomplete="cc-exp" inputmode="numeric" maxlength="5"/>
                 </label>
                 <label class="space-y-2 flex flex-col" for="card-cvv">
                   <small class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1 not-italic">CVV</small>
-                  <input id="card-cvv"
-                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:opacity-40"
-                         placeholder="123"
-                         type="text"
-                         autocomplete="cc-csc"
-                         inputmode="numeric"
-                         maxlength="4" />
+                  <input id="card-cvv" name="card-cvv"
+                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                         placeholder="123" type="text" autocomplete="cc-csc" inputmode="numeric" maxlength="4"/>
                 </label>
               </li>
 
-              <!-- CPF -->
               <li class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1"
-                       for="card-cpf">
-                  CPF do Titular
-                </label>
-                <input id="card-cpf"
-                       class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all text-on-surface placeholder:opacity-40"
-                       placeholder="000.000.000-00"
-                       type="text"
-                       inputmode="numeric"
-                       maxlength="14" />
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-cpf">CPF do Titular</label>
+                <input id="card-cpf" name="card-cpf"
+                       class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                       placeholder="000.000.000-00" type="text" inputmode="numeric" maxlength="14"/>
               </li>
 
             </ul>
           </fieldset>
 
-          <!-- Security seals -->
-          <ul role="list" class="flex flex-wrap items-center gap-8 pt-4 list-none p-0 m-0">
+          <!-- Selos de segurança -->
+          <ul role="list" class="flex flex-wrap items-center gap-6 pt-2 list-none p-0 m-0">
             <li class="flex items-center gap-2 text-on-surface-variant/60">
               <i class="material-symbols-outlined not-italic" aria-hidden="true">verified_user</i>
               <small class="text-xs font-semibold not-italic">SSL Encriptado</small>
@@ -223,51 +147,49 @@
         </form>
       </article>
 
-      <!-- ── Order Summary ─────────────────────────────────── -->
-      <aside class="lg:col--5 lg:sticky lg:top-32">
-
-        <section class="bg-surface-container-lowest border-2 border-primary/5 rounded-[40px] p-8 shadow-2xl shadow-on-surface/5 relative overflow-hidden">
-
-          <!-- Background decoration -->
-          <b class="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" aria-hidden="true"></b>
+      <!-- Resumo do pedido -->
+      <aside class="lg:col-span-5 lg:sticky lg:top-28">
+        <section class="bg-surface-container-lowest border-2 border-primary/5 rounded-[2.5rem] p-8 shadow-2xl shadow-on-surface/5 relative overflow-hidden">
+          <b class="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
 
           <h3 class="text-2xl font-black mb-8 relative">Resumo do Pedido</h3>
 
           <ul role="list" class="space-y-6 relative list-none p-0 m-0">
 
-            <!-- Plan card -->
-            <li class="flex items-center gap-4 bg-surface p-4 rounded-3xl">
-              <figure class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-white m-0">
-                <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true"
-                   style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">
-                  workspace_premium
-                </i>
+            <!-- Plano escolhido -->
+            <li class="flex items-center gap-4 bg-surface p-4 rounded-2xl">
+              <figure class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-white m-0 shrink-0">
+                <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">workspace_premium</i>
               </figure>
-              <hgroup>
+              <hgroup class="flex-1 min-w-0">
                 <p class="text-xs font-bold text-primary uppercase tracking-widest">Plano Selecionado</p>
-                <p class="text-xl font-extrabold">Plano Lazuli</p>
+                <p class="text-xl font-extrabold text-on-surface">Plano Lazuli</p>
               </hgroup>
-              <p class="ml-auto text-right">
+              <section class="text-right shrink-0">
                 <strong class="text-sm font-bold block">R$ 89,90</strong>
                 <small class="text-[10px] text-on-surface-variant">/mês</small>
-              </p>
+              </section>
             </li>
 
             <!-- Subtotal -->
-            <li class="space-y-4 pt-4 border-t-2 border-surface-container-low">
+            <li class="space-y-3 pt-4 border-t-2 border-surface-container-low">
               <dl class="flex justify-between items-center text-on-surface-variant">
                 <dt class="font-medium">Subtotal</dt>
                 <dd class="font-bold">R$ 89,90</dd>
               </dl>
+              <dl class="flex justify-between items-center text-on-surface-variant">
+                <dt class="font-medium">Taxa de serviço</dt>
+                <dd class="font-bold text-secondary">Grátis</dd>
+              </dl>
             </li>
 
             <!-- Total -->
-            <li class="pt-6 border-t-2 border-surface-container-low flex justify-between items-end">
+            <li class="pt-5 border-t-2 border-surface-container-low flex justify-between items-end">
               <hgroup>
                 <p class="text-xs font-black uppercase tracking-widest text-primary">Total a pagar</p>
                 <p class="text-4xl font-black tracking-tighter">R$ 89,90</p>
               </hgroup>
-              <small class="text-[10px] text-on-surface-variant font-medium leading-tight max-w-[120px] text-right not-italic">
+              <small class="text-[10px] text-on-surface-variant font-medium leading-tight max-w-[110px] text-right not-italic">
                 Cobrança mensal recorrente. Cancele quando quiser.
               </small>
             </li>
@@ -275,7 +197,7 @@
           </ul>
 
           <button form="checkout-form"
-                  class="w-full text-white font-bold py-6 rounded-full text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex justify-center items-center gap-2 bg-primary mt-8"
+                  class="w-full text-white font-bold py-5 rounded-full text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex justify-center items-center gap-2 action-gradient mt-8"
                   type="submit">
             Pagar Agora
             <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
@@ -283,21 +205,21 @@
 
         </section>
 
-        <!-- Footer links -->
-        <footer class="mt-8 px-4 flex flex-col gap-2">
+        <footer class="mt-6 px-4 flex flex-col gap-2">
           <nav class="flex gap-4 justify-center" aria-label="Links legais">
             <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Termos de Uso</a>
             <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidade</a>
-            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Suporte</a>
+            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="suporte">Suporte</a>
           </nav>
-          <small class="text-[10px] text-center text-on-surface-variant opacity-50 mt-2 not-italic">
+          <small class="text-[10px] text-center text-on-surface-variant opacity-50 mt-1 not-italic">
             © 2024 PlanoB Fitness Tech. Todos os direitos reservados.
           </small>
         </footer>
-
       </aside>
+
     </section>
   </main>
 
+  <script src="/js/validacoes.js"></script>
 </body>
 </html>
