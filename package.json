@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NicoleNakagawa/PlanoB_2026#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
     "express-session": "^1.19.0"
