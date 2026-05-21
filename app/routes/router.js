@@ -131,6 +131,10 @@ router.get('/todosvideos', authProfessor, (req, res) => {
     res.render('todosvideos', { professor: req.session.professor })
 })
 
+router.get('/visaoperfilaluno', authProfessor, (req, res) => {
+    res.render('visaoperfilaluno', { professor: req.session.professor })
+})
+
 router.get('/editarexercicios', authProfessor, (req, res) => {
     res.render('editarexercicios', { professor: req.session.professor })
 })
