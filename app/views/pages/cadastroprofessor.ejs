@@ -221,13 +221,15 @@
         <fieldset class="space-y-2">
           <legend class="sr-only">CREF</legend>
           <label for="cref" class="ml-1 text-sm font-bold text-on-surface-variant">Registro CREF</label>
-          <input
-            id="cref"
-            name="cref"
-            type="text"
-            placeholder="000000-G/XX"
-            class="w-full rounded-xl border-none bg-surface-container-highest px-4 py-4 text-on-surface transition-all duration-200 placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 outline-none"
-          />
+            <input 
+                type="text" 
+                name="cref" 
+                id="cref"
+                placeholder="Ex: 123456-G/SP"
+                required
+                pattern="[0-9]{4,6}-[A-Za-z]{1}/[A-Za-z]{2}"
+                title="Digite o CREF no formato 123456-G/SP"
+            >
         </fieldset>
 
         <section class="grid grid-cols-1 gap-4 md:grid-cols-2">

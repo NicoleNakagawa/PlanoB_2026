@@ -15,11 +15,25 @@ function authProfessor(req, res, next) {
     res.redirect('/loginprofessor')
 }
 
+// =======================
 // PÁGINAS PÚBLICAS
-router.get('/', (req, res) => res.render('home'))
-router.get('/home', (req, res) => res.render('home'))
-router.get('/planos', (req, res) => res.render('planos'))
-router.get('/suporte', (req, res) => res.render('suporte'))
+// =======================
+
+router.get('/', (req, res) => {
+    res.render('home')
+})
+
+router.get('/home', (req, res) => {
+    res.render('home')
+})
+
+router.get('/planos', (req, res) => {
+    res.render('planos')
+})
+
+router.get('/suporte', (req, res) => {
+    res.render('suporte')
+})
 
 router.get('/cadastroaluno', (req, res) => {
     res.render('cadastroaluno')
@@ -41,13 +55,20 @@ router.get('/loginprofessor', (req, res) => {
     })
 })
 
-// PÁGINAS PROTEGIDAS — ALUNO
+// =======================
+// PÁGINAS PROTEGIDAS - ALUNO
+// =======================
+
 router.get('/painelfree', authAluno, (req, res) => {
     res.render('painelfree', { aluno: req.session.aluno })
 })
 
 router.get('/videosfree', authAluno, (req, res) => {
     res.render('videosfree', { aluno: req.session.aluno })
+})
+
+router.get('/videos', authAluno, (req, res) => {
+    res.render('videos', { aluno: req.session.aluno })
 })
 
 router.get('/progressosemanal', authAluno, (req, res) => {
@@ -60,10 +81,6 @@ router.get('/streakprogress', authAluno, (req, res) => {
 
 router.get('/feedbackaluno', authAluno, (req, res) => {
     res.render('feedbackaluno', { aluno: req.session.aluno })
-})
-
-router.get('/videos', authAluno, (req, res) => {
-    res.render('videos', { aluno: req.session.aluno })
 })
 
 router.get('/pagamento', authAluno, async (req, res) => {
@@ -98,7 +115,10 @@ router.get('/pagamento', authAluno, async (req, res) => {
     }
 })
 
-// PÁGINAS PROTEGIDAS — PROFESSOR
+// =======================
+// PÁGINAS PROTEGIDAS - PROFESSOR
+// =======================
+
 router.get('/painelprofessor', authProfessor, (req, res) => {
     res.render('painelprofessor', { professor: req.session.professor })
 })
@@ -126,7 +146,10 @@ router.get('/feedbackresposta', authProfessor, (req, res) => {
     })
 })
 
+// =======================
 // CADASTRO ALUNO
+// =======================
+
 router.post('/cadastroaluno', async (req, res) => {
     const { name, email, password } = req.body
 
@@ -153,7 +176,7 @@ router.post('/cadastroaluno', async (req, res) => {
         const [result] = await db.query(
             `INSERT INTO aluno (nome, email, senha_hash, id_plano)
              VALUES (?, ?, ?, 1)`,
-            [name, email, senhaHash]
+            [name.trim(), email.trim().toLowerCase(), senhaHash]
         )
 
         await db.query(
@@ -165,13 +188,17 @@ router.post('/cadastroaluno', async (req, res) => {
         res.redirect('/loginaluno?sucesso=1')
     } catch (err) {
         console.error('[cadastroaluno]', err)
+
         res.render('cadastroaluno', {
             erro: 'Erro interno. Tente novamente.'
         })
     }
 })
 
-// CADASTRO PROFESSOR
+// =======================
+// CADASTRO PROFESSOR COM VALIDAÇÃO DE CREF
+// =======================
+
 router.post('/cadastroprofessor', async (req, res) => {
     const { name, email, cref, password } = req.body
 
@@ -181,10 +208,31 @@ router.post('/cadastroprofessor', async (req, res) => {
         })
     }
 
+    const nomeLimpo = name.trim()
+    const emailLimpo = email.trim().toLowerCase()
+    const crefLimpo = cref.trim().toUpperCase()
+
+    /*
+        Formato aceito:
+        1234-G/SP
+        12345-G/SP
+        123456-G/SP
+        000123-G/RJ
+        987654-P/MG
+    */
+
+    const regexCREF = /^[0-9]{4,6}-[A-Z]\/[A-Z]{2}$/
+
+    if (!regexCREF.test(crefLimpo)) {
+        return res.render('cadastroprofessor', {
+            erro: 'CREF inválido. Use o formato 123456-G/SP.'
+        })
+    }
+
     try {
         const [emailRows] = await db.query(
             'SELECT id_professor FROM professor WHERE email = ?',
-            [email]
+            [emailLimpo]
         )
 
         if (emailRows.length > 0) {
@@ -195,7 +243,7 @@ router.post('/cadastroprofessor', async (req, res) => {
 
         const [crefRows] = await db.query(
             'SELECT id_professor FROM professor WHERE cref = ?',
-            [cref]
+            [crefLimpo]
         )
 
         if (crefRows.length > 0) {
@@ -209,19 +257,23 @@ router.post('/cadastroprofessor', async (req, res) => {
         await db.query(
             `INSERT INTO professor (nome, email, senha_hash, cref)
              VALUES (?, ?, ?, ?)`,
-            [name, email, senhaHash, cref]
+            [nomeLimpo, emailLimpo, senhaHash, crefLimpo]
         )
 
         res.redirect('/loginprofessor?sucesso=1')
     } catch (err) {
         console.error('[cadastroprofessor]', err)
+
         res.render('cadastroprofessor', {
             erro: 'Erro interno. Tente novamente.'
         })
     }
 })
 
+// =======================
 // LOGIN ALUNO
+// =======================
+
 router.post('/loginaluno', async (req, res) => {
     const { email, password, remember } = req.body
 
@@ -234,8 +286,9 @@ router.post('/loginaluno', async (req, res) => {
     try {
         const [rows] = await db.query(
             `SELECT id_aluno, nome, email, senha_hash, id_plano, foto_perfil
-             FROM aluno WHERE email = ?`,
-            [email]
+             FROM aluno 
+             WHERE email = ?`,
+            [email.trim().toLowerCase()]
         )
 
         if (rows.length === 0) {
@@ -268,13 +321,17 @@ router.post('/loginaluno', async (req, res) => {
         res.redirect('/painelfree')
     } catch (err) {
         console.error('[loginaluno]', err)
+
         res.render('loginaluno', {
             erro: 'Erro interno. Tente novamente.'
         })
     }
 })
 
+// =======================
 // LOGIN PROFESSOR
+// =======================
+
 router.post('/loginprofessor', async (req, res) => {
     const { email, password, remember } = req.body
 
@@ -287,8 +344,9 @@ router.post('/loginprofessor', async (req, res) => {
     try {
         const [rows] = await db.query(
             `SELECT id_professor, nome, email, senha_hash, cref, foto_perfil
-             FROM professor WHERE email = ?`,
-            [email]
+             FROM professor 
+             WHERE email = ?`,
+            [email.trim().toLowerCase()]
         )
 
         if (rows.length === 0) {
@@ -321,25 +379,37 @@ router.post('/loginprofessor', async (req, res) => {
         res.redirect('/painelprofessor')
     } catch (err) {
         console.error('[loginprofessor]', err)
+
         res.render('loginprofessor', {
             erro: 'Erro interno. Tente novamente.'
         })
     }
 })
 
+// =======================
 // LOGOUT
+// =======================
+
 router.post('/logout', (req, res) => {
-    req.session.destroy(() => res.redirect('/home'))
+    req.session.destroy(() => {
+        res.redirect('/home')
+    })
 })
 
 router.get('/logout', (req, res) => {
-    req.session.destroy(() => res.redirect('/home'))
+    req.session.destroy(() => {
+        res.redirect('/home')
+    })
 })
 
+// =======================
 // PAGAMENTO
+// =======================
+
 router.post('/pagamento', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
     const idPlano = Number(req.body['id-plano']) || 2
+
     const nomeTitular = req.body['card-name']
     const numeroRaw = req.body['card-number'] || ''
     const cpfTitular = req.body['card-cpf'] || ''
@@ -367,7 +437,7 @@ router.post('/pagamento', authAluno, async (req, res) => {
 
     try {
         const [planoRows] = await db.query(
-            'SELECT valor_mensal FROM plano WHERE id_plano = ?',
+            'SELECT id_plano, nome, valor_mensal FROM plano WHERE id_plano = ?',
             [idPlano]
         )
 
@@ -383,10 +453,12 @@ router.post('/pagamento', authAluno, async (req, res) => {
             })
         }
 
-        const valorPlano = planoRows[0].valor_mensal
+        const plano = planoRows[0]
+        const valorPlano = parseFloat(plano.valor_mensal)
 
         const [descontoRows] = await db.query(
-            `SELECT id_desconto, percentual FROM desconto
+            `SELECT id_desconto, percentual 
+             FROM desconto
              WHERE id_aluno = ? 
              AND usado = 0
              AND (validade IS NULL OR validade >= CURDATE())
@@ -395,12 +467,12 @@ router.post('/pagamento', authAluno, async (req, res) => {
             [idAluno]
         )
 
-        let valorFinal = parseFloat(valorPlano)
+        let valorFinal = valorPlano
         let idDesconto = null
 
         if (descontoRows.length > 0) {
-            const pct = parseFloat(descontoRows[0].percentual)
-            valorFinal = valorFinal * (1 - pct / 100)
+            const percentual = parseFloat(descontoRows[0].percentual)
+            valorFinal = valorPlano * (1 - percentual / 100)
             idDesconto = descontoRows[0].id_desconto
         }
 
@@ -419,7 +491,7 @@ router.post('/pagamento', authAluno, async (req, res) => {
             `INSERT INTO pagamento
              (id_assinatura, id_aluno, valor, status, metodo, nome_titular, ultimos_4, bandeira)
              VALUES (?, ?, ?, 'aprovado', 'cartao_credito', ?, ?, ?)`,
-            [idAssinatura, idAluno, valorFinal.toFixed(2), nomeTitular, ultimos4, bandeira]
+            [idAssinatura, idAluno, valorFinal.toFixed(2), nomeTitular.trim(), ultimos4, bandeira]
         )
 
         await db.query(
@@ -452,16 +524,25 @@ router.post('/pagamento', authAluno, async (req, res) => {
     }
 })
 
+// =======================
 // SUPORTE
+// =======================
+
 router.post('/suporte', async (req, res) => {
     const { nome, email, assunto, mensagem } = req.body
     const idAluno = req.session.aluno ? req.session.aluno.id : null
+
+    if (!nome || !email || !mensagem) {
+        return res.render('suporte', {
+            erro: 'Preencha nome, e-mail e mensagem.'
+        })
+    }
 
     try {
         await db.query(
             `INSERT INTO suporte (id_aluno, nome, email, assunto, mensagem)
              VALUES (?, ?, ?, ?, ?)`,
-            [idAluno, nome, email, assunto || null, mensagem]
+            [idAluno, nome.trim(), email.trim().toLowerCase(), assunto || null, mensagem.trim()]
         )
 
         res.render('suporte', {
@@ -476,12 +557,22 @@ router.post('/suporte', async (req, res) => {
     }
 })
 
+// =======================
 // FEEDBACK ALUNO
+// =======================
+
 router.post('/feedbackaluno', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
     const intensidade = req.body['intensity']
     const cansaco = req.body['tiredness-range']
     const texto = req.body['trainer-message']
+
+    if (!texto) {
+        return res.render('feedbackaluno', {
+            aluno: req.session.aluno,
+            erro: 'Escreva uma mensagem para enviar ao professor.'
+        })
+    }
 
     try {
         const [fichaRows] = await db.query(
@@ -502,7 +593,6 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
         }
 
         const idProfessor = fichaRows[0].id_professor
-
         let idChat
 
         const [chatRows] = await db.query(
@@ -529,7 +619,7 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
             `INSERT INTO mensagem_feedback
              (id_chat, remetente, intensidade, nivel_cansaco, texto)
              VALUES (?, 'aluno', ?, ?, ?)`,
-            [idChat, intensidade || null, cansaco || null, texto]
+            [idChat, intensidade || null, cansaco || null, texto.trim()]
         )
 
         res.render('feedbackaluno', {
@@ -546,7 +636,10 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
     }
 })
 
+// =======================
 // RESPOSTA PROFESSOR
+// =======================
+
 router.post('/feedbackresposta', authProfessor, async (req, res) => {
     const idProfessor = req.session.professor.id
     const idAluno = Number(req.body['id-aluno'])
@@ -572,6 +665,7 @@ router.post('/feedbackresposta', authProfessor, async (req, res) => {
         if (chatRows.length === 0) {
             return res.render('feedbackresposta', {
                 professor: req.session.professor,
+                idAluno,
                 erro: 'Conversa não encontrada.'
             })
         }
@@ -581,7 +675,7 @@ router.post('/feedbackresposta', authProfessor, async (req, res) => {
         await db.query(
             `INSERT INTO mensagem_feedback (id_chat, remetente, texto)
              VALUES (?, 'professor', ?)`,
-            [idChat, texto]
+            [idChat, texto.trim()]
         )
 
         await db.query(
@@ -599,12 +693,16 @@ router.post('/feedbackresposta', authProfessor, async (req, res) => {
 
         res.render('feedbackresposta', {
             professor: req.session.professor,
+            idAluno,
             erro: 'Erro ao enviar resposta.'
         })
     }
 })
 
-// EDITAR EXERCÍCIO
+// =======================
+// EDITAR EXERCÍCIOS
+// =======================
+
 router.post('/editarexercicios', authProfessor, async (req, res) => {
     const idExercicio = Number(req.body['id-exercicio'])
     const titulo = req.body['exercise-title']
@@ -612,6 +710,13 @@ router.post('/editarexercicios', authProfessor, async (req, res) => {
     const categoria = req.body['exercise-category']
     const duracao = Number(req.body['exercise-duration']) || null
     const nivel = req.body['difficulty'] || 'intermediario'
+
+    if (!idExercicio || !titulo) {
+        return res.render('editarexercicios', {
+            professor: req.session.professor,
+            erro: 'Informe o exercício e o título.'
+        })
+    }
 
     try {
         await db.query(
@@ -622,7 +727,7 @@ router.post('/editarexercicios', authProfessor, async (req, res) => {
                  duracao_segundos = ?, 
                  nivel = ?
              WHERE id_exercicio = ?`,
-            [titulo, descricao, categoria, duracao, nivel, idExercicio]
+            [titulo.trim(), descricao || null, categoria || null, duracao, nivel, idExercicio]
         )
 
         res.redirect('/todosvideos')
@@ -636,7 +741,10 @@ router.post('/editarexercicios', authProfessor, async (req, res) => {
     }
 })
 
-// APIs JSON
+// =======================
+// APIs JSON - ALUNO
+// =======================
+
 router.get('/api/aluno/progresso', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
 
@@ -686,12 +794,19 @@ router.get('/api/aluno/streak', authAluno, async (req, res) => {
     }
 })
 
+// =======================
+// APIs JSON - PROFESSOR
+// =======================
+
 router.get('/api/professor/alunos', authProfessor, async (req, res) => {
     const idProfessor = req.session.professor.id
 
     try {
         const [rows] = await db.query(
-            `SELECT a.id_aluno, a.nome, a.email, a.foto_perfil,
+            `SELECT a.id_aluno, 
+                    a.nome, 
+                    a.email, 
+                    a.foto_perfil,
                     p.nome AS plano,
                     s.streak_atual,
                     ps.variacao_pct
@@ -744,6 +859,7 @@ router.get('/api/professor/feedbacks', authProfessor, async (req, res) => {
     try {
         const [rows] = await db.query(
             `SELECT cf.id_chat, 
+                    a.id_aluno,
                     a.nome AS aluno, 
                     a.foto_perfil,
                     mf.texto, 
@@ -766,7 +882,10 @@ router.get('/api/professor/feedbacks', authProfessor, async (req, res) => {
     }
 })
 
+// =======================
 // 404
+// =======================
+
 router.use((req, res) => {
     res.status(404).send(`
         <style>
@@ -781,10 +900,12 @@ router.use((req, res) => {
                 color: #232c51;
                 gap: 16px;
             }
+
             h1 {
                 font-size: 4rem;
                 margin: 0;
             }
+
             a {
                 background: #0058ba;
                 color: #fff;
