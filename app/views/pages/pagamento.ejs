@@ -48,6 +48,11 @@
   </style>
 </head>
 <body class="bg-surface text-on-surface min-h-screen">
+  <%
+    const planoSelecionado = locals.planoSelecionado || { id_plano: 2, nome: 'Lazuli', valor_mensal: 59.00 };
+    const valorPlano = Number(planoSelecionado.valor_mensal || 0);
+    const valorPlanoBR = valorPlano.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  %>
 
   <!-- Header -->
   <header class="sticky top-0 z-50 bg-[#f7f5ff]/80 backdrop-blur-xl px-6 py-5 lg:px-16">
@@ -72,7 +77,15 @@
           <p class="text-on-surface-variant font-medium">Finalize sua assinatura para começar a treinar hoje mesmo.</p>
         </header>
 
-        <form id="checkout-form" class="space-y-6" data-form="pagamento" novalidate>
+        <% if (locals.erro) { %>
+          <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert"><%= erro %></p>
+        <% } %>
+        <% if (locals.sucesso) { %>
+          <p class="rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700" role="status"><%= sucesso %></p>
+        <% } %>
+
+        <form id="checkout-form" class="space-y-6" action="/pagamento" method="POST" data-form="pagamento" novalidate>
+          <input type="hidden" name="id-plano" value="<%= planoSelecionado.id_plano %>" />
 
           <!-- Dados do cartão -->
           <fieldset class="bg-surface-container-low rounded-[2rem] p-8 space-y-6">
@@ -163,10 +176,10 @@
               </figure>
               <hgroup class="flex-1 min-w-0">
                 <p class="text-xs font-bold text-primary uppercase tracking-widest">Plano Selecionado</p>
-                <p class="text-xl font-extrabold text-on-surface">Plano Lazuli</p>
+                <p class="text-xl font-extrabold text-on-surface">Plano <%= planoSelecionado.nome %></p>
               </hgroup>
               <section class="text-right shrink-0">
-                <strong class="text-sm font-bold block">R$ 89,90</strong>
+                <strong class="text-sm font-bold block"><%= valorPlanoBR %></strong>
                 <small class="text-[10px] text-on-surface-variant">/mês</small>
               </section>
             </li>
@@ -175,7 +188,7 @@
             <li class="space-y-3 pt-4 border-t-2 border-surface-container-low">
               <dl class="flex justify-between items-center text-on-surface-variant">
                 <dt class="font-medium">Subtotal</dt>
-                <dd class="font-bold">R$ 89,90</dd>
+                <dd class="font-bold"><%= valorPlanoBR %></dd>
               </dl>
               <dl class="flex justify-between items-center text-on-surface-variant">
                 <dt class="font-medium">Taxa de serviço</dt>
@@ -187,7 +200,7 @@
             <li class="pt-5 border-t-2 border-surface-container-low flex justify-between items-end">
               <hgroup>
                 <p class="text-xs font-black uppercase tracking-widest text-primary">Total a pagar</p>
-                <p class="text-4xl font-black tracking-tighter">R$ 89,90</p>
+                <p class="text-4xl font-black tracking-tighter"><%= valorPlanoBR %></p>
               </hgroup>
               <small class="text-[10px] text-on-surface-variant font-medium leading-tight max-w-[110px] text-right not-italic">
                 Cobrança mensal recorrente. Cancele quando quiser.

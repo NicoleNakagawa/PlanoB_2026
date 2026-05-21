@@ -134,7 +134,14 @@
     </section>
 
     <!-- Feedback Form -->
-    <form class="space-y-8" novalidate>
+    <% if (locals.erro) { %>
+      <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert"><%= erro %></p>
+    <% } %>
+    <% if (locals.sucesso) { %>
+      <p class="rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700" role="status"><%= sucesso %></p>
+    <% } %>
+
+    <form class="space-y-8" action="/feedbackaluno" method="POST" novalidate>
 
       <!-- 01 · Intensity Selector -->
       <article class="bg-surface-container-lowest p-8 rounded-[32px] shadow-[0_-8px_30px_rgb(0,0,0,0.02)] relative overflow-hidden" aria-labelledby="intensity-title">
@@ -200,6 +207,8 @@
           <section class="space-y-6">
             <label for="tiredness-range" class="sr-only">Nível de cansaço de 1 a 10</label>
             <input id="tiredness-range"
+                   name="tiredness-range"
+                   value="5"
                    class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary"
                    max="10" min="1" step="1" type="range" />
 
@@ -240,6 +249,7 @@
         <label for="trainer-message" class="sr-only">Mensagem para o professor</label>
         <p class="relative m-0">
           <textarea id="trainer-message"
+                    name="trainer-message"
                     class="w-full bg-surface-container-lowest border-none rounded-2xl p-4 text-on-surface placeholder:text-on-surface-variant/50 focus:ring-2 focus:ring-primary transition-all"
                     placeholder="Sentiu alguma dor? O peso estava ok? Conte para nós..."
                     rows="4"></textarea>

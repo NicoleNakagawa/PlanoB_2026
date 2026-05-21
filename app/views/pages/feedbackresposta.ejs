@@ -95,7 +95,14 @@
     </header>
 
     <!-- Conteúdo Principal -->
-    <main class="lg:ml-64 p-4 md:p-8">
+    <% if (locals.erro) { %>
+    <p class="fixed top-24 left-1/2 z-50 -translate-x-1/2 rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error shadow" role="alert"><%= erro %></p>
+  <% } %>
+  <% if (locals.sucesso) { %>
+    <p class="fixed top-24 left-1/2 z-50 -translate-x-1/2 rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700 shadow" role="status"><%= sucesso %></p>
+  <% } %>
+
+  <main class="lg:ml-64 p-4 md:p-8">
         <section class="max-w-6xl mx-auto">
             
             <!-- Caminho (Breadcrumbs) -->
@@ -211,9 +218,10 @@
                                 </section>
                             </nav>
 
-                            <form class="flex items-end gap-3 bg-surface-container-low p-4 rounded-3xl focus-within:bg-white border-2 border-transparent focus-within:border-primary/30 transition-all">
+                            <form class="flex items-end gap-3 bg-surface-container-low p-4 rounded-3xl focus-within:bg-white border-2 border-transparent focus-within:border-primary/30 transition-all" action="/feedbackresposta" method="POST">
+                                <input type="hidden" name="id-aluno" value="<%= locals.idAluno || '' %>">
                                 <button type="button" class="material-symbols-outlined text-outline hover:text-primary">add_circle</button>
-                                <textarea class="flex-1 bg-transparent border-none focus:ring-0 text-sm resize-none max-h-32" placeholder="Digite sua resposta técnica..." rows="2"></textarea>
+                                <textarea name="resposta" class="flex-1 bg-transparent border-none focus:ring-0 text-sm resize-none max-h-32" placeholder="Digite sua resposta técnica..." rows="2" required></textarea>
                                 <button type="submit" class="bg-gradient-to-br from-primary to-primary-container text-on-primary w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all">
                                     <i class="material-symbols-outlined">send</i>
                                 </button>

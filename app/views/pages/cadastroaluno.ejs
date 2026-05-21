@@ -209,6 +209,14 @@
           </p>
         </header>
 
+        
+          <% if (locals.erro) { %>
+            <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert"><%= erro %></p>
+          <% } %>
+          <% if (locals.sucesso) { %>
+            <p class="rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700" role="status"><%= sucesso %></p>
+          <% } %>
+
         <form class="space-y-6" action="/cadastroaluno" method="POST" data-form="cadastroaluno" novalidate>
 
           <fieldset class="space-y-1">
