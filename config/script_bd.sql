@@ -3,11 +3,9 @@
 --  MySQL 8.x · utf8mb4
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS `planob`
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_general_ci;
 
-USE `planob`;
+
+USE `railway`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
