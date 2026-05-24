@@ -198,13 +198,15 @@
 
       section.profile-card,
       section.metrics-card,
+      section.training-data-card,
       article.activity-card {
         padding: 22px !important;
         border-radius: 26px !important;
       }
 
       section.profile-card h2,
-      section.metrics-card h2 {
+      section.metrics-card h2,
+      section.training-data-card h2 {
         font-size: 1.35rem !important;
       }
 
@@ -302,6 +304,57 @@
       : Number(aluno.id_plano) >= 2
         ? '/videos'
         : '/videosfree'
+
+    const dadosTreino = typeof dadosAluno !== 'undefined' && dadosAluno ? dadosAluno : {}
+
+    const mapaObjetivo = {
+      hipertrofia: 'Hipertrofia',
+      emagrecimento: 'Emagrecimento',
+      forca: 'Força',
+      condicionamento: 'Condicionamento'
+    }
+
+    const mapaTipoTreino = {
+      musculacao: 'Musculação',
+      calistenia: 'Calistenia',
+      cardio: 'Cardio',
+      misto: 'Misto'
+    }
+
+    const mapaNivel = {
+      iniciante: 'Iniciante',
+      intermediario: 'Intermediário',
+      avancado: 'Avançado'
+    }
+
+    const mapaLocal = {
+      casa: 'Casa',
+      academia: 'Academia',
+      ar_livre: 'Ar livre'
+    }
+
+    const mapaEquipamentos = {
+      nenhum: 'Nenhum',
+      halteres: 'Halteres',
+      elasticos: 'Elásticos',
+      barra: 'Barra',
+      maquinas: 'Máquinas',
+      esteira: 'Esteira',
+      bicicleta: 'Bicicleta',
+      colchonete: 'Colchonete'
+    }
+
+    const equipamentosArray = dadosTreino.equipamentos
+      ? dadosTreino.equipamentos.split(',').filter(Boolean)
+      : []
+
+    const equipamentosFormatados = equipamentosArray.length > 0
+      ? equipamentosArray.map(function(item) {
+          return mapaEquipamentos[item] || item
+        }).join(', ')
+      : 'Não informado'
+
+    const dadosForamPreenchidos = Number(dadosTreino.dados_completos) === 1
   %>
 
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
@@ -457,6 +510,12 @@
           Voltar aos Treinos
         </a>
 
+        <a href="/logout" 
+          class="w-full bg-error text-white py-4 rounded-full font-bold shadow-lg shadow-error/20 hover:scale-[1.02] active:scale-95 transition-all text-center flex items-center justify-center gap-2">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+          Sair da conta
+        </a>
+
       </section>
 
       <section class="metrics-card md:col-span-7 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
@@ -528,6 +587,113 @@
 
           <b class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
         </article>
+
+      </section>
+
+      <section class="training-data-card md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <hgroup>
+            <h2 class="text-2xl font-extrabold headline text-on-surface">Preferências de Treino</h2>
+            <p class="text-sm text-on-surface-variant mt-1">
+              Essas são as informações que você preencheu na tela de dados do aluno.
+            </p>
+          </hgroup>
+
+          <a href="/dadosaluno" class="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+            Alterar dados
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
+          </a>
+        </header>
+
+        <% if (dadosForamPreenchidos) { %>
+          <ul class="grid grid-cols-1 md:grid-cols-4 gap-4 list-none p-0 m-0">
+
+            <li class="bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">flag</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Objetivo</p>
+              <p class="font-black text-on-surface">
+                <%= mapaObjetivo[dadosTreino.objetivo] || dadosTreino.objetivo || 'Não informado' %>
+              </p>
+            </li>
+
+            <li class="bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">exercise</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Tipo de treino</p>
+              <p class="font-black text-on-surface">
+                <%= mapaTipoTreino[dadosTreino.tipo_treino] || dadosTreino.tipo_treino || 'Não informado' %>
+              </p>
+            </li>
+
+            <li class="bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">trending_up</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Nível</p>
+              <p class="font-black text-on-surface">
+                <%= mapaNivel[dadosTreino.nivel_treino] || dadosTreino.nivel_treino || 'Não informado' %>
+              </p>
+            </li>
+
+            <li class="bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">location_on</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Local</p>
+              <p class="font-black text-on-surface">
+                <%= mapaLocal[dadosTreino.local_treino] || dadosTreino.local_treino || 'Não informado' %>
+              </p>
+            </li>
+
+            <li class="bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-secondary not-italic" aria-hidden="true">calendar_month</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Dias por semana</p>
+              <p class="font-black text-on-surface">
+                <%= dadosTreino.dias_semana ? dadosTreino.dias_semana + ' dias' : 'Não informado' %>
+              </p>
+            </li>
+
+            <li class="md:col-span-3 bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-secondary not-italic" aria-hidden="true">fitness_center</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Equipamentos</p>
+              <p class="font-black text-on-surface">
+                <%= equipamentosFormatados %>
+              </p>
+            </li>
+
+            <li class="md:col-span-4 bg-surface-container-low rounded-3xl p-5">
+              <figure class="w-12 h-12 rounded-full bg-tertiary-fixed/20 flex items-center justify-center m-0 mb-4">
+                <i class="material-symbols-outlined text-on-tertiary-fixed not-italic" aria-hidden="true">assignment</i>
+              </figure>
+              <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Limitações ou observações</p>
+              <p class="font-bold text-on-surface leading-relaxed">
+                <%= dadosTreino.limitacoes && dadosTreino.limitacoes.trim() ? dadosTreino.limitacoes : 'Nenhuma limitação informada.' %>
+              </p>
+            </li>
+
+          </ul>
+        <% } else { %>
+          <section class="bg-surface-container-low rounded-3xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <hgroup>
+              <h3 class="font-black text-xl text-on-surface">Você ainda não preencheu seus dados de treino</h3>
+              <p class="text-sm text-on-surface-variant mt-2 max-w-2xl">
+                Preencha seu objetivo, nível, local de treino, equipamentos e disponibilidade para personalizar melhor sua experiência.
+              </p>
+            </hgroup>
+
+            <a href="/dadosaluno" class="bg-primary text-white px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+              Preencher agora
+            </a>
+          </section>
+        <% } %>
 
       </section>
 

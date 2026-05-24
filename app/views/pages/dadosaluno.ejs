@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Dados do Aluno</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#f7f5ff",
+            "tertiary-dim": "#5e4e00",
+            "error": "#b31b25",
+            "surface-dim": "#cad2ff",
+            "outline-variant": "#a2abd7",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "inverse-primary": "#4a8eff",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "outline": "#6c759e",
+            "inverse-on-surface": "#929bc6",
+            "error-container": "#fb5151",
+            "surface-variant": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "primary-container": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-error": "#ffefee",
+            "on-tertiary": "#fff2cd",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-high": "#dde1ff",
+            "secondary-dim": "#00576c",
+            "on-secondary-fixed-variant": "#00586d",
+            "on-tertiary-container": "#5b4b00",
+            "tertiary-fixed": "#ffd709",
+            "on-primary-fixed": "#000000",
+            "on-primary": "#f0f2ff",
+            "on-error-container": "#570008",
+            "secondary-fixed": "#80deff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "primary-fixed-dim": "#5091ff",
+            "surface-container": "#e4e7ff",
+            "primary-dim": "#004da4",
+            "on-background": "#232c51",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-primary-container": "#00214e",
+            "surface-container-low": "#efefff",
+            "secondary": "#00647b",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "surface-tint": "#0058ba",
+            "background": "#f7f5ff",
+            "on-secondary-fixed": "#003a48",
+            "error-dim": "#9f0519",
+            "tertiary": "#6c5a00"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    .option-card input:checked + span {
+      background: #0058ba;
+      color: #ffffff;
+      border-color: #0058ba;
+      box-shadow: 0 14px 28px rgba(0, 88, 186, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .option-card input:checked + span i {
+      color: #ffffff;
+    }
+
+    .checkbox-card input:checked + span {
+      background: #0058ba;
+      color: #ffffff;
+      border-color: #0058ba;
+      box-shadow: 0 14px 28px rgba(0, 88, 186, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .checkbox-card input:checked + span i {
+      color: #ffffff;
+    }
+
+    .field-error {
+      color: #b31b25;
+      font-size: 0.78rem;
+      font-weight: 800;
+      min-height: 18px;
+      display: block;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+      }
+
+      main {
+        padding: 92px 16px 40px !important;
+      }
+
+      article.hero-dados {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-dados h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      section.form-card {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      section.form-card h2 {
+        font-size: 1.35rem !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      article.hero-dados h1 {
+        font-size: 1.75rem !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface">
+
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/dadosaluno" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+    </nav>
+
+
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <main class="pt-28 pb-16 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <article class="hero-dados md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+
+        <section class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+
+          <hgroup class="max-w-3xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Dados do Aluno
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              CONTE SOBRE SEU OBJETIVO.
+            </h1>
+
+            <p class="text-lg opacity-90 max-w-2xl">
+              Essas informações ajudam o PlanoB a entender melhor seu foco, seu nível e como organizar melhor sua experiência dentro do site.
+            </p>
+          </hgroup>
+
+          <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/10 w-full max-w-[220px] mx-auto md:mx-0 md:w-auto m-0">
+            <span class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center">
+              <i class="material-symbols-outlined text-white text-7xl not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48" aria-hidden="true">assignment</i>
+            </span>
+
+            <figcaption class="text-sm font-black uppercase tracking-widest text-center">
+              Perfil de Treino
+            </figcaption>
+          </figure>
+
+        </section>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary-fixed opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <section class="form-card md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+
+        <header class="mb-8">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Preferências de Treino</h2>
+          <p class="text-on-surface-variant mt-2">
+            Preencha com calma. Você poderá alterar essas informações depois no seu perfil.
+          </p>
+        </header>
+
+        <% if (typeof erro !== 'undefined' && erro) { %>
+          <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error mb-6" role="alert">
+            <%= erro %>
+          </p>
+        <% } %>
+
+        <form id="dados-aluno-form" action="/dadosaluno" method="POST" class="flex flex-col gap-10" novalidate>
+
+          <fieldset class="flex flex-col gap-4">
+            <legend class="text-sm font-black uppercase tracking-widest text-primary mb-2">
+              Qual é seu objetivo principal?
+            </legend>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="objetivo" value="hipertrofia" />
+                <span class="h-full min-h-[120px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">fitness_center</i>
+                  <strong>Hipertrofia</strong>
+                  <small class="text-current opacity-70">Ganhar massa muscular</small>
+                </span>
+              </label>
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="objetivo" value="emagrecimento" />
+                <span class="h-full min-h-[120px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">local_fire_department</i>
+                  <strong>Emagrecimento</strong>
+                  <small class="text-current opacity-70">Perder gordura</small>
+                </span>
+              </label>
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="objetivo" value="forca" />
+                <span class="h-full min-h-[120px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">exercise</i>
+                  <strong>Força</strong>
+                  <small class="text-current opacity-70">Ficar mais forte</small>
+                </span>
+              </label>
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="objetivo" value="condicionamento" />
+                <span class="h-full min-h-[120px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">directions_run</i>
+                  <strong>Condicionamento</strong>
+                  <small class="text-current opacity-70">Mais fôlego e saúde</small>
+                </span>
+              </label>
+
+            </section>
+
+            <small class="field-error" id="error-objetivo"></small>
+          </fieldset>
+
+          <fieldset class="flex flex-col gap-4">
+            <legend class="text-sm font-black uppercase tracking-widest text-primary mb-2">
+              Qual estilo você mais deseja?
+            </legend>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="tipo_treino" value="musculacao" />
+                <span class="h-full min-h-[110px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">fitness_center</i>
+                  <strong>Musculação</strong>
+                </span>
+              </label>
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="tipo_treino" value="calistenia" />
+                <span class="h-full min-h-[110px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">self_improvement</i>
+                  <strong>Calistenia</strong>
+                </span>
+              </label>
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="tipo_treino" value="cardio" />
+                <span class="h-full min-h-[110px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">directions_run</i>
+                  <strong>Cardio</strong>
+                </span>
+              </label>
+
+              <label class="option-card cursor-pointer">
+                <input class="sr-only" type="radio" name="tipo_treino" value="misto" />
+                <span class="h-full min-h-[110px] bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex flex-col gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">apps</i>
+                  <strong>Misto</strong>
+                </span>
+              </label>
+
+            </section>
+
+            <small class="field-error" id="error-tipo-treino"></small>
+          </fieldset>
+
+          <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <fieldset class="bg-surface-container-low rounded-3xl p-6">
+              <legend class="text-sm font-black uppercase tracking-widest text-primary mb-4">
+                Seu nível
+              </legend>
+
+              <section class="flex flex-col gap-3">
+                <label class="option-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="nivel_treino" value="iniciante" />
+                  <span class="bg-surface-container-lowest rounded-2xl border-2 border-transparent p-4 flex items-center gap-3 transition-all">
+                    <i class="material-symbols-outlined text-primary not-italic">looks_one</i>
+                    <strong>Iniciante</strong>
+                  </span>
+                </label>
+
+                <label class="option-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="nivel_treino" value="intermediario" />
+                  <span class="bg-surface-container-lowest rounded-2xl border-2 border-transparent p-4 flex items-center gap-3 transition-all">
+                    <i class="material-symbols-outlined text-primary not-italic">looks_two</i>
+                    <strong>Intermediário</strong>
+                  </span>
+                </label>
+
+                <label class="option-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="nivel_treino" value="avancado" />
+                  <span class="bg-surface-container-lowest rounded-2xl border-2 border-transparent p-4 flex items-center gap-3 transition-all">
+                    <i class="material-symbols-outlined text-primary not-italic">looks_3</i>
+                    <strong>Avançado</strong>
+                  </span>
+                </label>
+              </section>
+
+              <small class="field-error" id="error-nivel"></small>
+            </fieldset>
+
+            <fieldset class="bg-surface-container-low rounded-3xl p-6">
+              <legend class="text-sm font-black uppercase tracking-widest text-primary mb-4">
+                Onde vai treinar?
+              </legend>
+
+              <section class="flex flex-col gap-3">
+                <label class="option-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="local_treino" value="casa" />
+                  <span class="bg-surface-container-lowest rounded-2xl border-2 border-transparent p-4 flex items-center gap-3 transition-all">
+                    <i class="material-symbols-outlined text-primary not-italic">home</i>
+                    <strong>Casa</strong>
+                  </span>
+                </label>
+
+                <label class="option-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="local_treino" value="academia" />
+                  <span class="bg-surface-container-lowest rounded-2xl border-2 border-transparent p-4 flex items-center gap-3 transition-all">
+                    <i class="material-symbols-outlined text-primary not-italic">apartment</i>
+                    <strong>Academia</strong>
+                  </span>
+                </label>
+
+                <label class="option-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="local_treino" value="ar_livre" />
+                  <span class="bg-surface-container-lowest rounded-2xl border-2 border-transparent p-4 flex items-center gap-3 transition-all">
+                    <i class="material-symbols-outlined text-primary not-italic">park</i>
+                    <strong>Ar livre</strong>
+                  </span>
+                </label>
+              </section>
+
+              <small class="field-error" id="error-local"></small>
+            </fieldset>
+
+            <fieldset class="bg-surface-container-low rounded-3xl p-6">
+              <legend class="text-sm font-black uppercase tracking-widest text-primary mb-4">
+                Dias por semana
+              </legend>
+
+              <select
+                id="dias_semana"
+                name="dias_semana"
+                class="w-full bg-surface-container-lowest border-none rounded-2xl p-4 focus:ring-2 focus:ring-primary/30 text-on-surface font-bold"
+              >
+                <option value="">Selecione</option>
+                <option value="2">2 dias</option>
+                <option value="3">3 dias</option>
+                <option value="4">4 dias</option>
+                <option value="5">5 dias</option>
+                <option value="6">6 dias</option>
+                <option value="7">Todos os dias</option>
+              </select>
+
+              <small class="field-error" id="error-dias"></small>
+            </fieldset>
+
+          </section>
+
+          <fieldset class="flex flex-col gap-4">
+            <legend class="text-sm font-black uppercase tracking-widest text-primary mb-2">
+              Equipamentos disponíveis
+            </legend>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="nenhum" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">block</i>
+                  <strong>Nenhum</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="halteres" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">fitness_center</i>
+                  <strong>Halteres</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="elasticos" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">linear_scale</i>
+                  <strong>Elásticos</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="barra" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">horizontal_rule</i>
+                  <strong>Barra</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="maquinas" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">settings</i>
+                  <strong>Máquinas</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="esteira" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">directions_walk</i>
+                  <strong>Esteira</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="bicicleta" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">directions_bike</i>
+                  <strong>Bicicleta</strong>
+                </span>
+              </label>
+
+              <label class="checkbox-card cursor-pointer">
+                <input class="sr-only" type="checkbox" name="equipamentos" value="colchonete" />
+                <span class="h-full bg-surface-container-low rounded-3xl border-2 border-transparent p-5 flex items-center gap-3 transition-all">
+                  <i class="material-symbols-outlined text-primary not-italic">self_improvement</i>
+                  <strong>Colchonete</strong>
+                </span>
+              </label>
+
+            </section>
+
+            <small class="field-error" id="error-equipamentos"></small>
+          </fieldset>
+
+          <fieldset class="flex flex-col gap-3">
+            <label for="limitacoes" class="text-sm font-black uppercase tracking-widest text-primary">
+              Possui alguma limitação, dor ou observação?
+            </label>
+
+            <textarea
+              id="limitacoes"
+              name="limitacoes"
+              rows="5"
+              class="w-full bg-surface-container-low border-none rounded-3xl p-5 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-50 resize-none"
+              placeholder="Exemplo: dor no joelho, dor na coluna, lesão no ombro, nenhuma limitação..."
+            ></textarea>
+          </fieldset>
+
+          <footer class="flex flex-col sm:flex-row gap-4 justify-end pt-4">
+            <a href="/perfilaluno" class="px-8 py-4 rounded-full bg-surface-container-highest text-on-surface font-bold text-center active:scale-95 transition-transform">
+              Preencher depois
+            </a>
+
+            <button
+              type="submit"
+              class="px-8 py-4 rounded-full bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              Salvar e continuar
+            </button>
+          </footer>
+
+        </form>
+      </section>
+
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('dados-aluno-form')
+
+    function getRadioValue(name) {
+      const selected = document.querySelector(`input[name="${name}"]:checked`)
+      return selected ? selected.value : ''
+    }
+
+    function getCheckedValues(name) {
+      return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(input => input.value)
+    }
+
+    function setError(id, message) {
+      const element = document.getElementById(id)
+
+      if (element) {
+        element.textContent = message
+      }
+    }
+
+    function clearErrors() {
+      setError('error-objetivo', '')
+      setError('error-tipo-treino', '')
+      setError('error-nivel', '')
+      setError('error-local', '')
+      setError('error-dias', '')
+      setError('error-equipamentos', '')
+    }
+
+    function validarFormulario() {
+      clearErrors()
+
+      let valido = true
+
+      const objetivo = getRadioValue('objetivo')
+      const tipoTreino = getRadioValue('tipo_treino')
+      const nivelTreino = getRadioValue('nivel_treino')
+      const localTreino = getRadioValue('local_treino')
+      const diasSemana = document.getElementById('dias_semana').value
+      const equipamentos = getCheckedValues('equipamentos')
+
+      if (!objetivo) {
+        setError('error-objetivo', 'Escolha seu objetivo principal.')
+        valido = false
+      }
+
+      if (!tipoTreino) {
+        setError('error-tipo-treino', 'Escolha o estilo de treino desejado.')
+        valido = false
+      }
+
+      if (!nivelTreino) {
+        setError('error-nivel', 'Escolha seu nível atual.')
+        valido = false
+      }
+
+      if (!localTreino) {
+        setError('error-local', 'Escolha onde você vai treinar.')
+        valido = false
+      }
+
+      if (!diasSemana) {
+        setError('error-dias', 'Escolha quantos dias por semana você pode treinar.')
+        valido = false
+      }
+
+      if (equipamentos.length === 0) {
+        setError('error-equipamentos', 'Escolha pelo menos uma opção.')
+        valido = false
+      }
+
+      return valido
+    }
+
+    if (form) {
+      form.addEventListener('submit', (event) => {
+        const valido = validarFormulario()
+
+        if (!valido) {
+          event.preventDefault()
+
+          const primeiroErro = document.querySelector('.field-error:not(:empty)')
+
+          if (primeiroErro) {
+            primeiroErro.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            })
+          }
+        }
+      })
+    }
+
+    const nenhumCheckbox = document.querySelector('input[name="equipamentos"][value="nenhum"]')
+    const equipamentosCheckboxes = document.querySelectorAll('input[name="equipamentos"]')
+
+    if (nenhumCheckbox) {
+      nenhumCheckbox.addEventListener('change', () => {
+        if (nenhumCheckbox.checked) {
+          equipamentosCheckboxes.forEach((checkbox) => {
+            if (checkbox !== nenhumCheckbox) {
+              checkbox.checked = false
+            }
+          })
+        }
+      })
+
+      equipamentosCheckboxes.forEach((checkbox) => {
+        if (checkbox !== nenhumCheckbox) {
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              nenhumCheckbox.checked = false
+            }
+          })
+        }
+      })
+    }
+  </script>
+
+</body>
+</html>

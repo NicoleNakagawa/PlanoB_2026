@@ -81,6 +81,17 @@ CREATE TABLE `aluno` (
   `uf` CHAR(2) DEFAULT NULL,
   `foto_perfil` VARCHAR(255) DEFAULT NULL,
   `id_plano` INT NOT NULL DEFAULT 1,
+
+  -- Dados do aluno / preferências de treino
+  `objetivo` VARCHAR(50) DEFAULT NULL,
+  `tipo_treino` VARCHAR(50) DEFAULT NULL,
+  `nivel_treino` VARCHAR(50) DEFAULT NULL,
+  `local_treino` VARCHAR(50) DEFAULT NULL,
+  `equipamentos` TEXT DEFAULT NULL,
+  `dias_semana` INT DEFAULT NULL,
+  `limitacoes` TEXT DEFAULT NULL,
+  `dados_completos` TINYINT(1) NOT NULL DEFAULT 0,
+
   `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `atualizado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_aluno`),

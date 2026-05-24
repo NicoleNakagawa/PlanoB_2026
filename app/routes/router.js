@@ -188,6 +188,123 @@ router.get('/paineldiamante', authAluno, (req, res) => {
     })
 })
 
+router.get('/dadosaluno', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    try {
+        const [rows] = await db.query(
+            `SELECT 
+                objetivo,
+                tipo_treino,
+                nivel_treino,
+                local_treino,
+                equipamentos,
+                dias_semana,
+                limitacoes,
+                dados_completos
+             FROM aluno
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        res.render('dadosaluno', {
+            aluno: req.session.aluno,
+            dadosAluno: rows[0] || null
+            
+        })
+    } catch (err) {
+        console.error('[dadosaluno GET]', err)
+
+        res.render('dadosaluno', {
+            aluno: req.session.aluno,
+            dadosAluno: dadosAlunoRows[0] || null,
+            dadosAluno: null,
+            erro: 'Erro ao carregar seus dados.'
+        })
+    }
+})
+
+router.post('/dadosaluno', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    const objetivo = req.body.objetivo
+    const tipoTreino = req.body.tipo_treino
+    const nivelTreino = req.body.nivel_treino
+    const localTreino = req.body.local_treino
+    const diasSemana = Number(req.body.dias_semana)
+    const limitacoes = req.body.limitacoes || null
+
+    let equipamentos = req.body.equipamentos || []
+
+    if (!Array.isArray(equipamentos)) {
+        equipamentos = [equipamentos]
+    }
+
+    const equipamentosTexto = equipamentos.join(',')
+
+    if (!objetivo || !tipoTreino || !nivelTreino || !localTreino || !diasSemana || equipamentos.length === 0) {
+        return res.render('dadosaluno', {
+            aluno: req.session.aluno,
+            dadosAluno: {
+                objetivo,
+                tipo_treino: tipoTreino,
+                nivel_treino: nivelTreino,
+                local_treino: localTreino,
+                equipamentos: equipamentosTexto,
+                dias_semana: diasSemana,
+                limitacoes
+            },
+            erro: 'Preencha todos os campos obrigatórios antes de continuar.'
+        })
+    }
+
+    try {
+        await db.query(
+            `UPDATE aluno
+             SET objetivo = ?,
+                 tipo_treino = ?,
+                 nivel_treino = ?,
+                 local_treino = ?,
+                 equipamentos = ?,
+                 dias_semana = ?,
+                 limitacoes = ?,
+                 dados_completos = 1
+             WHERE id_aluno = ?`,
+            [
+                objetivo,
+                tipoTreino,
+                nivelTreino,
+                localTreino,
+                equipamentosTexto,
+                diasSemana,
+                limitacoes,
+                idAluno
+            ]
+        )
+
+        req.session.aluno.dados_completos = 1
+
+        res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
+    } catch (err) {
+        console.error('[dadosaluno POST]', err)
+
+        res.render('dadosaluno', {
+            aluno: req.session.aluno,
+            dadosAluno: {
+                objetivo,
+                tipo_treino: tipoTreino,
+                nivel_treino: nivelTreino,
+                local_treino: localTreino,
+                equipamentos: equipamentosTexto,
+                dias_semana: diasSemana,
+                limitacoes
+            },
+            erro: 'Erro ao salvar seus dados. Tente novamente.'
+        })
+    }
+})
+
 router.get('/perfilaluno', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
 
@@ -229,6 +346,22 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
             [idAluno]
         )
 
+        const [dadosAlunoRows] = await db.query(
+            `SELECT 
+                objetivo,
+                tipo_treino,
+                nivel_treino,
+                local_treino,
+                equipamentos,
+                dias_semana,
+                limitacoes,
+                dados_completos
+             FROM aluno
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
         res.render('perfilaluno', {
             aluno: req.session.aluno,
             historicoTreinos,
@@ -241,6 +374,7 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
                 streak_atual: 0,
                 streak_maximo: 0
             },
+            dadosAluno: dadosAlunoRows[0] || null,
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
             linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
         })
@@ -259,6 +393,7 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
                 streak_atual: 0,
                 streak_maximo: 0
             },
+            dadosAluno: null,
             erro: 'Erro ao carregar o perfil.',
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
             linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
@@ -516,7 +651,14 @@ router.post('/loginaluno', async (req, res) => {
 
     try {
         const [rows] = await db.query(
-            `SELECT id_aluno, nome, email, senha_hash, id_plano, foto_perfil
+            `SELECT 
+                id_aluno, 
+                nome, 
+                email, 
+                senha_hash, 
+                id_plano, 
+                foto_perfil,
+                dados_completos
              FROM aluno 
              WHERE email = ?`,
             [email.trim().toLowerCase()]
@@ -546,7 +688,12 @@ router.post('/loginaluno', async (req, res) => {
             nome: aluno.nome,
             email: aluno.email,
             id_plano: aluno.id_plano,
-            foto: aluno.foto_perfil
+            foto: aluno.foto_perfil,
+            dados_completos: aluno.dados_completos
+        }
+
+        if (!aluno.dados_completos) {
+            return res.redirect('/dadosaluno')
         }
 
         res.redirect(redirecionarPainelAluno(aluno.id_plano))
