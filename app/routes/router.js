@@ -90,6 +90,30 @@ function authProfessor(req, res, next) {
     res.redirect('/loginprofessor')
 }
 
+function redirecionarPainelAluno(idPlano) {
+    const plano = Number(idPlano)
+
+    if (plano === 2) {
+        return '/painellazuli'
+    }
+
+    if (plano === 3) {
+        return '/paineldiamante'
+    }
+
+    return '/painelfree'
+}
+
+function redirecionarVideosAluno(idPlano) {
+    const plano = Number(idPlano)
+
+    if (plano >= 2) {
+        return '/videos'
+    }
+
+    return '/videosfree'
+}
+
 // =======================
 // PÁGINAS PÚBLICAS
 // =======================
@@ -135,7 +159,33 @@ router.get('/loginprofessor', (req, res) => {
 // =======================
 
 router.get('/painelfree', authAluno, (req, res) => {
+    if (Number(req.session.aluno.id_plano) !== 1) {
+        return res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
+    }
+
     res.render('painelfree', { aluno: req.session.aluno })
+})
+
+router.get('/painellazuli', authAluno, (req, res) => {
+    if (Number(req.session.aluno.id_plano) < 2) {
+        return res.redirect('/painelfree')
+    }
+
+    res.render('painellazuli', {
+        aluno: req.session.aluno,
+        videosFree
+    })
+})
+
+router.get('/paineldiamante', authAluno, (req, res) => {
+    if (Number(req.session.aluno.id_plano) < 3) {
+        return res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
+    }
+
+    res.render('paineldiamante', {
+        aluno: req.session.aluno,
+        videosFree
+    })
 })
 
 router.get('/perfilaluno', authAluno, async (req, res) => {
@@ -190,7 +240,9 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
             streak: streakRows[0] || {
                 streak_atual: 0,
                 streak_maximo: 0
-            }
+            },
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
         })
     } catch (err) {
         console.error('[perfilaluno]', err)
@@ -207,17 +259,11 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
                 streak_atual: 0,
                 streak_maximo: 0
             },
-            erro: 'Erro ao carregar o perfil.'
+            erro: 'Erro ao carregar o perfil.',
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
         })
     }
-})
-
-router.get('/paineldiamante', authAluno, (req, res) => {
-    res.render('paineldiamante', { aluno: req.session.aluno })
-})
-
-router.get('/painellazuli', authAluno, (req, res) => {
-    res.render('painellazuli', { aluno: req.session.aluno })
 })
 
 router.get('/perfilprofparaaluno', authAluno, (req, res) => {
@@ -225,6 +271,10 @@ router.get('/perfilprofparaaluno', authAluno, (req, res) => {
 })
 
 router.get('/videosfree', authAluno, (req, res) => {
+    if (Number(req.session.aluno.id_plano) >= 2) {
+        return res.redirect('/videos')
+    }
+
     res.render('videosfree', {
         aluno: req.session.aluno,
         videosFree
@@ -232,6 +282,10 @@ router.get('/videosfree', authAluno, (req, res) => {
 })
 
 router.get('/videos', authAluno, (req, res) => {
+    if (Number(req.session.aluno.id_plano) < 2) {
+        return res.redirect('/videosfree')
+    }
+
     res.render('videos', {
         aluno: req.session.aluno,
         videosFree
@@ -382,7 +436,7 @@ router.post('/cadastroaluno', async (req, res) => {
 })
 
 // =======================
-// CADASTRO PROFESSOR COM VALIDAÇÃO DE CREF
+// CADASTRO PROFESSOR
 // =======================
 
 router.post('/cadastroprofessor', async (req, res) => {
@@ -495,7 +549,7 @@ router.post('/loginaluno', async (req, res) => {
             foto: aluno.foto_perfil
         }
 
-        res.redirect('/painelfree')
+        res.redirect(redirecionarPainelAluno(aluno.id_plano))
     } catch (err) {
         console.error('[loginaluno]', err)
 
@@ -587,24 +641,121 @@ router.post('/pagamento', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
     const idPlano = Number(req.body['id-plano']) || 2
 
-    const nomeTitular = req.body['card-name']
+    const nomeTitular = req.body['card-name'] || ''
     const numeroRaw = req.body['card-number'] || ''
     const cpfTitular = req.body['card-cpf'] || ''
-    const ultimos4 = numeroRaw.replace(/\D/g, '').slice(-4)
+    const validade = req.body['card-expiry'] || ''
+    const cvvRaw = req.body['card-cvv'] || ''
 
-    if (!nomeTitular || !numeroRaw || !cpfTitular || ultimos4.length !== 4) {
-        return res.render('pagamento', {
-            aluno: req.session.aluno,
-            planoSelecionado: {
-                id_plano: idPlano,
-                nome: idPlano === 3 ? 'Diamante' : 'Lazuli',
-                valor_mensal: idPlano === 3 ? 149.00 : 59.00
-            },
-            erro: 'Preencha corretamente os dados do cartão.'
-        })
+    const numeroLimpo = numeroRaw.replace(/\D/g, '')
+    const cpfLimpo = cpfTitular.replace(/\D/g, '')
+    const cvvLimpo = cvvRaw.replace(/\D/g, '')
+    const ultimos4 = numeroLimpo.slice(-4)
+
+    function cpfValido(cpf) {
+        if (!cpf || cpf.length !== 11) return false
+        if (/^(\d)\1+$/.test(cpf)) return false
+
+        let soma = 0
+
+        for (let i = 0; i < 9; i++) {
+            soma += Number(cpf.charAt(i)) * (10 - i)
+        }
+
+        let resto = (soma * 10) % 11
+
+        if (resto === 10 || resto === 11) resto = 0
+        if (resto !== Number(cpf.charAt(9))) return false
+
+        soma = 0
+
+        for (let i = 0; i < 10; i++) {
+            soma += Number(cpf.charAt(i)) * (11 - i)
+        }
+
+        resto = (soma * 10) % 11
+
+        if (resto === 10 || resto === 11) resto = 0
+
+        return resto === Number(cpf.charAt(10))
     }
 
-    const primeiroDigito = numeroRaw.trim()[0]
+    function validadeValida(valor) {
+        if (!/^\d{2}\/\d{2}$/.test(valor)) return false
+
+        const partes = valor.split('/')
+        const mes = Number(partes[0])
+        const ano = Number('20' + partes[1])
+
+        if (!mes || !ano) return false
+        if (mes < 1 || mes > 12) return false
+
+        const hoje = new Date()
+        const anoAtual = hoje.getFullYear()
+        const mesAtual = hoje.getMonth() + 1
+
+        if (ano < anoAtual) return false
+        if (ano === anoAtual && mes < mesAtual) return false
+
+        return true
+    }
+
+    async function renderizarErroPagamento(mensagem) {
+        try {
+            const [rows] = await db.query(
+                'SELECT id_plano, nome, valor_mensal, descricao FROM plano WHERE id_plano = ?',
+                [idPlano]
+            )
+
+            return res.render('pagamento', {
+                aluno: req.session.aluno,
+                planoSelecionado: rows[0] || {
+                    id_plano: idPlano,
+                    nome: idPlano === 3 ? 'Diamante' : 'Lazuli',
+                    valor_mensal: idPlano === 3 ? 149.00 : 59.00
+                },
+                erro: mensagem
+            })
+        } catch (err) {
+            console.error('[pagamento erro render]', err)
+
+            return res.render('pagamento', {
+                aluno: req.session.aluno,
+                planoSelecionado: {
+                    id_plano: idPlano,
+                    nome: idPlano === 3 ? 'Diamante' : 'Lazuli',
+                    valor_mensal: idPlano === 3 ? 149.00 : 59.00
+                },
+                erro: mensagem
+            })
+        }
+    }
+
+    if (![2, 3].includes(idPlano)) {
+        return renderizarErroPagamento('Plano inválido.')
+    }
+
+    if (!nomeTitular.trim() || nomeTitular.trim().length < 5 || !nomeTitular.trim().includes(' ')) {
+        return renderizarErroPagamento('Informe o nome completo do titular do cartão.')
+    }
+
+    if (!cpfValido(cpfLimpo)) {
+        return renderizarErroPagamento('CPF inválido.')
+    }
+
+    if (numeroLimpo.length < 13 || numeroLimpo.length > 16) {
+        return renderizarErroPagamento('Número do cartão inválido.')
+    }
+
+    if (!validadeValida(validade)) {
+        return renderizarErroPagamento('Validade do cartão inválida ou vencida.')
+    }
+
+    if (cvvLimpo.length < 3 || cvvLimpo.length > 4) {
+        return renderizarErroPagamento('CVV inválido.')
+    }
+
+    const primeiroDigito = numeroLimpo[0]
 
     const bandeira = primeiroDigito === '4'
         ? 'visa'
@@ -619,15 +770,7 @@ router.post('/pagamento', authAluno, async (req, res) => {
         )
 
         if (planoRows.length === 0) {
-            return res.render('pagamento', {
-                aluno: req.session.aluno,
-                planoSelecionado: {
-                    id_plano: idPlano,
-                    nome: 'Plano inválido',
-                    valor_mensal: 0
-                },
-                erro: 'Plano inválido.'
-            })
+            return renderizarErroPagamento('Plano inválido.')
         }
 
         const plano = planoRows[0]
@@ -673,7 +816,7 @@ router.post('/pagamento', authAluno, async (req, res) => {
 
         await db.query(
             'UPDATE aluno SET id_plano = ?, cpf = ? WHERE id_aluno = ?',
-            [idPlano, cpfTitular, idAluno]
+            [idPlano, cpfLimpo, idAluno]
         )
 
         if (idDesconto) {
@@ -685,19 +828,11 @@ router.post('/pagamento', authAluno, async (req, res) => {
 
         req.session.aluno.id_plano = idPlano
 
-        res.redirect('/painelfree')
+        res.redirect(redirecionarPainelAluno(idPlano))
     } catch (err) {
         console.error('[pagamento]', err)
 
-        res.render('pagamento', {
-            aluno: req.session.aluno,
-            planoSelecionado: {
-                id_plano: idPlano,
-                nome: idPlano === 3 ? 'Diamante' : 'Lazuli',
-                valor_mensal: idPlano === 3 ? 149.00 : 59.00
-            },
-            erro: 'Erro ao processar pagamento.'
-        })
+        return renderizarErroPagamento('Erro ao processar pagamento.')
     }
 })
 
@@ -818,7 +953,7 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
 })
 
 // =======================
-// REGISTRAR TREINO DO ALUNO
+// REGISTRAR TREINO
 // =======================
 
 router.post('/api/aluno/registrar-treino', authAluno, async (req, res) => {

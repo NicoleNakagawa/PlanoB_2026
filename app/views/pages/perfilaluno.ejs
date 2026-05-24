@@ -148,7 +148,6 @@
         min-height: 68px;
       }
 
-      header.fixed strong.logo-header,
       header.fixed a.logo-header {
         font-size: 1.45rem;
         line-height: 1;
@@ -289,9 +288,25 @@
 
 <body class="bg-surface text-on-surface">
 
+  <%
+    const painelCorreto = typeof linkPainelAluno !== 'undefined'
+      ? linkPainelAluno
+      : Number(aluno.id_plano) === 3
+        ? '/paineldiamante'
+        : Number(aluno.id_plano) === 2
+          ? '/painellazuli'
+          : '/painelfree'
+
+    const videosCorreto = typeof linkVideosAluno !== 'undefined'
+      ? linkVideosAluno
+      : Number(aluno.id_plano) >= 2
+        ? '/videos'
+        : '/videosfree'
+  %>
+
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
     <nav class="flex items-center gap-4" aria-label="Navegação principal">
-      <a href="/painelfree" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+      <a href="<%= painelCorreto %>" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
     </nav>
 
     <menu class="flex items-center gap-4 p-0 m-0 list-none">
@@ -340,17 +355,17 @@
     </header>
 
     <nav class="flex flex-col gap-1" aria-label="Menu lateral">
-      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelfree">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
         <em class="not-italic">Treinos</em>
       </a>
 
-      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/videosfree">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= videosCorreto %>">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
         <em class="not-italic">Vídeos</em>
       </a>
 
-      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelfree#planos">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>#planos">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
         <em class="not-italic">Planos</em>
       </a>
@@ -398,7 +413,7 @@
             <% } %>
 
             <figcaption class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-tertiary-fixed text-on-tertiary-fixed font-black px-4 py-1 rounded-full text-xs tracking-widest uppercase shadow-lg">
-              <%= typeof aluno !== 'undefined' && aluno.id_plano === 3 ? 'Diamante' : typeof aluno !== 'undefined' && aluno.id_plano === 2 ? 'Lazuli' : 'Free' %>
+              <%= typeof aluno !== 'undefined' && Number(aluno.id_plano) === 3 ? 'Diamante' : typeof aluno !== 'undefined' && Number(aluno.id_plano) === 2 ? 'Lazuli' : 'Free' %>
             </figcaption>
           </figure>
 
@@ -433,13 +448,13 @@
           <li class="bg-surface-container-low rounded-2xl p-4">
             <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Plano atual</p>
             <p class="font-bold text-primary">
-              <%= typeof aluno !== 'undefined' && aluno.id_plano === 3 ? 'Diamante' : typeof aluno !== 'undefined' && aluno.id_plano === 2 ? 'Lazuli' : 'Gratuito' %>
+              <%= typeof aluno !== 'undefined' && Number(aluno.id_plano) === 3 ? 'Diamante' : typeof aluno !== 'undefined' && Number(aluno.id_plano) === 2 ? 'Lazuli' : 'Gratuito' %>
             </p>
           </li>
         </ul>
 
-        <a href="/painelfree#planos" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
-          Ver Planos
+        <a href="<%= painelCorreto %>" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
+          Voltar aos Treinos
         </a>
 
       </section>
@@ -450,7 +465,7 @@
           <h2 class="text-2xl font-extrabold headline text-on-surface">Resumo dos Treinos</h2>
 
           <mark class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase text-on-surface-variant">
-            Plano Free
+            Atualizado
           </mark>
         </header>
 
@@ -503,11 +518,11 @@
         <article class="bg-primary rounded-3xl p-6 text-white relative overflow-hidden">
           <h3 class="text-xl font-extrabold headline mb-2">Continue treinando</h3>
           <p class="opacity-90 mb-5 max-w-lg">
-            No plano gratuito, seu perfil registra seu histórico de exercícios feitos. Feedback com professor fica disponível nos planos pagos.
+            Seu painel agora acompanha seu plano atual, então você sempre volta para o lugar certo.
           </p>
 
-          <a href="/painelfree" class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
-            Voltar aos Treinos
+          <a href="<%= painelCorreto %>" class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+            Ir para meus treinos
             <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
           </a>
 
@@ -521,7 +536,7 @@
         <header class="flex items-center justify-between gap-4">
           <h2 class="text-2xl font-extrabold headline text-on-surface">Histórico de Exercícios</h2>
 
-          <a href="/painelfree" class="text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
+          <a href="<%= painelCorreto %>" class="text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
             Fazer treino
             <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
           </a>
@@ -580,11 +595,11 @@
             <hgroup>
               <h3 class="font-bold text-xl text-on-surface">Nenhum exercício registrado ainda</h3>
               <p class="text-sm text-on-surface-variant max-w-md mt-2">
-                Como sua conta é nova, seu histórico ainda está vazio. Quando você concluir exercícios, eles aparecerão aqui.
+                Quando você concluir exercícios, eles aparecerão aqui.
               </p>
             </hgroup>
 
-            <a href="/painelfree" class="bg-primary text-white px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+            <a href="<%= painelCorreto %>" class="bg-primary text-white px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
               Começar meu primeiro treino
             </a>
           </section>
@@ -598,19 +613,19 @@
   <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
        aria-label="Navegação mobile">
 
-    <a href="/painelfree"
+    <a href="<%= painelCorreto %>"
        class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinos</em>
     </a>
 
-    <a href="/videosfree"
+    <a href="<%= videosCorreto %>"
        class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
     </a>
 
-    <a href="/painelfree#planos"
+    <a href="<%= painelCorreto %>#planos"
        class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>

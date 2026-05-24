@@ -4,9 +4,12 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>PlanoB - Checkout</title>
+
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
   <script id="tailwind-config">
     tailwind.config = {
       darkMode:"class",
@@ -33,36 +36,120 @@
       }}
     }
   </script>
+
   <style>
-    @font-face { font-family:'Baumans'; src:url('/fonts/Baumans-Regular.ttf') format('truetype'); }
-    .logo-font { font-family:'Baumans',sans-serif !important; font-weight:400 !important; letter-spacing:0.02em; }
-    .logo-header { font-size:2.7rem; line-height:1; }
-    body { font-family:'Manrope',sans-serif; }
-    h1,h2,h3,h4 { font-family:'Lexend',sans-serif; }
-    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align:middle; }
-    .action-gradient { background:linear-gradient(135deg,#0058ba 0%,#6c9fff 100%); }
+    @font-face {
+      font-family:'Baumans';
+      src:url('/fonts/Baumans-Regular.ttf') format('truetype');
+    }
+
+    .logo-font {
+      font-family:'Baumans', sans-serif !important;
+      font-weight:400 !important;
+      letter-spacing:0.02em;
+    }
+
+    .logo-header {
+      font-size:2.7rem;
+      line-height:1;
+    }
+
+    body {
+      font-family:'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family:'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+      vertical-align:middle;
+    }
+
+    .action-gradient {
+      background:linear-gradient(135deg,#0058ba 0%,#6c9fff 100%);
+    }
+
+    .field-error {
+      color: #b31b25;
+      font-size: 0.78rem;
+      font-weight: 800;
+      min-height: 18px;
+      margin-left: 4px;
+      display: block;
+    }
+
+    .input-error {
+      background: #fff5f5 !important;
+      box-shadow: 0 0 0 2px rgba(179, 27, 37, 0.25) !important;
+    }
+
+    .input-ok {
+      box-shadow: 0 0 0 2px rgba(0, 88, 186, 0.18) !important;
+    }
+
     @media (max-width:768px) {
-      html,body { overflow-x:hidden; }
-      main { padding-bottom:32px !important; }
+      html,
+      body {
+        overflow-x:hidden;
+      }
+
+      main {
+        padding-bottom:32px !important;
+      }
+
+      .logo-header {
+        font-size: 1.7rem;
+      }
+
+      header {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+      }
+
+      fieldset {
+        padding: 22px !important;
+        border-radius: 28px !important;
+      }
+
+      main {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        padding-top: 34px !important;
+      }
+
+      h1 {
+        font-size: 2.2rem !important;
+      }
     }
   </style>
 </head>
+
 <body class="bg-surface text-on-surface min-h-screen">
   <%
-    const planoSelecionado = locals.planoSelecionado || { id_plano: 2, nome: 'Lazuli', valor_mensal: 59.00 };
-    const valorPlano = Number(planoSelecionado.valor_mensal || 0);
+    const planoAtual = typeof planoSelecionado !== 'undefined' && planoSelecionado
+      ? planoSelecionado
+      : { id_plano: 2, nome: 'Lazuli', valor_mensal: 59.00 };
+
+    const valorPlano = Number(planoAtual.valor_mensal || 0);
     const valorPlanoBR = valorPlano.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   %>
 
   <!-- Header -->
   <header class="sticky top-0 z-50 bg-[#f7f5ff]/80 backdrop-blur-xl px-6 py-5 lg:px-16">
     <nav class="flex justify-between items-center max-w-7xl mx-auto w-full" aria-label="Header checkout">
-      <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
+      <a href="/painelfree" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+
       <section class="flex items-center gap-2 text-on-surface-variant text-sm font-semibold">
         <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">lock</i>
         Checkout Seguro
       </section>
     </nav>
+
     <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
   </header>
 
@@ -74,18 +161,25 @@
       <article class="lg:col-span-7">
         <header class="mb-10">
           <h1 class="text-4xl font-black tracking-tight text-primary mb-3">Pagamento</h1>
-          <p class="text-on-surface-variant font-medium">Finalize sua assinatura para começar a treinar hoje mesmo.</p>
+          <p class="text-on-surface-variant font-medium">
+            Finalize sua assinatura para começar a treinar hoje mesmo.
+          </p>
         </header>
 
-        <% if (locals.erro) { %>
-          <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert"><%= erro %></p>
+        <% if (typeof erro !== 'undefined' && erro) { %>
+          <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error mb-6" role="alert">
+            <%= erro %>
+          </p>
         <% } %>
-        <% if (locals.sucesso) { %>
-          <p class="rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700" role="status"><%= sucesso %></p>
+
+        <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+          <p class="rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700 mb-6" role="status">
+            <%= sucesso %>
+          </p>
         <% } %>
 
         <form id="checkout-form" class="space-y-6" action="/pagamento" method="POST" data-form="pagamento" novalidate>
-          <input type="hidden" name="id-plano" value="<%= planoSelecionado.id_plano %>" />
+          <input type="hidden" name="id-plano" value="<%= planoAtual.id_plano %>" />
 
           <!-- Dados do cartão -->
           <fieldset class="bg-surface-container-low rounded-[2rem] p-8 space-y-6">
@@ -97,45 +191,104 @@
             <ul role="list" class="grid grid-cols-1 gap-5 list-none p-0 m-0">
 
               <li class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-name">Nome no Cartão</label>
-                <input id="card-name" name="card-name"
-                       class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
-                       placeholder="Como impresso no cartão" type="text" autocomplete="cc-name"/>
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-name">
+                  Nome no Cartão
+                </label>
+
+                <input
+                  id="card-name"
+                  name="card-name"
+                  class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                  placeholder="Como impresso no cartão"
+                  type="text"
+                  autocomplete="cc-name"
+                />
+
+                <small class="field-error" id="error-card-name"></small>
               </li>
 
               <li class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-number">Número do Cartão</label>
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-number">
+                  Número do Cartão
+                </label>
+
                 <figure class="relative m-0">
-                  <input id="card-number" name="card-number"
-                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 pr-28 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
-                         placeholder="0000 0000 0000 0000" type="text" autocomplete="cc-number" inputmode="numeric" maxlength="19"/>
+                  <input
+                    id="card-number"
+                    name="card-number"
+                    class="w-full bg-surface-container-highest border-none rounded-2xl p-4 pr-28 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                    placeholder="0000 0000 0000 0000"
+                    type="text"
+                    autocomplete="cc-number"
+                    inputmode="numeric"
+                    maxlength="19"
+                  />
+
                   <aside class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2 opacity-50" aria-label="Bandeiras aceitas">
                     <img alt="Visa" class="h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcWCaBNXFoxyMvw9_huLbUBW7YaGAi4dBJrV-HjvSRWKvcnfteu8XXWa0AZ45F4WjYlC4i8ifhKRAtOoTPiqeLTBKnslut_-0jxtvvxNF2O81joQisDJ4ijiEIF-Mxw04KeeoWdthVUKM40OePUZ4voSkdbFkR4H2vxYWpu3Tg-2Y6gQghOKydUBY3z__eNbSdcDOuvf9EKpoLl8rGpBMfZYoqR4jP6cTNjKKYK_42bQyKjqSn3Zk3GoOrwC9TldDSwu36qzOCQk"/>
                     <img alt="Mastercard" class="h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC24WrvejDz-YcTaUuzbpzqRdM_MSz5Rl866KQhvWs1X38xVggbywkQs_nKt8-bDtYXvH_l6FTwGlR8wpKMbKKasfZV8w9JfyvWe5kn-nnVVw31kjjPbqQ2mR3Arb2YafanDCerubf97N_ri7DX0CQVdDnvQ_PtdF-3BHBeWDW3hvsfemj2R9comr1CUYDaF2NQBPY9ucj0iT00-Xvi_XnXHBMbCYiQA9gMqRcERsUGDfqPvZYWhX_8r2z4uq8Raj7reegOKQckso5"/>
                   </aside>
                 </figure>
+
+                <small class="field-error" id="error-card-number"></small>
               </li>
 
-              <li class="grid grid-cols-2 gap-5">
-                <label class="space-y-2 flex flex-col" for="card-expiry">
-                  <small class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1 not-italic">Validade</small>
-                  <input id="card-expiry" name="card-expiry"
-                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
-                         placeholder="MM/AA" type="text" autocomplete="cc-exp" inputmode="numeric" maxlength="5"/>
-                </label>
-                <label class="space-y-2 flex flex-col" for="card-cvv">
-                  <small class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1 not-italic">CVV</small>
-                  <input id="card-cvv" name="card-cvv"
-                         class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
-                         placeholder="123" type="text" autocomplete="cc-csc" inputmode="numeric" maxlength="4"/>
-                </label>
+              <li class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <section class="space-y-2">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-expiry">
+                    Validade
+                  </label>
+
+                  <input
+                    id="card-expiry"
+                    name="card-expiry"
+                    class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                    placeholder="MM/AA"
+                    type="text"
+                    autocomplete="cc-exp"
+                    inputmode="numeric"
+                    maxlength="5"
+                  />
+
+                  <small class="field-error" id="error-card-expiry"></small>
+                </section>
+
+                <section class="space-y-2">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-cvv">
+                    CVV
+                  </label>
+
+                  <input
+                    id="card-cvv"
+                    name="card-cvv"
+                    class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                    placeholder="123"
+                    type="text"
+                    autocomplete="cc-csc"
+                    inputmode="numeric"
+                    maxlength="4"
+                  />
+
+                  <small class="field-error" id="error-card-cvv"></small>
+                </section>
               </li>
 
               <li class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-cpf">CPF do Titular</label>
-                <input id="card-cpf" name="card-cpf"
-                       class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
-                       placeholder="000.000.000-00" type="text" inputmode="numeric" maxlength="14"/>
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="card-cpf">
+                  CPF do Titular
+                </label>
+
+                <input
+                  id="card-cpf"
+                  name="card-cpf"
+                  class="w-full bg-surface-container-highest border-none rounded-2xl p-4 focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/30 transition-all text-on-surface placeholder:opacity-40"
+                  placeholder="000.000.000-00"
+                  type="text"
+                  inputmode="numeric"
+                  maxlength="14"
+                />
+
+                <small class="field-error" id="error-card-cpf"></small>
               </li>
 
             </ul>
@@ -147,16 +300,17 @@
               <i class="material-symbols-outlined not-italic" aria-hidden="true">verified_user</i>
               <small class="text-xs font-semibold not-italic">SSL Encriptado</small>
             </li>
+
             <li class="flex items-center gap-2 text-on-surface-variant/60">
               <i class="material-symbols-outlined not-italic" aria-hidden="true">security</i>
               <small class="text-xs font-semibold not-italic">Pagamento Seguro</small>
             </li>
+
             <li class="flex items-center gap-2 text-on-surface-variant/60">
               <i class="material-symbols-outlined not-italic" aria-hidden="true">shield</i>
               <small class="text-xs font-semibold not-italic">Garantia de 7 dias</small>
             </li>
           </ul>
-
         </form>
       </article>
 
@@ -169,39 +323,40 @@
 
           <ul role="list" class="space-y-6 relative list-none p-0 m-0">
 
-            <!-- Plano escolhido -->
             <li class="flex items-center gap-4 bg-surface p-4 rounded-2xl">
               <figure class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center text-white m-0 shrink-0">
                 <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">workspace_premium</i>
               </figure>
+
               <hgroup class="flex-1 min-w-0">
                 <p class="text-xs font-bold text-primary uppercase tracking-widest">Plano Selecionado</p>
-                <p class="text-xl font-extrabold text-on-surface">Plano <%= planoSelecionado.nome %></p>
+                <p class="text-xl font-extrabold text-on-surface">Plano <%= planoAtual.nome %></p>
               </hgroup>
+
               <section class="text-right shrink-0">
                 <strong class="text-sm font-bold block"><%= valorPlanoBR %></strong>
                 <small class="text-[10px] text-on-surface-variant">/mês</small>
               </section>
             </li>
 
-            <!-- Subtotal -->
             <li class="space-y-3 pt-4 border-t-2 border-surface-container-low">
               <dl class="flex justify-between items-center text-on-surface-variant">
                 <dt class="font-medium">Subtotal</dt>
                 <dd class="font-bold"><%= valorPlanoBR %></dd>
               </dl>
+
               <dl class="flex justify-between items-center text-on-surface-variant">
                 <dt class="font-medium">Taxa de serviço</dt>
                 <dd class="font-bold text-secondary">Grátis</dd>
               </dl>
             </li>
 
-            <!-- Total -->
             <li class="pt-5 border-t-2 border-surface-container-low flex justify-between items-end">
               <hgroup>
                 <p class="text-xs font-black uppercase tracking-widest text-primary">Total a pagar</p>
                 <p class="text-4xl font-black tracking-tighter"><%= valorPlanoBR %></p>
               </hgroup>
+
               <small class="text-[10px] text-on-surface-variant font-medium leading-tight max-w-[110px] text-right not-italic">
                 Cobrança mensal recorrente. Cancele quando quiser.
               </small>
@@ -209,9 +364,11 @@
 
           </ul>
 
-          <button form="checkout-form"
-                  class="w-full text-white font-bold py-5 rounded-full text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex justify-center items-center gap-2 action-gradient mt-8"
-                  type="submit">
+          <button
+            form="checkout-form"
+            class="w-full text-white font-bold py-5 rounded-full text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex justify-center items-center gap-2 action-gradient mt-8"
+            type="submit"
+          >
             Pagar Agora
             <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
           </button>
@@ -222,8 +379,9 @@
           <nav class="flex gap-4 justify-center" aria-label="Links legais">
             <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Termos de Uso</a>
             <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidade</a>
-            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="suporte">Suporte</a>
+            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="/suporte">Suporte</a>
           </nav>
+
           <small class="text-[10px] text-center text-on-surface-variant opacity-50 mt-1 not-italic">
             © 2024 PlanoB Fitness Tech. Todos os direitos reservados.
           </small>
@@ -233,6 +391,231 @@
     </section>
   </main>
 
-  <script src="/js/validacoes.js"></script>
+  <script>
+    const formPagamento = document.getElementById('checkout-form')
+
+    const cardName = document.getElementById('card-name')
+    const cardCpf = document.getElementById('card-cpf')
+    const cardNumber = document.getElementById('card-number')
+    const cardExpiry = document.getElementById('card-expiry')
+    const cardCvv = document.getElementById('card-cvv')
+
+    function somenteNumeros(valor) {
+      return String(valor || '').replace(/\D/g, '')
+    }
+
+    function mostrarErro(input, idErro, mensagem) {
+      const erro = document.getElementById(idErro)
+
+      if (erro) {
+        erro.textContent = mensagem
+      }
+
+      if (input) {
+        input.classList.add('input-error')
+        input.classList.remove('input-ok')
+      }
+    }
+
+    function limparErro(input, idErro) {
+      const erro = document.getElementById(idErro)
+
+      if (erro) {
+        erro.textContent = ''
+      }
+
+      if (input) {
+        input.classList.remove('input-error')
+      }
+    }
+
+    function marcarOk(input) {
+      if (input) {
+        input.classList.remove('input-error')
+        input.classList.add('input-ok')
+      }
+    }
+
+    function validarCPF(cpf) {
+      cpf = somenteNumeros(cpf)
+
+      if (cpf.length !== 11) return false
+      if (/^(\d)\1+$/.test(cpf)) return false
+
+      let soma = 0
+
+      for (let i = 0; i < 9; i++) {
+        soma += Number(cpf.charAt(i)) * (10 - i)
+      }
+
+      let resto = (soma * 10) % 11
+
+      if (resto === 10 || resto === 11) {
+        resto = 0
+      }
+
+      if (resto !== Number(cpf.charAt(9))) {
+        return false
+      }
+
+      soma = 0
+
+      for (let i = 0; i < 10; i++) {
+        soma += Number(cpf.charAt(i)) * (11 - i)
+      }
+
+      resto = (soma * 10) % 11
+
+      if (resto === 10 || resto === 11) {
+        resto = 0
+      }
+
+      return resto === Number(cpf.charAt(10))
+    }
+
+    function validarValidade(valor) {
+      if (!/^\d{2}\/\d{2}$/.test(valor)) return false
+
+      const partes = valor.split('/')
+      const mes = Number(partes[0])
+      const ano = Number('20' + partes[1])
+
+      if (!mes || !ano) return false
+      if (mes < 1 || mes > 12) return false
+
+      const hoje = new Date()
+      const anoAtual = hoje.getFullYear()
+      const mesAtual = hoje.getMonth() + 1
+
+      if (ano < anoAtual) return false
+      if (ano === anoAtual && mes < mesAtual) return false
+
+      return true
+    }
+
+    function aplicarMascaras() {
+      if (cardCpf) {
+        cardCpf.addEventListener('input', () => {
+          let valor = somenteNumeros(cardCpf.value).slice(0, 11)
+
+          valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+          valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+          valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+
+          cardCpf.value = valor
+        })
+      }
+
+      if (cardNumber) {
+        cardNumber.addEventListener('input', () => {
+          let valor = somenteNumeros(cardNumber.value).slice(0, 16)
+          valor = valor.replace(/(\d{4})(?=\d)/g, '$1 ')
+          cardNumber.value = valor
+        })
+      }
+
+      if (cardExpiry) {
+        cardExpiry.addEventListener('input', () => {
+          let valor = somenteNumeros(cardExpiry.value).slice(0, 4)
+
+          if (valor.length >= 3) {
+            valor = valor.slice(0, 2) + '/' + valor.slice(2)
+          }
+
+          cardExpiry.value = valor
+        })
+      }
+
+      if (cardCvv) {
+        cardCvv.addEventListener('input', () => {
+          cardCvv.value = somenteNumeros(cardCvv.value).slice(0, 4)
+        })
+      }
+    }
+
+    function validarFormulario() {
+      let valido = true
+
+      limparErro(cardName, 'error-card-name')
+      limparErro(cardCpf, 'error-card-cpf')
+      limparErro(cardNumber, 'error-card-number')
+      limparErro(cardExpiry, 'error-card-expiry')
+      limparErro(cardCvv, 'error-card-cvv')
+
+      if (!cardName.value.trim()) {
+        mostrarErro(cardName, 'error-card-name', 'Informe o nome impresso no cartão.')
+        valido = false
+      } else if (cardName.value.trim().length < 5 || !cardName.value.trim().includes(' ')) {
+        mostrarErro(cardName, 'error-card-name', 'Digite o nome completo.')
+        valido = false
+      } else {
+        marcarOk(cardName)
+      }
+
+      if (!cardCpf.value.trim()) {
+        mostrarErro(cardCpf, 'error-card-cpf', 'Informe o CPF do titular.')
+        valido = false
+      } else if (!validarCPF(cardCpf.value)) {
+        mostrarErro(cardCpf, 'error-card-cpf', 'CPF inválido.')
+        valido = false
+      } else {
+        marcarOk(cardCpf)
+      }
+
+      const numeroCartao = somenteNumeros(cardNumber.value)
+
+      if (!cardNumber.value.trim()) {
+        mostrarErro(cardNumber, 'error-card-number', 'Informe o número do cartão.')
+        valido = false
+      } else if (numeroCartao.length < 13 || numeroCartao.length > 16) {
+        mostrarErro(cardNumber, 'error-card-number', 'Número do cartão inválido.')
+        valido = false
+      } else {
+        marcarOk(cardNumber)
+      }
+
+      if (!cardExpiry.value.trim()) {
+        mostrarErro(cardExpiry, 'error-card-expiry', 'Informe a validade do cartão.')
+        valido = false
+      } else if (!validarValidade(cardExpiry.value)) {
+        mostrarErro(cardExpiry, 'error-card-expiry', 'Validade inválida ou vencida.')
+        valido = false
+      } else {
+        marcarOk(cardExpiry)
+      }
+
+      const cvv = somenteNumeros(cardCvv.value)
+
+      if (!cardCvv.value.trim()) {
+        mostrarErro(cardCvv, 'error-card-cvv', 'Informe o CVV.')
+        valido = false
+      } else if (cvv.length < 3 || cvv.length > 4) {
+        mostrarErro(cardCvv, 'error-card-cvv', 'CVV inválido.')
+        valido = false
+      } else {
+        marcarOk(cardCvv)
+      }
+
+      return valido
+    }
+
+    aplicarMascaras()
+
+    if (formPagamento) {
+      formPagamento.addEventListener('submit', (event) => {
+        const formularioValido = validarFormulario()
+
+        if (!formularioValido) {
+          event.preventDefault()
+
+          const primeiroErro = document.querySelector('.input-error')
+
+          if (primeiroErro) {
+            primeiroErro.focus()
+          }
+        }
+      })
+    }
+  </script>
 </body>
 </html>
