@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Perfil do Professor - PlanoB</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#007BFF", // Azure Kinetic Primary
+                      "on-primary": "#ffffff",
+                      "primary-container": "#e0efff",
+                      "on-primary-container": "#00214e",
+                      "secondary": "#00647b",
+                      "surface": "#f7f5ff",
+                      "on-surface": "#232c51",
+                      "surface-variant": "#d5dbff",
+                      "on-surface-variant": "#505a81",
+                      "outline": "#6c759e",
+                      "outline-variant": "#a2abd7",
+                      "error": "#b31b25",
+                      "surface-container-low": "#efefff",
+                      "surface-container": "#e4e7ff",
+                      "surface-container-high": "#dde1ff",
+                      "surface-container-highest": "#d5dbff",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#ffd709",
+                      "on-tertiary-container": "#5b4b00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Lexend"],
+                      "display": ["Lexend"],
+                      "body": ["Manrope"],
+                      "label": ["Manrope"]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Lexend', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Standardized) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col py-6 z-40 hidden md:flex border-r border-outline-variant/20">
+<div class="px-6 mb-10">
+<h1 class="font-headline font-black text-primary text-2xl tracking-tighter">PlanoB</h1>
+<p class="text-xs font-headline text-on-surface-variant/70 font-medium mt-1 uppercase tracking-wider">Gestão de Aprendizado</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-headline font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-headline font-medium text-sm">Meus Alunos</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-headline font-medium text-sm">Conteúdos</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="reviews">reviews</span>
+<span class="font-headline font-medium text-sm">Feedbacks</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 mx-2 text-primary bg-primary-container rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-headline font-semibold text-sm">Meu Perfil</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-headline font-medium text-sm">Configurações</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-1">
+<a class="flex items-center gap-3 py-3 px-4 text-on-surface hover:bg-surface-container rounded-xl mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-headline font-medium text-sm">Suporte</span>
+</a>
+<a class="flex items-center gap-3 py-3 px-4 text-error hover:bg-error/5 rounded-xl mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-headline font-medium text-sm">Sair</span>
+</a>
+</div>
+</aside>
+<div class="md:ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar (Standardized) -->
+<header class="w-full sticky top-0 z-50 bg-surface/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" placeholder="Buscar alunos ou treinos..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/20 cursor-pointer">
+<img alt="Professor Profile Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhv79t-M1zIisD_6pL_e4o1UeG4N_f-8U-Y9Uu_t6V_H9f8_S_T"/>
+</div>
+</div>
+</header>
+<main class="flex-1 p-6 lg:p-10 max-w-7xl mx-auto w-full">
+<!-- Hero Profile Section: Azure Kinetic Style -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+<div class="lg:col-span-5 relative group">
+<div class="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+<img alt="Ricardo Mendes Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhv79t-M1zIisD_6pL_e4o1UeG4N_f-8U-Y9Uu_t6V_H9f8_S_T"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent"></div>
+</div>
+<!-- Specialty Chips -->
+<div class="absolute -bottom-4 -right-4 flex flex-col gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container px-5 py-2.5 rounded-2xl text-xs font-bold font-headline shadow-lg">MUSCULAÇÃO</span>
+<span class="bg-primary text-white px-5 py-2.5 rounded-2xl text-xs font-bold font-headline shadow-lg">TREINO FUNCIONAL</span>
+</div>
+</div>
+<div class="lg:col-span-7 flex flex-col justify-center">
+<div class="space-y-4">
+<span class="text-primary font-headline font-extrabold tracking-widest text-xs uppercase flex items-center gap-2">
+<span class="w-8 h-px bg-primary"></span> Personal Trainer &amp; Coach
+                    </span>
+<h1 class="text-6xl md:text-7xl font-black font-headline text-on-surface tracking-tighter leading-[0.9] mb-4">Ricardo Mendes</h1>
+<p class="text-primary text-xl font-headline font-semibold mb-6">CREF 123456-G/SP</p>
+<div class="max-w-xl">
+<p class="text-on-surface-variant text-lg leading-relaxed mb-8 font-medium">
+                            Especialista em biomecânica aplicada ao treinamento de força. Com mais de 10 anos de experiência, transformo vidas através de metodologias personalizadas que unem ciência e motivação.
+                        </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-headline font-bold text-sm shadow-xl shadow-primary/20 transition-all active:scale-95">
+                                AGENDAR CONSULTORIA
+                            </button>
+<button class="bg-surface-container-low border-2 border-outline-variant/30 text-on-surface px-8 py-4 rounded-2xl font-headline font-bold text-sm hover:bg-surface-container transition-all">
+                                VER CURRÍCULO
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Metrics Cards: Azure Kinetic Grid Structure -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col items-center text-center border border-outline-variant/10 shadow-sm transition-transform hover:scale-[1.02]">
+<div class="w-14 h-14 bg-primary-container text-primary rounded-2xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-3xl" data-icon="groups">groups</span>
+</div>
+<span class="text-4xl font-headline font-black text-on-surface">42</span>
+<span class="text-xs font-headline font-bold text-outline tracking-widest uppercase mt-2">Alunos Ativos</span>
+</div>
+<div class="bg-primary p-8 rounded-[2rem] flex flex-col items-center text-center shadow-2xl shadow-primary/30 transition-transform hover:scale-[1.02]">
+<div class="w-14 h-14 bg-white/20 text-white rounded-2xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-3xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-4xl font-headline font-black text-white">4.9</span>
+<span class="text-xs font-headline font-bold text-white/80 tracking-widest uppercase mt-2">Média de Avaliação</span>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col items-center text-center border border-outline-variant/10 shadow-sm transition-transform hover:scale-[1.02]">
+<div class="w-14 h-14 bg-primary-container text-primary rounded-2xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-3xl" data-icon="fitness_center">fitness_center</span>
+</div>
+<span class="text-4xl font-headline font-black text-on-surface">156</span>
+<span class="text-xs font-headline font-bold text-outline tracking-widest uppercase mt-2">Aulas Realizadas</span>
+</div>
+</div>
+<!-- Featured Videos -->
+<section class="mb-20">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-black font-headline text-on-surface tracking-tight">Meus Vídeos em Destaque</h2>
+<p class="text-on-surface-variant font-medium mt-1">As técnicas mais acessadas pelos alunos.</p>
+</div>
+<a class="text-primary font-bold font-headline text-sm flex items-center gap-1 group hover:underline" href="#">
+                    Ver todos <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Video Item 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-video rounded-3xl overflow-hidden relative mb-4 shadow-lg">
+<img alt="Video 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/ADBb0uiHf5yBD1OtKZ9OibcAsInnQ1_NNKuUhYAmFcYvCXtQ7kcxe66WxUnMm_cuFd8qMGr4HJDRpVBpLsfrHZp3rzbRG4-_HeMBdRDoWx-un5VAnQzs0G6VtKIuuG4UMH0lgywkJ4DdMHh1e4DX8pserETt8ZXvJfsTQUAbKV5k9CvVm9iWis8P97a-IHNhE-Yhk-nR8PTnrmkh9QWjv8bcmtIKSTrLUrJXyGelaeS0dCKfEdX9FwLC84GP4--8"/>
+<div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-primary text-white p-4 rounded-full shadow-xl">
+<span class="material-symbols-outlined text-3xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">Agachamento Perfeito: Biomecânica</h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-wider">12.4k views</span>
+<span class="text-xs text-outline">•</span>
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-wider">15 min</span>
+</div>
+</div>
+<!-- Video Item 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-video rounded-3xl overflow-hidden relative mb-4 shadow-lg">
+<img alt="Video 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/ADBb0uhiZSMiZ6TYwl_L2KYMu8aO1jGj167z3oRhyBBoH8s2sUWmp4zOlewVbRHLUu965149sBuGBFUk2hU9ySbV1Oam-oDZJBFMU1VLqR3nPZSIDo2A8MZF-XZKDTMFQJS_XaeqoIyiHccK4Y9fB1lXN0skye6wYNCC-eK66iAGrTE1JqrmiVUqp7URl1-4_sWXKcYKHcZrA9x6kJTIrDOd2VAqYrizZc69eDzrjugLOD897tX_VooM9K6MjBvm"/>
+<div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-primary text-white p-4 rounded-full shadow-xl">
+<span class="material-symbols-outlined text-3xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">HIIT Explosivo para Iniciantes</h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-wider">8.9k views</span>
+<span class="text-xs text-outline">•</span>
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-wider">20 min</span>
+</div>
+</div>
+<!-- Video Item 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-video rounded-3xl overflow-hidden relative mb-4 shadow-lg">
+<img alt="Video 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/ADBb0ujvMAT4XdA4ZcgBZqm82NeZJujKLdnQNiO1WcZSPVs_7nqyOai0Scy-CdEGNwQETsrdUyKyvYWJEEDZXQzgKtOt31Z3YtxMX3z916Jg25Z20ekq5yvGJOypCHjho_Hr4Hs8lk7AWRgOtDKaqy12faAG_iYUhgpypJjhiOf9Cvsj7oK090GcP1OzTram5WbsM0uXs85P6b_TVXHJKmegTnydm3PsxGjszHROMW7fkH5AEXBC8zFILnbNavE"/>
+<div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<div class="bg-primary text-white p-4 rounded-full shadow-xl">
+<span class="material-symbols-outlined text-3xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">Mobilidade de Ombro e Coluna</h3>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-wider">5.2k views</span>
+<span class="text-xs text-outline">•</span>
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-wider">10 min</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Feedback -->
+<section class="mb-12">
+<h2 class="text-3xl font-black font-headline text-on-surface tracking-tight mb-8">Feedback Recente</h2>
+<div class="grid grid-cols-1 gap-6">
+<!-- Feedback Card 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col md:flex-row gap-8 relative overflow-hidden border border-outline-variant/10 shadow-sm">
+<div class="flex-shrink-0">
+<div class="h-20 w-20 rounded-[1.5rem] overflow-hidden shadow-md">
+<img alt="Mariana Costa" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb6d73_3mZbyZWb6nBgYHiNYqwdWNBv97VB7STLPaX4j0YqxsMI0Lz4FnOqKM-aDU53OYEHZC0JGyYCl2I2HAPkTQCkKR8ZHJxgsp5Q1Y0ux5UufeyUneErES08WquyBTLH0ft7HyDKq2di7EufMyWfk-W7OLofxvFik-tdMrAOp6WKQWMyoxkuzEkbcs4sw0qHnHTV3apYvQOpAY2PcDXv_G3g3_CaPljOe1Jm9uLmyrtlPXy-92eRDZAmsf-wOHNXD0q0RqtmT-J"/>
+</div>
+</div>
+<div class="flex-1 relative z-10">
+<div class="flex items-center gap-3 mb-3">
+<div class="flex text-tertiary-container">
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="bg-primary-container text-primary px-3 py-1 rounded-full text-[10px] font-headline font-black uppercase tracking-wider">ALUNO VIP</span>
+</div>
+<h4 class="font-headline font-bold text-xl text-on-surface">Mariana Costa</h4>
+<p class="text-on-surface-variant font-medium text-lg leading-relaxed mt-3">"O Ricardo mudou completamente minha visão sobre treino. As explicações técnicas dele fazem toda a diferença para evitar lesões e realmente sentir o músculo trabalhar. Excelente profissional!"</p>
+<div class="flex items-center gap-4 mt-6">
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-widest">Postado há 2 dias</span>
+</div>
+</div>
+<!-- Decorative Icon -->
+<span class="material-symbols-outlined absolute -right-6 -bottom-6 text-[12rem] text-primary/5 select-none rotate-12" data-icon="format_quote">format_quote</span>
+</div>
+<!-- Feedback Card 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col md:flex-row gap-8 relative overflow-hidden border border-outline-variant/10 shadow-sm">
+<div class="flex-shrink-0">
+<div class="h-20 w-20 rounded-[1.5rem] overflow-hidden shadow-md">
+<img alt="Carlos Eduardo" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujg5LL6w4JJ8s-7K1ghaFx6Y28FItfVVR0TC1KTxyxHn52RQuSSdPNj3Y580fFMiTZ1gHW5anarvNkKAPrdd_yGtu4qDR7hf_m3OcIa1ha6jgRgYVKEy_RsGR7yHAgPHalGrNB67G3u1jObLcR9vsvDRz5Br2f9rh7Jp1U_qe9krFAH7dG-7cnhJiZ7qGM3V1Br8TdjMgWEypfnR3XtUTxvWwDuRU2TchsF-PZM52SKRmxzsO7gZ5s-9Ek"/>
+</div>
+</div>
+<div class="flex-1 relative z-10">
+<div class="flex items-center gap-3 mb-3">
+<div class="flex text-tertiary-container">
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+</div>
+<h4 class="font-headline font-bold text-xl text-on-surface">Carlos Eduardo</h4>
+<p class="text-on-surface-variant font-medium text-lg leading-relaxed mt-3">"Muito focado e direto ao ponto. Os treinos de perna que ele montou para mim são desafiadores mas os resultados apareceram em menos de 2 meses."</p>
+<div class="flex items-center gap-4 mt-6">
+<span class="text-xs font-headline font-bold text-outline uppercase tracking-widest">Postado há 1 semana</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -right-6 -bottom-6 text-[12rem] text-primary/5 select-none rotate-12" data-icon="format_quote">format_quote</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="py-12 text-center border-t border-outline-variant/10">
+<p class="font-headline font-bold text-outline text-[10px] tracking-[0.2em] uppercase">PlanoB © 2024 • A Excelência em Treinamento Personalizado</p>
+</footer>
+</div>
+<!-- Mobile Bottom NavBar (Standardized) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-outline-variant/10 flex justify-around items-center py-4 z-50 px-4">
+<a class="flex flex-col items-center text-outline transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider">Painel</span>
+</a>
+<a class="flex flex-col items-center text-outline transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider">Alunos</span>
+</a>
+<a class="flex flex-col items-center text-outline transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider">Vídeos</span>
+</a>
+<a class="flex flex-col items-center text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider">Perfil</span>
+</a>
+</nav>
+</body></html>

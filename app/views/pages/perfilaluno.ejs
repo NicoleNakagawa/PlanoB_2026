@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f7f5ff;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%);
+        }
+        .glass-panel {
+            background: rgba(247, 245, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .asymmetric-clip {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#b31b25",
+                        "on-primary-container": "#00214e",
+                        "primary-dim": "#004da4",
+                        "on-tertiary-fixed-variant": "#665500",
+                        "on-secondary-fixed-variant": "#00586d",
+                        "surface-variant": "#d5dbff",
+                        "primary-fixed-dim": "#5091ff",
+                        "surface-container-high": "#dde1ff",
+                        "secondary-container": "#80deff",
+                        "secondary-dim": "#00576c",
+                        "inverse-on-surface": "#929bc6",
+                        "surface-container-highest": "#d5dbff",
+                        "tertiary-fixed-dim": "#efc900",
+                        "primary-container": "#6c9fff",
+                        "surface-tint": "#0058ba",
+                        "on-primary-fixed-variant": "#002a60",
+                        "on-tertiary-container": "#5b4b00",
+                        "surface-container": "#e4e7ff",
+                        "on-secondary-fixed": "#003a48",
+                        "on-primary": "#f0f2ff",
+                        "primary": "#0058ba",
+                        "surface-container-low": "#efefff",
+                        "secondary-fixed-dim": "#37d4ff",
+                        "error-container": "#fb5151",
+                        "surface-dim": "#cad2ff",
+                        "outline-variant": "#a2abd7",
+                        "primary-fixed": "#6c9fff",
+                        "on-surface-variant": "#505a81",
+                        "inverse-surface": "#020a2f",
+                        "inverse-primary": "#4a8eff",
+                        "tertiary-fixed": "#ffd709",
+                        "on-error-container": "#570008",
+                        "surface-bright": "#f7f5ff",
+                        "on-tertiary-fixed": "#453900",
+                        "surface": "#f7f5ff",
+                        "on-secondary-container": "#004e61",
+                        "background": "#f7f5ff",
+                        "tertiary": "#6c5a00",
+                        "on-surface": "#232c51",
+                        "on-tertiary": "#fff2cd",
+                        "error-dim": "#9f0519",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#232c51",
+                        "secondary": "#00647b",
+                        "outline": "#6c759e",
+                        "on-error": "#ffefee",
+                        "on-secondary": "#e2f6ff",
+                        "secondary-fixed": "#80deff",
+                        "tertiary-container": "#ffd709",
+                        "tertiary-dim": "#5e4e00",
+                        "on-primary-fixed": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "display": ["Lexend"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Shared Component Logic) -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-[#f7f5ff] dark:bg-slate-950 flex flex-col py-8 px-4 border-r border-surface-container">
+<div class="mb-10 px-2">
+<span class="font-['Lexend'] font-black text-2xl text-[#0058ba]">PlanoB</span>
+<p class="text-xs font-['Lexend'] font-bold tracking-tight text-on-surface opacity-60">Área do Aluno</p>
+</div>
+<nav class="flex-grow space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 text-[#232c51] dark:text-slate-400 opacity-70 hover:bg-[#d5dbff] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-bold">Treinos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 text-[#232c51] dark:text-slate-400 opacity-70 hover:bg-[#d5dbff] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-bold">Planos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 text-[#232c51] dark:text-slate-400 opacity-70 hover:bg-[#d5dbff] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-bold">Mensagens</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 text-[#232c51] dark:text-slate-400 opacity-70 hover:bg-[#d5dbff] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-bold">Suporte</span>
+</a>
+<!-- Active State: Profile -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors duration-200 text-[#0058ba] dark:text-[#6c9fff] font-bold border-r-4 border-[#0058ba] bg-[#e4e7ff]/50" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-bold">Perfil</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-surface-container-high px-2">
+<div class="flex items-center gap-3">
+<img alt="Lucas Siqueira" class="w-10 h-10 rounded-full object-cover" src="https://placeholder.pics/svg/300"/>
+<div>
+<p class="text-sm font-bold">Lucas Siqueira</p>
+<p class="text-xs opacity-60">Plano Diamond</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar (Shared Component Logic) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-20 z-30 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-8">
+<div class="flex items-center gap-4">
+<h1 class="font-['Lexend'] font-black text-xl text-[#0058ba]">Meu Perfil</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-[#d5dbff] rounded-full p-2 transition-all cursor-pointer">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-[#d5dbff] rounded-full p-2 transition-all cursor-pointer">help</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 p-8 min-h-screen">
+<!-- Header Section with Editorial Layout -->
+<section class="grid grid-cols-12 gap-8 mb-12">
+<div class="col-span-12 lg:col-span-8 relative">
+<div class="bg-surface-container-lowest rounded-[2rem] p-8 relative overflow-hidden flex flex-col md:flex-row gap-8 items-center md:items-start shadow-[0_12px_40px_rgba(35,44,81,0.05)]">
+<div class="relative z-10 w-40 h-40 flex-shrink-0">
+<img alt="Lucas Siqueira" class="w-full h-full rounded-[2rem] object-cover" src="https://placeholder.pics/svg/300"/>
+<div class="absolute -bottom-2 -right-2 bg-tertiary-fixed text-on-tertiary-fixed font-black px-4 py-1 rounded-full text-xs tracking-widest uppercase">
+                            DIAMANTE
+                        </div>
+</div>
+<div class="relative z-10 flex flex-col justify-center">
+<span class="text-primary font-bold text-sm tracking-widest uppercase mb-2">Aluno Ativo</span>
+<h2 class="font-['Lexend'] font-black text-5xl text-on-surface mb-4 leading-tight">Lucas Siqueira</h2>
+<div class="flex flex-wrap gap-4">
+<span class="bg-surface-container px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">calendar_today</span>
+                                Desde Jan 2023
+                            </span>
+<span class="bg-surface-container px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">location_on</span>
+                                São Paulo, SP
+                            </span>
+</div>
+</div>
+<!-- Background Decor -->
+<div class="absolute top-[-20%] right-[-10%] w-64 h-64 kinetic-gradient opacity-10 rounded-full blur-3xl"></div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4">
+<div class="kinetic-gradient rounded-[2rem] p-8 h-full flex flex-col justify-between text-on-primary shadow-[0_20px_50px_rgba(0,88,186,0.3)]">
+<div>
+<h3 class="font-['Lexend'] font-bold text-xl mb-1">Próximo Treino</h3>
+<p class="opacity-80 text-sm mb-6">Foco: Hipertrofia Inferiores</p>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-medium opacity-90">Progresso do Plano</span>
+<span class="font-black">75%</span>
+</div>
+<div class="h-3 w-full bg-on-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-white w-3/4 rounded-full"></div>
+</div>
+</div>
+<button class="mt-8 bg-white text-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-transform active:scale-95">
+                        Iniciar Treino Agora
+                        <span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Metrics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Metric 1 -->
+<div class="bg-surface-container-low p-8 rounded-[2rem] border-b-4 border-primary/20 transition-all hover:translate-y-[-4px]">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<h4 class="font-bold text-on-surface-variant">Frequência Semanal</h4>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-['Lexend'] font-black text-4xl">4.2</span>
+<span class="text-on-surface-variant/60 font-medium">dias/sem</span>
+</div>
+<p class="text-xs text-secondary font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                    +12% que o mês passado
+                </p>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-low p-8 rounded-[2rem] border-b-4 border-secondary/20 transition-all hover:translate-y-[-4px]">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">timer</span>
+</div>
+<h4 class="font-bold text-on-surface-variant">Tempo de Treino</h4>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-['Lexend'] font-black text-4xl">58</span>
+<span class="text-on-surface-variant/60 font-medium">min/méd</span>
+</div>
+<p class="text-xs text-on-surface-variant/60 font-medium mt-2">
+                    Meta: 60 min
+                </p>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-low p-8 rounded-[2rem] border-b-4 border-tertiary-fixed/40 transition-all hover:translate-y-[-4px]">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed">star</span>
+</div>
+<h4 class="font-bold text-on-surface-variant">Média de Feedback</h4>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-['Lexend'] font-black text-4xl">4.9</span>
+<span class="text-on-surface-variant/60 font-medium">/ 5.0</span>
+</div>
+<p class="text-xs text-on-surface-variant/60 font-medium mt-2">
+                    Excelentes resultados técnicos
+                </p>
+</div>
+</section>
+<!-- Content Split: History & Achievements -->
+<section class="grid grid-cols-12 gap-8">
+<!-- Activity History -->
+<div class="col-span-12 lg:col-span-12">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-['Lexend'] font-black text-2xl">Histórico de Atividades</h3>
+<button class="text-primary font-bold text-sm hover:underline">Ver tudo</button>
+</div>
+<div class="space-y-4">
+<!-- History Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl flex items-center gap-6 group hover:bg-white transition-all shadow-sm">
+<div class="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Chest workout" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhiZSMiZ6TYwl_L2KYMu8aO1jGj167z3oRhyBBoH8s2sUWmp4zOlewVbRHLUu965149sBuGBFUk2hU9ySbV1Oam-oDZJBFMU1VLqR3nPZSIDo2A8MZF-XZKDTMFQJS_XaeqoIyiHccK4Y9fB1lXN0skye6wYNCC-eK66iAGrTE1JqrmiVUqp7URl1-4_sWXKcYKHcZrA9x6kJTIrDOd2VAqYrizZc69eDzrjugLOD897tX_VooM9K6MjBvm"/>
+</div>
+<div class="flex-grow">
+<h5 class="font-bold text-lg">Push Day (Peito e Ombro)</h5>
+<p class="text-sm text-on-surface-variant/70">Ontem às 18:30 • Prof. Ricardo</p>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-1 text-tertiary font-bold mb-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                5.0
+                            </div>
+<span class="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase">Concluído</span>
+</div>
+</div>
+<!-- History Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl flex items-center gap-6 group hover:bg-white transition-all shadow-sm">
+<div class="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Leg workout" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uiHf5yBD1OtKZ9OibcAsInnQ1_NNKuUhYAmFcYvCXtQ7kcxe66WxUnMm_cuFd8qMGr4HJDRpVBpLsfrHZp3rzbRG4-_HeMBdRDoWx-un5VAnQzs0G6VtKIuuG4UMH0lgywkJ4DdMHh1e4DX8pserETt8ZXvJfsTQUAbKV5k9CvVm9iWis8P97a-IHNhE-Yhk-nR8PTnrmkh9QWjv8bcmtIKSTrLUrJXyGelaeS0dCKfEdX9FwLC84GP4--8"/>
+</div>
+<div class="flex-grow">
+<h5 class="font-bold text-lg">Lower Body (Foco Quadríceps)</h5>
+<p class="text-sm text-on-surface-variant/70">Terça-feira às 07:15 • Prof. Ricardo</p>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-1 text-tertiary font-bold mb-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                4.8
+                            </div>
+<span class="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase">Concluído</span>
+</div>
+</div>
+<!-- History Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl flex items-center gap-6 group hover:bg-white transition-all shadow-sm">
+<div class="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Cardio" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujvMAT4XdA4ZcgBZqm82NeZJujKLdnQNiO1WcZSPVs_7nqyOai0Scy-CdEGNwQETsrdUyKyvYWJEEDZXQzgKtOt31Z3YtxMX3z916Jg25Z20ekq5yvGJOypCHjho_Hr4Hs8lk7AWRgOtDKaqy12faAG_iYUhgpypJjhiOf9Cvsj7oK090GcP1OzTram5WbsM0uXs85P6b_TVXHJKmegTnydm3PsxGjszHROMW7fkH5AEXBC8zFILnbNavE"/>
+</div>
+<div class="flex-grow">
+<h5 class="font-bold text-lg">HIIT Cardiovascular</h5>
+<p class="text-sm text-on-surface-variant/70">Segunda-feira às 19:00 • Prof. Ricardo</p>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-1 text-tertiary font-bold mb-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                5.0
+                            </div>
+<span class="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase">Concluído</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Achievements & Badges -->
+</section>
+</main>
+<!-- Contextual FAB (Suppressed on Profile screen as per rules, but showing student action logic) -->
+<!-- Rule: Suppress FAB on Profile. Logic check: Suppressed. -->
+</body></html>

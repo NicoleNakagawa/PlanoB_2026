@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Execução de Treino - PlanoB</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-dim": "#00576c",
+                      "primary-fixed-dim": "#5091ff",
+                      "on-tertiary": "#fff2cd",
+                      "surface": "#f7f5ff",
+                      "surface-tint": "#0058ba",
+                      "on-surface": "#232c51",
+                      "surface-container-low": "#efefff",
+                      "secondary-container": "#80deff",
+                      "tertiary-fixed": "#ffd709",
+                      "on-tertiary-container": "#5b4b00",
+                      "inverse-surface": "#020a2f",
+                      "primary-fixed": "#6c9fff",
+                      "surface-container-highest": "#d5dbff",
+                      "tertiary-dim": "#5e4e00",
+                      "on-secondary-container": "#004e61",
+                      "outline-variant": "#a2abd7",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#cad2ff",
+                      "on-secondary": "#e2f6ff",
+                      "on-error-container": "#570008",
+                      "on-background": "#232c51",
+                      "on-secondary-fixed": "#003a48",
+                      "surface-variant": "#d5dbff",
+                      "inverse-on-surface": "#929bc6",
+                      "surface-container-high": "#dde1ff",
+                      "on-tertiary-fixed-variant": "#665500",
+                      "on-tertiary-fixed": "#453900",
+                      "secondary": "#00647b",
+                      "on-primary-container": "#00214e",
+                      "on-primary-fixed-variant": "#002a60",
+                      "surface-container": "#e4e7ff",
+                      "background": "#f7f5ff",
+                      "on-secondary-fixed-variant": "#00586d",
+                      "on-error": "#ffefee",
+                      "primary-dim": "#004da4",
+                      "tertiary-container": "#ffd709",
+                      "outline": "#6c759e",
+                      "inverse-primary": "#4a8eff",
+                      "on-primary": "#f0f2ff",
+                      "error-container": "#fb5151",
+                      "secondary-fixed": "#80deff",
+                      "primary-container": "#6c9fff",
+                      "primary": "#0058ba",
+                      "surface-bright": "#f7f5ff",
+                      "error-dim": "#9f0519",
+                      "tertiary": "#6c5a00",
+                      "on-primary-fixed": "#000000",
+                      "tertiary-fixed-dim": "#efc900",
+                      "on-surface-variant": "#505a81",
+                      "secondary-fixed-dim": "#37d4ff",
+                      "error": "#b31b25"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Lexend"],
+                      "body": ["Manrope"],
+                      "label": ["Manrope"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-editorial {
+            letter-spacing: -0.02em;
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+        }
+        .timer-glow {
+            box-shadow: 0 0 20px rgba(0, 88, 186, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+<div class="text-2xl font-black tracking-tight text-primary transition-transform active:scale-95 duration-200">
+            PlanoB
+        </div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-4 mr-4 bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Meta Semanal</span>
+<div class="w-24 h-1 bg-surface-container-highest rounded-full mt-0.5 overflow-hidden">
+<div class="h-full w-3/4 bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface opacity-70 hover:bg-surface-container transition-colors p-2 rounded-full">account_circle</button>
+<button class="material-symbols-outlined text-on-surface opacity-70 hover:bg-surface-container transition-colors p-2 rounded-full">settings</button>
+</div>
+</nav>
+<main class="max-w-[1440px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-32 lg:pb-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Video & Details Section -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Enhanced Immersive Video Player Container -->
+<div class="relative group aspect-video rounded-[2.5rem] overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
+<img alt="Exercício" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB-DMYzGZc1uuws4jYlXhTMomoJRe24gVss7FyAhpMn04ocsjZAHJBvz7jJmtbxqAN2KWlH6a4vWtjZ64cMTHK5sBvoOeRKwTand28WRzUiYdKeLVgUgEtFPH9ToB-NyextOG9ptFa9-BrBq1KA0WgFNKKn0FaoGCBbsGCGYPOOloNFVhoDdm1JC9wI9q76fFnpbfBF38Y-Y8q17EBQfrkBTmuCtkb4lQh34N8LoNhqFP2ro_lzyaAvyhUffGzce8XUyj3SkKC4rJS"/>
+<!-- Gradient Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+<!-- Top Info Overlay -->
+<div class="absolute top-6 left-8 flex items-center gap-3">
+<div class="bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-black tracking-widest uppercase">Ao Vivo</div>
+<div class="glass-dark text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 bg-error rounded-full animate-pulse"></span>
+                            4.2k assistindo
+                        </div>
+</div>
+<!-- Centered Play Button -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-24 h-24 bg-primary/90 hover:bg-primary text-white rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(0,88,186,0.4)] transform transition-all hover:scale-110 active:scale-95 group/play">
+<span class="material-symbols-outlined text-5xl translate-x-1" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<!-- Bottom Controls Bar -->
+<div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<div class="flex flex-col gap-4">
+<!-- Progress Bar -->
+<div class="w-full h-1.5 bg-white/20 rounded-full relative cursor-pointer group/progress overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-2/3 bg-primary rounded-full transition-all group-hover/progress:h-full"></div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-6">
+<button class="text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl">pause</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined">volume_up</span>
+</button>
+<div class="w-24 h-1 bg-white/20 rounded-full hidden sm:block">
+<div class="w-1/2 h-full bg-white rounded-full"></div>
+</div>
+</div>
+<span class="text-white/90 text-sm font-medium tracking-tight">04:20 / 12:00</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">settings</span></button>
+<button class="text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">fullscreen</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Title and Enhanced Timer -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+<span class="text-primary font-black tracking-[0.2em] uppercase text-[10px]">Exercício Atual • Série 2 de 4</span>
+</div>
+<h1 class="text-4xl md:text-6xl font-black text-editorial text-on-surface leading-[1.1] tracking-tight">
+                            Agachamento <br/><span class="text-primary">Livre com Barra</span>
+</h1>
+</div>
+<!-- Refined Rest Timer -->
+<div class="flex-shrink-0">
+<div class="bg-surface-container-lowest p-6 md:p-8 rounded-[3rem] shadow-xl border border-outline-variant/10 timer-glow relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.2em] mb-1">Descanso</span>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined font-bold">remove</span>
+</button>
+<span class="text-5xl font-black text-on-surface font-headline tabular-nums tracking-tighter">00:45</span>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined font-bold">add</span>
+</button>
+</div>
+<div class="mt-4 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary rounded-full animate-pulse"></div>
+</div>
+<button class="mt-4 text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Reiniciar Tempo</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Enhanced Instructions Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<div>
+<h3 class="font-black text-xl tracking-tight">Execução</h3>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Como fazer</p>
+</div>
+</div>
+<p class="text-on-surface-variant leading-relaxed font-medium">
+                            Mantenha os pés afastados na largura dos ombros. Desça controladamente empurrando o quadril para trás como se fosse sentar em uma cadeira. Mantenha o peito aberto e o core engajado.
+                        </p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-2xl bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<h3 class="font-black text-xl tracking-tight text-on-surface">Atenção</h3>
+<p class="text-xs text-error font-bold uppercase tracking-wider">Pontos críticos</p>
+</div>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-3 text-on-surface-variant group">
+<span class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform">close</span>
+<span class="font-medium">Não deixe os joelhos entrarem (valgo dinâmico) durante o movimento.</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface-variant group">
+<span class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform">close</span>
+<span class="font-medium">Evite curvar a região lombar excessivamente durante a descida.</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Enhanced Sidebar: Workout Sequence -->
+<aside class="lg:col-span-4">
+<div class="bg-surface-container-lowest p-8 rounded-[3rem] shadow-2xl border border-outline-variant/10 sticky top-28 overflow-hidden">
+<!-- Subtle pattern overlay -->
+<div class="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+<span class="material-symbols-outlined text-9xl">fitness_center</span>
+</div>
+<div class="flex justify-between items-end mb-10 relative">
+<div>
+<h2 class="text-3xl font-black tracking-tighter">Treino do Dia</h2>
+<p class="text-on-surface-variant text-sm font-semibold">Sessão de Membros Inferiores</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-primary font-black text-2xl leading-none">45</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">min total</span>
+</div>
+</div>
+<div class="space-y-4 relative">
+<!-- Exercise Item: Completed -->
+<div class="flex items-center gap-4 p-4 rounded-[1.5rem] bg-surface-container-low border border-transparent opacity-60">
+<div class="relative">
+<div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-2xl font-bold">check</span>
+</div>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] font-bold">done_all</span>
+</div>
+</div>
+<div class="flex-1">
+<h4 class="font-extrabold text-sm text-on-surface">Aquecimento Mobilidade</h4>
+<p class="text-[11px] font-bold text-primary uppercase tracking-wider mt-0.5">Finalizado</p>
+</div>
+</div>
+<!-- Exercise Item: Active -->
+<div class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-primary text-white shadow-xl shadow-primary/20 ring-4 ring-primary/10 scale-[1.03] transition-transform">
+<div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+</div>
+<div class="flex-1">
+<h4 class="font-black text-base leading-tight">Agachamento Livre</h4>
+<p class="text-xs font-bold text-white/80 mt-1">Série 2 de 4 • 12 reps</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-base">play_arrow</span>
+</div>
+</div>
+<!-- Exercise Item: Pending -->
+<div class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">fitness_center</span>
+</div>
+<div class="flex-1">
+<h4 class="font-extrabold text-sm">Supino Reto</h4>
+<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5">3 séries • 10 reps</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors">lock</span>
+</div>
+<!-- Exercise Item: Pending -->
+<div class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">fitness_center</span>
+</div>
+<div class="flex-1">
+<h4 class="font-extrabold text-sm">Remada Curvada</h4>
+<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5">3 séries • 15 reps</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors">lock</span>
+</div>
+</div>
+<div class="mt-10 space-y-3">
+<button class="w-full py-5 bg-primary text-white text-base font-black rounded-3xl shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all active:scale-[0.98]">
+                            Concluir Exercício
+                        </button>
+<button class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-2xl transition-colors">
+                            Pular Exercício
+                        </button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Mobile Bottom Navigation -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-surface/90 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-20px_40px_rgba(0,0,0,0.05)] border-t border-outline-variant/10">
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 p-2 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="text-[10px] font-black uppercase tracking-tighter mt-1">Início</span>
+</button>
+<button class="flex flex-col items-center justify-center relative -top-6">
+<div class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-primary/40 ring-8 ring-surface">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<span class="text-[10px] font-black uppercase tracking-tighter mt-2 text-primary">Treinar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 p-2 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-[10px] font-black uppercase tracking-tighter mt-1">Perfil</span>
+</button>
+</nav>
+</body></html>
