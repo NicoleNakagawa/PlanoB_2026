@@ -1,7 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const router = express.Router()
-const db = require('../../config/pool_conexoes')
+const db = require('../config/pool_conexoes')
 
 const SALT_ROUNDS = 12
 

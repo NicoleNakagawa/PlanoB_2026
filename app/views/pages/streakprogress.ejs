@@ -1,15 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streak | PlanoB</title>
-
-    <link rel="stylesheet" href="/css/progressosemanal.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Streak | PlanoB</title>
+<link href="/css/progressosemanal.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
         .streak-hero { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 40px 20px; }
         .streak-fogo { font-size: 72px; line-height: 1; }
         .streak-numero { font-size: 80px; font-weight: 800; color: #ff6a00; line-height: 1; }
@@ -26,63 +25,65 @@
         .badge-desbloqueado { background: #ff6a0022; color: #ff6a00; }
         .badge-usado { background: #33333355; color: #888; }
         .badge-bloqueado { background: #1a1a2e; color: #555; border: 1px solid #333; }
-    </style>
+    
+    /* Ajustes gerais de responsividade */
+    img, video { max-width: 100%; height: auto; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    @media (max-width: 768px) {
+      body { overflow-x: hidden; }
+      main { max-width: 100%; }
+      .hide-mobile { display: none !important; }
+    }
+</style>
 </head>
-
 <body>
-    <header class="topo">
-        <a href="/painelfree" class="logo">PlanoB</a>
-
-        <nav class="menu-desktop">
-            <a href="/painelfree">Dashboard</a>
-            <a href="/videosfree">Vídeos</a>
-            <a href="/progressosemanal">Evolução</a>
-            <a href="/streakprogress" class="ativo">Streak</a>
-        </nav>
-
-        <nav class="acoes-topo">
-            <a href="/streakprogress" aria-label="Streak">
-                <i class="material-symbols-outlined">local_fire_department</i>
-            </a>
-            <a href="/suporte" aria-label="Suporte">
-                <i class="material-symbols-outlined">support_agent</i>
-            </a>
-            <a href="/painelfree" class="avatar" aria-label="Perfil">
-                <img src="/img/imagem6.jpg" alt="Foto de perfil">
-            </a>
-        </nav>
-    </header>
-
-    <main class="conteudo">
-        <section class="cabecalho-pagina">
-            <article class="brilho"></article>
-            <h1>Sua <strong>ofensiva</strong></h1>
-            <p>Treine todos os dias e desbloqueie descontos exclusivos no seu plano.</p>
-        </section>
-
-        <section class="grade-principal">
-            <article class="card" style="grid-column: 1 / -1; text-align: center;">
-                <div class="streak-hero">
-                    <div class="streak-fogo">🔥</div>
-                    <div class="streak-numero" id="streak-atual">—</div>
-                    <div class="streak-label">dias consecutivos</div>
-                    <div class="streak-maximo" id="streak-maximo"></div>
-                </div>
-            </article>
-
-            <article class="card" style="grid-column: 1 / -1;">
-                <header class="card-cabecalho">
-                    <h2>Recompensas de Ofensiva</h2>
-                    <p>Acumule dias e ganhe descontos automáticos na renovação.</p>
-                </header>
-                <div class="descontos-grid" id="descontos-grid">
-                    <p style="color:#888;">Carregando...</p>
-                </div>
-            </article>
-        </section>
-    </main>
-
-    <script>
+<header class="topo">
+<a class="logo" href="/painelfree">PlanoB</a>
+<nav class="menu-desktop">
+<a href="/painelfree">Dashboard</a>
+<a href="/videosfree">Vídeos</a>
+<a href="/progressosemanal">Evolução</a>
+<a class="ativo" href="/streakprogress">Streak</a>
+</nav>
+<nav class="acoes-topo">
+<a aria-label="Streak" href="/streakprogress">
+<i class="material-symbols-outlined">local_fire_department</i>
+</a>
+<a aria-label="Suporte" href="/suporte">
+<i class="material-symbols-outlined">support_agent</i>
+</a>
+<a aria-label="Perfil" class="avatar" href="/painelfree">
+<img alt="Foto de perfil" src="/img/imagem6.jpg"/>
+</a>
+</nav>
+</header>
+<main class="conteudo">
+<section class="cabecalho-pagina">
+<article class="brilho"></article>
+<h1>Sua <strong>ofensiva</strong></h1>
+<p>Treine todos os dias e desbloqueie descontos exclusivos no seu plano.</p>
+</section>
+<section class="grade-principal">
+<article class="card" style="grid-column: 1 / -1; text-align: center;">
+<section class="streak-hero">
+<section class="streak-fogo">🔥</section>
+<section class="streak-numero" id="streak-atual">—</section>
+<section class="streak-label">dias consecutivos</section>
+<section class="streak-maximo" id="streak-maximo"></section>
+</section>
+</article>
+<article class="card" style="grid-column: 1 / -1;">
+<header class="card-cabecalho">
+<h2>Recompensas de Ofensiva</h2>
+<p>Acumule dias e ganhe descontos automáticos na renovação.</p>
+</header>
+<section class="descontos-grid" id="descontos-grid">
+<p style="color:#888;">Carregando...</p>
+</section>
+</article>
+</section>
+</main>
+<script>
         async function carregarStreak() {
             try {
                 const res = await fetch('/api/aluno/streak')
@@ -130,12 +131,12 @@
                     }
 
                     return `
-                        <div class="desconto-card ${cardClass}">
-                            <div class="desconto-pct">${r.pct}% OFF</div>
-                            <div class="desconto-codigo">${r.codigo}</div>
-                            <div class="desconto-dias">A partir de ${r.dias} dias de ofensiva</div>
-                            <div class="desconto-badge ${badgeClass}">${badgeTexto}</div>
-                        </div>
+                        <section class="desconto-card ${cardClass}">
+                            <section class="desconto-pct">${r.pct}% OFF</section>
+                            <section class="desconto-codigo">${r.codigo}</section>
+                            <section class="desconto-dias">A partir de ${r.dias} dias de ofensiva</section>
+                            <section class="desconto-badge ${badgeClass}">${badgeTexto}</section>
+                        </section>
                     `
                 }).join('')
 

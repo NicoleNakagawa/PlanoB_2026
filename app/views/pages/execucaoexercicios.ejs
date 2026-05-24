@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Execução de Treino - PlanoB</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-dim": "#00576c",
+                      "primary-fixed-dim": "#5091ff",
+                      "on-tertiary": "#fff2cd",
+                      "surface": "#f7f5ff",
+                      "surface-tint": "#0058ba",
+                      "on-surface": "#232c51",
+                      "surface-container-low": "#efefff",
+                      "secondary-container": "#80deff",
+                      "tertiary-fixed": "#ffd709",
+                      "on-tertiary-container": "#5b4b00",
+                      "inverse-surface": "#020a2f",
+                      "primary-fixed": "#6c9fff",
+                      "surface-container-highest": "#d5dbff",
+                      "tertiary-dim": "#5e4e00",
+                      "on-secondary-container": "#004e61",
+                      "outline-variant": "#a2abd7",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#cad2ff",
+                      "on-secondary": "#e2f6ff",
+                      "on-error-container": "#570008",
+                      "on-background": "#232c51",
+                      "on-secondary-fixed": "#003a48",
+                      "surface-variant": "#d5dbff",
+                      "inverse-on-surface": "#929bc6",
+                      "surface-container-high": "#dde1ff",
+                      "on-tertiary-fixed-variant": "#665500",
+                      "on-tertiary-fixed": "#453900",
+                      "secondary": "#00647b",
+                      "on-primary-container": "#00214e",
+                      "on-primary-fixed-variant": "#002a60",
+                      "surface-container": "#e4e7ff",
+                      "background": "#f7f5ff",
+                      "on-secondary-fixed-variant": "#00586d",
+                      "on-error": "#ffefee",
+                      "primary-dim": "#004da4",
+                      "tertiary-container": "#ffd709",
+                      "outline": "#6c759e",
+                      "inverse-primary": "#4a8eff",
+                      "on-primary": "#f0f2ff",
+                      "error-container": "#fb5151",
+                      "secondary-fixed": "#80deff",
+                      "primary-container": "#6c9fff",
+                      "primary": "#0058ba",
+                      "surface-bright": "#f7f5ff",
+                      "error-dim": "#9f0519",
+                      "tertiary": "#6c5a00",
+                      "on-primary-fixed": "#000000",
+                      "tertiary-fixed-dim": "#efc900",
+                      "on-surface-variant": "#505a81",
+                      "secondary-fixed-dim": "#37d4ff",
+                      "error": "#b31b25"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Lexend"],
+                      "body": ["Manrope"],
+                      "label": ["Manrope"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Lexend', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-editorial {
+            letter-spacing: -0.02em;
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+        }
+        .timer-glow {
+            box-shadow: 0 0 20px rgba(0, 88, 186, 0.15);
+        }
+    
+    /* Ajustes gerais de responsividade */
+    img, video { max-width: 100%; height: auto; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    @media (max-width: 768px) {
+      body { overflow-x: hidden; }
+      main { max-width: 100%; }
+      .hide-mobile { display: none !important; }
+    }
+</style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+<section class="text-2xl font-black tracking-tight text-primary transition-transform active:scale-95 duration-200">
+            PlanoB
+        </section>
+<article class="flex items-center gap-4">
+<article class="hidden md:flex items-center gap-4 mr-4 bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10">
+<i aria-hidden="true" class="material-symbols-outlined text-primary text-xl not-italic" style="font-variation-settings: 'FILL' 1;">emoji_events</i>
+<section class="flex flex-col">
+<strong class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Meta Semanal</strong>
+<section class="w-24 h-1 bg-surface-container-highest rounded-full mt-0.5 overflow-hidden">
+<section class="h-full w-3/4 bg-primary rounded-full"></section>
+</section>
+</section>
+</article>
+<a class="material-symbols-outlined text-on-surface opacity-70 hover:bg-surface-container transition-colors p-2 rounded-full" href="perfilaluno">account_circle</a>
+<a class="material-symbols-outlined text-on-surface opacity-70 hover:bg-surface-container transition-colors p-2 rounded-full" href="perfilaluno">settings</a>
+</article>
+</nav>
+<main class="max-w-[1440px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-32 lg:pb-8">
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Video & Details Section -->
+<section class="lg:col-span-8 flex flex-col gap-8">
+<!-- Enhanced Immersive Video Player Container -->
+<section class="relative group aspect-video rounded-[2.5rem] overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
+<img alt="Exercício" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB-DMYzGZc1uuws4jYlXhTMomoJRe24gVss7FyAhpMn04ocsjZAHJBvz7jJmtbxqAN2KWlH6a4vWtjZ64cMTHK5sBvoOeRKwTand28WRzUiYdKeLVgUgEtFPH9ToB-NyextOG9ptFa9-BrBq1KA0WgFNKKn0FaoGCBbsGCGYPOOloNFVhoDdm1JC9wI9q76fFnpbfBF38Y-Y8q17EBQfrkBTmuCtkb4lQh34N8LoNhqFP2ro_lzyaAvyhUffGzce8XUyj3SkKC4rJS"/>
+<!-- Gradient Overlays -->
+<section class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-40 group-hover:opacity-60 transition-opacity duration-500"></section>
+<!-- Top Info Overlay -->
+<article class="absolute top-6 left-8 flex items-center gap-3">
+<section class="bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-black tracking-widest uppercase">Ao Vivo</section>
+<article class="glass-dark text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
+<strong class="w-2 h-2 bg-error rounded-full animate-pulse"></strong>
+                            4.2k assistindo
+                        </article>
+</article>
+<!-- Centered Play Button -->
+<article class="absolute inset-0 flex items-center justify-center">
+<a class="w-24 h-24 bg-primary/90 hover:bg-primary text-white rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(0,88,186,0.4)] transform transition-all hover:scale-110 active:scale-95 group/play" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined text-5xl translate-x-1 not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
+</a>
+</article>
+<!-- Bottom Controls Bar -->
+<section class="absolute bottom-0 left-0 w-full p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<section class="flex flex-col gap-4">
+<!-- Progress Bar -->
+<section class="w-full h-1.5 bg-white/20 rounded-full relative cursor-pointer group/progress overflow-hidden">
+<section class="absolute left-0 top-0 h-full w-2/3 bg-primary rounded-full transition-all group-hover/progress:h-full"></section>
+</section>
+<article class="flex items-center justify-between">
+<article class="flex items-center gap-6">
+<button class="text-white hover:text-primary transition-colors">
+<i aria-hidden="true" class="material-symbols-outlined text-3xl not-italic">pause</i>
+</button>
+<article class="flex items-center gap-3">
+<button class="text-white hover:text-primary transition-colors">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">volume_up</i>
+</button>
+<section class="w-24 h-1 bg-white/20 rounded-full hidden sm:block">
+<section class="w-1/2 h-full bg-white rounded-full"></section>
+</section>
+</article>
+<strong class="text-white/90 text-sm font-medium tracking-tight">04:20 / 12:00</strong>
+</article>
+<article class="flex items-center gap-6">
+<a class="text-white hover:text-primary transition-colors" href="perfilaluno"><i aria-hidden="true" class="material-symbols-outlined not-italic">settings</i></a>
+<button class="text-white hover:text-primary transition-colors"><i aria-hidden="true" class="material-symbols-outlined not-italic">fullscreen</i></button>
+</article>
+</article>
+</section>
+</section>
+</section>
+<!-- Title and Enhanced Timer -->
+<article class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+<section class="flex-1">
+<article class="flex items-center gap-2 mb-3">
+<strong class="w-2 h-2 bg-primary rounded-full"></strong>
+<strong class="text-primary font-black tracking-[0.2em] uppercase text-[10px]">Exercício Atual • Série 2 de 4</strong>
+</article>
+<h1 class="text-4xl md:text-6xl font-black text-editorial text-on-surface leading-[1.1] tracking-tight">
+                            Agachamento <br/><strong class="text-primary">Livre com Barra</strong>
+</h1>
+</section>
+<!-- Refined Rest Timer -->
+<section class="flex-shrink-0">
+<section class="bg-surface-container-lowest p-6 md:p-8 rounded-[3rem] shadow-xl border border-outline-variant/10 timer-glow relative overflow-hidden group">
+<section class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></section>
+<article class="relative z-10 flex flex-col items-center">
+<strong class="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.2em] mb-1">Descanso</strong>
+<article class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all active:scale-90">
+<i aria-hidden="true" class="material-symbols-outlined font-bold not-italic">remove</i>
+</button>
+<strong class="text-5xl font-black text-on-surface font-headline tabular-nums tracking-tighter">00:45</strong>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all active:scale-90">
+<i aria-hidden="true" class="material-symbols-outlined font-bold not-italic">add</i>
+</button>
+</article>
+<section class="mt-4 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<section class="h-full w-2/3 bg-primary rounded-full animate-pulse"></section>
+</section>
+<button class="mt-4 text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Reiniciar Tempo</button>
+</article>
+</section>
+</section>
+</article>
+<!-- Enhanced Instructions Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<section class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<article class="flex items-center gap-4 mb-6">
+<article class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">description</i>
+</article>
+<section>
+<h3 class="font-black text-xl tracking-tight">Execução</h3>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Como fazer</p>
+</section>
+</article>
+<p class="text-on-surface-variant leading-relaxed font-medium">
+                            Mantenha os pés afastados na largura dos ombros. Desça controladamente empurrando o quadril para trás como se fosse sentar em uma cadeira. Mantenha o peito aberto e o core engajado.
+                        </p>
+</section>
+<section class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<article class="flex items-center gap-4 mb-6">
+<article class="w-12 h-12 rounded-2xl bg-error/10 flex items-center justify-center text-error">
+<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">warning</i>
+</article>
+<section>
+<h3 class="font-black text-xl tracking-tight text-on-surface">Atenção</h3>
+<p class="text-xs text-error font-bold uppercase tracking-wider">Pontos críticos</p>
+</section>
+</article>
+<ul class="space-y-4">
+<li class="flex items-start gap-3 text-on-surface-variant group">
+<i aria-hidden="true" class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform not-italic">close</i>
+<strong class="font-medium">Não deixe os joelhos entrarem (valgo dinâmico) durante o movimento.</strong>
+</li>
+<li class="flex items-start gap-3 text-on-surface-variant group">
+<i aria-hidden="true" class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform not-italic">close</i>
+<strong class="font-medium">Evite curvar a região lombar excessivamente durante a descida.</strong>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<!-- Enhanced Sidebar: Workout Sequence -->
+<aside class="lg:col-span-4">
+<section class="bg-surface-container-lowest p-8 rounded-[3rem] shadow-2xl border border-outline-variant/10 sticky top-28 overflow-hidden">
+<!-- Subtle pattern overlay -->
+<section class="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+<i aria-hidden="true" class="material-symbols-outlined text-9xl not-italic">fitness_center</i>
+</section>
+<article class="flex justify-between items-end mb-10 relative">
+<section>
+<h2 class="text-3xl font-black tracking-tighter">Treino do Dia</h2>
+<p class="text-on-surface-variant text-sm font-semibold">Sessão de Membros Inferiores</p>
+</section>
+<article class="flex flex-col items-end">
+<strong class="text-primary font-black text-2xl leading-none">45</strong>
+<strong class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">min total</strong>
+</article>
+</article>
+<section class="space-y-4 relative">
+<!-- Exercise Item: Completed -->
+<article class="flex items-center gap-4 p-4 rounded-[1.5rem] bg-surface-container-low border border-transparent opacity-60">
+<section class="relative">
+<article class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white">
+<i aria-hidden="true" class="material-symbols-outlined text-2xl font-bold not-italic">check</i>
+</article>
+<article class="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white rounded-full flex items-center justify-center">
+<i aria-hidden="true" class="material-symbols-outlined text-[10px] font-bold not-italic">done_all</i>
+</article>
+</section>
+<section class="flex-1">
+<h4 class="font-extrabold text-sm text-on-surface">Aquecimento Mobilidade</h4>
+<p class="text-[11px] font-bold text-primary uppercase tracking-wider mt-0.5">Finalizado</p>
+</section>
+</article>
+<!-- Exercise Item: Active -->
+<article class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-primary text-white shadow-xl shadow-primary/20 ring-4 ring-primary/10 scale-[1.03] transition-transform">
+<article class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center animate-pulse">
+<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic" style="font-variation-settings: 'FILL' 1;">fitness_center</i>
+</article>
+<section class="flex-1">
+<h4 class="font-black text-base leading-tight">Agachamento Livre</h4>
+<p class="text-xs font-bold text-white/80 mt-1">Série 2 de 4 • 12 reps</p>
+</section>
+<article class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+<i aria-hidden="true" class="material-symbols-outlined text-base not-italic">play_arrow</i>
+</article>
+</article>
+<!-- Exercise Item: Pending -->
+<article class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<article class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">fitness_center</i>
+</article>
+<section class="flex-1">
+<h4 class="font-extrabold text-sm">Supino Reto</h4>
+<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5">3 séries • 10 reps</p>
+</section>
+<i aria-hidden="true" class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors not-italic">lock</i>
+</article>
+<!-- Exercise Item: Pending -->
+<article class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
+<article class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">fitness_center</i>
+</article>
+<section class="flex-1">
+<h4 class="font-extrabold text-sm">Remada Curvada</h4>
+<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5">3 séries • 15 reps</p>
+</section>
+<i aria-hidden="true" class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors not-italic">lock</i>
+</article>
+</section>
+<section class="mt-10 space-y-3">
+<a class="w-full py-5 bg-primary text-white text-base font-black rounded-3xl shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all active:scale-[0.98] text-center block" href="progressosemanal">
+                            Concluir Exercício
+                        </a>
+<a class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-2xl transition-colors text-center block" href="videos">
+                            Pular Exercício
+                        </a>
+</section>
+</section>
+</aside>
+</section>
+</main>
+<!-- Mobile Bottom Navigation -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-surface/90 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-20px_40px_rgba(0,0,0,0.05)] border-t border-outline-variant/10">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 p-2 hover:opacity-100 transition-opacity" href="painelfree">
+<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">home</i>
+<strong class="text-[10px] font-black uppercase tracking-tighter mt-1">Início</strong>
+</a>
+<a class="flex flex-col items-center justify-center relative -top-6" href="execucaoexercicios">
+<article class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-primary/40 ring-8 ring-surface">
+<i aria-hidden="true" class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
+</article>
+<strong class="text-[10px] font-black uppercase tracking-tighter mt-2 text-primary">Treinar</strong>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 p-2 hover:opacity-100 transition-opacity" href="perfilaluno">
+<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">person</i>
+<strong class="text-[10px] font-black uppercase tracking-tighter mt-1">Perfil</strong>
+</a>
+</nav>
+</body></html>

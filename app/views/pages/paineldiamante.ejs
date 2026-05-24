@@ -99,388 +99,397 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-    </style>
+    
+    /* Ajustes gerais de responsividade */
+    img, video { max-width: 100%; height: auto; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    @media (max-width: 768px) {
+      body { overflow-x: hidden; }
+      main { max-width: 100%; }
+      .hide-mobile { display: none !important; }
+    }
+</style>
 </head>
 <body class="bg-surface font-body text-on-surface">
 <!-- TopAppBar -->
 <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-<div class="flex items-center gap-4">
-<span class="text-2xl font-black text-[#0058ba] font-headline tracking-tight">PlanoB</span>
-<div class="hidden md:flex gap-6 ml-8">
-<a class="text-[#0058ba] font-bold transition-colors" href="#">Treinos</a>
-<a class="text-[#232c51] hover:bg-[#e4e7ff] transition-colors px-3 py-1 rounded-full" href="#">Planos</a>
-<a class="text-[#232c51] hover:bg-[#e4e7ff] transition-colors px-3 py-1 rounded-full" href="#">Mensagens</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="material-symbols-outlined text-on-surface-variant hover:bg-[#e4e7ff] p-2 rounded-full transition-colors active:scale-95" data-icon="notifications">notifications</button>
-<button class="material-symbols-outlined text-on-surface-variant hover:bg-[#e4e7ff] p-2 rounded-full transition-colors active:scale-95" data-icon="account_circle">account_circle</button>
-</div>
-<div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#0058ba]/10 to-transparent"></div>
+<article class="flex items-center gap-4">
+<strong class="text-2xl font-black text-[#0058ba] font-headline tracking-tight">PlanoB</strong>
+<section class="hidden md:flex gap-6 ml-8">
+<a class="text-[#0058ba] font-bold transition-colors" href="paineldiamante">Treinos</a>
+<a class="text-[#232c51] hover:bg-[#e4e7ff] transition-colors px-3 py-1 rounded-full" href="pagamento">Planos</a>
+<a class="text-[#232c51] hover:bg-[#e4e7ff] transition-colors px-3 py-1 rounded-full" href="feedbackaluno">Feedbacks</a>
+</section>
+</article>
+<article class="flex items-center gap-4">
+<a class="material-symbols-outlined text-on-surface-variant hover:bg-[#e4e7ff] p-2 rounded-full transition-colors active:scale-95" data-icon="notifications" href="suporte">notifications</a>
+<a class="material-symbols-outlined text-on-surface-variant hover:bg-[#e4e7ff] p-2 rounded-full transition-colors active:scale-95" data-icon="account_circle" href="perfilaluno">account_circle</a>
+</article>
+<section class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#0058ba]/10 to-transparent"></section>
 </header>
 <!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low py-8 z-40 border-r border-outline-variant/10"><div class="px-6 mb-8 pt-12">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-primary/20">
+<aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low py-8 z-40 border-r border-outline-variant/10"><section class="px-6 mb-8 pt-12">
+<article class="flex items-center gap-3 mb-6">
+<section class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-primary/20">
 <img alt="Foto de perfil" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHy3rjOxhMcVFYD5SQNpaBOl8c3RdZ2CMrDK2AC2sn5vBVNa9rJhKmlXCaVzyMHQLIdsh05zaosNP-Np_5DM3pfX_vtQPwTVhuNX7_BiafEaJZ5bcfk8WsjYMbQp4sEgDO1Al0DvH-u0U51dDx9ZYUHKxI5SKw_LRPqo5kMoDe7xnMLOTAsHB1xIf2GayLRmgI_eVoW1QjZjYNKvevFTCS1zgifNbNgAyIIRChhPeRiERgLnDgk9KhpAULfGT_LSg51LH2LQHLa2tU"/>
-</div>
-<div>
+</section>
+<section>
 <p class="text-xs text-on-surface-variant font-medium">Portal do Atleta</p>
 <h3 class="text-primary font-bold font-headline text-sm">Nível: Pro</h3>
-</div>
-</div>
-</div>
+</section>
+</article>
+</section>
 <nav class="flex flex-col gap-1 px-4 flex-grow">
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-medium">Início</span>
+<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="paineldiamante">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">dashboard</i>
+<strong class="font-medium">Início</strong>
 </a>
-<a class="flex items-center gap-3 py-3 px-6 bg-gradient-to-br from-primary to-primary-fixed text-white rounded-full shadow-lg shadow-primary/20" href="#">
-<span class="material-symbols-outlined">play_circle</span>
-<span class="font-medium">Treinos</span>
+<a aria-current="page" class="flex items-center gap-3 py-3 px-6 bg-gradient-to-br from-primary to-primary-fixed text-white rounded-full shadow-lg shadow-primary/20" href="videos">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">play_circle</i>
+<strong class="font-medium">Treinos</strong>
 </a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">event_note</span>
-<span class="font-medium">Planos</span>
+<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="pagamento">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">event_note</i>
+<strong class="font-medium">Planos</strong>
 </a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">chat</span>
-<span class="font-medium">Mensagens</span>
+<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="feedbackaluno">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">chat</i>
+<strong class="font-medium">Feedbacks</strong>
 </a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-medium">Configurações</span>
+<a class="flex items-center gap-3 py-3 px-6 text-on-background hover:bg-surface-container-high hover:translate-x-1 transition-all rounded-full" href="perfilaluno">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">person</i>
+<strong class="font-medium">Perfil</strong>
 </a>
 </nav>
-<div class="mt-auto flex flex-col gap-1 px-4 pb-4">
-<div class="mx-2 mb-4 p-4 bg-gradient-to-br from-primary to-primary-fixed rounded-2xl text-white shadow-lg">
+<section class="mt-auto flex flex-col gap-1 px-4 pb-4">
+<section class="mx-2 mb-4 p-4 bg-gradient-to-br from-primary to-primary-fixed rounded-2xl text-white shadow-lg">
 <p class="text-[10px] font-black uppercase tracking-wider mb-1 opacity-80">Upgrade</p>
 <p class="text-sm font-bold mb-3 leading-tight">Benefícios do Plano Diamond</p>
-<button class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-2 rounded-full text-xs font-black active:scale-95 transition-transform uppercase">Assinar Diamond</button>
-</div>
-<a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-primary transition-colors" href="#">
-<span class="material-symbols-outlined">help</span>
-<span class="font-medium">Ajuda</span>
+<a class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-2 rounded-full text-xs font-black active:scale-95 transition-transform uppercase text-center block" href="pagamento">Assinar Diamond</a>
+</section>
+<a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-primary transition-colors" href="suporte">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">help</i>
+<strong class="font-medium">Ajuda</strong>
 </a>
-<a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-error transition-colors" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-medium">Sair</span>
+<a class="flex items-center gap-3 py-3 px-6 text-on-surface-variant hover:text-error transition-colors" href="logout">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">logout</i>
+<strong class="font-medium">Sair</strong>
 </a>
-</div></aside>
+</section></aside>
 <!-- Main Content -->
 <main class="md:ml-64 pt-24 pb-12 px-6 lg:px-12">
 <!-- Hero Section / VIP Badge -->
 <header class="mb-10">
-<div>
+<section>
 <h2 class="text-5xl lg:text-6xl font-black font-headline text-on-surface tracking-tighter leading-none mb-4">MEUS TREINOS</h2>
 <p class="text-lg text-on-surface-variant font-medium">Sua jornada para a excelência continua hoje.</p>
-</div>
+</section>
 </header>
 <section class="mb-12">
-<div class="relative group aspect-video rounded-[2.5rem] overflow-hidden shadow-2xl bg-black">
+<section class="relative group aspect-video rounded-[2.5rem] overflow-hidden shadow-2xl bg-black">
 <img alt="foto panorâmica dinâmica de uma academia com equipamentos de ginástica de alta tecnologia e iluminação profissional em uma atmosfera temperamental" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy-TKCS1z7Qf6B8sQzr_-yCsxn-XVpWTMellZipwhdt1WKNmE921W7PWdTmiF3J6tAR6WRnyOn8M13QPqw_k6DfWtqXQtkPTX_G0I9X2B7SIlrPzBvv-h_OBCdCagqaPOjarS4RjP7S_CJtEcuJQ3MotMEaLptWaxcijVj6X_QqK6fPhRcICsX5Df925yNOLhDDaG5-oPnyEQSOEVxhWjLui8pD9e5GEVsAFBjevgI-3_Wav4TKA-3q5ynft44GKhUFf_v4yJGhFbZ"/>
-<div class="absolute inset-0 flex items-center justify-center">
-<button class="w-24 h-24 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary hover:scale-110 transition-transform shadow-2xl">
-<span class="material-symbols-outlined text-5xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
-</button>
-</div>
-<div class="absolute bottom-0 left-0 right-0 p-10 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-<div class="flex items-center gap-3 mb-4">
-<span class="px-4 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-black rounded-full uppercase">Treino do Dia</span>
-<span class="px-4 py-1.5 bg-blue-600 text-white text-[11px] font-black rounded-full uppercase flex items-center gap-1.5">
-<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">diamond</span> DIAMANTE VIP
-                        </span>
-</div>
+<article class="absolute inset-0 flex items-center justify-center">
+<a class="w-24 h-24 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary hover:scale-110 transition-transform shadow-2xl" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined text-5xl not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
+</a>
+</article>
+<section class="absolute bottom-0 left-0 right-0 p-10 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+<article class="flex items-center gap-3 mb-4">
+<strong class="px-4 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-black rounded-full uppercase">Treino do Dia</strong>
+<strong class="px-4 py-1.5 bg-blue-600 text-white text-[11px] font-black rounded-full uppercase flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-xs not-italic" style="font-variation-settings: 'FILL' 1;">diamond</i> DIAMANTE VIP
+                        </strong>
+</article>
 <h3 class="text-4xl font-headline font-bold text-white leading-tight">Explosão Muscular: Full Body Focus</h3>
 <p class="text-white/80 text-base mt-3 flex items-center gap-6">
-<span class="flex items-center gap-2"><span class="material-symbols-outlined text-xl">timer</span> 45 min</span>
-<span class="flex items-center gap-2"><span class="material-symbols-outlined text-xl">fitness_center</span> Intermediário</span>
+<strong class="flex items-center gap-2"><i aria-hidden="true" class="material-symbols-outlined text-xl not-italic">timer</i> 45 min</strong>
+<strong class="flex items-center gap-2"><i aria-hidden="true" class="material-symbols-outlined text-xl not-italic">fitness_center</i> Intermediário</strong>
 </p>
-</div>
-</div>
+</section>
+</section>
 </section>
 <!-- Bento Grid: Stats & Gamification -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
 <!-- Ofensiva Widget -->
-<div class="md:col-span-2 bg-gradient-to-br from-primary to-secondary p-8 rounded-[2rem] text-white flex flex-col justify-between relative overflow-hidden min-h-[280px]">
-<div class="absolute top-0 right-0 p-8 opacity-10">
-<span class="material-symbols-outlined text-[120px]" data-icon="local_fire_department">local_fire_department</span>
-</div>
-<div>
+<section class="md:col-span-2 bg-gradient-to-br from-primary to-secondary p-8 rounded-[2rem] text-white flex flex-col justify-between relative overflow-hidden min-h-[280px]">
+<section class="absolute top-0 right-0 p-8 opacity-10">
+<i aria-hidden="true" class="material-symbols-outlined text-[120px] not-italic" data-icon="local_fire_department">local_fire_department</i>
+</section>
+<section>
 <h3 class="font-headline text-2xl font-bold mb-2">Sua Ofensiva</h3>
 <p class="opacity-80 max-w-[200px]">Mantenha o ritmo para desbloquear recompensas reais.</p>
-</div>
-<div class="flex items-end justify-between mt-8">
-<div class="flex items-baseline gap-2">
-<span class="text-7xl font-black font-headline">42</span>
-<span class="text-xl font-medium opacity-80 uppercase tracking-widest">Dias</span>
-</div>
-<div class="bg-white/20 backdrop-blur-md p-4 rounded-2xl">
-<div class="flex items-center gap-2 mb-1">
-<span class="material-symbols-outlined text-tertiary-fixed">stars</span>
-<span class="font-bold">Meta: 40 dias</span>
-</div>
+</section>
+<article class="flex items-end justify-between mt-8">
+<article class="flex items-baseline gap-2">
+<strong class="text-7xl font-black font-headline">42</strong>
+<strong class="text-xl font-medium opacity-80 uppercase tracking-widest">Dias</strong>
+</article>
+<section class="bg-white/20 backdrop-blur-md p-4 rounded-2xl">
+<article class="flex items-center gap-2 mb-1">
+<i aria-hidden="true" class="material-symbols-outlined text-tertiary-fixed not-italic">stars</i>
+<strong class="font-bold">Meta: 40 dias</strong>
+</article>
 <p class="text-xs font-medium bg-tertiary-fixed text-on-tertiary-fixed px-2 py-1 rounded-md">15% OFF NA PRÓXIMA RENOVAÇÃO</p>
-</div>
-</div>
-</div>
+</section>
+</article>
+</section>
 <!-- Fidelidade Widget -->
-<div class="bg-surface-container-highest p-8 rounded-[2rem] flex flex-col justify-between border-t-4 border-primary">
-<div>
-<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">loyalty</span>
+<section class="bg-surface-container-highest p-8 rounded-[2rem] flex flex-col justify-between border-t-4 border-primary">
+<section>
+<i aria-hidden="true" class="material-symbols-outlined text-primary mb-4 not-italic" style="font-variation-settings: 'FILL' 1;">loyalty</i>
 <h3 class="font-headline text-xl font-bold text-on-surface leading-tight">Clube de Fidelidade PlanoB</h3>
-</div>
-<div class="space-y-4">
-<div class="flex flex-col gap-1">
-<div class="flex justify-between text-xs font-bold text-on-surface-variant uppercase">
-<span>Assinatura Trimestral</span>
-<span class="text-primary">85%</span>
-</div>
-<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[85%]"></div>
-</div>
-</div>
-<p class="text-sm font-medium text-on-surface-variant">Faltam apenas 12 dias para você ganhar <span class="text-primary font-bold">20% de desconto</span> no seu próximo plano.</p>
-</div>
-</div>
-</div>
+</section>
+<section class="space-y-4">
+<section class="flex flex-col gap-1">
+<section class="flex justify-between text-xs font-bold text-on-surface-variant uppercase">
+<strong>Assinatura Trimestral</strong>
+<strong class="text-primary">85%</strong>
+</section>
+<section class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<section class="h-full bg-primary w-[85%]"></section>
+</section>
+</section>
+<p class="text-sm font-medium text-on-surface-variant">Faltam apenas 12 dias para você ganhar <strong class="text-primary font-bold">20% de desconto</strong> no seu próximo plano.</p>
+</section>
+</section>
+</section>
 <!-- Lista de Exercícios do Dia -->
 <section class="mb-12">
-<div class="flex items-center justify-between mb-8">
-<div>
+<article class="flex items-center justify-between mb-8">
+<section>
 <h2 class="text-3xl font-black font-headline tracking-tight uppercase">Exercícios de Hoje</h2>
 <p class="text-on-surface-variant">Siga a sequência para melhores resultados</p>
-</div>
-<a class="flex items-center gap-1 text-sm font-bold text-primary hover:underline transition-all mr-2" href="#">
+</section>
+<a class="flex items-center gap-1 text-sm font-bold text-primary hover:underline transition-all mr-2" href="videos">
     Ver Todos
-    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
-</a><div class="flex items-center gap-2 text-sm font-bold text-primary bg-primary/10 px-4 py-2 rounded-full">
-<span class="material-symbols-outlined text-lg">check_circle</span>
+    <i aria-hidden="true" class="material-symbols-outlined text-sm not-italic">arrow_forward_ios</i>
+</a><article class="flex items-center gap-2 text-sm font-bold text-primary bg-primary/10 px-4 py-2 rounded-full">
+<i aria-hidden="true" class="material-symbols-outlined text-lg not-italic">check_circle</i>
                     2 / 6 Concluídos
-                </div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </article>
+</article>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 <!-- Exercício 1 -->
-<div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
-<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
+<section class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
 <img alt="Atleta fazendo agachamento livre com barra" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKPByS6Rt58mupw96b-I71jLLtKKB_OaF2obEiotonOlXuHlw08O4HIvo_Z5kd5RLnw2CF4yZEOlx9Rxpowc9A55JdaT3OAkAU4gdaUEublqXnYDcW6g1ARkQEu2BTgd7qo0dHGsSp6vIMXdqWkgZjdBrCpPHsDq67XllHFZjJTdjidaXRCVoroBUmJqJb9t_rMHsZcHFfImWsXRuegWkPQ1xrQS2LYXcJIoRgepl3gfjn0MeMx4GI3YkTfuLRrKitQEJ24-ETs4AI"/>
-<div class="absolute top-2 right-2">
-<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md">
-<span class="material-symbols-outlined">videocam</span>
-</button>
-</div>
-</div>
-<div class="flex justify-between items-start mb-4">
-<div>
+<section class="absolute top-2 right-2">
+<a class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">videocam</i>
+</a>
+</section>
+</section>
+<article class="flex justify-between items-start mb-4">
+<section>
 <h4 class="text-xl font-bold text-on-surface">Agachamento Livre</h4>
 <p class="text-on-surface-variant text-sm font-medium">Quadríceps &amp; Glúteos</p>
-</div>
+</section>
 <button class="group relative">
-<div class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
-<span class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform">check</span>
-</div>
+<article class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
+<i aria-hidden="true" class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform not-italic">check</i>
+</article>
 </button>
-</div>
-<div class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">repeat</span>
-<span class="text-sm font-bold">4 Séries</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">fitness_center</span>
-<span class="text-sm font-bold">10-12 Reps</span>
-</div>
-</div>
-</div>
+</article>
+<article class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">repeat</i>
+<strong class="text-sm font-bold">4 Séries</strong>
+</article>
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">fitness_center</i>
+<strong class="text-sm font-bold">10-12 Reps</strong>
+</article>
+</article>
+</section>
 <!-- Exercício 2 -->
-<div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
-<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
+<section class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
 <img alt="Atleta fazendo rosca direta com halteres" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRMFF1XBdpmGiYnIVlI7KH9d6ZEpFZUHIpggVwa5Lr5prhIhgllEBDBKrh1fSFjYwqfrFwf7Xf8uLAeJGGPMaRu0O7D57Jyd25ZiE8VLHMfa9EtcQG_12BQztkSjoLIrNSjPvmzTuyHLyazVTYVB8cf0EeUdr5IZC0qDlM7_vmaY6ZfLQds0vKwIytvQ3UbCMQmrtIUhWp25NyU4mGP0VAjwdZTxwYWfvr0d6rL8JizpHJegiA57R_QrAhDy0biJLQ6GLm5f7XEcRt"/>
-<div class="absolute top-2 right-2">
-<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md">
-<span class="material-symbols-outlined">videocam</span>
-</button>
-</div>
-</div>
-<div class="flex justify-between items-start mb-4">
-<div>
+<section class="absolute top-2 right-2">
+<a class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">videocam</i>
+</a>
+</section>
+</section>
+<article class="flex justify-between items-start mb-4">
+<section>
 <h4 class="text-xl font-bold text-on-surface">Rosca Direta</h4>
 <p class="text-on-surface-variant text-sm font-medium">Bíceps Braquial</p>
-</div>
+</section>
 <button class="group relative">
-<div class="w-10 h-10 rounded-full border-2 border-primary bg-primary flex items-center justify-center transition-all">
-<span class="material-symbols-outlined text-white" style="font-variation-settings: 'wght' 700;">check</span>
-</div>
+<article class="w-10 h-10 rounded-full border-2 border-primary bg-primary flex items-center justify-center transition-all">
+<i aria-hidden="true" class="material-symbols-outlined text-white not-italic" style="font-variation-settings: 'wght' 700;">check</i>
+</article>
 </button>
-</div>
-<div class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">repeat</span>
-<span class="text-sm font-bold">3 Séries</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">fitness_center</span>
-<span class="text-sm font-bold">12 Reps</span>
-</div>
-</div>
-</div>
+</article>
+<article class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">repeat</i>
+<strong class="text-sm font-bold">3 Séries</strong>
+</article>
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">fitness_center</i>
+<strong class="text-sm font-bold">12 Reps</strong>
+</article>
+</article>
+</section>
 <!-- Exercício 3 -->
-<div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
-<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
+<section class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
 <img alt="Atleta fazendo supino reto" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyW1qeLxSpHq6xYx6h25XPSYNoOp1F-hI1ALKCA4buOYVoXsZgx16PzAECZztCwDvrt4PgrdV1sh4oIlm2uhl8jEVj7d2LrVJVzfGjRHOUaYYly_vxKoq8T2lgT54SBdxx5QcoKkQHrw8q6bsLSqMnMcogD3AWls542-YK-R6F66G0GvRFhkn1jkdOl9KqhB2q9oheAJckZOE8oRglwhsPcqdYT2JTtp0SD3epOZxYsIFa10Wt883M6BsVqBCld368EWTWW5aKl13f"/>
-<div class="absolute top-2 right-2">
-<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md">
-<span class="material-symbols-outlined">videocam</span>
-</button>
-</div>
-</div>
-<div class="flex justify-between items-start mb-4">
-<div>
+<section class="absolute top-2 right-2">
+<a class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">videocam</i>
+</a>
+</section>
+</section>
+<article class="flex justify-between items-start mb-4">
+<section>
 <h4 class="text-xl font-bold text-on-surface">Supino Reto</h4>
 <p class="text-on-surface-variant text-sm font-medium">Peitoral Maior</p>
-</div>
+</section>
 <button class="group relative">
-<div class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
-<span class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform">check</span>
-</div>
+<article class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
+<i aria-hidden="true" class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform not-italic">check</i>
+</article>
 </button>
-</div>
-<div class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">repeat</span>
-<span class="text-sm font-bold">4 Séries</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">fitness_center</span>
-<span class="text-sm font-bold">8-10 Reps</span>
-</div>
-</div>
-</div>
+</article>
+<article class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">repeat</i>
+<strong class="text-sm font-bold">4 Séries</strong>
+</article>
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">fitness_center</i>
+<strong class="text-sm font-bold">8-10 Reps</strong>
+</article>
+</article>
+</section>
 <!-- Exercício 4 -->
-<div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
-<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
+<section class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
 <img alt="Atleta fazendo prancha abdominal" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDevlb9yYxzq4cjz1bvhErOaVT6llaA8V8tGCfz7OfiSP4ORx0dXfcxUl5x5FXVgHv77nzq5TX-e4DAmSZcFHPYwX6MIFrwpjAZ2Vgh46MvRNOTQ3yU3sC0aTri-25GjrsakELDyC4Jy4LIJalDHZ6H5bVpL93RNLQweFAYKR72hk0NgCM3LaSqzVvFN-zjadzWZMSnvLE-adLOEuS6X12dpmcPjMn5LydGXzrcLw6V1BPjrvF8EKUGPqwPd2hw8VxtX_2KEc743xDo"/>
-<div class="absolute top-2 right-2">
-<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md">
-<span class="material-symbols-outlined">videocam</span>
-</button>
-</div>
-</div>
-<div class="flex justify-between items-start mb-4">
-<div>
+<section class="absolute top-2 right-2">
+<a class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">videocam</i>
+</a>
+</section>
+</section>
+<article class="flex justify-between items-start mb-4">
+<section>
 <h4 class="text-xl font-bold text-on-surface">Prancha Frontal</h4>
 <p class="text-on-surface-variant text-sm font-medium">Core &amp; Estabilidade</p>
-</div>
+</section>
 <button class="group relative">
-<div class="w-10 h-10 rounded-full border-2 border-primary bg-primary flex items-center justify-center transition-all">
-<span class="material-symbols-outlined text-white" style="font-variation-settings: 'wght' 700;">check</span>
-</div>
+<article class="w-10 h-10 rounded-full border-2 border-primary bg-primary flex items-center justify-center transition-all">
+<i aria-hidden="true" class="material-symbols-outlined text-white not-italic" style="font-variation-settings: 'wght' 700;">check</i>
+</article>
 </button>
-</div>
-<div class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">repeat</span>
-<span class="text-sm font-bold">3 Séries</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">timer</span>
-<span class="text-sm font-bold">45 Seg</span>
-</div>
-</div>
-</div>
+</article>
+<article class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">repeat</i>
+<strong class="text-sm font-bold">3 Séries</strong>
+</article>
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">timer</i>
+<strong class="text-sm font-bold">45 Seg</strong>
+</article>
+</article>
+</section>
 <!-- Exercício 5 -->
-<div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
-<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
+<section class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
 <img alt="Atleta fazendo puxada pulley" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0fHtJjJ13itCVuI9i6KbwY0oFwDV6PurM0V3ejCfNRpme6ET_fjxpxho9s0_biQhI1RTAVht11RqsTiLkSia8Byk9c91f64QWVCuTPY2mfBY6jOcG7E6hycne23cVzUlTeDKAkbZzxpGR3gRshpe_9v0JOgx1LU_ylEGGzJTxqWpXm_SRYcCJ5y5Yn_TbxMXddbXob5_MzuWpV5T8EPw0VhW7ir2M8u2K3y3CINRfxMLyGobEWhKYjiNbRAWVBwdM-3S__cnepnHA"/>
-<div class="absolute top-2 right-2">
-<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md">
-<span class="material-symbols-outlined">videocam</span>
-</button>
-</div>
-</div>
-<div class="flex justify-between items-start mb-4">
-<div>
+<section class="absolute top-2 right-2">
+<a class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">videocam</i>
+</a>
+</section>
+</section>
+<article class="flex justify-between items-start mb-4">
+<section>
 <h4 class="text-xl font-bold text-on-surface">Puxada Aberta</h4>
 <p class="text-on-surface-variant text-sm font-medium">Dorsais</p>
-</div>
+</section>
 <button class="group relative">
-<div class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
-<span class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform">check</span>
-</div>
+<article class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
+<i aria-hidden="true" class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform not-italic">check</i>
+</article>
 </button>
-</div>
-<div class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">repeat</span>
-<span class="text-sm font-bold">4 Séries</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">fitness_center</span>
-<span class="text-sm font-bold">12 Reps</span>
-</div>
-</div>
-</div>
+</article>
+<article class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">repeat</i>
+<strong class="text-sm font-bold">4 Séries</strong>
+</article>
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">fitness_center</i>
+<strong class="text-sm font-bold">12 Reps</strong>
+</article>
+</article>
+</section>
 <!-- Exercício 6 -->
-<div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
-<div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
+<section class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container-high hover:shadow-xl transition-all duration-300 flex flex-col">
+<section class="relative w-full aspect-video rounded-2xl overflow-hidden mb-4 bg-surface-container-high">
 <img alt="Atleta fazendo leg press" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcZtIsN50VSj3Oyh0LMXCYBRZG6z_MKd8KtvNnp3RskMD4zZCXPVW1KzJHhbqTvk3Wootg1_WdGuS5C_S7NsTowL6fRjhwnfUckVIhndVVTb9mNkfltTCb5FgkNl4Ojx599woNvmnvLHEB_TBGxYI4XO93kEdlRcavdHcS_S-0KyjyTz8BV8ta4S2YTNB5dfKfOZ-NJZpW4iTMIYhFMX2noVFV8y8j6jTJGbcnpjFAW58a53wtR1gAUkNIns0bwPxNqGGM9E_19Vh2"/>
-<div class="absolute top-2 right-2">
-<button class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md">
-<span class="material-symbols-outlined">videocam</span>
-</button>
-</div>
-</div>
-<div class="flex justify-between items-start mb-4">
-<div>
+<section class="absolute top-2 right-2">
+<a class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-on-surface shadow-md" href="execucaoexercicios">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">videocam</i>
+</a>
+</section>
+</section>
+<article class="flex justify-between items-start mb-4">
+<section>
 <h4 class="text-xl font-bold text-on-surface">Leg Press 45º</h4>
 <p class="text-on-surface-variant text-sm font-medium">Membros Inferiores</p>
-</div>
+</section>
 <button class="group relative">
-<div class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
-<span class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform">check</span>
-</div>
+<article class="w-10 h-10 rounded-full border-2 border-primary-fixed group-hover:bg-primary-fixed/10 flex items-center justify-center transition-all">
+<i aria-hidden="true" class="material-symbols-outlined text-primary scale-0 group-active:scale-100 transition-transform not-italic">check</i>
+</article>
 </button>
-</div>
-<div class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">repeat</span>
-<span class="text-sm font-bold">3 Séries</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-primary-dim text-lg">fitness_center</span>
-<span class="text-sm font-bold">15 Reps</span>
-</div>
-</div>
-</div>
-</div>
-<div class="mt-10 flex justify-center">
-<button class="px-12 py-4 bg-primary text-white rounded-full font-black text-lg shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
-                    CONCLUIR TREINO DO DIA
-                </button>
-</div>
+</article>
+<article class="mt-auto flex items-center gap-4 py-3 border-t border-surface-container-high">
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">repeat</i>
+<strong class="text-sm font-bold">3 Séries</strong>
+</article>
+<article class="flex items-center gap-1.5">
+<i aria-hidden="true" class="material-symbols-outlined text-primary-dim text-lg not-italic">fitness_center</i>
+<strong class="text-sm font-bold">15 Reps</strong>
+</article>
+</article>
+</section>
+</section>
+<section class="mt-10 flex justify-center">
+<a class="px-12 py-4 bg-primary text-white rounded-full font-black text-lg shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all text-center" href="videos">
+                    VER TODOS OS TREINOS
+                </a>
+</section>
 </section>
 </main>
 <!-- BottomNavBar (Mobile Only) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-xl border-t border-surface-container py-3 px-6 flex justify-between items-center z-50">
-<button class="flex flex-col items-center gap-1 text-primary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
-<span class="text-[10px] font-bold">Treinos</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined">payments</span>
-<span class="text-[10px] font-bold">Planos</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined">chat</span>
-<span class="text-[10px] font-bold">Chat</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-[10px] font-bold">Ajustes</span>
-</button>
+<nav aria-label="Navegação mobile" class="md:hidden fixed bottom-0 left-0 w-full bg-[#f7f5ff]/90 backdrop-blur-xl border-t border-surface-container py-3 px-6 flex justify-between items-center z-50 rounded-t-[28px] shadow-[0_-10px_40px_rgba(35,44,81,0.08)]">
+<a class="flex flex-col items-center gap-1 text-primary" href="paineldiamante">
+<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">fitness_center</i>
+<strong class="text-[10px] font-bold">Treinos</strong>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="pagamento">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">payments</i>
+<strong class="text-[10px] font-bold">Planos</strong>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="feedbackaluno">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">chat</i>
+<strong class="text-[10px] font-bold">Feedback</strong>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="perfilaluno">
+<i aria-hidden="true" class="material-symbols-outlined not-italic">person</i>
+<strong class="text-[10px] font-bold">Perfil</strong>
+</a>
 </nav>
 <!-- Floating Action Button - Mobile Only -->
-<button class="md:hidden fixed bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50 active:scale-90 transition-transform">
-<span class="material-symbols-outlined" style="font-size: 32px;">add</span>
-</button>
+<a aria-label="Ver treinos" class="md:hidden fixed bottom-20 right-6 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50 active:scale-90 transition-transform" href="videos">
+<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-size: 32px;">play_circle</i>
+</a>
 </body></html>
