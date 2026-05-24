@@ -10,6 +10,36 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <style>
+    .avatar-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+      flex-shrink: 0;
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-size: 2.5rem;
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .video-card-link,
+    .demo-card-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      height: 100%;
+    }
+  </style>
 </head>
 
 <body>
@@ -26,9 +56,9 @@
       </li>
 
       <li>
-        <button type="button" aria-label="Perfil">
+        <a href="/perfilaluno" aria-label="Perfil">
           <i class="material-symbols-outlined" aria-hidden="true">account_circle</i>
-        </button>
+        </a>
       </li>
     </menu>
   </header>
@@ -37,10 +67,16 @@
     <header class="sidebar-profile">
       <figure>
         <picture>
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXBWQL_ZXZem9hoA9giue5xdlGPs9h7fOphbdya-vSajPdFkjYPlUsZ-0m0ItXUHr9Ju9SAbSD44hX7cLi09EeDHiuhkhwV7EQlZ8Ciy6KUjZ19E3-_mtneyoFFdblgnZS2XNoioSv75N7E2FOy4PCkROxYxNyFohfDG9cq4Ud8FSpOFg_OoNRpxWBsvAqoPtV2qdsqek3lLIiNNQGkcTkYqDPtqFTXq59_CoVzcmnsWdEj8T61TZQDUU4HcRGYlhV9cbFI3URIP8Z"
-            alt="Foto de perfil do aluno"
-          />
+          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+            <img
+              src="<%= aluno.foto %>"
+              alt="Foto de perfil do aluno"
+            />
+          <% } else { %>
+            <span class="avatar-placeholder" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
         </picture>
 
         <figcaption>
@@ -64,6 +100,11 @@
       <a href="/painelfree#planos">
         <i class="material-symbols-outlined" aria-hidden="true">payments</i>
         <em>Planos</em>
+      </a>
+
+      <a href="/perfilaluno">
+        <i class="material-symbols-outlined" aria-hidden="true">person</i>
+        <em>Perfil</em>
       </a>
     </nav>
   </aside>
@@ -96,84 +137,37 @@
           <h2>Vídeos do dia</h2>
           <p>Os primeiros passos para uma vida mais ativa e saudável.</p>
         </hgroup>
-
       </header>
 
       <ul class="video-grid" role="list">
-        <li>
-          <article class="video-card">
-            <figure>
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo-fkwrI2vN175z62Qq2gtPN-gdAd45gJquHcF0ZyrskfDFnSeAOf9qOhdizqb5DBMp13lLNffweE1YO5GUZ3viG9nx3MFst660mShuHltw7_RvBzPduY5hMovRZvbapvnBuzg-XYEdMKaWK9kN3V28Y2an46LQ9E2pTycTtnHgEHfZDIpEX568pGUlfrSTwT46rRNZXGn9VgpeNGF0sq_dR0rO3fExyys5u2-rmWN5MnFUS8r-kbm68aDMtPi_IV3RtycExLYFKWZ"
-                alt="Demonstração de agachamento"
-              />
+        <% videosFree.slice(0, 3).forEach(function(video) { %>
+          <li>
+            <a class="video-card-link" href="/execucaoexercicios?video=<%= video.slug %>">
+              <article class="video-card">
+                <figure>
+                  <img
+                    src="<%= video.capa %>"
+                    alt="<%= video.titulo %>"
+                  />
 
-              <figcaption>
-                <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
-                <time datetime="PT8M45S">08:45</time>
-              </figcaption>
-            </figure>
+                  <figcaption>
+                    <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
+                    <time><%= video.duracao %></time>
+                  </figcaption>
+                </figure>
 
-            <footer>
-              <hgroup>
-                <p>Fundamentos</p>
-                <h3>Fundamentos do Agachamento</h3>
-              </hgroup>
+                <footer>
+                  <hgroup>
+                    <p><%= video.categoria %></p>
+                    <h3><%= video.titulo %></h3>
+                  </hgroup>
 
-              <mark>Iniciante</mark>
-            </footer>
-          </article>
-        </li>
-
-        <li>
-          <article class="video-card">
-            <figure>
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjgvCFuIJdPrEMcolFmqhwO_PBewj-gbMz37PihA1HWzsWFP_PbNVgEQTi-OeHMr7imOcIebYDzZmlos5ZFu7gEVZT3Buue-qMWf6VjoNywEnrFfQ20PLGYKk5BGVGdoZXdmuIih5JJ2QtUgPlv-u4civPcntZgkgLa9-FRldHUsj0GNPdUsylv_RvoleCGxb3cF1wLrpG25h-zBmU7-tH4g7XcRjP7udlVDOvPOg9HAdXhy56YsgnyQ0sKyrhfUjXrZ09Q9YiKkci"
-                alt="Mulher realizando exercício de cardio"
-              />
-
-              <figcaption>
-                <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
-                <time datetime="PT10M">10:00</time>
-              </figcaption>
-            </figure>
-
-            <footer>
-              <hgroup>
-                <p>Cardio</p>
-                <h3>Cardio de 10 minutos</h3>
-              </hgroup>
-
-              <mark>Iniciante</mark>
-            </footer>
-          </article>
-        </li>
-
-        <li>
-          <article class="video-card">
-            <figure>
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBznhSUh7EuakqvmDPkaRGFV73qpdMbNqGjupfUsEPKslvaPKPMxVzKR_aJSFaeMmJ_2d5spIjxtp5u6OmeUgVi0r8nBTmiwTS-deyShfHpHjhV71lKrBcpzjbcUls7bAzawG7bYq2Ny5cObCsJIBmy3FaAdg6ZAEB6_V53u32BKizMc-hpx1CT3d27UQtgZG10Y50ZAGOHXFsnmw77CfTeEA0B52gG80kv8UZ6XLGwFN6NJyiZfTjlCYOxW-Wd42UbAXl_sBOxS3w5"
-                alt="Pessoa realizando mobilidade"
-              />
-
-              <figcaption>
-                <i class="material-symbols-outlined" aria-hidden="true">play_circle</i>
-                <time datetime="PT12M30S">12:30</time>
-              </figcaption>
-            </figure>
-
-            <footer>
-              <hgroup>
-                <p>Flexibilidade</p>
-                <h3>Mobilidade Básica</h3>
-              </hgroup>
-
-              <mark>Iniciante</mark>
-            </footer>
-          </article>
-        </li>
+                  <mark><%= video.nivel %></mark>
+                </footer>
+              </article>
+            </a>
+          </li>
+        <% }) %>
       </ul>
     </section>
 
@@ -181,47 +175,23 @@
       <h2>Demonstrações Rápidas</h2>
 
       <ul class="demo-grid" role="list">
-        <li>
-          <article class="demo-card">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Te23qaQIP4sDEyhs5iPl36s9SMamoVzTUfKEV6GeYjwb8AkWCdFbdWUyjaVZEYOVXSz3w5XdWkMrYcX8fYu7_vtBSn2zUq62m9tNxd6QC-hSR-SXvTuewWJNXtE2ghd9-fK_g_A3kl4BNQ7l5HhM-CJjRSewpFwaM3YO_w_egiqP-jubNlDXGOqBokOdD6FDYThpRhuBOU4PqqWu2BEJd23D_NOM3uFVxS2pTQeTpg3QnJmG_0eG3MQScGOQSQNa1Yc86RQ6TVzR"
-              alt="Pessoa fazendo flexão"
-            />
+        <% videosFree.slice(3, 6).forEach(function(video) { %>
+          <li>
+            <a class="demo-card-link" href="/execucaoexercicios?video=<%= video.slug %>">
+              <article class="demo-card">
+                <img
+                  src="<%= video.capa %>"
+                  alt="<%= video.titulo %>"
+                />
 
-            <footer>
-              <p>Braços</p>
-              <h3>Flexão Perfeita</h3>
-            </footer>
-          </article>
-        </li>
-
-        <li>
-          <article class="demo-card">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNbv4owisX8CeqniNla6_8dRp3ZaqrmlC6ESnV5-hk_skn1D3HE7IsZkf-9wcqV9BLb570D23Oohasvrapm5J42VUEjGGHBBAt4rGsBn9remgGIVrQIXlYZmnpupLuGiRWZMhWH_0Yp2A6ZhSCIT9-6dMG5KWTefqWuF2JqoPbHWC45KBzqMa4QGbiYiX0FbVD_SSiB6VIodeltSt3cygjfVIAYGTLpzM66eSqxz4e1dy-Cn5aZlDTj21yBEt_SsJdSkj5CqZ02pME"
-              alt="Pessoa fazendo afundo"
-            />
-
-            <footer>
-              <p>Pernas</p>
-              <h3>Afundo Explosivo</h3>
-            </footer>
-          </article>
-        </li>
-
-        <li>
-          <article class="demo-card">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Yw2rBZzu25lDVT60lbXslUxzdUVoYe9Z2NJW76C23iVOmyYbytq8CkMXEcSWqYf0CwINekPUaiNBZYJ5TuM_DSF3ww1jJkmDhH5QDRDqblhocwcfDeARboOYmc3_WEXV8utnL9nWyNjo9xBas7zsNkm2iERXNpXR1VjiXNGSw9PObHr03ce9pB5DEdcE-HT5ucROn8BOlPcFurHxdp8_AQNj4S4r8sbN6kpEaZZX1PQWZUDXxCnn6IfG_Ndvea4aXZF7vpz_uzgl"
-              alt="Pessoa fazendo prancha"
-            />
-
-            <footer>
-              <p>Core</p>
-              <h3>Prancha Isométrica</h3>
-            </footer>
-          </article>
-        </li>
+                <footer>
+                  <p><%= video.categoria %></p>
+                  <h3><%= video.titulo %></h3>
+                </footer>
+              </article>
+            </a>
+          </li>
+        <% }) %>
 
         <li>
           <article class="premium-card">
@@ -254,7 +224,7 @@
       <em>Planos</em>
     </a>
 
-    <a href="/painelfree">
+    <a href="/perfilaluno">
       <i class="material-symbols-outlined" aria-hidden="true">person</i>
       <em>Perfil</em>
     </a>

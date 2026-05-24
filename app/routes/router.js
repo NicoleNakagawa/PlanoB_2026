@@ -5,6 +5,81 @@ const db = require('../config/pool_conexoes')
 
 const SALT_ROUNDS = 12
 
+const videosFree = [
+    {
+        slug: 'agachamento',
+        titulo: 'Fundamentos do Agachamento',
+        categoria: 'Fundamentos',
+        nivel: 'Iniciante',
+        duracao: '08:45',
+        duracaoMin: 9,
+        capa: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDo-fkwrI2vN175z62Qq2gtPN-gdAd45gJquHcF0ZyrskfDFnSeAOf9qOhdizqb5DBMp13lLNffweE1YO5GUZ3viG9nx3MFst660mShuHltw7_RvBzPduY5hMovRZvbapvnBuzg-XYEdMKaWK9kN3V28Y2an46LQ9E2pTycTtnHgEHfZDIpEX568pGUlfrSTwT46rRNZXGn9VgpeNGF0sq_dR0rO3fExyys5u2-rmWN5MnFUS8r-kbm68aDMtPi_IV3RtycExLYFKWZ',
+        descricao: 'Mantenha os pés afastados na largura dos ombros. Desça controladamente empurrando o quadril para trás como se fosse sentar em uma cadeira. Mantenha o peito aberto e o core engajado.',
+        atencao1: 'Não deixe os joelhos entrarem durante o movimento.',
+        atencao2: 'Evite curvar a região lombar excessivamente durante a descida.'
+    },
+    {
+        slug: 'cardio-10-minutos',
+        titulo: 'Cardio de 10 minutos',
+        categoria: 'Cardio',
+        nivel: 'Iniciante',
+        duracao: '10:00',
+        duracaoMin: 10,
+        capa: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCjgvCFuIJdPrEMcolFmqhwO_PBewj-gbMz37PihA1HWzsWFP_PbNVgEQTi-OeHMr7imOcIebYDzZmlos5ZFu7gEVZT3Buue-qMWf6VjoNywEnrFfQ20PLGYKk5BGVGdoZXdmuIih5JJ2QtUgPlv-u4civPcntZgkgLa9-FRldHUsj0GNPdUsylv_RvoleCGxb3cF1wLrpG25h-zBmU7-tH4g7XcRjP7udlVDOvPOg9HAdXhy56YsgnyQ0sKyrhfUjXrZ09Q9YiKkci',
+        descricao: 'Faça movimentos contínuos e controlados, mantendo a respiração constante. Respeite seu ritmo e aumente a intensidade aos poucos.',
+        atencao1: 'Não prenda a respiração durante o exercício.',
+        atencao2: 'Reduza o ritmo se sentir tontura ou dor.'
+    },
+    {
+        slug: 'mobilidade-basica',
+        titulo: 'Mobilidade Básica',
+        categoria: 'Flexibilidade',
+        nivel: 'Iniciante',
+        duracao: '12:30',
+        duracaoMin: 13,
+        capa: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBznhSUh7EuakqvmDPkaRGFV73qpdMbNqGjupfUsEPKslvaPKPMxVzKR_aJSFaeMmJ_2d5spIjxtp5u6OmeUgVi0r8nBTmiwTS-deyShfHpHjhV71lKrBcpzjbcUls7bAzawG7bYq2Ny5cObCsJIBmy3FaAdg6ZAEB6_V53u32BKizMc-hpx1CT3d27UQtgZG10Y50ZAGOHXFsnmw77CfTeEA0B52gG80kv8UZ6XLGwFN6NJyiZfTjlCYOxW-Wd42UbAXl_sBOxS3w5',
+        descricao: 'Execute os movimentos com calma, buscando amplitude sem forçar demais. O objetivo é preparar o corpo e melhorar a mobilidade.',
+        atencao1: 'Não force articulações além do confortável.',
+        atencao2: 'Faça os movimentos de forma lenta e consciente.'
+    },
+    {
+        slug: 'flexao-perfeita',
+        titulo: 'Flexão Perfeita',
+        categoria: 'Braços',
+        nivel: 'Iniciante',
+        duracao: '06:30',
+        duracaoMin: 7,
+        capa: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA2Te23qaQIP4sDEyhs5iPl36s9SMamoVzTUfKEV6GeYjwb8AkWCdFbdWUyjaVZEYOVXSz3w5XdWkMrYcX8fYu7_vtBSn2zUq62m9tNxd6QC-hSR-SXvTuewWJNXtE2ghd9-fK_g_A3kl4BNQ7l5HhM-CJjRSewpFwaM3YO_w_egiqP-jubNlDXGOqBokOdD6FDYThpRhuBOU4PqqWu2BEJd23D_NOM3uFVxS2pTQeTpg3QnJmG_0eG3MQScGOQSQNa1Yc86RQ6TVzR',
+        descricao: 'Mantenha o corpo alinhado, contraia o abdômen e desça até próximo do chão. Empurre o corpo para cima sem perder o alinhamento.',
+        atencao1: 'Não deixe o quadril cair.',
+        atencao2: 'Não abra demais os cotovelos.'
+    },
+    {
+        slug: 'afundo-explosivo',
+        titulo: 'Afundo Explosivo',
+        categoria: 'Pernas',
+        nivel: 'Iniciante',
+        duracao: '07:15',
+        duracaoMin: 8,
+        capa: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCNbv4owisX8CeqniNla6_8dRp3ZaqrmlC6ESnV5-hk_skn1D3HE7IsZkf-9wcqV9BLb570D23Oohasvrapm5J42VUEjGGHBBAt4rGsBn9remgGIVrQIXlYZmnpupLuGiRWZMhWH_0Yp2A6ZhSCIT9-6dMG5KWTefqWuF2JqoPbHWC45KBzqMa4QGbiYiX0FbVD_SSiB6VIodeltSt3cygjfVIAYGTLpzM66eSqxz4e1dy-Cn5aZlDTj21yBEt_SsJdSkj5CqZ02pME',
+        descricao: 'Dê um passo à frente, flexione os joelhos e mantenha o tronco alinhado. Suba com força, controlando o retorno.',
+        atencao1: 'Não deixe o joelho ultrapassar demais a ponta do pé.',
+        atencao2: 'Mantenha o equilíbrio durante todo o movimento.'
+    },
+    {
+        slug: 'prancha-isometrica',
+        titulo: 'Prancha Isométrica',
+        categoria: 'Core',
+        nivel: 'Iniciante',
+        duracao: '05:40',
+        duracaoMin: 6,
+        capa: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5Yw2rBZzu25lDVT60lbXslUxzdUVoYe9Z2NJW76C23iVOmyYbytq8CkMXEcSWqYf0CwINekPUaiNBZYJ5TuM_DSF3ww1jJkmDhH5QDRDqblhocwcfDeARboOYmc3_WEXV8utnL9nWyNjo9xBas7zsNkm2iERXNpXR1VjiXNGSw9PObHr03ce9pB5DEdcE-HT5ucROn8BOlPcFurHxdp8_AQNj4S4r8sbN6kpEaZZX1PQWZUDXxCnn6IfG_Ndvea4aXZF7vpz_uzgl',
+        descricao: 'Apoie os antebraços no chão, mantenha o corpo reto e contraia o abdômen. Segure a posição sem deixar o quadril cair.',
+        atencao1: 'Não levante demais o quadril.',
+        atencao2: 'Não relaxe o abdômen durante a execução.'
+    }
+]
+
 function authAluno(req, res, next) {
     if (req.session && req.session.aluno) return next()
     res.redirect('/loginaluno')
@@ -63,12 +138,115 @@ router.get('/painelfree', authAluno, (req, res) => {
     res.render('painelfree', { aluno: req.session.aluno })
 })
 
+router.get('/perfilaluno', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    try {
+        const [historicoTreinos] = await db.query(
+            `SELECT 
+                st.id_sessao,
+                st.data_treino,
+                st.duracao_min,
+                st.calorias,
+                st.bpm_maximo,
+                st.observacao,
+                ft.nome_ficha,
+                ft.categoria,
+                ft.nivel
+             FROM sessao_treino st
+             LEFT JOIN ficha_treino ft ON ft.id_ficha = st.id_ficha
+             WHERE st.id_aluno = ?
+             ORDER BY st.data_treino DESC, st.id_sessao DESC
+             LIMIT 8`,
+            [idAluno]
+        )
+
+        const [resumoRows] = await db.query(
+            `SELECT 
+                COUNT(*) AS total_treinos,
+                COALESCE(SUM(duracao_min), 0) AS tempo_total,
+                COALESCE(ROUND(AVG(duracao_min)), 0) AS tempo_medio
+             FROM sessao_treino
+             WHERE id_aluno = ?`,
+            [idAluno]
+        )
+
+        const [streakRows] = await db.query(
+            `SELECT streak_atual, streak_maximo
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        res.render('perfilaluno', {
+            aluno: req.session.aluno,
+            historicoTreinos,
+            resumoTreinos: resumoRows[0] || {
+                total_treinos: 0,
+                tempo_total: 0,
+                tempo_medio: 0
+            },
+            streak: streakRows[0] || {
+                streak_atual: 0,
+                streak_maximo: 0
+            }
+        })
+    } catch (err) {
+        console.error('[perfilaluno]', err)
+
+        res.render('perfilaluno', {
+            aluno: req.session.aluno,
+            historicoTreinos: [],
+            resumoTreinos: {
+                total_treinos: 0,
+                tempo_total: 0,
+                tempo_medio: 0
+            },
+            streak: {
+                streak_atual: 0,
+                streak_maximo: 0
+            },
+            erro: 'Erro ao carregar o perfil.'
+        })
+    }
+})
+
+router.get('/paineldiamante', authAluno, (req, res) => {
+    res.render('paineldiamante', { aluno: req.session.aluno })
+})
+
+router.get('/painellazuli', authAluno, (req, res) => {
+    res.render('painellazuli', { aluno: req.session.aluno })
+})
+
+router.get('/perfilprofparaaluno', authAluno, (req, res) => {
+    res.render('perfilprofparaaluno', { aluno: req.session.aluno })
+})
+
 router.get('/videosfree', authAluno, (req, res) => {
-    res.render('videosfree', { aluno: req.session.aluno })
+    res.render('videosfree', {
+        aluno: req.session.aluno,
+        videosFree
+    })
 })
 
 router.get('/videos', authAluno, (req, res) => {
-    res.render('videos', { aluno: req.session.aluno })
+    res.render('videos', {
+        aluno: req.session.aluno,
+        videosFree
+    })
+})
+
+router.get('/execucaoexercicios', authAluno, (req, res) => {
+    const slug = req.query.video || 'agachamento'
+    const videoSelecionado = videosFree.find(video => video.slug === slug) || videosFree[0]
+
+    res.render('execucaoexercicios', {
+        aluno: req.session.aluno,
+        video: videoSelecionado,
+        videosFree
+    })
 })
 
 router.get('/progressosemanal', authAluno, (req, res) => {
@@ -80,6 +258,10 @@ router.get('/streakprogress', authAluno, (req, res) => {
 })
 
 router.get('/feedbackaluno', authAluno, (req, res) => {
+    if (Number(req.session.aluno.id_plano) === 1) {
+        return res.redirect('/perfilaluno')
+    }
+
     res.render('feedbackaluno', { aluno: req.session.aluno })
 })
 
@@ -215,15 +397,6 @@ router.post('/cadastroprofessor', async (req, res) => {
     const nomeLimpo = name.trim()
     const emailLimpo = email.trim().toLowerCase()
     const crefLimpo = cref.trim().toUpperCase()
-
-    /*
-        Formato aceito:
-        1234-G/SP
-        12345-G/SP
-        123456-G/SP
-        000123-G/RJ
-        987654-P/MG
-    */
 
     const regexCREF = /^[0-9]{4,6}-[A-Z]\/[A-Z]{2}$/
 
@@ -566,6 +739,10 @@ router.post('/suporte', async (req, res) => {
 // =======================
 
 router.post('/feedbackaluno', authAluno, async (req, res) => {
+    if (Number(req.session.aluno.id_plano) === 1) {
+        return res.redirect('/perfilaluno')
+    }
+
     const idAluno = req.session.aluno.id
     const intensidade = req.body['intensity']
     const cansaco = req.body['tiredness-range']
@@ -637,6 +814,54 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
             aluno: req.session.aluno,
             erro: 'Erro ao enviar feedback.'
         })
+    }
+})
+
+// =======================
+// REGISTRAR TREINO DO ALUNO
+// =======================
+
+router.post('/api/aluno/registrar-treino', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+    const idFicha = req.body.id_ficha || null
+    const duracaoMin = Number(req.body.duracao_min) || 0
+    const calorias = req.body.calorias || null
+    const bpmMaximo = req.body.bpm_maximo || null
+    const observacao = req.body.observacao || null
+
+    try {
+        await db.query(
+            `INSERT INTO sessao_treino
+             (id_aluno, id_ficha, data_treino, duracao_min, calorias, bpm_maximo, observacao)
+             VALUES (?, ?, CURDATE(), ?, ?, ?, ?)`,
+            [idAluno, idFicha, duracaoMin, calorias, bpmMaximo, observacao]
+        )
+
+        await db.query(
+            `UPDATE streak
+             SET streak_atual = streak_atual + 1,
+                 streak_maximo = GREATEST(streak_maximo, streak_atual + 1),
+                 ultima_atividade = CURDATE()
+             WHERE id_aluno = ?`,
+            [idAluno]
+        )
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.json({ ok: true })
+        }
+
+        res.redirect('/perfilaluno')
+    } catch (err) {
+        console.error('[registrar-treino]', err)
+
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.status(500).json({
+                ok: false,
+                erro: 'Erro ao registrar treino.'
+            })
+        }
+
+        res.redirect('/execucaoexercicios')
     }
 })
 

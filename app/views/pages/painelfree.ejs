@@ -120,6 +120,25 @@
       font-family: 'Lexend', sans-serif;
     }
 
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .video-card-link {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
     @media (max-width: 768px) {
       html,
       body {
@@ -145,7 +164,8 @@
         gap: 8px;
       }
 
-      header.fixed button {
+      header.fixed button,
+      header.fixed a {
         padding: 8px;
       }
 
@@ -335,9 +355,11 @@
       </li>
 
       <li>
-        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Perfil">
+        <a href="/perfilaluno"
+          class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center"
+          aria-label="Perfil">
           <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">account_circle</i>
-        </button>
+        </a>
       </li>
     </menu>
 
@@ -350,11 +372,17 @@
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
         <picture>
-          <img
-            class="w-12 h-12 rounded-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXBWQL_ZXZem9hoA9giue5xdlGPs9h7fOphbdya-vSajPdFkjYPlUsZ-0m0ItXUHr9Ju9SAbSD44hX7cLi09EeDHiuhkhwV7EQlZ8Ciy6KUjZ19E3-_mtneyoFFdblgnZS2XNoioSv75N7E2FOy4PCkROxYxNyFohfDG9cq4Ud8FSpOFg_OoNRpxWBsvAqoPtV2qdsqek3lLIiNNQGkcTkYqDPtqFTXq59_CoVzcmnsWdEj8T61TZQDUU4HcRGYlhV9cbFI3URIP8Z"
-            alt="Foto de perfil do aluno"
-          />
+          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+            <img
+              class="w-12 h-12 rounded-full object-cover"
+              src="<%= aluno.foto %>"
+              alt="Foto de perfil do aluno"
+            />
+          <% } else { %>
+            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
         </picture>
 
         <figcaption>
@@ -380,9 +408,11 @@
         <em class="not-italic">Planos</em>
       </a>
 
-
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilaluno">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
     </nav>
-
 
   </aside>
 
@@ -490,9 +520,9 @@
             </p>
           </hgroup>
 
-          <button class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+          <a href="/painelfree#planos" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
             Fazer Upgrade para Lazuli
-          </button>
+          </a>
         </article>
 
         <article class="bg-surface-container rounded-3xl p-8 flex flex-col gap-4">
@@ -524,52 +554,66 @@
         <ul role="list" class="grid grid-cols-1 gap-4 list-none p-0 m-0">
 
           <li class="group relative rounded-2xl overflow-hidden bg-surface-container-lowest h-32 flex items-center cursor-pointer transition-transform hover:scale-[1.01]">
-            <figure class="w-40 h-full relative m-0 shrink-0">
-              <img
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUlvyA1HC-hP75Q0K7udfIZVOpSL4wiLBbB9B45qNFzLg4KwO1rv3s_SGspCGtPOY0C7Zgv9shHviPROv_w4fGlQ4zXINuVk_XEKwiVL5OPqKnUOa7mJHigqrCC-0H7xYLcenpO2XcwtG3vJWzBbOYWdqKj181pFupU-CYqSZs0heNgo7pZi14SWfQrdh77WEb9h9HvhVCZbQqNnTuomXzpTSCTJDlZ8KnZALjR0L1UFusXDBnwHzT-Jct2pY_7Yg30oX2Nw4jzlHF"
-                alt="Homem realizando levantamento terra em academia"
-              />
+            <a href="/execucaoexercicios?video=agachamento" class="video-card-link">
+              <figure class="w-40 h-full relative m-0 shrink-0">
+                <img
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo-fkwrI2vN175z62Qq2gtPN-gdAd45gJquHcF0ZyrskfDFnSeAOf9qOhdizqb5DBMp13lLNffweE1YO5GUZ3viG9nx3MFst660mShuHltw7_RvBzPduY5hMovRZvbapvnBuzg-XYEdMKaWK9kN3V28Y2an46LQ9E2pTycTtnHgEHfZDIpEX568pGUlfrSTwT46rRNZXGn9VgpeNGF0sq_dR0rO3fExyys5u2-rmWN5MnFUS8r-kbm68aDMtPi_IV3RtycExLYFKWZ"
+                  alt="Demonstração de agachamento"
+                />
 
-              <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
-              </figcaption>
-            </figure>
+                <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                  <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
+                </figcaption>
+              </figure>
 
-            <hgroup class="p-4 flex-1">
-              <h3 class="font-bold text-on-surface">Fundamentos do Agachamento</h3>
-              <p class="text-xs text-on-surface-variant">Duração: 4:20 • Nível Básico</p>
-            </hgroup>
+              <hgroup class="p-4 flex-1">
+                <h3 class="font-bold text-on-surface">Fundamentos do Agachamento</h3>
+                <p class="text-xs text-on-surface-variant">Duração: 08:45 • Nível Iniciante</p>
+              </hgroup>
+            </a>
           </li>
 
           <li class="group relative rounded-2xl overflow-hidden bg-surface-container-lowest h-32 flex items-center cursor-pointer transition-transform hover:scale-[1.01]">
-            <figure class="w-40 h-full relative m-0 shrink-0">
-              <img
-                class="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAHY8EwRSsnioJ6BUuZjjmePfGbtDp7_73Rlhrj8ySRIvkd7nxz31O5bdFqXPDFiKnwTrdYClJYXeKvV4GYKNktiq0baS3WTjL864Lp9e4VOuIxzSwfgm82qEINaXjseDaNptEsKwxSSQRMY1-OjQJFmDogEYIoVUuhqWJ9jEQgBe5RM5s3Gzinc8hYRNlbS3ZJ4h1vEPigDfX4azOGa4gYr8RiTuzSwz6e0BUT1L6tbkbO5LBcT2EDgQDI1w0LE8A6w0WAWWs_nOM"
-                alt="Atleta correndo em esteira com iluminação azul"
-              />
+            <a href="/execucaoexercicios?video=cardio-10-minutos" class="video-card-link">
+              <figure class="w-40 h-full relative m-0 shrink-0">
+                <img
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjgvCFuIJdPrEMcolFmqhwO_PBewj-gbMz37PihA1HWzsWFP_PbNVgEQTi-OeHMr7imOcIebYDzZmlos5ZFu7gEVZT3Buue-qMWf6VjoNywEnrFfQ20PLGYKk5BGVGdoZXdmuIih5JJ2QtUgPlv-u4civPcntZgkgLa9-FRldHUsj0GNPdUsylv_RvoleCGxb3cF1wLrpG25h-zBmU7-tH4g7XcRjP7udlVDOvPOg9HAdXhy56YsgnyQ0sKyrhfUjXrZ09Q9YiKkci"
+                  alt="Pessoa realizando cardio"
+                />
 
-              <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
-              </figcaption>
-            </figure>
+                <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                  <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
+                </figcaption>
+              </figure>
 
-            <hgroup class="p-4 flex-1">
-              <h3 class="font-bold text-on-surface">Cardio de Alta Intensidade</h3>
-              <p class="text-xs text-on-surface-variant">Duração: 8:15 • Nível Intermediário</p>
-            </hgroup>
+              <hgroup class="p-4 flex-1">
+                <h3 class="font-bold text-on-surface">Cardio de 10 minutos</h3>
+                <p class="text-xs text-on-surface-variant">Duração: 10:00 • Nível Iniciante</p>
+              </hgroup>
+            </a>
           </li>
 
-          <li class="relative rounded-2xl overflow-hidden bg-surface-container-highest/50 h-32 flex items-center grayscale opacity-60" aria-label="Conteúdo bloqueado">
-            <figure class="w-40 h-full bg-surface-dim flex items-center justify-center m-0 shrink-0">
-              <i class="material-symbols-outlined text-on-surface-variant text-4xl not-italic" aria-hidden="true">lock</i>
-            </figure>
+          <li class="group relative rounded-2xl overflow-hidden bg-surface-container-lowest h-32 flex items-center cursor-pointer transition-transform hover:scale-[1.01]">
+            <a href="/execucaoexercicios?video=mobilidade-basica" class="video-card-link">
+              <figure class="w-40 h-full relative m-0 shrink-0">
+                <img
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBznhSUh7EuakqvmDPkaRGFV73qpdMbNqGjupfUsEPKslvaPKPMxVzKR_aJSFaeMmJ_2d5spIjxtp5u6OmeUgVi0r8nBTmiwTS-deyShfHpHjhV71lKrBcpzjbcUls7bAzawG7bYq2Ny5cObCsJIBmy3FaAdg6ZAEB6_V53u32BKizMc-hpx1CT3d27UQtgZG10Y50ZAGOHXFsnmw77CfTeEA0B52gG80kv8UZ6XLGwFN6NJyiZfTjlCYOxW-Wd42UbAXl_sBOxS3w5"
+                  alt="Pessoa realizando mobilidade"
+                />
 
-            <hgroup class="p-4 flex-1">
-              <h3 class="font-bold text-on-surface">Mestria em Mobilidade</h3>
-              <p class="text-xs text-on-surface-variant">Disponível apenas em planos Premium</p>
-            </hgroup>
+                <figcaption class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                  <i class="material-symbols-outlined text-white text-3xl not-italic" aria-hidden="true">play_circle</i>
+                </figcaption>
+              </figure>
+
+              <hgroup class="p-4 flex-1">
+                <h3 class="font-bold text-on-surface">Mobilidade Básica</h3>
+                <p class="text-xs text-on-surface-variant">Duração: 12:30 • Nível Iniciante</p>
+              </hgroup>
+            </a>
           </li>
 
         </ul>
@@ -655,9 +699,9 @@
               </li>
             </ul>
 
-            <button class="mt-auto w-full bg-white text-primary py-4 rounded-full font-bold active:scale-95 transition-transform">
+            <a href="/pagamento?plano=2" class="mt-auto w-full bg-white text-primary py-4 rounded-full font-bold active:scale-95 transition-transform text-center">
               Selecionar Lazuli
-            </button>
+            </a>
           </li>
 
           <li class="bg-surface-container-lowest rounded-[2rem] p-8 flex flex-col gap-6 shadow-sm border border-outline-variant/10">
@@ -689,9 +733,9 @@
               </li>
             </ul>
 
-            <button class="mt-auto w-full bg-surface-container-highest text-on-surface py-4 rounded-full font-bold active:scale-95 transition-transform">
+            <a href="/pagamento?plano=3" class="mt-auto w-full bg-surface-container-highest text-on-surface py-4 rounded-full font-bold active:scale-95 transition-transform text-center">
               Selecionar Diamante
-            </button>
+            </a>
           </li>
 
         </ul>
@@ -724,7 +768,7 @@
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
     </a>
 
-    <a href="/login"
+    <a href="/perfilaluno"
        class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>

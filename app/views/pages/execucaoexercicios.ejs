@@ -1,354 +1,646 @@
 <!DOCTYPE html>
+<html class="light" lang="pt-BR">
 
-<html class="light" lang="pt-BR"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Execução de Treino - PlanoB</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "secondary-dim": "#00576c",
-                      "primary-fixed-dim": "#5091ff",
-                      "on-tertiary": "#fff2cd",
-                      "surface": "#f7f5ff",
-                      "surface-tint": "#0058ba",
-                      "on-surface": "#232c51",
-                      "surface-container-low": "#efefff",
-                      "secondary-container": "#80deff",
-                      "tertiary-fixed": "#ffd709",
-                      "on-tertiary-container": "#5b4b00",
-                      "inverse-surface": "#020a2f",
-                      "primary-fixed": "#6c9fff",
-                      "surface-container-highest": "#d5dbff",
-                      "tertiary-dim": "#5e4e00",
-                      "on-secondary-container": "#004e61",
-                      "outline-variant": "#a2abd7",
-                      "surface-container-lowest": "#ffffff",
-                      "surface-dim": "#cad2ff",
-                      "on-secondary": "#e2f6ff",
-                      "on-error-container": "#570008",
-                      "on-background": "#232c51",
-                      "on-secondary-fixed": "#003a48",
-                      "surface-variant": "#d5dbff",
-                      "inverse-on-surface": "#929bc6",
-                      "surface-container-high": "#dde1ff",
-                      "on-tertiary-fixed-variant": "#665500",
-                      "on-tertiary-fixed": "#453900",
-                      "secondary": "#00647b",
-                      "on-primary-container": "#00214e",
-                      "on-primary-fixed-variant": "#002a60",
-                      "surface-container": "#e4e7ff",
-                      "background": "#f7f5ff",
-                      "on-secondary-fixed-variant": "#00586d",
-                      "on-error": "#ffefee",
-                      "primary-dim": "#004da4",
-                      "tertiary-container": "#ffd709",
-                      "outline": "#6c759e",
-                      "inverse-primary": "#4a8eff",
-                      "on-primary": "#f0f2ff",
-                      "error-container": "#fb5151",
-                      "secondary-fixed": "#80deff",
-                      "primary-container": "#6c9fff",
-                      "primary": "#0058ba",
-                      "surface-bright": "#f7f5ff",
-                      "error-dim": "#9f0519",
-                      "tertiary": "#6c5a00",
-                      "on-primary-fixed": "#000000",
-                      "tertiary-fixed-dim": "#efc900",
-                      "on-surface-variant": "#505a81",
-                      "secondary-fixed-dim": "#37d4ff",
-                      "error": "#b31b25"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "fontFamily": {
-                      "headline": ["Lexend"],
-                      "body": ["Manrope"],
-                      "label": ["Manrope"]
-              }
-            },
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title><%= video.titulo %> - PlanoB</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#f7f5ff",
+            "tertiary-dim": "#5e4e00",
+            "error": "#b31b25",
+            "surface-dim": "#cad2ff",
+            "outline-variant": "#a2abd7",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "inverse-primary": "#4a8eff",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "outline": "#6c759e",
+            "inverse-on-surface": "#929bc6",
+            "error-container": "#fb5151",
+            "surface-variant": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "primary-container": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-error": "#ffefee",
+            "on-tertiary": "#fff2cd",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-high": "#dde1ff",
+            "secondary-dim": "#00576c",
+            "on-secondary-fixed-variant": "#00586d",
+            "on-tertiary-container": "#5b4b00",
+            "tertiary-fixed": "#ffd709",
+            "on-primary-fixed": "#000000",
+            "on-primary": "#f0f2ff",
+            "on-error-container": "#570008",
+            "secondary-fixed": "#80deff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "primary-fixed-dim": "#5091ff",
+            "surface-container": "#e4e7ff",
+            "primary-dim": "#004da4",
+            "on-background": "#232c51",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-primary-container": "#00214e",
+            "surface-container-low": "#efefff",
+            "secondary": "#00647b",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "surface-tint": "#0058ba",
+            "background": "#f7f5ff",
+            "on-secondary-fixed": "#003a48",
+            "error-dim": "#9f0519",
+            "tertiary": "#6c5a00"
           },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
         }
-    </script>
-<style>
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3 { font-family: 'Lexend', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .text-editorial {
-            letter-spacing: -0.02em;
-        }
-        .glass-dark {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
-        }
-        .timer-glow {
-            box-shadow: 0 0 20px rgba(0, 88, 186, 0.15);
-        }
-    
-    /* Ajustes gerais de responsividade */
-    img, video { max-width: 100%; height: auto; }
-    a, button { -webkit-tap-highlight-color: transparent; }
-    @media (max-width: 768px) {
-      body { overflow-x: hidden; }
-      main { max-width: 100%; }
-      .hide-mobile { display: none !important; }
+      }
     }
-</style>
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .glass-dark {
+      background: rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(14px);
+    }
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background: #f7f5ff;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed strong.logo-header,
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      header.fixed menu {
+        gap: 8px;
+      }
+
+      header.fixed button,
+      header.fixed a {
+        padding: 8px;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      main section.max-w-6xl {
+        gap: 18px;
+      }
+
+      article.execution-hero {
+        padding: 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.execution-hero h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      article.execution-hero p {
+        font-size: 0.95rem !important;
+      }
+
+      section.video-player {
+        border-radius: 28px !important;
+      }
+
+      section.video-player article.video-top-info {
+        top: 14px !important;
+        left: 14px !important;
+        gap: 8px !important;
+      }
+
+      section.video-player article.video-top-info section,
+      section.video-player article.video-top-info article {
+        font-size: 0.62rem !important;
+        padding: 5px 10px !important;
+      }
+
+      section.video-player button.play-button {
+        width: 70px !important;
+        height: 70px !important;
+      }
+
+      section.video-player button.play-button i {
+        font-size: 2.4rem !important;
+      }
+
+      section.video-player section.video-controls {
+        display: none !important;
+      }
+
+      section.info-card,
+      aside.sequence-card {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      section.info-card h3,
+      aside.sequence-card h2 {
+        font-size: 1.25rem !important;
+      }
+
+      aside.sequence-card {
+        position: static !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 64px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
+        color: #0058ba !important;
+        opacity: 1 !important;
+        background: #d5dbff;
+      }
+
+      nav[aria-label="Navegação mobile"] a:hover {
+        color: #0058ba !important;
+        opacity: 1 !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      article.execution-hero h1 {
+        font-size: 1.75rem !important;
+      }
+
+      section.video-player button.play-button {
+        width: 62px !important;
+        height: 62px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 58px;
+        padding: 10px 6px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
+    }
+  </style>
 </head>
-<body class="bg-surface text-on-surface min-h-screen">
-<!-- TopNavBar -->
-<nav class="bg-surface/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
-<section class="text-2xl font-black tracking-tight text-primary transition-transform active:scale-95 duration-200">
-            PlanoB
+
+<body class="bg-surface text-on-surface">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/painelfree" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+    </nav>
+
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+
+      <li>
+        <a href="/perfilaluno"
+           class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center"
+           aria-label="Perfil">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">account_circle</i>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <!-- Sidebar Desktop -->
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+            <img
+              class="w-12 h-12 rounded-full object-cover"
+              src="<%= aluno.foto %>"
+              alt="Foto de perfil do aluno"
+            />
+          <% } else { %>
+            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
+        </picture>
+
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">Portal do Aluno</p>
+          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelfree">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+        <em class="not-italic">Treinos</em>
+      </a>
+
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/videosfree" aria-current="page">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+        <em class="not-italic">Vídeos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelfree#planos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+        <em class="not-italic">Planos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilaluno">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- Main -->
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <!-- Hero -->
+      <article class="execution-hero md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+
+        <section class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+
+          <hgroup class="max-w-3xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Execução do Exercício
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              <%= video.titulo %>
+            </h1>
+
+            <p class="text-lg opacity-90 max-w-xl">
+              <%= video.categoria %> • <%= video.nivel %> • Duração: <%= video.duracao %>
+            </p>
+          </hgroup>
+
+
         </section>
-<article class="flex items-center gap-4">
-<article class="hidden md:flex items-center gap-4 mr-4 bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10">
-<i aria-hidden="true" class="material-symbols-outlined text-primary text-xl not-italic" style="font-variation-settings: 'FILL' 1;">emoji_events</i>
-<section class="flex flex-col">
-<strong class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Meta Semanal</strong>
-<section class="w-24 h-1 bg-surface-container-highest rounded-full mt-0.5 overflow-hidden">
-<section class="h-full w-3/4 bg-primary rounded-full"></section>
-</section>
-</section>
-</article>
-<a class="material-symbols-outlined text-on-surface opacity-70 hover:bg-surface-container transition-colors p-2 rounded-full" href="perfilaluno">account_circle</a>
-<a class="material-symbols-outlined text-on-surface opacity-70 hover:bg-surface-container transition-colors p-2 rounded-full" href="perfilaluno">settings</a>
-</article>
-</nav>
-<main class="max-w-[1440px] mx-auto px-4 md:px-6 py-6 md:py-8 pb-32 lg:pb-8">
-<section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-<!-- Video & Details Section -->
-<section class="lg:col-span-8 flex flex-col gap-8">
-<!-- Enhanced Immersive Video Player Container -->
-<section class="relative group aspect-video rounded-[2.5rem] overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
-<img alt="Exercício" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB-DMYzGZc1uuws4jYlXhTMomoJRe24gVss7FyAhpMn04ocsjZAHJBvz7jJmtbxqAN2KWlH6a4vWtjZ64cMTHK5sBvoOeRKwTand28WRzUiYdKeLVgUgEtFPH9ToB-NyextOG9ptFa9-BrBq1KA0WgFNKKn0FaoGCBbsGCGYPOOloNFVhoDdm1JC9wI9q76fFnpbfBF38Y-Y8q17EBQfrkBTmuCtkb4lQh34N8LoNhqFP2ro_lzyaAvyhUffGzce8XUyj3SkKC4rJS"/>
-<!-- Gradient Overlays -->
-<section class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-40 group-hover:opacity-60 transition-opacity duration-500"></section>
-<!-- Top Info Overlay -->
-<article class="absolute top-6 left-8 flex items-center gap-3">
-<section class="bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-black tracking-widest uppercase">Ao Vivo</section>
-<article class="glass-dark text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
-<strong class="w-2 h-2 bg-error rounded-full animate-pulse"></strong>
-                            4.2k assistindo
-                        </article>
-</article>
-<!-- Centered Play Button -->
-<article class="absolute inset-0 flex items-center justify-center">
-<a class="w-24 h-24 bg-primary/90 hover:bg-primary text-white rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(0,88,186,0.4)] transform transition-all hover:scale-110 active:scale-95 group/play" href="execucaoexercicios">
-<i aria-hidden="true" class="material-symbols-outlined text-5xl translate-x-1 not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
-</a>
-</article>
-<!-- Bottom Controls Bar -->
-<section class="absolute bottom-0 left-0 w-full p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-<section class="flex flex-col gap-4">
-<!-- Progress Bar -->
-<section class="w-full h-1.5 bg-white/20 rounded-full relative cursor-pointer group/progress overflow-hidden">
-<section class="absolute left-0 top-0 h-full w-2/3 bg-primary rounded-full transition-all group-hover/progress:h-full"></section>
-</section>
-<article class="flex items-center justify-between">
-<article class="flex items-center gap-6">
-<button class="text-white hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined text-3xl not-italic">pause</i>
-</button>
-<article class="flex items-center gap-3">
-<button class="text-white hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">volume_up</i>
-</button>
-<section class="w-24 h-1 bg-white/20 rounded-full hidden sm:block">
-<section class="w-1/2 h-full bg-white rounded-full"></section>
-</section>
-</article>
-<strong class="text-white/90 text-sm font-medium tracking-tight">04:20 / 12:00</strong>
-</article>
-<article class="flex items-center gap-6">
-<a class="text-white hover:text-primary transition-colors" href="perfilaluno"><i aria-hidden="true" class="material-symbols-outlined not-italic">settings</i></a>
-<button class="text-white hover:text-primary transition-colors"><i aria-hidden="true" class="material-symbols-outlined not-italic">fullscreen</i></button>
-</article>
-</article>
-</section>
-</section>
-</section>
-<!-- Title and Enhanced Timer -->
-<article class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-<section class="flex-1">
-<article class="flex items-center gap-2 mb-3">
-<strong class="w-2 h-2 bg-primary rounded-full"></strong>
-<strong class="text-primary font-black tracking-[0.2em] uppercase text-[10px]">Exercício Atual • Série 2 de 4</strong>
-</article>
-<h1 class="text-4xl md:text-6xl font-black text-editorial text-on-surface leading-[1.1] tracking-tight">
-                            Agachamento <br/><strong class="text-primary">Livre com Barra</strong>
-</h1>
-</section>
-<!-- Refined Rest Timer -->
-<section class="flex-shrink-0">
-<section class="bg-surface-container-lowest p-6 md:p-8 rounded-[3rem] shadow-xl border border-outline-variant/10 timer-glow relative overflow-hidden group">
-<section class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></section>
-<article class="relative z-10 flex flex-col items-center">
-<strong class="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.2em] mb-1">Descanso</strong>
-<article class="flex items-center gap-4">
-<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all active:scale-90">
-<i aria-hidden="true" class="material-symbols-outlined font-bold not-italic">remove</i>
-</button>
-<strong class="text-5xl font-black text-on-surface font-headline tabular-nums tracking-tighter">00:45</strong>
-<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all active:scale-90">
-<i aria-hidden="true" class="material-symbols-outlined font-bold not-italic">add</i>
-</button>
-</article>
-<section class="mt-4 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<section class="h-full w-2/3 bg-primary rounded-full animate-pulse"></section>
-</section>
-<button class="mt-4 text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Reiniciar Tempo</button>
-</article>
-</section>
-</section>
-</article>
-<!-- Enhanced Instructions Bento Grid -->
-<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<section class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
-<article class="flex items-center gap-4 mb-6">
-<article class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">description</i>
-</article>
-<section>
-<h3 class="font-black text-xl tracking-tight">Execução</h3>
-<p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Como fazer</p>
-</section>
-</article>
-<p class="text-on-surface-variant leading-relaxed font-medium">
-                            Mantenha os pés afastados na largura dos ombros. Desça controladamente empurrando o quadril para trás como se fosse sentar em uma cadeira. Mantenha o peito aberto e o core engajado.
-                        </p>
-</section>
-<section class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
-<article class="flex items-center gap-4 mb-6">
-<article class="w-12 h-12 rounded-2xl bg-error/10 flex items-center justify-center text-error">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">warning</i>
-</article>
-<section>
-<h3 class="font-black text-xl tracking-tight text-on-surface">Atenção</h3>
-<p class="text-xs text-error font-bold uppercase tracking-wider">Pontos críticos</p>
-</section>
-</article>
-<ul class="space-y-4">
-<li class="flex items-start gap-3 text-on-surface-variant group">
-<i aria-hidden="true" class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform not-italic">close</i>
-<strong class="font-medium">Não deixe os joelhos entrarem (valgo dinâmico) durante o movimento.</strong>
-</li>
-<li class="flex items-start gap-3 text-on-surface-variant group">
-<i aria-hidden="true" class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform not-italic">close</i>
-<strong class="font-medium">Evite curvar a região lombar excessivamente durante a descida.</strong>
-</li>
-</ul>
-</section>
-</section>
-</section>
-<!-- Enhanced Sidebar: Workout Sequence -->
-<aside class="lg:col-span-4">
-<section class="bg-surface-container-lowest p-8 rounded-[3rem] shadow-2xl border border-outline-variant/10 sticky top-28 overflow-hidden">
-<!-- Subtle pattern overlay -->
-<section class="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
-<i aria-hidden="true" class="material-symbols-outlined text-9xl not-italic">fitness_center</i>
-</section>
-<article class="flex justify-between items-end mb-10 relative">
-<section>
-<h2 class="text-3xl font-black tracking-tighter">Treino do Dia</h2>
-<p class="text-on-surface-variant text-sm font-semibold">Sessão de Membros Inferiores</p>
-</section>
-<article class="flex flex-col items-end">
-<strong class="text-primary font-black text-2xl leading-none">45</strong>
-<strong class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">min total</strong>
-</article>
-</article>
-<section class="space-y-4 relative">
-<!-- Exercise Item: Completed -->
-<article class="flex items-center gap-4 p-4 rounded-[1.5rem] bg-surface-container-low border border-transparent opacity-60">
-<section class="relative">
-<article class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white">
-<i aria-hidden="true" class="material-symbols-outlined text-2xl font-bold not-italic">check</i>
-</article>
-<article class="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white rounded-full flex items-center justify-center">
-<i aria-hidden="true" class="material-symbols-outlined text-[10px] font-bold not-italic">done_all</i>
-</article>
-</section>
-<section class="flex-1">
-<h4 class="font-extrabold text-sm text-on-surface">Aquecimento Mobilidade</h4>
-<p class="text-[11px] font-bold text-primary uppercase tracking-wider mt-0.5">Finalizado</p>
-</section>
-</article>
-<!-- Exercise Item: Active -->
-<article class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-primary text-white shadow-xl shadow-primary/20 ring-4 ring-primary/10 scale-[1.03] transition-transform">
-<article class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center animate-pulse">
-<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic" style="font-variation-settings: 'FILL' 1;">fitness_center</i>
-</article>
-<section class="flex-1">
-<h4 class="font-black text-base leading-tight">Agachamento Livre</h4>
-<p class="text-xs font-bold text-white/80 mt-1">Série 2 de 4 • 12 reps</p>
-</section>
-<article class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-<i aria-hidden="true" class="material-symbols-outlined text-base not-italic">play_arrow</i>
-</article>
-</article>
-<!-- Exercise Item: Pending -->
-<article class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
-<article class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">fitness_center</i>
-</article>
-<section class="flex-1">
-<h4 class="font-extrabold text-sm">Supino Reto</h4>
-<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5">3 séries • 10 reps</p>
-</section>
-<i aria-hidden="true" class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors not-italic">lock</i>
-</article>
-<!-- Exercise Item: Pending -->
-<article class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
-<article class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">fitness_center</i>
-</article>
-<section class="flex-1">
-<h4 class="font-extrabold text-sm">Remada Curvada</h4>
-<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5">3 séries • 15 reps</p>
-</section>
-<i aria-hidden="true" class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors not-italic">lock</i>
-</article>
-</section>
-<section class="mt-10 space-y-3">
-<a class="w-full py-5 bg-primary text-white text-base font-black rounded-3xl shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all active:scale-[0.98] text-center block" href="progressosemanal">
-                            Concluir Exercício
-                        </a>
-<a class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-2xl transition-colors text-center block" href="videos">
-                            Pular Exercício
-                        </a>
-</section>
-</section>
-</aside>
-</section>
-</main>
-<!-- Mobile Bottom Navigation -->
-<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-surface/90 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-20px_40px_rgba(0,0,0,0.05)] border-t border-outline-variant/10">
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 p-2 hover:opacity-100 transition-opacity" href="painelfree">
-<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">home</i>
-<strong class="text-[10px] font-black uppercase tracking-tighter mt-1">Início</strong>
-</a>
-<a class="flex flex-col items-center justify-center relative -top-6" href="execucaoexercicios">
-<article class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-primary/40 ring-8 ring-surface">
-<i aria-hidden="true" class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
-</article>
-<strong class="text-[10px] font-black uppercase tracking-tighter mt-2 text-primary">Treinar</strong>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-60 p-2 hover:opacity-100 transition-opacity" href="perfilaluno">
-<i aria-hidden="true" class="material-symbols-outlined text-2xl not-italic">person</i>
-<strong class="text-[10px] font-black uppercase tracking-tighter mt-1">Perfil</strong>
-</a>
-</nav>
-</body></html>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary-fixed opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <!-- Player -->
+      <section class="md:col-span-8 flex flex-col gap-6">
+
+        <section class="video-player relative group aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
+          <img
+            alt="<%= video.titulo %>"
+            class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
+            src="<%= video.capa %>"
+          />
+
+          <section class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-50 group-hover:opacity-60 transition-opacity duration-500"></section>
+
+          <article class="video-top-info absolute top-6 left-8 flex items-center gap-3">
+            <section class="bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-black tracking-widest uppercase">
+              Aula
+            </section>
+
+            <article class="glass-dark text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
+              <strong class="w-2 h-2 bg-error rounded-full animate-pulse"></strong>
+              <%= video.duracao %>
+            </article>
+          </article>
+
+          <article class="absolute inset-0 flex items-center justify-center">
+            <button
+              type="button"
+              class="play-button w-24 h-24 bg-primary/90 hover:bg-primary text-white rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(0,88,186,0.4)] transform transition-all hover:scale-110 active:scale-95"
+              aria-label="Reproduzir vídeo"
+            >
+              <i aria-hidden="true" class="material-symbols-outlined text-5xl translate-x-1 not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
+            </button>
+          </article>
+
+          <section class="video-controls absolute bottom-0 left-0 w-full p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+            <section class="flex flex-col gap-4">
+              <section class="w-full h-1.5 bg-white/20 rounded-full relative cursor-pointer overflow-hidden">
+                <section class="absolute left-0 top-0 h-full w-2/3 bg-primary rounded-full"></section>
+              </section>
+
+              <article class="flex items-center justify-between">
+                <article class="flex items-center gap-6">
+                  <button class="text-white hover:text-primary transition-colors" type="button">
+                    <i aria-hidden="true" class="material-symbols-outlined text-3xl not-italic">pause</i>
+                  </button>
+
+                  <article class="flex items-center gap-3">
+                    <button class="text-white hover:text-primary transition-colors" type="button">
+                      <i aria-hidden="true" class="material-symbols-outlined not-italic">volume_up</i>
+                    </button>
+
+                    <section class="w-24 h-1 bg-white/20 rounded-full hidden sm:block">
+                      <section class="w-1/2 h-full bg-white rounded-full"></section>
+                    </section>
+                  </article>
+
+                  <strong class="text-white/90 text-sm font-medium tracking-tight">00:00 / <%= video.duracao %></strong>
+                </article>
+
+                <article class="flex items-center gap-6">
+                  <a class="text-white hover:text-primary transition-colors" href="/perfilaluno">
+                    <i aria-hidden="true" class="material-symbols-outlined not-italic">settings</i>
+                  </a>
+
+                  <button class="text-white hover:text-primary transition-colors" type="button">
+                    <i aria-hidden="true" class="material-symbols-outlined not-italic">fullscreen</i>
+                  </button>
+                </article>
+              </article>
+            </section>
+          </section>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <section class="info-card bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+            <article class="flex items-center gap-4 mb-6">
+              <article class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                <i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">description</i>
+              </article>
+
+              <section>
+                <h3 class="font-black text-xl tracking-tight">Execução</h3>
+                <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Como fazer</p>
+              </section>
+            </article>
+
+            <p class="text-on-surface-variant leading-relaxed font-medium">
+              <%= video.descricao %>
+            </p>
+          </section>
+
+          <section class="info-card bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+            <article class="flex items-center gap-4 mb-6">
+              <article class="w-12 h-12 rounded-2xl bg-error/10 flex items-center justify-center text-error">
+                <i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings: 'FILL' 1;">warning</i>
+              </article>
+
+              <section>
+                <h3 class="font-black text-xl tracking-tight text-on-surface">Atenção</h3>
+                <p class="text-xs text-error font-bold uppercase tracking-wider">Pontos críticos</p>
+              </section>
+            </article>
+
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-on-surface-variant group">
+                <i aria-hidden="true" class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform not-italic">close</i>
+                <strong class="font-medium"><%= video.atencao1 %></strong>
+              </li>
+
+              <li class="flex items-start gap-3 text-on-surface-variant group">
+                <i aria-hidden="true" class="material-symbols-outlined text-error text-xl mt-0.5 group-hover:scale-110 transition-transform not-italic">close</i>
+                <strong class="font-medium"><%= video.atencao2 %></strong>
+              </li>
+            </ul>
+          </section>
+
+        </section>
+
+      </section>
+
+      <!-- Lista / Ações -->
+      <aside class="md:col-span-4">
+        <section class="sequence-card bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10 sticky top-28 overflow-hidden">
+
+          <section class="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+            <i aria-hidden="true" class="material-symbols-outlined text-9xl not-italic">fitness_center</i>
+          </section>
+
+          <article class="flex justify-between items-end mb-8 relative">
+            <section>
+              <h2 class="text-2xl font-black tracking-tight headline">Vídeos Free</h2>
+              <p class="text-on-surface-variant text-sm font-semibold">Biblioteca demonstrativa</p>
+            </section>
+
+            <article class="flex flex-col items-end">
+              <strong class="text-primary font-black text-2xl leading-none"><%= video.duracaoMin %></strong>
+              <strong class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">min</strong>
+            </article>
+          </article>
+
+          <section class="space-y-4 relative">
+            <% videosFree.forEach(function(item) { %>
+              <% if (item.slug === video.slug) { %>
+
+                <article class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-primary text-white shadow-xl shadow-primary/20 ring-4 ring-primary/10 transition-transform">
+                  <article class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="<%= item.capa %>" alt="<%= item.titulo %>" class="w-full h-full object-cover">
+                  </article>
+
+                  <section class="flex-1">
+                    <h4 class="font-black text-base leading-tight"><%= item.titulo %></h4>
+                    <p class="text-xs font-bold text-white/80 mt-1"><%= item.categoria %> • <%= item.duracao %></p>
+                  </section>
+
+                  <article class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                    <i aria-hidden="true" class="material-symbols-outlined text-base not-italic">play_arrow</i>
+                  </article>
+                </article>
+
+              <% } else { %>
+
+                <a href="/execucaoexercicios?video=<%= item.slug %>" class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
+                  <article class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors overflow-hidden shrink-0">
+                    <img src="<%= item.capa %>" alt="<%= item.titulo %>" class="w-full h-full object-cover">
+                  </article>
+
+                  <section class="flex-1">
+                    <h4 class="font-extrabold text-sm"><%= item.titulo %></h4>
+                    <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5"><%= item.categoria %> • <%= item.duracao %></p>
+                  </section>
+
+                  <i aria-hidden="true" class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors not-italic">play_arrow</i>
+                </a>
+
+              <% } %>
+            <% }) %>
+          </section>
+
+          <section class="mt-8 space-y-3">
+            <form action="/api/aluno/registrar-treino" method="POST">
+              <input type="hidden" name="duracao_min" value="<%= video.duracaoMin %>">
+              <input type="hidden" name="observacao" value="<%= video.titulo %> concluído pelo vídeo demonstrativo.">
+
+              <button
+                type="submit"
+                class="w-full py-5 bg-primary text-white text-base font-black rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all active:scale-95 text-center block"
+              >
+                Concluir Exercício
+              </button>
+            </form>
+
+            <a class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-full transition-colors text-center block" href="/videosfree">
+              Pular Exercício
+            </a>
+          </section>
+
+        </section>
+      </aside>
+
+    </section>
+  </main>
+
+  <!-- Menu Mobile -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
+
+    <a href="/painelfree"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinos</em>
+    </a>
+
+    <a href="/videosfree"
+       class="flex flex-col items-center justify-center text-[#0058ba] dark:text-[#d5dbff] opacity-100 p-3 rounded-[18px] bg-[#d5dbff] hover:opacity-100 transition-opacity"
+       aria-current="page">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true"
+         style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">play_circle</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+
+    <a href="/painelfree#planos"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+    </a>
+
+    <a href="/perfilaluno"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+
+  </nav>
+
+</body>
+</html>
