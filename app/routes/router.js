@@ -423,7 +423,9 @@ router.get('/videos', authAluno, (req, res) => {
 
     res.render('videos', {
         aluno: req.session.aluno,
-        videosFree
+        videosFree,
+        linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+        linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
 })
 
@@ -434,24 +436,432 @@ router.get('/execucaoexercicios', authAluno, (req, res) => {
     res.render('execucaoexercicios', {
         aluno: req.session.aluno,
         video: videoSelecionado,
-        videosFree
+        videosFree,
+        linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+        linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
 })
 
-router.get('/progressosemanal', authAluno, (req, res) => {
-    res.render('progressosemanal', { aluno: req.session.aluno })
+router.get('/progressosemanal', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    function redirecionarPainelAluno(idPlano) {
+        const plano = Number(idPlano)
+
+        if (plano === 2) {
+            return '/painellazuli'
+        }
+
+        if (plano === 3) {
+            return '/paineldiamante'
+        }
+
+        return '/painelfree'
+    }
+
+    function redirecionarVideosAluno(idPlano) {
+        const plano = Number(idPlano)
+
+        if (plano >= 2) {
+            return '/videos'
+        }
+
+        return '/videosfree'
+    }
+
+    try {
+        const [resumoSemanaRows] = await db.query(
+            `SELECT 
+                COUNT(*) AS total_treinos,
+                COUNT(DISTINCT data_treino) AS dias_treinados,
+                COALESCE(SUM(duracao_min), 0) AS tempo_total_min,
+                COALESCE(SUM(calorias), 0) AS calorias_total,
+                COALESCE(MAX(bpm_maximo), 0) AS bpm_maximo
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)`,
+            [idAluno]
+        )
+
+        const [resumoSemanaAnteriorRows] = await db.query(
+            `SELECT 
+                COALESCE(SUM(duracao_min), 0) AS tempo_total_min
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 7 DAY)
+                AND DATE_SUB(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 1 DAY)`,
+            [idAluno]
+        )
+
+        const [treinosPorDiaRows] = await db.query(
+            `SELECT 
+                data_treino,
+                WEEKDAY(data_treino) AS dia_semana,
+                COUNT(*) AS total_treinos,
+                COALESCE(SUM(duracao_min), 0) AS total_minutos
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)
+             GROUP BY data_treino, WEEKDAY(data_treino)
+             ORDER BY data_treino`,
+            [idAluno]
+        )
+
+        const [streakRows] = await db.query(
+            `SELECT 
+                streak_atual,
+                streak_maximo,
+                ultima_atividade
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        const [descontosRows] = await db.query(
+            `SELECT 
+                codigo,
+                percentual,
+                dias_streak,
+                usado,
+                validade
+             FROM desconto
+             WHERE id_aluno = ?
+             ORDER BY dias_streak ASC
+             LIMIT 4`,
+            [idAluno]
+        )
+
+        const resumoSemana = resumoSemanaRows[0] || {
+            total_treinos: 0,
+            dias_treinados: 0,
+            tempo_total_min: 0,
+            calorias_total: 0,
+            bpm_maximo: 0
+        }
+
+        const tempoAtual = Number(resumoSemana.tempo_total_min) || 0
+        const tempoAnterior = Number(resumoSemanaAnteriorRows[0]?.tempo_total_min) || 0
+
+        let variacaoPct = 0
+
+        if (tempoAnterior > 0) {
+            variacaoPct = Math.round(((tempoAtual - tempoAnterior) / tempoAnterior) * 100)
+        } else if (tempoAtual > 0) {
+            variacaoPct = 100
+        }
+
+        const diasSemana = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
+
+        const graficoSemana = diasSemana.map((dia, index) => {
+            const encontrado = treinosPorDiaRows.find(item => Number(item.dia_semana) === index)
+
+            return {
+                dia,
+                minutos: encontrado ? Number(encontrado.total_minutos) : 0,
+                treinos: encontrado ? Number(encontrado.total_treinos) : 0
+            }
+        })
+
+        const maiorMinuto = Math.max(...graficoSemana.map(item => item.minutos), 100)
+
+        const graficoSemanaNormalizado = graficoSemana.map(item => {
+            return {
+                ...item,
+                porcentagem: maiorMinuto > 0 ? Math.round((item.minutos / maiorMinuto) * 100) : 0
+            }
+        })
+
+        const metaDias = 5
+        const porcentagemMeta = Math.min(Math.round((Number(resumoSemana.dias_treinados) / metaDias) * 100), 100)
+        const treinosRestantes = Math.max(metaDias - Number(resumoSemana.dias_treinados), 0)
+
+        const streak = streakRows[0] || {
+            streak_atual: 0,
+            streak_maximo: 0,
+            ultima_atividade: null
+        }
+
+        res.render('progressosemanal', {
+            aluno: req.session.aluno,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            progresso: {
+                resumoSemana,
+                graficoSemana: graficoSemanaNormalizado,
+                streak,
+                descontos: descontosRows,
+                variacaoPct,
+                metaDias,
+                porcentagemMeta,
+                treinosRestantes
+            }
+        })
+    } catch (err) {
+        console.error('[progressosemanal]', err)
+
+        res.render('progressosemanal', {
+            aluno: req.session.aluno,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            progresso: {
+                resumoSemana: {
+                    total_treinos: 0,
+                    dias_treinados: 0,
+                    tempo_total_min: 0,
+                    calorias_total: 0,
+                    bpm_maximo: 0
+                },
+                graficoSemana: [
+                    { dia: 'Seg', minutos: 0, treinos: 0, porcentagem: 0 },
+                    { dia: 'Ter', minutos: 0, treinos: 0, porcentagem: 0 },
+                    { dia: 'Qua', minutos: 0, treinos: 0, porcentagem: 0 },
+                    { dia: 'Qui', minutos: 0, treinos: 0, porcentagem: 0 },
+                    { dia: 'Sex', minutos: 0, treinos: 0, porcentagem: 0 },
+                    { dia: 'Sáb', minutos: 0, treinos: 0, porcentagem: 0 },
+                    { dia: 'Dom', minutos: 0, treinos: 0, porcentagem: 0 }
+                ],
+                streak: {
+                    streak_atual: 0,
+                    streak_maximo: 0,
+                    ultima_atividade: null
+                },
+                descontos: [],
+                variacaoPct: 0,
+                metaDias: 5,
+                porcentagemMeta: 0,
+                treinosRestantes: 5
+            },
+            erro: 'Erro ao carregar progresso semanal.'
+        })
+    }
 })
 
-router.get('/streakprogress', authAluno, (req, res) => {
-    res.render('streakprogress', { aluno: req.session.aluno })
+router.get('/streakprogress', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    const recompensasPadrao = [
+        { dias: 10, percentual: 5, codigo: 'OFENSIVA10' },
+        { dias: 40, percentual: 20, codigo: 'OFENSIVA40' },
+        { dias: 50, percentual: 35, codigo: 'OFENSIVA50' },
+        { dias: 90, percentual: 50, codigo: 'OFENSIVA90' }
+    ]
+
+    try {
+        const [streakRows] = await db.query(
+            `SELECT streak_atual, streak_maximo, ultima_atividade
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        const streak = streakRows[0] || {
+            streak_atual: 0,
+            streak_maximo: 0,
+            ultima_atividade: null
+        }
+
+        for (const recompensa of recompensasPadrao) {
+            if (Number(streak.streak_atual) >= recompensa.dias) {
+                const [existe] = await db.query(
+                    `SELECT id_desconto 
+                     FROM desconto 
+                     WHERE id_aluno = ? 
+                     AND codigo = ?
+                     LIMIT 1`,
+                    [idAluno, recompensa.codigo]
+                )
+
+                if (existe.length === 0) {
+                    await db.query(
+                        `INSERT INTO desconto 
+                         (id_aluno, codigo, percentual, dias_streak, usado, validade)
+                         VALUES (?, ?, ?, ?, 0, DATE_ADD(CURDATE(), INTERVAL 30 DAY))`,
+                        [
+                            idAluno,
+                            recompensa.codigo,
+                            recompensa.percentual,
+                            recompensa.dias
+                        ]
+                    )
+                }
+            }
+        }
+
+        const [descontosRows] = await db.query(
+            `SELECT id_desconto, codigo, percentual, dias_streak, usado, validade
+             FROM desconto
+             WHERE id_aluno = ?
+             ORDER BY dias_streak ASC`,
+            [idAluno]
+        )
+
+        res.render('streakprogress', {
+            aluno: req.session.aluno,
+            streak,
+            descontos: descontosRows,
+            recompensas: recompensasPadrao,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+        })
+    } catch (err) {
+        console.error('[streakprogress]', err)
+
+        res.render('streakprogress', {
+            aluno: req.session.aluno,
+            streak: {
+                streak_atual: 0,
+                streak_maximo: 0,
+                ultima_atividade: null
+            },
+            descontos: [],
+            recompensas: recompensasPadrao,
+            erro: 'Erro ao carregar sua ofensiva.',
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+        })
+    }
 })
 
-router.get('/feedbackaluno', authAluno, (req, res) => {
+router.get('/feedbackaluno', authAluno, async (req, res) => {
     if (Number(req.session.aluno.id_plano) === 1) {
         return res.redirect('/perfilaluno')
     }
 
-    res.render('feedbackaluno', { aluno: req.session.aluno })
+    const idAluno = req.session.aluno.id
+
+    try {
+        const [professorRows] = await db.query(
+            `SELECT p.id_professor, p.nome, p.email, p.cref, p.foto_perfil
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             JOIN professor p ON p.id_professor = ft.id_professor
+             WHERE af.id_aluno = ?
+             AND af.ativo = 1
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        res.render('feedbackaluno', {
+            aluno: req.session.aluno,
+            professorResponsavel: professorRows[0] || null,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+        })
+    } catch (err) {
+        console.error('[feedbackaluno GET]', err)
+
+        res.render('feedbackaluno', {
+            aluno: req.session.aluno,
+            professorResponsavel: null,
+            erro: 'Erro ao carregar professor responsável.',
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+        })
+    }
+})
+
+router.post('/feedbackaluno', authAluno, async (req, res) => {
+    if (Number(req.session.aluno.id_plano) === 1) {
+        return res.redirect('/perfilaluno')
+    }
+
+    const idAluno = req.session.aluno.id
+    const intensidade = req.body['intensity']
+    const cansaco = Number(req.body['tiredness-range']) || null
+    const texto = req.body['trainer-message']
+
+    async function renderFeedback(payload = {}) {
+        const [professorRows] = await db.query(
+            `SELECT p.id_professor, p.nome, p.email, p.cref, p.foto_perfil
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             JOIN professor p ON p.id_professor = ft.id_professor
+             WHERE af.id_aluno = ?
+             AND af.ativo = 1
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        return res.render('feedbackaluno', {
+            aluno: req.session.aluno,
+            professorResponsavel: professorRows[0] || null,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            ...payload
+        })
+    }
+
+    if (!texto || !texto.trim()) {
+        return renderFeedback({
+            erro: 'Escreva uma mensagem para enviar ao professor.'
+        })
+    }
+
+    try {
+        const [fichaRows] = await db.query(
+            `SELECT ft.id_professor 
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             WHERE af.id_aluno = ? 
+             AND af.ativo = 1
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        if (fichaRows.length === 0) {
+            return renderFeedback({
+                erro: 'Nenhum professor associado à sua conta ainda.'
+            })
+        }
+
+        const idProfessor = fichaRows[0].id_professor
+        let idChat
+
+        const [chatRows] = await db.query(
+            `SELECT id_chat 
+             FROM chat_feedback
+             WHERE id_professor = ? 
+             AND id_aluno = ?
+             LIMIT 1`,
+            [idProfessor, idAluno]
+        )
+
+        if (chatRows.length > 0) {
+            idChat = chatRows[0].id_chat
+        } else {
+            const [chatResult] = await db.query(
+                `INSERT INTO chat_feedback (id_professor, id_aluno)
+                 VALUES (?, ?)`,
+                [idProfessor, idAluno]
+            )
+
+            idChat = chatResult.insertId
+        }
+
+        await db.query(
+            `INSERT INTO mensagem_feedback
+             (id_chat, remetente, intensidade, nivel_cansaco, texto)
+             VALUES (?, 'aluno', ?, ?, ?)`,
+            [idChat, intensidade || null, cansaco, texto.trim()]
+        )
+
+        return renderFeedback({
+            sucesso: 'Feedback enviado ao seu professor!'
+        })
+    } catch (err) {
+        console.error('[feedbackaluno POST]', err)
+
+        return renderFeedback({
+            erro: 'Erro ao enviar feedback.'
+        })
+    }
 })
 
 router.get('/pagamento', authAluno, async (req, res) => {

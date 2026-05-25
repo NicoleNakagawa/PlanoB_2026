@@ -240,7 +240,7 @@
       }
 
       nav[aria-label="Navegação mobile"] a {
-        min-width: 64px;
+        min-width: 58px;
         border-radius: 18px;
       }
 
@@ -272,13 +272,13 @@
       }
 
       nav[aria-label="Navegação mobile"] {
-        padding-left: 6px !important;
-        padding-right: 6px !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
       }
 
       nav[aria-label="Navegação mobile"] a {
-        min-width: 58px;
-        padding: 10px 6px !important;
+        min-width: 52px;
+        padding: 10px 4px !important;
       }
 
       nav[aria-label="Navegação mobile"] em {
@@ -291,19 +291,28 @@
 <body class="bg-surface text-on-surface">
 
   <%
+    const planoAluno = typeof aluno !== 'undefined' && aluno.id_plano ? Number(aluno.id_plano) : 1
+    const alunoPago = planoAluno >= 2
+
     const painelCorreto = typeof linkPainelAluno !== 'undefined'
       ? linkPainelAluno
-      : Number(aluno.id_plano) === 3
+      : planoAluno === 3
         ? '/paineldiamante'
-        : Number(aluno.id_plano) === 2
+        : planoAluno === 2
           ? '/painellazuli'
           : '/painelfree'
 
     const videosCorreto = typeof linkVideosAluno !== 'undefined'
       ? linkVideosAluno
-      : Number(aluno.id_plano) >= 2
+      : alunoPago
         ? '/videos'
         : '/videosfree'
+
+    const nomePlanoAluno = planoAluno === 3
+      ? 'Diamante'
+      : planoAluno === 2
+        ? 'Lazuli'
+        : 'Free'
 
     const dadosTreino = typeof dadosAluno !== 'undefined' && dadosAluno ? dadosAluno : {}
 
@@ -401,8 +410,10 @@
         </picture>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal do Aluno</p>
-          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
+          <p class="text-xs text-on-surface-variant">
+            <%= alunoPago ? 'Plano premium ativo' : 'Plano gratuito ativo' %>
+          </p>
         </figcaption>
       </figure>
     </header>
@@ -418,10 +429,22 @@
         <em class="not-italic">Vídeos</em>
       </a>
 
-      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>#planos">
-        <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
-        <em class="not-italic">Planos</em>
-      </a>
+      <% if (alunoPago) { %>
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/progressosemanal">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">monitoring</i>
+          <em class="not-italic">Progresso</em>
+        </a>
+
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackaluno">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+          <em class="not-italic">Feedback</em>
+        </a>
+      <% } else { %>
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>#planos">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+          <em class="not-italic">Planos</em>
+        </a>
+      <% } %>
 
       <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/perfilaluno" aria-current="page">
         <i class="material-symbols-outlined not-italic" aria-hidden="true" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24">person</i>
@@ -466,7 +489,7 @@
             <% } %>
 
             <figcaption class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-tertiary-fixed text-on-tertiary-fixed font-black px-4 py-1 rounded-full text-xs tracking-widest uppercase shadow-lg">
-              <%= typeof aluno !== 'undefined' && Number(aluno.id_plano) === 3 ? 'Diamante' : typeof aluno !== 'undefined' && Number(aluno.id_plano) === 2 ? 'Lazuli' : 'Free' %>
+              <%= nomePlanoAluno %>
             </figcaption>
           </figure>
 
@@ -500,9 +523,7 @@
 
           <li class="bg-surface-container-low rounded-2xl p-4">
             <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Plano atual</p>
-            <p class="font-bold text-primary">
-              <%= typeof aluno !== 'undefined' && Number(aluno.id_plano) === 3 ? 'Diamante' : typeof aluno !== 'undefined' && Number(aluno.id_plano) === 2 ? 'Lazuli' : 'Gratuito' %>
-            </p>
+            <p class="font-bold text-primary"><%= nomePlanoAluno %></p>
           </li>
         </ul>
 
@@ -510,7 +531,7 @@
           Voltar aos Treinos
         </a>
 
-        <a href="/logout" 
+        <a href="/logout"
           class="w-full bg-error text-white py-4 rounded-full font-bold shadow-lg shadow-error/20 hover:scale-[1.02] active:scale-95 transition-all text-center flex items-center justify-center gap-2">
           <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
           Sair da conta
@@ -577,7 +598,7 @@
         <article class="bg-primary rounded-3xl p-6 text-white relative overflow-hidden">
           <h3 class="text-xl font-extrabold headline mb-2">Continue treinando</h3>
           <p class="opacity-90 mb-5 max-w-lg">
-            Seu painel agora acompanha seu plano atual, então você sempre volta para o lugar certo.
+            Seu painel acompanha seu plano atual, então você sempre volta para o lugar certo.
           </p>
 
           <a href="<%= painelCorreto %>" class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
@@ -776,7 +797,7 @@
     </section>
   </main>
 
-  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
        aria-label="Navegação mobile">
 
     <a href="<%= painelCorreto %>"
@@ -791,11 +812,20 @@
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
     </a>
 
-    <a href="<%= painelCorreto %>#planos"
-       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
-      <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
-      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
-    </a>
+    <% if (alunoPago) { %>
+
+      <a href="/feedbackaluno"
+         class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
+      </a>
+    <% } else { %>
+      <a href="<%= painelCorreto %>#planos"
+         class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+        <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+      </a>
+    <% } %>
 
     <a href="/perfilaluno"
        class="flex flex-col items-center justify-center text-[#0058ba] dark:text-[#d5dbff] opacity-100 p-3 rounded-[18px] bg-[#d5dbff] hover:opacity-100 transition-opacity"

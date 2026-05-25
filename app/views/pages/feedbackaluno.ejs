@@ -1,312 +1,495 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
+
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlanoB - Feedback do Treino</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Feedback do Aluno</title>
+
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "primary-dim": "#004da4",
-            "primary-container": "#6c9fff",
-            "error-container": "#fb5151",
-            "on-primary-fixed-variant": "#002a60",
-            "error-dim": "#9f0519",
-            "surface-dim": "#cad2ff",
-            "surface-variant": "#d5dbff",
-            "inverse-on-surface": "#929bc6",
-            "error": "#b31b25",
-            "surface-container-lowest": "#ffffff",
-            "on-background": "#232c51",
-            "primary": "#0058ba",
-            "on-tertiary-fixed": "#453900",
-            "on-tertiary": "#fff2cd",
-            "secondary-dim": "#00576c",
-            "outline": "#6c759e",
-            "on-secondary": "#e2f6ff",
-            "tertiary-fixed-dim": "#efc900",
-            "surface-tint": "#0058ba",
-            "on-primary": "#f0f2ff",
-            "secondary": "#00647b",
-            "on-error-container": "#570008",
-            "inverse-primary": "#4a8eff",
-            "surface-container-low": "#efefff",
-            "on-secondary-container": "#004e61",
-            "on-secondary-fixed": "#003a48",
-            "surface-bright": "#f7f5ff",
-            "primary-fixed": "#6c9fff",
-            "tertiary-fixed": "#ffd709",
-            "tertiary-container": "#ffd709",
-            "inverse-surface": "#020a2f",
-            "on-tertiary-fixed-variant": "#665500",
-            "on-secondary-fixed-variant": "#00586d",
-            "on-primary-fixed": "#000000",
-            "secondary-fixed-dim": "#37d4ff",
-            "outline-variant": "#a2abd7",
-            "tertiary-dim": "#5e4e00",
-            "on-surface": "#232c51",
-            "surface-container-high": "#dde1ff",
-            "background": "#f7f5ff",
-            "tertiary": "#6c5a00",
-            "primary-fixed-dim": "#5091ff",
-            "on-tertiary-container": "#5b4b00",
-            "on-primary-container": "#00214e",
-            "surface-container-highest": "#d5dbff",
             "surface": "#f7f5ff",
-            "on-error": "#ffefee",
-            "surface-container": "#e4e7ff",
+            "primary": "#0058ba",
+            "on-surface": "#232c51",
             "on-surface-variant": "#505a81",
-            "secondary-fixed": "#80deff",
-            "secondary-container": "#80deff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-highest": "#d5dbff",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "error": "#b31b25"
           },
           borderRadius: {
             DEFAULT: "0.25rem",
             lg: "0.5rem",
             xl: "0.75rem",
-            full: "9999px",
+            full: "9999px"
           },
           fontFamily: {
             headline: ["Lexend"],
             body: ["Manrope"],
-            label: ["Manrope"],
-          },
-        },
-      },
-    };
+            label: ["Manrope"]
+          }
+        }
+      }
+    }
   </script>
+
   <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
     }
-    body { font-family: 'Manrope', sans-serif; }
-    h1, h2, h3 { font-family: 'Lexend', sans-serif; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .radio-card input:checked + span {
+      background: #0058ba;
+      color: white;
+      transform: scale(1.04);
+      box-shadow: 0 18px 35px rgba(0, 88, 186, 0.22);
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background: #f7f5ff;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      header.fixed menu {
+        gap: 8px;
+      }
+
+      header.fixed button,
+      header.fixed a {
+        padding: 8px;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      article.hero-feedback {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-feedback h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      section.card-mobile,
+      article.card-mobile {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 64px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
+        color: #0058ba !important;
+        opacity: 1 !important;
+        background: #d5dbff;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      article.hero-feedback h1 {
+        font-size: 1.75rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 58px;
+        padding: 10px 6px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
+    }
   </style>
 </head>
 
-<body class="bg-surface text-on-surface min-h-screen pb-24 md:pb-0">
+<body class="bg-surface text-on-surface">
 
-  <!-- ===== Top App Bar ===== -->
-  <header class="bg-[#f7f5ff]/80 dark:bg-slate-950/80 backdrop-blur-xl fixed top-0 w-full z-50">
-    <nav class="flex justify-between items-center px-6 py-4 w-full max-w-screen-2xl mx-auto relative" aria-label="Navegação principal">
+  <%
+    const planoAluno = typeof aluno !== 'undefined' && aluno.id_plano ? Number(aluno.id_plano) : 2
 
-      <a href="#" aria-label="PlanoB – Início">
-        <strong class="text-2xl font-black text-blue-700 dark:text-blue-400 italic font-['Lexend'] tracking-tight">PlanoB</strong>
-      </a>
+    const painelCorreto = typeof linkPainelAluno !== 'undefined'
+      ? linkPainelAluno
+      : planoAluno === 3
+        ? '/paineldiamante'
+        : planoAluno === 2
+          ? '/painellazuli'
+          : '/painelfree'
 
-      <menu class="hidden md:flex items-center gap-8 list-none p-0 m-0">
-        <li><a class="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors font-['Manrope'] font-semibold uppercase tracking-wider text-xs" href="#">Treino</a></li>
-        <li><a class="text-blue-700 dark:text-blue-400 font-bold hover:text-blue-500 transition-colors font-['Manrope'] font-semibold uppercase tracking-wider text-xs" href="#" aria-current="page">Feedback</a></li>
-        <li><a class="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors font-['Manrope'] font-semibold uppercase tracking-wider text-xs" href="#">Métricas</a></li>
-        <li><a class="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors font-['Manrope'] font-semibold uppercase tracking-wider text-xs" href="#">Perfil</a></li>
-      </menu>
+    const videosCorreto = typeof linkVideosAluno !== 'undefined'
+      ? linkVideosAluno
+      : planoAluno >= 2
+        ? '/videos'
+        : '/videosfree'
 
-      <aside class="flex items-center gap-3">
-        <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors" aria-label="Notificações">
-          <i class="material-symbols-outlined" aria-hidden="true">notifications</i>
-        </button>
-        <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors" aria-label="Conta">
-          <i class="material-symbols-outlined" aria-hidden="true">account_circle</i>
-        </button>
-      </aside>
+    const nomePlanoAluno = planoAluno === 3 ? 'Diamante' : planoAluno === 2 ? 'Lazuli' : 'Free'
+    const professor = typeof professorResponsavel !== 'undefined' && professorResponsavel ? professorResponsavel : null
+  %>
 
-      <hr class="bg-gradient-to-r from-blue-600/10 to-transparent h-[1px] w-full absolute bottom-0 left-0 border-0" aria-hidden="true" />
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="<%= painelCorreto %>" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
     </nav>
+
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+
+      <li>
+        <a href="/perfilaluno" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil">
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">account_circle</i>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
   </header>
 
-  <!-- ===== Main Content ===== -->
-  <main class="pt-24 pb-12 px-6 max-w-4xl mx-auto">
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+            <img class="w-12 h-12 rounded-full object-cover" src="<%= aluno.foto %>" alt="Foto de perfil do aluno" />
+          <% } else { %>
+            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
+        </picture>
 
-    <!-- Hero Header -->
-    <section class="mb-12 relative" aria-labelledby="hero-title">
-      <aside class="absolute -top-10 -left-10 w-48 h-48 bg-primary/5 rounded-full blur-3xl" aria-hidden="true"></aside>
-      <h1 id="hero-title" class="text-4xl md:text-5xl font-black text-on-surface leading-tight tracking-tighter mb-4">
-        Como foi seu <em class="text-primary italic">treino hoje?</em>
-      </h1>
-      <p class="text-on-surface-variant text-lg max-w-xl">
-        Sua percepção é fundamental para ajustarmos sua evolução. Leva menos de 1 minuto!
-      </p>
-    </section>
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
+          <p class="text-xs text-on-surface-variant">Plano premium ativo</p>
+        </figcaption>
+      </figure>
+    </header>
 
-    <!-- Feedback Form -->
-    <% if (locals.erro) { %>
-      <p class="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert"><%= erro %></p>
-    <% } %>
-    <% if (locals.sucesso) { %>
-      <p class="rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700" role="status"><%= sucesso %></p>
-    <% } %>
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+        <em class="not-italic">Treinos</em>
+      </a>
 
-    <form class="space-y-8" action="/feedbackaluno" method="POST" novalidate>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= videosCorreto %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+        <em class="not-italic">Vídeos</em>
+      </a>
 
-      <!-- 01 · Intensity Selector -->
-      <article class="bg-surface-container-lowest p-8 rounded-[32px] shadow-[0_-8px_30px_rgb(0,0,0,0.02)] relative overflow-hidden" aria-labelledby="intensity-title">
-        <aside class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-[100px]" aria-hidden="true"></aside>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/progressosemanal">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">monitoring</i>
+        <em class="not-italic">Progresso</em>
+      </a>
 
-        <h2 id="intensity-title" class="text-xl font-bold mb-8 flex items-center gap-2">
-          <mark class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm">01</mark>
-          Qual foi a intensidade do esforço?
-        </h2>
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/feedbackaluno" aria-current="page">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="not-italic">Feedback</em>
+      </a>
 
-        <fieldset>
-          <legend class="sr-only">Intensidade do esforço</legend>
-          <ol class="grid grid-cols-5 gap-4 list-none p-0 m-0">
-            <li>
-              <label class="flex flex-col items-center gap-3 p-4 rounded-3xl hover:bg-surface-container transition-all group cursor-pointer">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilaluno">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <article class="hero-feedback md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <hgroup class="max-w-2xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Feedback do Treino
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              COMO FOI SEU TREINO?
+            </h1>
+
+            <p class="text-lg opacity-90 max-w-xl">
+              Envie sua percepção para o professor acompanhar sua evolução e ajustar seus treinos.
+            </p>
+          </hgroup>
+
+          <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/10 w-full max-w-[240px] mx-auto md:mx-0 md:w-auto m-0">
+            <span class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center">
+              <i class="material-symbols-outlined text-white text-7xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">forum</i>
+            </span>
+
+            <figcaption class="text-sm font-black uppercase tracking-widest text-center">
+              Plano <%= nomePlanoAluno %>
+            </figcaption>
+          </figure>
+        </section>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-[#80deff] opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <% if (typeof erro !== 'undefined' && erro) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
+          <%= erro %>
+        </section>
+      <% } %>
+
+      <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+        <section class="md:col-span-12 bg-green-50 text-green-700 rounded-3xl p-5 font-bold text-center" role="status">
+          <%= sucesso %>
+        </section>
+      <% } %>
+
+      <section class="card-mobile md:col-span-8 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+        <form action="/feedbackaluno" method="POST" class="flex flex-col gap-8">
+
+          <fieldset class="flex flex-col gap-4">
+            <legend class="text-2xl font-extrabold headline text-on-surface mb-2">
+              Intensidade do esforço
+            </legend>
+
+            <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <label class="radio-card cursor-pointer">
                 <input type="radio" name="intensity" value="leve" class="sr-only" />
-                <b class="text-4xl group-hover:scale-110 transition-transform">😅</b>
-                <b class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Leve</b>
+                <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
+                  <b class="text-4xl">😅</b>
+                  <em class="not-italic text-xs font-black uppercase tracking-widest">Leve</em>
+                </span>
               </label>
-            </li>
-            <li>
-              <label class="flex flex-col items-center gap-3 p-4 rounded-3xl hover:bg-surface-container transition-all group cursor-pointer">
+
+              <label class="radio-card cursor-pointer">
                 <input type="radio" name="intensity" value="moderado" class="sr-only" />
-                <b class="text-4xl group-hover:scale-110 transition-transform">😊</b>
-                <b class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Moderado</b>
+                <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
+                  <b class="text-4xl">😊</b>
+                  <em class="not-italic text-xs font-black uppercase tracking-widest">Moderado</em>
+                </span>
               </label>
-            </li>
-            <li>
-              <label class="flex flex-col items-center gap-3 p-4 rounded-3xl bg-primary text-white shadow-xl shadow-primary/30 transform scale-105 transition-all cursor-pointer">
+
+              <label class="radio-card cursor-pointer">
                 <input type="radio" name="intensity" value="intenso" class="sr-only" checked />
-                <b class="text-4xl">🔥</b>
-                <b class="text-[10px] font-bold uppercase tracking-widest">Intenso</b>
+                <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
+                  <b class="text-4xl">🔥</b>
+                  <em class="not-italic text-xs font-black uppercase tracking-widest">Intenso</em>
+                </span>
               </label>
-            </li>
-            <li>
-              <label class="flex flex-col items-center gap-3 p-4 rounded-3xl hover:bg-surface-container transition-all group cursor-pointer">
+
+              <label class="radio-card cursor-pointer">
                 <input type="radio" name="intensity" value="pesado" class="sr-only" />
-                <b class="text-4xl group-hover:scale-110 transition-transform">🥵</b>
-                <b class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Pesado</b>
+                <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
+                  <b class="text-4xl">🥵</b>
+                  <em class="not-italic text-xs font-black uppercase tracking-widest">Pesado</em>
+                </span>
               </label>
-            </li>
-            <li>
-              <label class="flex flex-col items-center gap-3 p-4 rounded-3xl hover:bg-surface-container transition-all group cursor-pointer">
+
+              <label class="radio-card cursor-pointer">
                 <input type="radio" name="intensity" value="exaustivo" class="sr-only" />
-                <b class="text-4xl group-hover:scale-110 transition-transform">💀</b>
-                <b class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Exaustivo</b>
+                <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
+                  <b class="text-4xl">💀</b>
+                  <em class="not-italic text-xs font-black uppercase tracking-widest">Exaustivo</em>
+                </span>
               </label>
-            </li>
-          </ol>
-        </fieldset>
-      </article>
+            </section>
+          </fieldset>
 
-      <!-- 02 · Context Details Grid -->
-      <section class="grid md:grid-cols-2 gap-8" aria-label="Detalhes do treino">
+          <section class="bg-surface-container-low rounded-3xl p-6">
+            <label for="tiredness-range" class="text-xl font-extrabold headline block mb-5">
+              Nível de cansaço
+            </label>
 
-        <!-- Tiredness Level -->
-        <article class="bg-surface-container-low p-8 rounded-[32px]" aria-labelledby="tiredness-title">
-          <h2 id="tiredness-title" class="text-xl font-bold mb-6 flex items-center gap-2">
-            <mark class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm">02</mark>
-            Nível de Cansaço
-          </h2>
+            <input id="tiredness-range" name="tiredness-range" value="5" max="10" min="1" step="1" type="range" class="w-full accent-primary" />
 
-          <section class="space-y-6">
-            <label for="tiredness-range" class="sr-only">Nível de cansaço de 1 a 10</label>
-            <input id="tiredness-range"
-                   name="tiredness-range"
-                   value="5"
-                   class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary"
-                   max="10" min="1" step="1" type="range" />
-
-            <dl class="flex justify-between text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
-              <dt class="sr-only">Mínimo</dt>
-              <dd>Bateria 100%</dd>
-              <dt class="sr-only">Máximo</dt>
-              <dd>Esgotado</dd>
-            </dl>
-
-            <aside class="bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-4">
-              <i class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">bolt</i>
-              <p class="text-sm font-medium">Você terminou o treino com energia residual para o dia.</p>
-            </aside>
+            <section class="flex justify-between text-xs font-black uppercase tracking-widest text-on-surface-variant mt-3">
+              <span>Leve</span>
+              <span>Moderado</span>
+              <span>Esgotado</span>
+            </section>
           </section>
-        </article>
 
-        <!-- Motivational Image -->
-        <figure class="relative rounded-[32px] overflow-hidden min-h-[240px] group m-0">
-          <img alt="Pessoa atlética sentada em um banco de academia segurando uma garrafa de água após o treino, iluminação natural cinematográfica"
-               class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQBTHoGiF15gXtelwNfg6QaxoWw4EINtajYto6DeVhSi6AOMFtPOubfz3q1o1zDlG7Spf9TJQTBXiLV-Vmq9CoKA89BppqeHRHaoJEXeb7mD7an7caLsQ0sEgz6CFm_xcx8_BkXfAHwyJ8rKSJcizajJ_6ARK6ZqzGYpNzD_2ox8hisn-ZXu2llA3trdE61ot4-etyhHcpxtRj62WOVFNGhbHxFpf8a5KR4covzhCbU6TuVZPRNg0wr_wRHvb3slN-VwPFGfNkLfiZ" />
-          <aside class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" aria-hidden="true"></aside>
-          <figcaption class="absolute bottom-6 left-6 right-6">
-            <p class="text-white font-['Lexend'] text-lg font-bold leading-tight">Mantenha o ritmo!</p>
-            <p class="text-white/80 text-sm">Sua constância é o que traz o resultado real.</p>
-          </figcaption>
-        </figure>
+          <section>
+            <label for="trainer-message" class="text-xl font-extrabold headline block mb-5">
+              Mensagem para o professor
+            </label>
+
+            <textarea
+              id="trainer-message"
+              name="trainer-message"
+              rows="6"
+              class="w-full bg-surface-container-low border-none rounded-3xl p-5 text-on-surface placeholder:text-on-surface-variant/60 focus:ring-2 focus:ring-primary transition-all resize-none"
+              placeholder="Conte se sentiu dor, dificuldade, cansaço, se o treino foi leve ou pesado..."
+              required
+            ></textarea>
+          </section>
+
+          <button type="submit" class="w-full md:w-auto md:self-end bg-primary text-white px-10 py-5 rounded-full font-black shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-3">
+            Enviar feedback
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">send</i>
+          </button>
+
+        </form>
       </section>
 
-      <!-- 03 · Message to Trainer -->
-      <article class="bg-surface-container-highest p-8 rounded-[32px]" aria-labelledby="message-title">
-        <h2 id="message-title" class="text-xl font-bold mb-6 flex items-center gap-2">
-          <mark class="w-8 h-8 rounded-full bg-white text-primary flex items-center justify-center text-sm">03</mark>
-          Mensagem para o Professor
-        </h2>
+      <aside class="card-mobile md:col-span-4 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
+        <header>
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Professor responsável</h2>
+          <p class="text-sm text-on-surface-variant mt-1">
+            Seu feedback será enviado para o professor associado à sua ficha ativa.
+          </p>
+        </header>
 
-        <label for="trainer-message" class="sr-only">Mensagem para o professor</label>
-        <p class="relative m-0">
-          <textarea id="trainer-message"
-                    name="trainer-message"
-                    class="w-full bg-surface-container-lowest border-none rounded-2xl p-4 text-on-surface placeholder:text-on-surface-variant/50 focus:ring-2 focus:ring-primary transition-all"
-                    placeholder="Sentiu alguma dor? O peso estava ok? Conte para nós..."
-                    rows="4"></textarea>
-          <i class="material-symbols-outlined text-primary/30 absolute bottom-4 right-4 pointer-events-none" aria-hidden="true">edit_note</i>
-        </p>
-      </article>
+        <figure class="bg-surface-container-lowest rounded-3xl p-6 flex items-center gap-4 m-0">
+          <% if (professor && professor.foto_perfil) { %>
+            <img src="<%= professor.foto_perfil %>" alt="Foto do professor" class="w-16 h-16 rounded-full object-cover">
+          <% } else { %>
+            <span class="w-16 h-16 rounded-full avatar-placeholder flex items-center justify-center">
+              <i class="material-symbols-outlined text-5xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
 
-      <!-- Final Submission -->
-      <section class="pt-6 flex flex-col md:flex-row items-center justify-between gap-6" aria-label="Enviar feedback">
-
-        <figure class="flex items-center gap-3 m-0">
-          <picture class="w-12 h-12 rounded-full overflow-hidden bg-surface-container block">
-            <img alt="Foto do treinador Ricardo Silva"
-                 class="w-full h-full object-cover"
-                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKCwt1nanN5sVXKEaeZdXtYhJFFmCAEzVrI4ibfOfcsUQgy5MPB3bEa6heZ7fA7DIewsrgOY0gdExl2U2cGoxd3rnlR6d3VDMuc8W2AUM10w1S3F1LUuJxWYFYRA8K3PiRWQ00_4OIR85_S86FnBWbmcWnpSf3NJjWCvq8Fp5rtWmoB89biCPTrmdKkd53IXPa18jjI62TqxL6jTzlAjmJZyxK_rUU1oO5S2yGGcJRdYsuaokhr4QNQ5Kwen3ZUjtFYnSAKN_MNnaL" />
-          </picture>
           <figcaption>
-            <p class="text-xs font-bold text-on-surface-variant uppercase">Seu Treinador</p>
-            <p class="font-bold">Ricardo Silva</p>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Seu treinador</p>
+            <p class="font-black text-on-surface">
+              <%= professor ? professor.nome : 'Nenhum professor vinculado' %>
+            </p>
+            <% if (professor && professor.cref) { %>
+              <p class="text-xs text-primary font-bold mt-1">CREF <%= professor.cref %></p>
+            <% } %>
           </figcaption>
         </figure>
 
-        <button type="submit"
-                class="w-full md:w-auto bg-gradient-to-br from-primary to-primary-container text-white px-12 py-5 rounded-full font-['Manrope'] font-bold text-lg shadow-xl shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
-          Enviar Feedback
-          <i class="material-symbols-outlined" aria-hidden="true">send</i>
-        </button>
-      </section>
+        <% if (!professor) { %>
+          <section class="bg-red-50 text-error rounded-3xl p-5">
+            <p class="font-bold text-sm">
+              Para enviar feedback, sua conta precisa estar vinculada a uma ficha de treino com professor.
+            </p>
+          </section>
+        <% } else { %>
+          <section class="bg-primary rounded-3xl p-6 text-white">
+            <i class="material-symbols-outlined text-4xl not-italic mb-3" aria-hidden="true">verified</i>
+            <p class="font-black text-lg">Canal ativo</p>
+            <p class="text-sm text-white/80 mt-1">
+              Seu feedback será salvo no chat de acompanhamento.
+            </p>
+          </section>
+        <% } %>
 
-    </form>
+        <a href="/progressosemanal" class="w-full bg-surface-container-highest text-on-surface py-4 rounded-full font-bold text-center active:scale-95 transition-transform">
+          Ver progresso semanal
+        </a>
+      </aside>
+
+    </section>
   </main>
 
-  <!-- ===== Bottom Nav Bar (Mobile Only) ===== -->
-  <footer class="md:hidden fixed bottom-0 left-0 w-full z-50">
-    <nav class="bg-[#f7f5ff]/90 backdrop-blur-2xl rounded-t-[32px] shadow-[0_-8px_30px_rgb(0,0,0,0.04)] px-4 pb-6 pt-2 flex justify-around items-end" aria-label="Navegação mobile">
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
 
-      <a class="flex flex-col items-center justify-center text-slate-400 p-2 hover:bg-blue-50 transition-all rounded-full" href="#">
-        <i class="material-symbols-outlined" aria-hidden="true">fitness_center</i>
-        <b class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider mt-1">Treino</b>
-      </a>
+    <a href="<%= painelCorreto %>" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinos</em>
+    </a>
 
-      <a class="flex flex-col items-center justify-center bg-blue-600 text-white rounded-full p-3 mb-2 shadow-lg shadow-blue-500/40 active:scale-90 transition-transform duration-200" href="#" aria-current="page" aria-label="Feedback (atual)">
-        <i class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">chat_bubble</i>
-      </a>
+    <a href="<%= videosCorreto %>" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
 
-      <a class="flex flex-col items-center justify-center text-slate-400 p-2 hover:bg-blue-50 transition-all rounded-full" href="#">
-        <i class="material-symbols-outlined" aria-hidden="true">insights</i>
-        <b class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider mt-1">Métricas</b>
-      </a>
+    <a href="/feedbackaluno" class="flex flex-col items-center justify-center text-[#0058ba] dark:text-[#d5dbff] opacity-100 p-3 rounded-[18px] bg-[#d5dbff] hover:opacity-100 transition-opacity" aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">forum</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
+    </a>
 
-      <a class="flex flex-col items-center justify-center text-slate-400 p-2 hover:bg-blue-50 transition-all rounded-full" href="#">
-        <i class="material-symbols-outlined" aria-hidden="true">person</i>
-        <b class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-wider mt-1">Perfil</b>
-      </a>
+    <a href="/perfilaluno" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
 
-    </nav>
-  </footer>
+  </nav>
 
 </body>
 </html>

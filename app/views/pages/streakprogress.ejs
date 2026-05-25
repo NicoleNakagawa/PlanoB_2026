@@ -1,154 +1,485 @@
 <!DOCTYPE html>
+<html class="light" lang="pt-BR">
 
-<html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Streak | PlanoB</title>
-<link href="/css/progressosemanal.css" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .streak-hero { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 40px 20px; }
-        .streak-fogo { font-size: 72px; line-height: 1; }
-        .streak-numero { font-size: 80px; font-weight: 800; color: #ff6a00; line-height: 1; }
-        .streak-label { font-size: 18px; color: #888; font-weight: 500; }
-        .streak-maximo { font-size: 14px; color: #aaa; }
-        .descontos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
-        .desconto-card { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .desconto-card.desbloqueado { border-color: #ff6a00; }
-        .desconto-card.usado { opacity: 0.5; }
-        .desconto-pct { font-size: 32px; font-weight: 800; color: #ff6a00; }
-        .desconto-codigo { font-family: monospace; font-size: 13px; background: #0d0d1f; padding: 4px 10px; border-radius: 6px; color: #ccc; width: fit-content; }
-        .desconto-dias { font-size: 12px; color: #888; }
-        .desconto-badge { font-size: 11px; padding: 3px 10px; border-radius: 99px; width: fit-content; }
-        .badge-desbloqueado { background: #ff6a0022; color: #ff6a00; }
-        .badge-usado { background: #33333355; color: #888; }
-        .badge-bloqueado { background: #1a1a2e; color: #555; border: 1px solid #333; }
-    
-    /* Ajustes gerais de responsividade */
-    img, video { max-width: 100%; height: auto; }
-    a, button { -webkit-tap-highlight-color: transparent; }
-    @media (max-width: 768px) {
-      body { overflow-x: hidden; }
-      main { max-width: 100%; }
-      .hide-mobile { display: none !important; }
-    }
-</style>
-</head>
-<body>
-<header class="topo">
-<a class="logo" href="/painelfree">PlanoB</a>
-<nav class="menu-desktop">
-<a href="/painelfree">Dashboard</a>
-<a href="/videosfree">Vídeos</a>
-<a href="/progressosemanal">Evolução</a>
-<a class="ativo" href="/streakprogress">Streak</a>
-</nav>
-<nav class="acoes-topo">
-<a aria-label="Streak" href="/streakprogress">
-<i class="material-symbols-outlined">local_fire_department</i>
-</a>
-<a aria-label="Suporte" href="/suporte">
-<i class="material-symbols-outlined">support_agent</i>
-</a>
-<a aria-label="Perfil" class="avatar" href="/painelfree">
-<img alt="Foto de perfil" src="/img/imagem6.jpg"/>
-</a>
-</nav>
-</header>
-<main class="conteudo">
-<section class="cabecalho-pagina">
-<article class="brilho"></article>
-<h1>Sua <strong>ofensiva</strong></h1>
-<p>Treine todos os dias e desbloqueie descontos exclusivos no seu plano.</p>
-</section>
-<section class="grade-principal">
-<article class="card" style="grid-column: 1 / -1; text-align: center;">
-<section class="streak-hero">
-<section class="streak-fogo">🔥</section>
-<section class="streak-numero" id="streak-atual">—</section>
-<section class="streak-label">dias consecutivos</section>
-<section class="streak-maximo" id="streak-maximo"></section>
-</section>
-</article>
-<article class="card" style="grid-column: 1 / -1;">
-<header class="card-cabecalho">
-<h2>Recompensas de Ofensiva</h2>
-<p>Acumule dias e ganhe descontos automáticos na renovação.</p>
-</header>
-<section class="descontos-grid" id="descontos-grid">
-<p style="color:#888;">Carregando...</p>
-</section>
-</article>
-</section>
-</main>
-<script>
-        async function carregarStreak() {
-            try {
-                const res = await fetch('/api/aluno/streak')
-                const data = await res.json()
-                if (!data.ok) throw new Error(data.erro)
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Streak</title>
 
-                const streak = data.streak
-                const descontos = data.descontos || []
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-                if (streak) {
-                    document.getElementById('streak-atual').textContent = streak.streak_atual
-                    document.getElementById('streak-maximo').textContent = `Recorde: ${streak.streak_maximo} dias`
-                } else {
-                    document.getElementById('streak-atual').textContent = '0'
-                    document.getElementById('streak-maximo').textContent = 'Nenhum treino registrado ainda.'
-                }
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
-                const recompensas = [
-                    { dias: 10,  pct: 5,  codigo: 'OFENSIVA10' },
-                    { dias: 40,  pct: 20, codigo: 'OFENSIVA40' },
-                    { dias: 50,  pct: 35, codigo: 'OFENSIVA50' },
-                    { dias: 90,  pct: 50, codigo: 'OFENSIVA90' },
-                ]
-
-                const streakAtual = streak ? streak.streak_atual : 0
-                const grid = document.getElementById('descontos-grid')
-
-                grid.innerHTML = recompensas.map(r => {
-                    const descBD = descontos.find(d => d.codigo === r.codigo)
-                    const desbloqueado = descBD || streakAtual >= r.dias
-                    const usado = descBD && descBD.usado
-
-                    let badgeClass = 'badge-bloqueado'
-                    let badgeTexto = `🔒 ${r.dias} dias`
-                    let cardClass = ''
-
-                    if (usado) {
-                        badgeClass = 'badge-usado'
-                        badgeTexto = '✓ Já utilizado'
-                        cardClass = 'usado'
-                    } else if (desbloqueado) {
-                        badgeClass = 'badge-desbloqueado'
-                        badgeTexto = '🔥 Disponível!'
-                        cardClass = 'desbloqueado'
-                    }
-
-                    return `
-                        <section class="desconto-card ${cardClass}">
-                            <section class="desconto-pct">${r.pct}% OFF</section>
-                            <section class="desconto-codigo">${r.codigo}</section>
-                            <section class="desconto-dias">A partir de ${r.dias} dias de ofensiva</section>
-                            <section class="desconto-badge ${badgeClass}">${badgeTexto}</section>
-                        </section>
-                    `
-                }).join('')
-
-            } catch (err) {
-                console.error(err)
-                document.getElementById('streak-atual').textContent = '—'
-                document.getElementById('descontos-grid').innerHTML =
-                    '<p style="color:#e55;">Erro ao carregar dados. Tente recarregar a página.</p>'
-            }
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-highest": "#d5dbff",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
+            "error": "#b31b25"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
         }
+      }
+    }
+  </script>
 
-        carregarStreak()
-    </script>
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .streak-ring {
+      background:
+        radial-gradient(circle at center, #0058ba 0 56%, transparent 57%),
+        conic-gradient(#ffd709 var(--valor), rgba(255, 255, 255, 0.18) 0);
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background: #f7f5ff;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      header.fixed menu {
+        gap: 8px;
+      }
+
+      header.fixed button,
+      header.fixed a {
+        padding: 8px;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      article.hero-streak {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-streak h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      section.card-mobile,
+      article.card-mobile {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 64px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
+        color: #0058ba !important;
+        opacity: 1 !important;
+        background: #d5dbff;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      article.hero-streak h1 {
+        font-size: 1.75rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 58px;
+        padding: 10px 6px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface">
+
+  <%
+    const planoAluno = typeof aluno !== 'undefined' && aluno.id_plano ? Number(aluno.id_plano) : 2
+    const painelCorreto = typeof linkPainelAluno !== 'undefined'
+      ? linkPainelAluno
+      : planoAluno === 3
+        ? '/paineldiamante'
+        : planoAluno === 2
+          ? '/painellazuli'
+          : '/painelfree'
+
+    const videosCorreto = typeof linkVideosAluno !== 'undefined'
+      ? linkVideosAluno
+      : planoAluno >= 2
+        ? '/videos'
+        : '/videosfree'
+
+    const nomePlanoAluno = planoAluno === 3 ? 'Diamante' : planoAluno === 2 ? 'Lazuli' : 'Free'
+    const alunoPago = planoAluno >= 2
+
+    const streakSeguro = typeof streak !== 'undefined' && streak ? streak : {
+      streak_atual: 0,
+      streak_maximo: 0,
+      ultima_atividade: null
+    }
+
+    const descontosSeguro = typeof descontos !== 'undefined' && descontos ? descontos : []
+    const recompensasSeguro = typeof recompensas !== 'undefined' && recompensas ? recompensas : [
+      { dias: 10, percentual: 5, codigo: 'OFENSIVA10' },
+      { dias: 40, percentual: 20, codigo: 'OFENSIVA40' },
+      { dias: 50, percentual: 35, codigo: 'OFENSIVA50' },
+      { dias: 90, percentual: 50, codigo: 'OFENSIVA90' }
+    ]
+
+    const streakAtual = Number(streakSeguro.streak_atual) || 0
+    const streakMaximo = Number(streakSeguro.streak_maximo) || 0
+    const proximaRecompensa = recompensasSeguro.find(function(item) {
+      return streakAtual < Number(item.dias)
+    })
+
+    const metaAtual = proximaRecompensa ? Number(proximaRecompensa.dias) : 90
+    const porcentagemAnel = Math.min(Math.round((streakAtual / metaAtual) * 100), 100)
+    const valorAnel = porcentagemAnel + '%'
+  %>
+
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="<%= painelCorreto %>" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+    </nav>
+
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+
+      <li>
+        <a href="/perfilaluno" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil">
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">account_circle</i>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+            <img class="w-12 h-12 rounded-full object-cover" src="<%= aluno.foto %>" alt="Foto de perfil do aluno" />
+          <% } else { %>
+            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
+        </picture>
+
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
+          <p class="text-xs text-on-surface-variant"><%= alunoPago ? 'Plano premium ativo' : 'Plano gratuito ativo' %></p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+        <em class="not-italic">Treinos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= videosCorreto %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+        <em class="not-italic">Vídeos</em>
+      </a>
+
+      <% if (alunoPago) { %>
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/progressosemanal">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">monitoring</i>
+          <em class="not-italic">Progresso</em>
+        </a>
+
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackaluno">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+          <em class="not-italic">Feedback</em>
+        </a>
+      <% } else { %>
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>#planos">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+          <em class="not-italic">Planos</em>
+        </a>
+      <% } %>
+
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilaluno">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <article class="hero-streak md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <hgroup class="max-w-2xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Sequência de Treinos
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              SUA OFENSIVA.
+            </h1>
+
+            <p class="text-lg opacity-90 max-w-xl">
+              Treine com constância, aumente sua sequência e desbloqueie descontos automáticos no PlanoB.
+            </p>
+          </hgroup>
+
+          <figure class="relative w-48 h-48 rounded-full streak-ring flex items-center justify-center m-0" style="--valor: <%= valorAnel %>;">
+            <span class="w-36 h-36 rounded-full bg-primary flex flex-col items-center justify-center text-white">
+              <i class="material-symbols-outlined text-5xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">local_fire_department</i>
+              <strong class="text-4xl font-black"><%= streakAtual %></strong>
+              <small class="text-xs font-bold uppercase tracking-widest">dias</small>
+            </span>
+          </figure>
+        </section>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-[#ffd709] opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <% if (typeof erro !== 'undefined' && erro) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center">
+          <%= erro %>
+        </section>
+      <% } %>
+
+      <section class="card-mobile md:col-span-4 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+        <header>
+          <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Ofensiva atual</p>
+          <h2 class="text-6xl font-black headline text-primary mt-2"><%= streakAtual %></h2>
+          <p class="text-on-surface-variant font-bold">dias consecutivos</p>
+        </header>
+
+        <section class="bg-surface-container-low rounded-3xl p-5">
+          <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Seu recorde</p>
+          <p class="text-3xl font-black text-on-surface mt-2"><%= streakMaximo %> dias</p>
+        </section>
+
+        <section class="bg-primary rounded-3xl p-5 text-white">
+          <% if (proximaRecompensa) { %>
+            <p class="text-xs font-black uppercase tracking-widest text-white/70">Próxima recompensa</p>
+            <p class="text-xl font-black mt-2"><%= proximaRecompensa.percentual %>% OFF</p>
+            <p class="text-sm text-white/80 mt-1">
+              Faltam <%= Math.max(Number(proximaRecompensa.dias) - streakAtual, 0) %> dias para desbloquear.
+            </p>
+          <% } else { %>
+            <p class="text-xs font-black uppercase tracking-widest text-white/70">Todas desbloqueadas</p>
+            <p class="text-xl font-black mt-2">Você chegou no topo!</p>
+            <p class="text-sm text-white/80 mt-1">Continue treinando para manter sua sequência.</p>
+          <% } %>
+        </section>
+      </section>
+
+      <section class="card-mobile md:col-span-8 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
+        <header>
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Recompensas de ofensiva</h2>
+          <p class="text-sm text-on-surface-variant mt-1">
+            Os descontos são liberados automaticamente quando sua sequência atingir a meta.
+          </p>
+        </header>
+
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0 m-0">
+          <% recompensasSeguro.forEach(function(recompensa) { %>
+            <%
+              const descontoBD = descontosSeguro.find(function(desc) {
+                return desc.codigo === recompensa.codigo
+              })
+
+              const desbloqueado = !!descontoBD || streakAtual >= Number(recompensa.dias)
+              const usado = descontoBD && Number(descontoBD.usado) === 1
+            %>
+
+            <li class="rounded-3xl p-6 border <%= usado ? 'bg-surface-container-lowest opacity-60 border-outline-variant/20' : desbloqueado ? 'bg-primary text-white border-primary' : 'bg-surface-container-lowest border-outline-variant/20' %>">
+              <article class="flex items-start justify-between gap-4">
+                <section>
+                  <p class="text-xs font-black uppercase tracking-widest <%= desbloqueado && !usado ? 'text-white/70' : 'text-on-surface-variant' %>">
+                    <%= recompensa.dias %> dias
+                  </p>
+
+                  <h3 class="text-3xl font-black headline mt-2">
+                    <%= recompensa.percentual %>% OFF
+                  </h3>
+
+                  <p class="font-mono text-xs mt-3 rounded-full inline-block px-3 py-1 <%= desbloqueado && !usado ? 'bg-white/20 text-white' : 'bg-surface-container-low text-primary' %>">
+                    <%= recompensa.codigo %>
+                  </p>
+                </section>
+
+                <figure class="w-14 h-14 rounded-2xl <%= desbloqueado && !usado ? 'bg-white/20 text-white' : 'bg-primary/10 text-primary' %> flex items-center justify-center m-0">
+                  <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">
+                    <%= usado ? 'check_circle' : desbloqueado ? 'redeem' : 'lock' %>
+                  </i>
+                </figure>
+              </article>
+
+              <p class="text-sm mt-5 <%= desbloqueado && !usado ? 'text-white/80' : 'text-on-surface-variant' %>">
+                <% if (usado) { %>
+                  Esse desconto já foi utilizado.
+                <% } else if (desbloqueado) { %>
+                  Disponível para usar no pagamento ou renovação.
+                <% } else { %>
+                  Continue treinando para desbloquear.
+                <% } %>
+              </p>
+            </li>
+          <% }) %>
+        </ul>
+      </section>
+
+      <article class="card-mobile md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <hgroup>
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Continue sua sequência</h2>
+          <p class="text-on-surface-variant mt-2 max-w-2xl">
+            Para aumentar sua ofensiva, conclua exercícios pela tela de execução. Cada treino concluído registra seu progresso no banco.
+          </p>
+        </hgroup>
+
+        <a href="<%= painelCorreto %>" class="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-4 rounded-full font-bold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+          Fazer treino
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+        </a>
+      </article>
+
+    </section>
+  </main>
+
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
+
+    <a href="<%= painelCorreto %>" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinos</em>
+    </a>
+
+    <a href="<%= videosCorreto %>" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+
+    <% if (alunoPago) { %>
+      <a href="/feedbackaluno" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
+      </a>
+    <% } else { %>
+      <a href="<%= painelCorreto %>#planos" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+        <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+      </a>
+    <% } %>
+
+    <a href="/perfilaluno" class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+
+  </nav>
+
 </body>
 </html>

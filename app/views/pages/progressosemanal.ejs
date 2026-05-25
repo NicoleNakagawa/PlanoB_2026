@@ -1,262 +1,810 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progresso Semanal | PlanoB</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Progresso Semanal</title>
 
-    <link rel="stylesheet" href="/css/progressosemanal.css">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#f7f5ff",
+            "tertiary-dim": "#5e4e00",
+            "error": "#b31b25",
+            "surface-dim": "#cad2ff",
+            "outline-variant": "#a2abd7",
+            "on-secondary": "#e2f6ff",
+            "surface-container-highest": "#d5dbff",
+            "inverse-primary": "#4a8eff",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "outline": "#6c759e",
+            "inverse-on-surface": "#929bc6",
+            "error-container": "#fb5151",
+            "surface-variant": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "primary-container": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-error": "#ffefee",
+            "on-tertiary": "#fff2cd",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-high": "#dde1ff",
+            "secondary-dim": "#00576c",
+            "on-secondary-fixed-variant": "#00586d",
+            "on-tertiary-container": "#5b4b00",
+            "tertiary-fixed": "#ffd709",
+            "on-primary-fixed": "#000000",
+            "on-primary": "#f0f2ff",
+            "on-error-container": "#570008",
+            "secondary-fixed": "#80deff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "primary-fixed-dim": "#5091ff",
+            "surface-container": "#e4e7ff",
+            "primary-dim": "#004da4",
+            "on-background": "#232c51",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-primary-container": "#00214e",
+            "surface-container-low": "#efefff",
+            "secondary": "#00647b",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "surface-tint": "#0058ba",
+            "background": "#f7f5ff",
+            "on-secondary-fixed": "#003a48",
+            "error-dim": "#9f0519",
+            "tertiary": "#6c5a00"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .grafico-barras meter {
+      writing-mode: vertical-lr;
+      direction: rtl;
+      width: 100%;
+      height: 180px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #d5dbff;
+    }
+
+    .grafico-barras meter::-webkit-meter-bar {
+      background: #d5dbff;
+      border: none;
+      border-radius: 999px;
+    }
+
+    .grafico-barras meter::-webkit-meter-optimum-value {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    .grafico-barras li.destaque meter::-webkit-meter-optimum-value {
+      background: #ffd709;
+    }
+
+    .grafico-barras meter::-moz-meter-bar {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    .anel-progresso circle {
+      fill: none;
+      stroke-width: 16;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+
+    .anel-progresso circle:first-child {
+      stroke: #d5dbff;
+    }
+
+    .anel-progresso circle:last-child {
+      stroke: url(#gradienteAnel);
+      stroke-dasharray: 477;
+      stroke-dashoffset: var(--dash-offset, 477);
+      transition: stroke-dashoffset 0.5s ease;
+    }
+
+    progress {
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    progress::-webkit-progress-bar {
+      background: #d5dbff;
+      border-radius: 999px;
+    }
+
+    progress::-webkit-progress-value {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    progress::-moz-progress-bar {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background: #f7f5ff;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed strong.logo-header {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      header.fixed menu {
+        gap: 8px;
+      }
+
+      header.fixed button,
+      header.fixed a {
+        padding: 8px;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      main section.max-w-6xl {
+        gap: 18px;
+      }
+
+      article.hero-progresso {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-progresso > section {
+        align-items: flex-start !important;
+        gap: 28px !important;
+      }
+
+      article.hero-progresso h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+        margin-left: 0 !important;
+      }
+
+      article.hero-progresso p {
+        font-size: 0.95rem !important;
+      }
+
+      article.hero-progresso figure {
+        max-width: 220px;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 20px !important;
+      }
+
+      section.card-mobile,
+      article.card-mobile {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      section.card-mobile h2,
+      article.card-mobile h2 {
+        font-size: 1.35rem !important;
+      }
+
+      .grafico-barras meter {
+        height: 130px;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 64px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
+        color: #0058ba !important;
+        opacity: 1 !important;
+        background: #d5dbff;
+      }
+
+      nav[aria-label="Navegação mobile"] a:hover {
+        color: #0058ba !important;
+        opacity: 1 !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      article.hero-progresso h1 {
+        font-size: 1.75rem !important;
+      }
+
+      .grafico-barras meter {
+        height: 105px;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 58px;
+        padding: 10px 6px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
+    }
+  </style>
 </head>
 
-<body>
-    <header class="topo">
-        <a href="/painelfree" class="logo">PlanoB</a>
+<body class="bg-surface text-on-surface">
 
-        <nav class="menu-desktop">
-            <a href="/painelfree">Dashboard</a>
-            <a href="/videosfree">Vídeos</a>
-            <a href="/progressosemanal" class="ativo">Evolução</a>
-            <a href="/streakprogress">Streak</a>
-        </nav>
+  <%
+    const planoAluno = typeof aluno !== 'undefined' && aluno.id_plano ? Number(aluno.id_plano) : 2
 
-        <nav class="acoes-topo">
-            <a href="/streakprogress" aria-label="Streak">
-                <i class="material-symbols-outlined">local_fire_department</i>
-            </a>
+    const painelCorreto = typeof linkPainelAluno !== 'undefined'
+      ? linkPainelAluno
+      : planoAluno === 3
+        ? '/paineldiamante'
+        : planoAluno === 2
+          ? '/painellazuli'
+          : '/painelfree'
 
-            <a href="/suporte" aria-label="Suporte">
-                <i class="material-symbols-outlined">support_agent</i>
-            </a>
+    const videosCorreto = typeof linkVideosAluno !== 'undefined'
+      ? linkVideosAluno
+      : planoAluno >= 2
+        ? '/videos'
+        : '/videosfree'
 
-            <a href="/painelfree" class="avatar" aria-label="Perfil">
-                <img src="/img/profile.png" alt="Foto de perfil">
-            </a>
-        </nav>
+    const nomePlanoAluno = planoAluno === 3
+      ? 'Diamante'
+      : planoAluno === 2
+        ? 'Lazuli'
+        : 'Free'
+
+    const planoPago = planoAluno >= 2
+
+    const progressoSeguro = typeof progresso !== 'undefined' && progresso ? progresso : {}
+
+    const resumoSemana = progressoSeguro.resumoSemana || {
+      total_treinos: 0,
+      dias_treinados: 0,
+      tempo_total_min: 0,
+      calorias_total: 0,
+      bpm_maximo: 0
+    }
+
+    const graficoSemana = progressoSeguro.graficoSemana || [
+      { dia: 'Seg', minutos: 0, treinos: 0, porcentagem: 0 },
+      { dia: 'Ter', minutos: 0, treinos: 0, porcentagem: 0 },
+      { dia: 'Qua', minutos: 0, treinos: 0, porcentagem: 0 },
+      { dia: 'Qui', minutos: 0, treinos: 0, porcentagem: 0 },
+      { dia: 'Sex', minutos: 0, treinos: 0, porcentagem: 0 },
+      { dia: 'Sáb', minutos: 0, treinos: 0, porcentagem: 0 },
+      { dia: 'Dom', minutos: 0, treinos: 0, porcentagem: 0 }
+    ]
+
+    const streak = progressoSeguro.streak || {
+      streak_atual: 0,
+      streak_maximo: 0,
+      ultima_atividade: null
+    }
+
+    const descontos = progressoSeguro.descontos || []
+    const variacaoPct = Number(progressoSeguro.variacaoPct) || 0
+    const porcentagemMeta = Number(progressoSeguro.porcentagemMeta) || 0
+    const treinosRestantes = Number(progressoSeguro.treinosRestantes) || 0
+    const metaDias = Number(progressoSeguro.metaDias) || 5
+    const tempoSemanaAnterior = Number(progressoSeguro.tempoSemanaAnterior) || 0
+
+    const evolucaoAnel = Math.max(Math.min(variacaoPct, 100), 0)
+    const dashOffset = 477 - ((477 * evolucaoAnel) / 100)
+
+    const textoVariacao = variacaoPct > 0
+      ? '+' + variacaoPct + '% de aumento'
+      : variacaoPct < 0
+        ? variacaoPct + '% de queda'
+        : 'Sem variação ainda'
+
+    const textoComparacao = tempoSemanaAnterior > 0
+      ? (Number(resumoSemana.tempo_total_min) - tempoSemanaAnterior) + 'm vs. semana anterior'
+      : 'Sem dados da semana anterior'
+
+    const textoAnalise = Number(resumoSemana.total_treinos) > 0
+      ? 'Você já registrou treinos nesta semana. Continue mantendo consistência para melhorar sua evolução e desbloquear benefícios.'
+      : 'Você ainda não registrou treinos nesta semana. Comece um treino para gerar seu progresso real aqui.'
+
+    const textoMeta = treinosRestantes > 0
+      ? 'Faltam ' + treinosRestantes + ' treinos para bater a meta.'
+      : 'Meta semanal concluída. Excelente trabalho!'
+  %>
+
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
+    </nav>
+
+    <menu class="flex items-center gap-4 p-0 m-0">
+      <li>
+        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+        </button>
+      </li>
+
+      <li>
+        <a href="/perfilaluno"
+          class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center"
+          aria-label="Perfil">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">account_circle</i>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+            <img
+              class="w-12 h-12 rounded-full object-cover"
+              src="<%= aluno.foto %>"
+              alt="Foto de perfil do aluno"
+            />
+          <% } else { %>
+            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
+        </picture>
+
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
+          <p class="text-xs text-on-surface-variant">
+            <%= planoPago ? 'Plano premium ativo' : 'Plano gratuito ativo' %>
+          </p>
+        </figcaption>
+      </figure>
     </header>
 
-    <main class="conteudo">
-        <section class="cabecalho-pagina">
-            <article class="brilho"></article>
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
 
-            <h1>
-                Seu fluxo
-                <strong>de evolução</strong>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+        <em class="not-italic">Treinos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= videosCorreto %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+        <em class="not-italic">Vídeos</em>
+      </a>
+
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/progressosemanal" aria-current="page">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">monitoring</i>
+        <em class="not-italic">Progresso</em>
+      </a>
+
+      <% if (planoPago) { %>
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackaluno">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+          <em class="not-italic">Feedback</em>
+        </a>
+      <% } else { %>
+        <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="<%= painelCorreto %>#planos">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i>
+          <em class="not-italic">Planos</em>
+        </a>
+      <% } %>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilaluno">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+    </nav>
+
+  </aside>
+
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <article class="hero-progresso md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+
+          <hgroup class="max-w-2xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Progresso Semanal
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              SEU FLUXO DE EVOLUÇÃO.
             </h1>
 
-            <p>
-                Análise detalhada da sua performance semanal.
-                Você está <strong>12% melhor</strong> que na semana passada.
+            <p class="text-lg opacity-90 max-w-xl">
+              Acompanhe sua performance real, frequência, ofensiva e evolução semanal dentro do PlanoB.
             </p>
+          </hgroup>
+
+          <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/10 w-full max-w-[240px] mx-auto md:mx-0 md:w-auto m-0">
+            <span class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center">
+              <i class="material-symbols-outlined text-white text-7xl not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48" aria-hidden="true">monitoring</i>
+            </span>
+
+            <figcaption class="text-sm font-black uppercase tracking-widest text-center">
+              <%= variacaoPct > 0 ? '+' + variacaoPct + '% Evolução' : variacaoPct < 0 ? variacaoPct + '% Evolução' : 'Sem evolução ainda' %>
+            </figcaption>
+          </figure>
+
         </section>
 
-        <section class="grade-principal">
-            <article class="card grafico-card">
-                <header class="card-cabecalho">
-                    <article>
-                        <h2>Tempo de Treino</h2>
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary-fixed opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
 
-                        <p>
-                            Segunda a Domingo
-                            <strong>+4.5% de aumento</strong>
-                        </p>
-                    </article>
+      <section class="card-mobile md:col-span-8 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
 
-                    <aside>
-                        <strong>342 min</strong>
-                        <p>+15m vs. média anterior</p>
-                    </aside>
-                </header>
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <hgroup>
+            <h2 class="text-2xl font-extrabold headline text-on-surface">Tempo de Treino</h2>
+            <p class="text-sm text-on-surface-variant mt-1">
+              Segunda a domingo • <strong class="text-primary"><%= textoVariacao %></strong>
+            </p>
+          </hgroup>
 
-                <section class="grafico">
-                    <ol class="linhas-grafico">
-                        <li>100m</li>
-                        <li>75m</li>
-                        <li>50m</li>
-                        <li>25m</li>
-                        <li>0m</li>
-                    </ol>
+          <aside class="bg-surface-container-lowest rounded-3xl px-6 py-4">
+            <strong class="text-3xl font-black text-primary">
+              <%= Number(resumoSemana.tempo_total_min) || 0 %> min
+            </strong>
+            <p class="text-xs text-on-surface-variant font-bold mt-1">
+              <%= textoComparacao %>
+            </p>
+          </aside>
+        </header>
 
-                    <ol class="barras-grafico">
-                        <li>
-                            <meter min="0" max="100" value="42">42 minutos</meter>
-                            <abbr title="Segunda-feira">Seg</abbr>
-                        </li>
+        <section class="grid grid-cols-[auto_1fr] gap-4 items-end">
+          <ol class="h-[220px] md:h-[260px] flex flex-col justify-between text-xs font-bold text-on-surface-variant list-none p-0 m-0">
+            <li>100%</li>
+            <li>75%</li>
+            <li>50%</li>
+            <li>25%</li>
+            <li>0%</li>
+          </ol>
 
-                        <li>
-                            <meter min="0" max="100" value="65">65 minutos</meter>
-                            <abbr title="Terça-feira">Ter</abbr>
-                        </li>
+          <ol class="grafico-barras h-[220px] md:h-[260px] grid grid-cols-7 gap-3 md:gap-5 items-end list-none p-0 m-0">
+            <% graficoSemana.forEach(function(dia) { %>
+              <li class="<%= Number(dia.minutos) > 0 ? 'destaque' : '' %> flex flex-col items-center gap-3">
+                <meter min="0" max="100" value="<%= Number(dia.porcentagem) || 0 %>">
+                  <%= Number(dia.minutos) || 0 %> minutos
+                </meter>
 
-                        <li>
-                            <meter min="0" max="100" value="50">50 minutos</meter>
-                            <abbr title="Quarta-feira">Qua</abbr>
-                        </li>
+                <abbr class="no-underline text-xs font-black <%= Number(dia.minutos) > 0 ? 'text-primary' : 'text-on-surface-variant' %>" title="<%= dia.dia %>">
+                  <%= dia.dia %>
+                </abbr>
 
-                        <li class="destaque">
-                            <meter min="0" max="100" value="85">85 minutos</meter>
-                            <abbr title="Quinta-feira">Qui</abbr>
-                        </li>
-
-                        <li>
-                            <meter min="0" max="100" value="70">70 minutos</meter>
-                            <abbr title="Sexta-feira">Vie</abbr>
-                        </li>
-
-                        <li>
-                            <meter min="0" max="100" value="30">30 minutos</meter>
-                            <abbr title="Sábado">Sáb</abbr>
-                        </li>
-
-                        <li>
-                            <meter min="0" max="100" value="20">20 minutos</meter>
-                            <abbr title="Domingo">Dom</abbr>
-                        </li>
-                    </ol>
-                </section>
-            </article>
-
-            <aside class="coluna-lateral">
-                <article class="card ofensiva-card">
-                    <i class="material-symbols-outlined icone-fundo">local_fire_department</i>
-
-                    <p class="tag-card">
-                        <i class="material-symbols-outlined">trending_up</i>
-                        Ofensiva atual
-                    </p>
-
-                    <h2>Sua ofensiva</h2>
-
-                    <p>
-                        Você está imparável! Mantenha o ritmo para desbloquear novas recompensas.
-                    </p>
-
-                    <strong>42</strong>
-
-                    <small>Dias seguidos</small>
-                </article>
-
-                <article class="card beneficios-card">
-                    <header>
-                        <h2>Benefícios ativos</h2>
-                        <a href="/streakprogress">Ver todos</a>
-                    </header>
-
-                    <ul>
-                        <li>
-                            <i class="material-symbols-outlined">percent</i>
-
-                            <article>
-                                <h3>15% OFF Whey Protein</h3>
-                                <p>Resgatado</p>
-                            </article>
-                        </li>
-
-                        <li class="bloqueado">
-                            <i class="material-symbols-outlined">lock</i>
-
-                            <article>
-                                <h3>Cupom Centauro R$ 50</h3>
-                                <p>Faltam 3 dias</p>
-                            </article>
-                        </li>
-                    </ul>
-                </article>
-            </aside>
-
-            <article class="card frequencia-card">
-                <header>
-                    <i class="material-symbols-outlined">fitness_center</i>
-
-                    <article>
-                        <p>Frequência</p>
-                        <h2>08 Treinos</h2>
-                    </article>
-                </header>
-
-                <section>
-                    <header>
-                        <p>Meta semanal</p>
-                        <strong>80% concluído</strong>
-                    </header>
-
-                    <progress max="100" value="80">80%</progress>
-
-                    <p>Faltam 2 treinos para bater a meta</p>
-                </section>
-            </article>
-
-            <article class="card analise-card">
-                <figure class="anel-progresso">
-                    <svg viewBox="0 0 180 180" aria-label="Evolução de 12%">
-                        <defs>
-                            <linearGradient id="gradienteAnel" x1="0%" x2="100%" y1="0%" y2="100%">
-                                <stop offset="0%" stop-color="#0058ba"></stop>
-                                <stop offset="100%" stop-color="#6c9fff"></stop>
-                            </linearGradient>
-                        </defs>
-
-                        <circle cx="90" cy="90" r="76"></circle>
-                        <circle cx="90" cy="90" r="76"></circle>
-                    </svg>
-
-                    <figcaption>
-                        <strong>+12%</strong>
-                        <small>Evolução</small>
-                    </figcaption>
-                </figure>
-
-                <section>
-                    <h2>Análise de rendimento</h2>
-
-                    <p>
-                        Seu volume de treino aumentou consideravelmente em comparação com a semana passada.
-                        Foco mantido nos <strong>membros superiores</strong> com ganho de
-                        <strong>5% em força explosiva</strong>.
-                    </p>
-
-                    <nav class="botoes-card">
-                        <a href="/progressosemanal">
-                            Ver detalhes
-                            <i class="material-symbols-outlined">insights</i>
-                        </a>
-
-                        <a href="#">
-                            Relatório PDF
-                            <i class="material-symbols-outlined">download</i>
-                        </a>
-                    </nav>
-                </section>
-            </article>
+                <small class="text-[10px] font-bold text-on-surface-variant">
+                  <%= Number(dia.minutos) || 0 %>m
+                </small>
+              </li>
+            <% }) %>
+          </ol>
         </section>
 
+      </section>
 
-            </figure>
+      <aside class="md:col-span-4 flex flex-col gap-6">
+
+        <article class="card-mobile bg-primary rounded-3xl p-8 text-white relative overflow-hidden shadow-xl shadow-primary/30">
+          <i class="material-symbols-outlined text-white text-8xl opacity-10 not-italic absolute -top-4 -right-4" aria-hidden="true">local_fire_department</i>
+
+          <p class="inline-flex items-center gap-2 bg-white/15 rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest mb-6">
+            <i class="material-symbols-outlined not-italic text-sm" aria-hidden="true">trending_up</i>
+            Ofensiva atual
+          </p>
+
+          <h2 class="text-2xl font-extrabold headline mb-2">Sua ofensiva</h2>
+
+          <p class="text-white/80 text-sm leading-relaxed mb-8">
+            Mantenha o ritmo para desbloquear novas recompensas e melhorar sua consistência.
+          </p>
+
+          <strong class="text-6xl font-black block">
+            <%= Number(streak.streak_atual) || 0 %>
+          </strong>
+
+          <small class="text-white/70 font-bold uppercase tracking-widest">Dias seguidos</small>
+
+          <p class="text-xs text-white/60 mt-4">
+            Recorde: <%= Number(streak.streak_maximo) || 0 %> dias
+          </p>
+        </article>
+
+        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-5">
+          <header class="flex items-center justify-between">
+            <h2 class="text-xl font-extrabold headline">Benefícios ativos</h2>
+            <a href="/streakprogress" class="text-primary text-sm font-bold">Ver todos</a>
+          </header>
+
+          <% if (descontos.length > 0) { %>
+            <ul class="flex flex-col gap-3 list-none p-0 m-0">
+              <% descontos.forEach(function(desconto) { %>
+                <li class="flex items-center gap-4 bg-surface-container-low rounded-2xl p-4 <%= Number(desconto.usado) === 1 ? '' : 'opacity-70' %>">
+                  <figure class="w-12 h-12 rounded-full <%= Number(desconto.usado) === 1 ? 'bg-primary/10' : 'bg-outline-variant/30' %> flex items-center justify-center m-0 shrink-0">
+                    <i class="material-symbols-outlined <%= Number(desconto.usado) === 1 ? 'text-primary' : 'text-outline' %> not-italic" aria-hidden="true">
+                      <%= Number(desconto.usado) === 1 ? 'percent' : 'lock' %>
+                    </i>
+                  </figure>
+
+                  <hgroup>
+                    <h3 class="font-bold text-sm">
+                      <%= desconto.percentual %>% OFF
+                      <% if (desconto.codigo) { %>
+                        • <%= desconto.codigo %>
+                      <% } %>
+                    </h3>
+
+                    <p class="text-xs <%= Number(desconto.usado) === 1 ? 'text-primary' : 'text-on-surface-variant' %> font-bold">
+                      <%= Number(desconto.usado) === 1 ? 'Resgatado' : 'Desbloqueia com ' + desconto.dias_streak + ' dias' %>
+                    </p>
+                  </hgroup>
+                </li>
+              <% }) %>
+            </ul>
+          <% } else { %>
+            <section class="bg-surface-container-low rounded-2xl p-5 text-center">
+              <i class="material-symbols-outlined text-primary text-4xl not-italic mb-2" aria-hidden="true">redeem</i>
+              <p class="font-bold text-sm text-on-surface">Nenhum benefício ainda</p>
+              <p class="text-xs text-on-surface-variant mt-1">
+                Continue treinando para liberar descontos.
+              </p>
+            </section>
+          <% } %>
+        </article>
+
+      </aside>
+
+      <article class="card-mobile md:col-span-4 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+        <header class="flex items-center gap-4">
+          <figure class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-primary text-3xl not-italic" aria-hidden="true">fitness_center</i>
+          </figure>
+
+          <hgroup>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Frequência</p>
+            <h2 class="text-2xl font-black headline">
+              <%= Number(resumoSemana.total_treinos) || 0 %> Treinos
+            </h2>
+          </hgroup>
+        </header>
+
+        <section class="flex flex-col gap-3">
+          <header class="flex items-center justify-between">
+            <p class="text-sm font-bold text-on-surface-variant">
+              Meta semanal: <%= metaDias %> dias
+            </p>
+            <strong class="text-primary text-sm">
+              <%= porcentagemMeta %>% concluído
+            </strong>
+          </header>
+
+          <progress class="w-full h-4 rounded-full overflow-hidden" max="100" value="<%= porcentagemMeta %>">
+            <%= porcentagemMeta %>%
+          </progress>
+
+          <p class="text-sm text-on-surface-variant">
+            <%= textoMeta %>
+          </p>
+
+          <p class="text-xs text-on-surface-variant">
+            Dias treinados nesta semana: <strong><%= Number(resumoSemana.dias_treinados) || 0 %></strong>
+          </p>
         </section>
-    </main>
+      </article>
 
-    <footer class="menu-mobile">
-        <a href="/painelfree">
-            <i class="material-symbols-outlined">dashboard</i>
-            <small>Geral</small>
-        </a>
+      <article class="card-mobile md:col-span-8 bg-surface-container-low rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8">
 
-        <a href="/videosfree" class="botao-central">
-            <i class="material-symbols-outlined">fitness_center</i>
-        </a>
+        <figure class="anel-progresso relative w-44 h-44 shrink-0 m-0" style="--dash-offset: <%= dashOffset %>;">
+          <svg viewBox="0 0 180 180" aria-label="Evolução semanal">
+            <defs>
+              <linearGradient id="gradienteAnel" x1="0%" x2="100%" y1="0%" y2="100%">
+                <stop offset="0%" stop-color="#0058ba"></stop>
+                <stop offset="100%" stop-color="#6c9fff"></stop>
+              </linearGradient>
+            </defs>
 
-        <a href="/progressosemanal" class="ativo">
-            <i class="material-symbols-outlined">bar_chart</i>
-            <small>Evolução</small>
-        </a>
+            <circle cx="90" cy="90" r="76"></circle>
+            <circle cx="90" cy="90" r="76"></circle>
+          </svg>
 
-        <a href="/streakprogress">
-            <i class="material-symbols-outlined">local_fire_department</i>
-            <small>Streak</small>
-        </a>
-    </footer>
+          <figcaption class="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <strong class="text-4xl font-black text-primary">
+              <%= variacaoPct > 0 ? '+' + variacaoPct : variacaoPct %>%
+            </strong>
+            <small class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Evolução</small>
+          </figcaption>
+        </figure>
+
+        <section class="flex flex-col gap-5">
+          <h2 class="text-2xl font-extrabold headline">Análise de rendimento</h2>
+
+          <p class="text-on-surface-variant leading-relaxed">
+            <%= textoAnalise %>
+            Nesta semana você acumulou
+            <strong class="text-primary"><%= Number(resumoSemana.tempo_total_min) || 0 %> minutos</strong>
+            em
+            <strong class="text-on-surface"><%= Number(resumoSemana.total_treinos) || 0 %> treinos</strong>.
+          </p>
+
+          <ul class="grid grid-cols-1 sm:grid-cols-3 gap-3 list-none p-0 m-0">
+            <li class="bg-surface-container-lowest rounded-2xl p-4">
+              <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Calorias</p>
+              <strong class="text-xl text-primary">
+                <%= Number(resumoSemana.calorias_total) || 0 %>
+              </strong>
+            </li>
+
+            <li class="bg-surface-container-lowest rounded-2xl p-4">
+              <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">BPM máximo</p>
+              <strong class="text-xl text-primary">
+                <%= Number(resumoSemana.bpm_maximo) || 0 %>
+              </strong>
+            </li>
+
+            <li class="bg-surface-container-lowest rounded-2xl p-4">
+              <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Streak máximo</p>
+              <strong class="text-xl text-primary">
+                <%= Number(streak.streak_maximo) || 0 %>
+              </strong>
+            </li>
+          </ul>
+
+          <nav class="flex flex-col sm:flex-row gap-3" aria-label="Ações do progresso">
+            <a href="<%= painelCorreto %>" class="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+              Fazer treino
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+            </a>
+
+            <a href="/streakprogress" class="inline-flex items-center justify-center gap-2 bg-surface-container-highest text-on-surface px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+              Ver ofensiva
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">local_fire_department</i>
+            </a>
+          </nav>
+        </section>
+
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Menu Mobile igual ao painellazuli -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
+
+    <a href="<%= painelCorreto %>"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Treinos</em>
+    </a>
+
+    <a href="<%= videosCorreto %>"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">play_circle</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+
+    <a href="/feedbackaluno"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
+    </a>
+
+    <a href="/perfilaluno"
+       class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+
+  </nav>
+
 </body>
 </html>
