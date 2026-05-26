@@ -1,9 +1,55 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
+const multer = require('multer')
+const path = require('path')
+
 const router = express.Router()
 const db = require('../config/pool_conexoes')
 
 const SALT_ROUNDS = 12
+
+// =======================
+// UPLOAD DE VÍDEOS
+// =======================
+
+const storageVideos = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '..', 'public', 'uploads', 'videos'))
+    },
+    filename: (req, file, cb) => {
+        const extensao = path.extname(file.originalname)
+        const nomeSeguro = file.originalname
+            .replace(extensao, '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '')
+
+        cb(null, `${Date.now()}-${nomeSeguro}${extensao}`)
+    }
+})
+
+const uploadVideo = multer({
+    storage: storageVideos,
+    limits: {
+        fileSize: 300 * 1024 * 1024
+    },
+    fileFilter: (req, file, cb) => {
+        const tiposPermitidos = [
+            'video/mp4',
+            'video/webm',
+            'video/ogg',
+            'video/quicktime'
+        ]
+
+        if (!tiposPermitidos.includes(file.mimetype)) {
+            return cb(new Error('Envie um vídeo nos formatos MP4, WEBM, OGG ou MOV.'))
+        }
+
+        cb(null, true)
+    }
+})
 
 const videosFree = [
     {
@@ -79,6 +125,10 @@ const videosFree = [
         atencao2: 'Não relaxe o abdômen durante a execução.'
     }
 ]
+
+// =======================
+// MIDDLEWARES
+// =======================
 
 function authAluno(req, res, next) {
     if (req.session && req.session.aluno) return next()
@@ -302,7 +352,7 @@ router.get('/loginprofessor', (req, res) => {
 })
 
 // =======================
-// PÁGINAS PROTEGIDAS - ALUNO
+// ALUNO
 // =======================
 
 router.get('/painelfree', authAluno, (req, res) => {
@@ -948,38 +998,6 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
     }
 })
 
-router.get('/pagamento', authAluno, async (req, res) => {
-    const idPlano = Number(req.query.plano) || 2
-
-    try {
-        const [rows] = await db.query(
-            'SELECT id_plano, nome, valor_mensal, descricao FROM plano WHERE id_plano = ?',
-            [idPlano]
-        )
-
-        res.render('pagamento', {
-            aluno: req.session.aluno,
-            planoSelecionado: rows[0] || {
-                id_plano: 2,
-                nome: 'Lazuli',
-                valor_mensal: 59.00
-            }
-        })
-    } catch (err) {
-        console.error('[pagamento GET]', err)
-
-        res.render('pagamento', {
-            aluno: req.session.aluno,
-            planoSelecionado: {
-                id_plano: 2,
-                nome: 'Lazuli',
-                valor_mensal: 59.00
-            },
-            erro: 'Não foi possível carregar o plano. Tente novamente.'
-        })
-    }
-})
-
 // =======================
 // PROFESSOR
 // =======================
@@ -1001,7 +1019,8 @@ router.get('/painelprofessor', authProfessor, async (req, res) => {
         const [estatisticasVideosRows] = await db.query(
             `SELECT COUNT(*) AS total_videos
              FROM video
-             WHERE id_professor = ?`,
+             WHERE id_professor = ?
+             AND ativo = 1`,
             [idProfessor]
         )
 
@@ -1100,6 +1119,7 @@ router.get('/painelprofessor', authProfessor, async (req, res) => {
                 criado_em
              FROM video
              WHERE id_professor = ?
+             AND ativo = 1
              ORDER BY criado_em DESC
              LIMIT 4`,
             [idProfessor]
@@ -1444,6 +1464,10 @@ router.post('/professor/desvincular-aluno', authProfessor, async (req, res) => {
     }
 })
 
+// =======================
+// VÍDEOS DO PROFESSOR
+// =======================
+
 router.get('/todosvideos', authProfessor, async (req, res) => {
     const idProfessor = req.session.professor.id
     const busca = (req.query.busca || '').trim()
@@ -1545,20 +1569,28 @@ router.get('/todosvideos', authProfessor, async (req, res) => {
     }
 })
 
-router.post('/professor/videos/criar', authProfessor, async (req, res) => {
+router.post('/professor/videos/criar', authProfessor, uploadVideo.single('arquivo_video'), async (req, res) => {
     const idProfessor = req.session.professor.id
 
     const titulo = (req.body.titulo || '').trim()
     const descricao = (req.body.descricao || '').trim()
-    const videoUrl = (req.body.video_url || '').trim()
+    const videoUrlDigitado = (req.body.video_url || '').trim()
     const thumbnail = (req.body.thumbnail || '').trim()
     const categoria = (req.body.categoria || 'Treino').trim()
     const nivel = req.body.nivel || 'iniciante'
     const duracaoSeg = Number(req.body.duracao_seg) || null
     const exclusivo = req.body.exclusivo ? 1 : 0
 
+    const videoUrl = req.file
+        ? `/uploads/videos/${req.file.filename}`
+        : videoUrlDigitado
+
     if (!titulo) {
         return res.redirect('/todosvideos?erro=' + encodeURIComponent('Informe o título do vídeo.'))
+    }
+
+    if (!videoUrl) {
+        return res.redirect('/todosvideos?erro=' + encodeURIComponent('Envie um arquivo de vídeo ou informe uma URL do vídeo.'))
     }
 
     try {
@@ -1570,7 +1602,7 @@ router.post('/professor/videos/criar', authProfessor, async (req, res) => {
                 idProfessor,
                 titulo,
                 descricao || null,
-                videoUrl || null,
+                videoUrl,
                 thumbnail || null,
                 duracaoSeg,
                 categoria || null,
@@ -1725,17 +1757,236 @@ router.get('/visaoperfilaluno', authProfessor, (req, res) => {
     res.render('visaoperfilaluno', { professor: req.session.professor })
 })
 
+router.get('/feedbackprofessor', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
 
+    const busca = (req.query.busca || '').trim()
+    const status = (req.query.status || 'pendentes').trim()
+    const idAlunoSelecionado = Number(req.query.aluno) || null
 
-router.get('/feedbackprofessor', authProfessor, (req, res) => {
-    res.render('feedbackprofessor', { professor: req.session.professor })
+    try {
+        const paramsFeedbacks = [idProfessor]
+        let filtroSql = ''
+
+        if (busca) {
+            filtroSql += ` AND (a.nome LIKE ? OR a.email LIKE ? OR mf.texto LIKE ?)`
+            paramsFeedbacks.push(`%${busca}%`, `%${busca}%`, `%${busca}%`)
+        }
+
+        if (status === 'pendentes') {
+            filtroSql += ` AND mf.remetente = 'aluno' AND mf.lida = 0`
+        }
+
+        if (status === 'respondidos') {
+            filtroSql += ` AND EXISTS (
+                SELECT 1
+                FROM mensagem_feedback mf_prof
+                WHERE mf_prof.id_chat = cf.id_chat
+                AND mf_prof.remetente = 'professor'
+            )`
+        }
+
+        const [feedbacksRows] = await db.query(
+            `SELECT 
+                cf.id_chat,
+                a.id_aluno,
+                a.nome AS aluno_nome,
+                a.email AS aluno_email,
+                a.foto_perfil,
+                COALESCE(p.nome, 'Free') AS plano,
+                mf.id_mensagem,
+                mf.texto,
+                mf.intensidade,
+                mf.nivel_cansaco,
+                mf.remetente,
+                mf.lida,
+                mf.enviado_em,
+                (
+                    SELECT COUNT(*)
+                    FROM mensagem_feedback mf_pendente
+                    WHERE mf_pendente.id_chat = cf.id_chat
+                    AND mf_pendente.remetente = 'aluno'
+                    AND mf_pendente.lida = 0
+                ) AS mensagens_pendentes,
+                (
+                    SELECT mf_ultima.texto
+                    FROM mensagem_feedback mf_ultima
+                    WHERE mf_ultima.id_chat = cf.id_chat
+                    ORDER BY mf_ultima.enviado_em DESC, mf_ultima.id_mensagem DESC
+                    LIMIT 1
+                ) AS ultima_mensagem,
+                (
+                    SELECT mf_ultima.enviado_em
+                    FROM mensagem_feedback mf_ultima
+                    WHERE mf_ultima.id_chat = cf.id_chat
+                    ORDER BY mf_ultima.enviado_em DESC, mf_ultima.id_mensagem DESC
+                    LIMIT 1
+                ) AS ultima_data
+             FROM chat_feedback cf
+             JOIN aluno a ON a.id_aluno = cf.id_aluno
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             JOIN mensagem_feedback mf ON mf.id_chat = cf.id_chat
+             WHERE cf.id_professor = ?
+             ${filtroSql}
+             ORDER BY ultima_data DESC`,
+            paramsFeedbacks
+        )
+
+        const conversasMap = new Map()
+
+        feedbacksRows.forEach((item) => {
+            if (!conversasMap.has(item.id_chat)) {
+                conversasMap.set(item.id_chat, item)
+            }
+        })
+
+        const conversas = Array.from(conversasMap.values())
+        const alunoAtivo = idAlunoSelecionado || (conversas[0] ? conversas[0].id_aluno : null)
+
+        let conversaAtual = null
+        let mensagens = []
+
+        if (alunoAtivo) {
+            const [chatRows] = await db.query(
+                `SELECT 
+                    cf.id_chat,
+                    a.id_aluno,
+                    a.nome AS aluno_nome,
+                    a.email AS aluno_email,
+                    a.foto_perfil,
+                    COALESCE(p.nome, 'Free') AS plano
+                 FROM chat_feedback cf
+                 JOIN aluno a ON a.id_aluno = cf.id_aluno
+                 LEFT JOIN plano p ON p.id_plano = a.id_plano
+                 WHERE cf.id_professor = ?
+                 AND cf.id_aluno = ?
+                 LIMIT 1`,
+                [idProfessor, alunoAtivo]
+            )
+
+            conversaAtual = chatRows[0] || null
+
+            if (conversaAtual) {
+                const [mensagensRows] = await db.query(
+                    `SELECT 
+                        id_mensagem,
+                        remetente,
+                        intensidade,
+                        nivel_cansaco,
+                        texto,
+                        lida,
+                        enviado_em
+                     FROM mensagem_feedback
+                     WHERE id_chat = ?
+                     ORDER BY enviado_em ASC, id_mensagem ASC`,
+                    [conversaAtual.id_chat]
+                )
+
+                mensagens = mensagensRows
+            }
+        }
+
+        const [estatisticasRows] = await db.query(
+            `SELECT
+                COUNT(DISTINCT cf.id_chat) AS total_conversas,
+                COUNT(CASE WHEN mf.remetente = 'aluno' AND mf.lida = 0 THEN 1 END) AS pendentes,
+                COUNT(CASE WHEN mf.remetente = 'aluno' THEN 1 END) AS total_feedbacks,
+                COUNT(CASE WHEN mf.remetente = 'professor' THEN 1 END) AS total_respostas
+             FROM chat_feedback cf
+             LEFT JOIN mensagem_feedback mf ON mf.id_chat = cf.id_chat
+             WHERE cf.id_professor = ?`,
+            [idProfessor]
+        )
+
+        res.render('feedbackprofessor', {
+            professor: req.session.professor,
+            conversas,
+            conversaAtual,
+            mensagens,
+            estatisticas: estatisticasRows[0] || {
+                total_conversas: 0,
+                pendentes: 0,
+                total_feedbacks: 0,
+                total_respostas: 0
+            },
+            filtros: {
+                busca,
+                status
+            },
+            sucesso: req.query.sucesso || null,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[feedbackprofessor]', err)
+
+        res.render('feedbackprofessor', {
+            professor: req.session.professor,
+            conversas: [],
+            conversaAtual: null,
+            mensagens: [],
+            estatisticas: {
+                total_conversas: 0,
+                pendentes: 0,
+                total_feedbacks: 0,
+                total_respostas: 0
+            },
+            filtros: {
+                busca,
+                status
+            },
+            erro: 'Erro ao carregar feedbacks: ' + err.message,
+            sucesso: null
+        })
+    }
 })
 
-router.get('/feedbackresposta', authProfessor, (req, res) => {
-    res.render('feedbackresposta', {
-        professor: req.session.professor,
-        idAluno: req.query.aluno || req.query.id_aluno || ''
-    })
+router.post('/feedbackresposta', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idAluno = Number(req.body['id-aluno'])
+    const texto = req.body['resposta']
+
+    if (!idAluno || !texto || !texto.trim()) {
+        return res.redirect('/feedbackprofessor?erro=' + encodeURIComponent('Escolha um aluno e escreva uma resposta.'))
+    }
+
+    try {
+        const [chatRows] = await db.query(
+            `SELECT id_chat 
+             FROM chat_feedback
+             WHERE id_professor = ? 
+             AND id_aluno = ?
+             LIMIT 1`,
+            [idProfessor, idAluno]
+        )
+
+        if (chatRows.length === 0) {
+            return res.redirect('/feedbackprofessor?erro=' + encodeURIComponent('Conversa não encontrada.'))
+        }
+
+        const idChat = chatRows[0].id_chat
+
+        await db.query(
+            `INSERT INTO mensagem_feedback 
+             (id_chat, remetente, texto, lida)
+             VALUES (?, 'professor', ?, 1)`,
+            [idChat, texto.trim()]
+        )
+
+        await db.query(
+            `UPDATE mensagem_feedback 
+             SET lida = 1
+             WHERE id_chat = ? 
+             AND remetente = 'aluno' 
+             AND lida = 0`,
+            [idChat]
+        )
+
+        res.redirect('/feedbackprofessor?aluno=' + idAluno + '&sucesso=' + encodeURIComponent('Resposta enviada com sucesso.'))
+    } catch (err) {
+        console.error('[feedbackresposta]', err)
+
+        res.redirect('/feedbackprofessor?erro=' + encodeURIComponent('Erro ao enviar resposta: ' + err.message))
+    }
 })
 
 // =======================
@@ -2000,6 +2251,38 @@ router.get('/logout', (req, res) => {
 // =======================
 // PAGAMENTO
 // =======================
+
+router.get('/pagamento', authAluno, async (req, res) => {
+    const idPlano = Number(req.query.plano) || 2
+
+    try {
+        const [rows] = await db.query(
+            'SELECT id_plano, nome, valor_mensal, descricao FROM plano WHERE id_plano = ?',
+            [idPlano]
+        )
+
+        res.render('pagamento', {
+            aluno: req.session.aluno,
+            planoSelecionado: rows[0] || {
+                id_plano: 2,
+                nome: 'Lazuli',
+                valor_mensal: 59.00
+            }
+        })
+    } catch (err) {
+        console.error('[pagamento GET]', err)
+
+        res.render('pagamento', {
+            aluno: req.session.aluno,
+            planoSelecionado: {
+                id_plano: 2,
+                nome: 'Lazuli',
+                valor_mensal: 59.00
+            },
+            erro: 'Não foi possível carregar o plano. Tente novamente.'
+        })
+    }
+})
 
 router.post('/pagamento', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
@@ -2344,48 +2627,6 @@ router.post('/feedbackresposta', authProfessor, async (req, res) => {
 })
 
 // =======================
-// EDITAR EXERCÍCIOS
-// =======================
-
-router.post('/editarexercicios', authProfessor, async (req, res) => {
-    const idExercicio = Number(req.body['id-exercicio'])
-    const titulo = req.body['exercise-title']
-    const descricao = req.body['exercise-description']
-    const categoria = req.body['exercise-category']
-    const duracao = Number(req.body['exercise-duration']) || null
-    const nivel = req.body['difficulty'] || 'intermediario'
-
-    if (!idExercicio || !titulo) {
-        return res.render('editarexercicios', {
-            professor: req.session.professor,
-            erro: 'Informe o exercício e o título.'
-        })
-    }
-
-    try {
-        await db.query(
-            `UPDATE exercicio
-             SET titulo = ?, 
-                 descricao = ?, 
-                 categoria = ?,
-                 duracao_segundos = ?, 
-                 nivel = ?
-             WHERE id_exercicio = ?`,
-            [titulo.trim(), descricao || null, categoria || null, duracao, nivel, idExercicio]
-        )
-
-        res.redirect('/todosvideos')
-    } catch (err) {
-        console.error('[editarexercicios]', err)
-
-        res.render('editarexercicios', {
-            professor: req.session.professor,
-            erro: 'Erro ao salvar exercício.'
-        })
-    }
-})
-
-// =======================
 // APIs JSON - ALUNO
 // =======================
 
@@ -2487,6 +2728,7 @@ router.get('/api/professor/videos', authProfessor, async (req, res) => {
                     duracao_seg, categoria, nivel, exclusivo, ativo, criado_em
              FROM video 
              WHERE id_professor = ?
+             AND ativo = 1
              ORDER BY criado_em DESC`,
             [idProfessor]
         )
