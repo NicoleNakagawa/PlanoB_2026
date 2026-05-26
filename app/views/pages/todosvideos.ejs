@@ -91,6 +91,28 @@
       transform: scale(1.08);
     }
 
+
+    .drop-area {
+      border: 2px dashed #a2abd7;
+      background:
+        radial-gradient(circle at top right, rgba(0, 88, 186, 0.08), transparent 35%),
+        #efefff;
+      transition: all 0.25s ease;
+    }
+
+    .drop-area:hover,
+    .drop-area.drag-over {
+      border-color: #0058ba;
+      background:
+        radial-gradient(circle at top right, rgba(0, 88, 186, 0.14), transparent 35%),
+        #e4e7ff;
+      transform: translateY(-2px);
+    }
+
+    .preview-video {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       html,
       body {
@@ -370,61 +392,132 @@
         <header class="mb-6">
           <h2 class="text-2xl font-extrabold headline text-on-surface">Adicionar novo vídeo</h2>
           <p class="text-sm text-on-surface-variant mt-1">
-            Use link do vídeo e da capa. Isso funciona melhor no Render do que upload local.
+            Arraste o arquivo do vídeo, selecione no computador ou informe uma URL externa.
           </p>
         </header>
 
-        <form action="/professor/videos/criar" method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <label class="md:col-span-6">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Título</span>
-            <input name="titulo" required class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="Ex: Treino de pernas completo">
-          </label>
+        <form action="/professor/videos/criar" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-12 gap-5">
 
-          <label class="md:col-span-3">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Categoria</span>
-            <input name="categoria" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="Força">
-          </label>
+          <section class="md:col-span-5">
+            <label
+              id="drop-area"
+              for="arquivo_video"
+              class="drop-area min-h-[360px] rounded-[2rem] flex flex-col items-center justify-center text-center p-8 cursor-pointer"
+            >
+              <span class="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center shadow-xl shadow-primary/20 mb-6">
+                <i class="material-symbols-outlined text-6xl not-italic" aria-hidden="true">cloud_upload</i>
+              </span>
 
-          <label class="md:col-span-3">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Nível</span>
-            <select name="nivel" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary">
-              <option value="iniciante">Iniciante</option>
-              <option value="intermediario">Intermediário</option>
-              <option value="avancado">Avançado</option>
-            </select>
-          </label>
+              <strong id="drop-title" class="text-2xl font-black headline text-on-surface">
+                Arraste o vídeo aqui
+              </strong>
 
-          <label class="md:col-span-6">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL do vídeo</span>
-            <input name="video_url" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="https://.../video.mp4 ou link incorporável">
-          </label>
+              <span id="drop-subtitle" class="text-sm text-on-surface-variant mt-3 max-w-xs">
+                ou clique para selecionar um arquivo MP4, WEBM, OGG ou MOV.
+              </span>
 
-          <label class="md:col-span-6">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL da capa</span>
-            <input name="thumbnail" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="https://.../imagem.jpg">
-          </label>
+              <small class="text-xs font-bold text-primary mt-5">
+                Tamanho máximo configurado: 300MB
+              </small>
 
-          <label class="md:col-span-3">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Duração em segundos</span>
-            <input name="duracao_seg" type="number" min="1" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="600">
-          </label>
+              <input
+                id="arquivo_video"
+                name="arquivo_video"
+                type="file"
+                accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                class="sr-only"
+              />
+            </label>
 
-          <label class="md:col-span-3 flex items-end">
-            <span class="w-full rounded-2xl bg-surface-container-low px-5 py-4 flex items-center gap-3 font-bold">
-              <input name="exclusivo" type="checkbox" checked class="rounded text-primary focus:ring-primary">
-              Exclusivo Premium
-            </span>
-          </label>
+            <video id="preview-video" class="preview-video w-full mt-5 rounded-3xl bg-black" controls></video>
 
-          <label class="md:col-span-6">
-            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Descrição</span>
-            <textarea name="descricao" rows="3" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary resize-none" placeholder="Descreva o exercício, objetivo e cuidados..."></textarea>
-          </label>
+            <p class="text-xs text-on-surface-variant mt-4 leading-relaxed">
+              Você também pode informar uma URL externa no campo ao lado. No Render, para projetos profissionais, o ideal é depois usar Cloudinary, Firebase Storage ou S3 para armazenar vídeos.
+            </p>
+          </section>
 
-          <button type="submit" class="md:col-span-12 bg-primary text-white rounded-full px-8 py-4 font-black shadow-lg shadow-primary/20 active:scale-95 transition-transform inline-flex items-center justify-center gap-2">
-            Adicionar vídeo
-            <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
-          </button>
+          <section class="md:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4 content-start">
+            <label class="md:col-span-2">
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Título</span>
+              <input
+                name="titulo"
+                required
+                class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary"
+                placeholder="Ex: Treino de pernas completo"
+              />
+            </label>
+
+            <label>
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Categoria</span>
+              <input
+                name="categoria"
+                class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary"
+                placeholder="Força, Cardio..."
+              />
+            </label>
+
+            <label>
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Nível</span>
+              <select name="nivel" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary">
+                <option value="iniciante">Iniciante</option>
+                <option value="intermediario">Intermediário</option>
+                <option value="avancado">Avançado</option>
+              </select>
+            </label>
+
+            <label>
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Duração em segundos</span>
+              <input
+                id="duracao_seg"
+                name="duracao_seg"
+                type="number"
+                min="1"
+                class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary"
+                placeholder="600"
+              />
+            </label>
+
+            <label class="flex items-end">
+              <span class="w-full rounded-2xl bg-surface-container-low px-5 py-4 flex items-center gap-3 font-bold">
+                <input name="exclusivo" type="checkbox" checked class="rounded text-primary focus:ring-primary">
+                Exclusivo Premium
+              </span>
+            </label>
+
+            <label class="md:col-span-2">
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL do vídeo, caso não envie arquivo</span>
+              <input
+                name="video_url"
+                class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary"
+                placeholder="https://.../video.mp4"
+              />
+            </label>
+
+            <label class="md:col-span-2">
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL da capa</span>
+              <input
+                name="thumbnail"
+                class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary"
+                placeholder="https://.../imagem.jpg"
+              />
+            </label>
+
+            <label class="md:col-span-2">
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Descrição</span>
+              <textarea
+                name="descricao"
+                rows="5"
+                class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary resize-none"
+                placeholder="Descreva o exercício, objetivo e cuidados..."
+              ></textarea>
+            </label>
+
+            <button type="submit" class="md:col-span-2 bg-primary text-white rounded-full px-8 py-5 font-black shadow-lg shadow-primary/20 active:scale-95 transition-transform inline-flex items-center justify-center gap-2">
+              Enviar vídeo
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">send</i>
+            </button>
+          </section>
+
         </form>
       </section>
 
@@ -560,6 +653,65 @@
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
     </a>
   </nav>
+
+
+  <script>
+    const dropArea = document.getElementById('drop-area')
+    const inputVideo = document.getElementById('arquivo_video')
+    const dropTitle = document.getElementById('drop-title')
+    const dropSubtitle = document.getElementById('drop-subtitle')
+    const previewVideo = document.getElementById('preview-video')
+    const duracaoInput = document.getElementById('duracao_seg')
+
+    function aplicarArquivo(file) {
+      if (!file) return
+
+      dropTitle.textContent = file.name
+      dropSubtitle.textContent = `${(file.size / 1024 / 1024).toFixed(1)} MB selecionado`
+
+      const url = URL.createObjectURL(file)
+      previewVideo.src = url
+      previewVideo.style.display = 'block'
+
+      previewVideo.onloadedmetadata = () => {
+        if (duracaoInput && previewVideo.duration && !Number.isNaN(previewVideo.duration)) {
+          duracaoInput.value = Math.round(previewVideo.duration)
+        }
+      }
+    }
+
+    if (dropArea && inputVideo) {
+      inputVideo.addEventListener('change', () => {
+        aplicarArquivo(inputVideo.files[0])
+      })
+
+      ;['dragenter', 'dragover'].forEach(evento => {
+        dropArea.addEventListener(evento, (event) => {
+          event.preventDefault()
+          dropArea.classList.add('drag-over')
+        })
+      })
+
+      ;['dragleave', 'drop'].forEach(evento => {
+        dropArea.addEventListener(evento, (event) => {
+          event.preventDefault()
+          dropArea.classList.remove('drag-over')
+        })
+      })
+
+      dropArea.addEventListener('drop', (event) => {
+        const file = event.dataTransfer.files[0]
+
+        if (!file) return
+
+        const dataTransfer = new DataTransfer()
+        dataTransfer.items.add(file)
+        inputVideo.files = dataTransfer.files
+
+        aplicarArquivo(file)
+      })
+    }
+  </script>
 
 </body>
 </html>
