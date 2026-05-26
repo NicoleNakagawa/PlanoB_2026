@@ -93,13 +93,8 @@ function authProfessor(req, res, next) {
 function redirecionarPainelAluno(idPlano) {
     const plano = Number(idPlano)
 
-    if (plano === 2) {
-        return '/painellazuli'
-    }
-
-    if (plano === 3) {
-        return '/paineldiamante'
-    }
+    if (plano === 2) return '/painellazuli'
+    if (plano === 3) return '/paineldiamante'
 
     return '/painelfree'
 }
@@ -107,11 +102,163 @@ function redirecionarPainelAluno(idPlano) {
 function redirecionarVideosAluno(idPlano) {
     const plano = Number(idPlano)
 
-    if (plano >= 2) {
-        return '/videos'
-    }
+    if (plano >= 2) return '/videos'
 
     return '/videosfree'
+}
+
+async function obterColunasTabela(nomeTabela) {
+    const [colunas] = await db.query(`SHOW COLUMNS FROM \`${nomeTabela}\``)
+    return colunas.map(coluna => coluna.Field)
+}
+
+async function criarFichaParaProfessor(idProfessor, dados = {}) {
+    const colunasFicha = await obterColunasTabela('ficha_treino')
+
+    const campos = []
+    const valores = []
+    const params = []
+
+    function adicionar(campo, valor) {
+        if (colunasFicha.includes(campo)) {
+            campos.push(`\`${campo}\``)
+            valores.push('?')
+            params.push(valor)
+        }
+    }
+
+    adicionar('id_professor', idProfessor)
+    adicionar('nome_ficha', dados.nomeFicha || 'Ficha principal')
+    adicionar('nome', dados.nomeFicha || 'Ficha principal')
+    adicionar('titulo', dados.nomeFicha || 'Ficha principal')
+    adicionar('categoria', dados.categoria || 'Treino personalizado')
+    adicionar('nivel', dados.nivel || 'iniciante')
+    adicionar('descricao', 'Ficha criada automaticamente ao vincular aluno ao professor.')
+    adicionar('objetivo', 'Acompanhamento personalizado')
+    adicionar('ativo', 1)
+
+    if (!campos.includes('`id_professor`')) {
+        throw new Error('A tabela ficha_treino precisa ter a coluna id_professor.')
+    }
+
+    if (
+        !campos.includes('`nome_ficha`') &&
+        !campos.includes('`nome`') &&
+        !campos.includes('`titulo`')
+    ) {
+        throw new Error('A tabela ficha_treino precisa ter uma coluna de nome da ficha: nome_ficha, nome ou titulo.')
+    }
+
+    const [resultado] = await db.query(
+        `INSERT INTO ficha_treino (${campos.join(', ')})
+         VALUES (${valores.join(', ')})`,
+        params
+    )
+
+    return resultado.insertId
+}
+
+async function vincularAlunoAoProfessor(idProfessor, idAluno, dados = {}) {
+    const colunasAlunoFicha = await obterColunasTabela('aluno_ficha')
+    const temAtivo = colunasAlunoFicha.includes('ativo')
+    const filtroAtivo = temAtivo ? 'AND af.ativo = 1' : ''
+
+    const [vinculoExistente] = await db.query(
+        `SELECT af.id_aluno, af.id_ficha
+         FROM aluno_ficha af
+         JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+         WHERE af.id_aluno = ?
+         AND ft.id_professor = ?
+         ${filtroAtivo}
+         LIMIT 1`,
+        [idAluno, idProfessor]
+    )
+
+    if (vinculoExistente.length > 0) {
+        return {
+            jaExistia: true,
+            idFicha: vinculoExistente[0].id_ficha
+        }
+    }
+
+    const idFicha = await criarFichaParaProfessor(idProfessor, dados)
+
+    const campos = []
+    const valores = []
+    const params = []
+
+    function adicionar(campo, valor) {
+        if (colunasAlunoFicha.includes(campo)) {
+            campos.push(`\`${campo}\``)
+            valores.push('?')
+            params.push(valor)
+        }
+    }
+
+    adicionar('id_aluno', idAluno)
+    adicionar('id_ficha', idFicha)
+    adicionar('ativo', 1)
+
+    if (colunasAlunoFicha.includes('data_inicio')) {
+        campos.push('`data_inicio`')
+        valores.push('CURDATE()')
+    }
+
+    if (colunasAlunoFicha.includes('criado_em')) {
+        campos.push('`criado_em`')
+        valores.push('NOW()')
+    }
+
+    if (colunasAlunoFicha.includes('atualizado_em')) {
+        campos.push('`atualizado_em`')
+        valores.push('NOW()')
+    }
+
+    if (colunasAlunoFicha.includes('status')) {
+        campos.push('`status`')
+        valores.push('?')
+        params.push('ativo')
+    }
+
+    if (!campos.includes('`id_aluno`') || !campos.includes('`id_ficha`')) {
+        throw new Error('A tabela aluno_ficha precisa ter as colunas id_aluno e id_ficha.')
+    }
+
+    await db.query(
+        `INSERT INTO aluno_ficha (${campos.join(', ')})
+         VALUES (${valores.join(', ')})`,
+        params
+    )
+
+    return {
+        jaExistia: false,
+        idFicha
+    }
+}
+
+async function buscarProfessorResponsavelDoAluno(idAluno) {
+    const colunasAlunoFicha = await obterColunasTabela('aluno_ficha')
+    const temAtivo = colunasAlunoFicha.includes('ativo')
+    const filtroAtivo = temAtivo ? 'AND af.ativo = 1' : ''
+
+    const [professorRows] = await db.query(
+        `SELECT 
+            p.id_professor,
+            p.nome,
+            p.email,
+            p.cref,
+            p.foto_perfil
+         FROM aluno_ficha af
+         JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+         JOIN professor p ON p.id_professor = ft.id_professor
+         WHERE af.id_aluno = ?
+         ${filtroAtivo}
+         ORDER BY ft.id_ficha DESC
+         LIMIT 1`,
+        [idAluno]
+    )
+
+    return professorRows[0] || null
 }
 
 // =======================
@@ -211,14 +358,12 @@ router.get('/dadosaluno', authAluno, async (req, res) => {
         res.render('dadosaluno', {
             aluno: req.session.aluno,
             dadosAluno: rows[0] || null
-            
         })
     } catch (err) {
         console.error('[dadosaluno GET]', err)
 
         res.render('dadosaluno', {
             aluno: req.session.aluno,
-            dadosAluno: dadosAlunoRows[0] || null,
             dadosAluno: null,
             erro: 'Erro ao carregar seus dados.'
         })
@@ -445,30 +590,6 @@ router.get('/execucaoexercicios', authAluno, (req, res) => {
 router.get('/progressosemanal', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
 
-    function redirecionarPainelAluno(idPlano) {
-        const plano = Number(idPlano)
-
-        if (plano === 2) {
-            return '/painellazuli'
-        }
-
-        if (plano === 3) {
-            return '/paineldiamante'
-        }
-
-        return '/painelfree'
-    }
-
-    function redirecionarVideosAluno(idPlano) {
-        const plano = Number(idPlano)
-
-        if (plano >= 2) {
-            return '/videos'
-        }
-
-        return '/videosfree'
-    }
-
     try {
         const [resumoSemanaRows] = await db.query(
             `SELECT 
@@ -486,8 +607,7 @@ router.get('/progressosemanal', authAluno, async (req, res) => {
         )
 
         const [resumoSemanaAnteriorRows] = await db.query(
-            `SELECT 
-                COALESCE(SUM(duracao_min), 0) AS tempo_total_min
+            `SELECT COALESCE(SUM(duracao_min), 0) AS tempo_total_min
              FROM sessao_treino
              WHERE id_aluno = ?
              AND data_treino BETWEEN 
@@ -513,10 +633,7 @@ router.get('/progressosemanal', authAluno, async (req, res) => {
         )
 
         const [streakRows] = await db.query(
-            `SELECT 
-                streak_atual,
-                streak_maximo,
-                ultima_atividade
+            `SELECT streak_atual, streak_maximo, ultima_atividade
              FROM streak
              WHERE id_aluno = ?
              LIMIT 1`,
@@ -524,12 +641,7 @@ router.get('/progressosemanal', authAluno, async (req, res) => {
         )
 
         const [descontosRows] = await db.query(
-            `SELECT 
-                codigo,
-                percentual,
-                dias_streak,
-                usado,
-                validade
+            `SELECT codigo, percentual, dias_streak, usado, validade
              FROM desconto
              WHERE id_aluno = ?
              ORDER BY dias_streak ASC
@@ -581,12 +693,6 @@ router.get('/progressosemanal', authAluno, async (req, res) => {
         const porcentagemMeta = Math.min(Math.round((Number(resumoSemana.dias_treinados) / metaDias) * 100), 100)
         const treinosRestantes = Math.max(metaDias - Number(resumoSemana.dias_treinados), 0)
 
-        const streak = streakRows[0] || {
-            streak_atual: 0,
-            streak_maximo: 0,
-            ultima_atividade: null
-        }
-
         res.render('progressosemanal', {
             aluno: req.session.aluno,
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
@@ -594,12 +700,17 @@ router.get('/progressosemanal', authAluno, async (req, res) => {
             progresso: {
                 resumoSemana,
                 graficoSemana: graficoSemanaNormalizado,
-                streak,
+                streak: streakRows[0] || {
+                    streak_atual: 0,
+                    streak_maximo: 0,
+                    ultima_atividade: null
+                },
                 descontos: descontosRows,
                 variacaoPct,
                 metaDias,
                 porcentagemMeta,
-                treinosRestantes
+                treinosRestantes,
+                tempoSemanaAnterior: tempoAnterior
             }
         })
     } catch (err) {
@@ -635,7 +746,8 @@ router.get('/progressosemanal', authAluno, async (req, res) => {
                 variacaoPct: 0,
                 metaDias: 5,
                 porcentagemMeta: 0,
-                treinosRestantes: 5
+                treinosRestantes: 5,
+                tempoSemanaAnterior: 0
             },
             erro: 'Erro ao carregar progresso semanal.'
         })
@@ -670,9 +782,9 @@ router.get('/streakprogress', authAluno, async (req, res) => {
         for (const recompensa of recompensasPadrao) {
             if (Number(streak.streak_atual) >= recompensa.dias) {
                 const [existe] = await db.query(
-                    `SELECT id_desconto 
-                     FROM desconto 
-                     WHERE id_aluno = ? 
+                    `SELECT id_desconto
+                     FROM desconto
+                     WHERE id_aluno = ?
                      AND codigo = ?
                      LIMIT 1`,
                     [idAluno, recompensa.codigo]
@@ -680,7 +792,7 @@ router.get('/streakprogress', authAluno, async (req, res) => {
 
                 if (existe.length === 0) {
                     await db.query(
-                        `INSERT INTO desconto 
+                        `INSERT INTO desconto
                          (id_aluno, codigo, percentual, dias_streak, usado, validade)
                          VALUES (?, ?, ?, ?, 0, DATE_ADD(CURDATE(), INTERVAL 30 DAY))`,
                         [
@@ -734,23 +846,12 @@ router.get('/feedbackaluno', authAluno, async (req, res) => {
         return res.redirect('/perfilaluno')
     }
 
-    const idAluno = req.session.aluno.id
-
     try {
-        const [professorRows] = await db.query(
-            `SELECT p.id_professor, p.nome, p.email, p.cref, p.foto_perfil
-             FROM aluno_ficha af
-             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
-             JOIN professor p ON p.id_professor = ft.id_professor
-             WHERE af.id_aluno = ?
-             AND af.ativo = 1
-             LIMIT 1`,
-            [idAluno]
-        )
+        const professorResponsavel = await buscarProfessorResponsavelDoAluno(req.session.aluno.id)
 
         res.render('feedbackaluno', {
             aluno: req.session.aluno,
-            professorResponsavel: professorRows[0] || null,
+            professorResponsavel,
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
             linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
         })
@@ -778,20 +879,11 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
     const texto = req.body['trainer-message']
 
     async function renderFeedback(payload = {}) {
-        const [professorRows] = await db.query(
-            `SELECT p.id_professor, p.nome, p.email, p.cref, p.foto_perfil
-             FROM aluno_ficha af
-             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
-             JOIN professor p ON p.id_professor = ft.id_professor
-             WHERE af.id_aluno = ?
-             AND af.ativo = 1
-             LIMIT 1`,
-            [idAluno]
-        )
+        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
 
         return res.render('feedbackaluno', {
             aluno: req.session.aluno,
-            professorResponsavel: professorRows[0] || null,
+            professorResponsavel,
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
             linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
             ...payload
@@ -805,29 +897,21 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
     }
 
     try {
-        const [fichaRows] = await db.query(
-            `SELECT ft.id_professor 
-             FROM aluno_ficha af
-             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
-             WHERE af.id_aluno = ? 
-             AND af.ativo = 1
-             LIMIT 1`,
-            [idAluno]
-        )
+        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
 
-        if (fichaRows.length === 0) {
+        if (!professorResponsavel) {
             return renderFeedback({
                 erro: 'Nenhum professor associado à sua conta ainda.'
             })
         }
 
-        const idProfessor = fichaRows[0].id_professor
+        const idProfessor = professorResponsavel.id_professor
         let idChat
 
         const [chatRows] = await db.query(
-            `SELECT id_chat 
+            `SELECT id_chat
              FROM chat_feedback
-             WHERE id_professor = ? 
+             WHERE id_professor = ?
              AND id_aluno = ?
              LIMIT 1`,
             [idProfessor, idAluno]
@@ -859,7 +943,7 @@ router.post('/feedbackaluno', authAluno, async (req, res) => {
         console.error('[feedbackaluno POST]', err)
 
         return renderFeedback({
-            erro: 'Erro ao enviar feedback.'
+            erro: 'Erro ao enviar feedback: ' + err.message
         })
     }
 })
@@ -897,28 +981,751 @@ router.get('/pagamento', authAluno, async (req, res) => {
 })
 
 // =======================
-// PÁGINAS PROTEGIDAS - PROFESSOR
+// PROFESSOR
 // =======================
 
-router.get('/painelprofessor', authProfessor, (req, res) => {
-    res.render('painelprofessor', { professor: req.session.professor })
+router.get('/painelprofessor', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+
+    try {
+        const [estatisticasAlunosRows] = await db.query(
+            `SELECT COUNT(DISTINCT a.id_aluno) AS total_alunos
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             JOIN aluno a ON a.id_aluno = af.id_aluno
+             WHERE ft.id_professor = ?
+             AND af.ativo = 1`,
+            [idProfessor]
+        )
+
+        const [estatisticasVideosRows] = await db.query(
+            `SELECT COUNT(*) AS total_videos
+             FROM video
+             WHERE id_professor = ?`,
+            [idProfessor]
+        )
+
+        const [feedbackRows] = await db.query(
+            `SELECT COUNT(*) AS feedbacks_pendentes
+             FROM chat_feedback cf
+             JOIN mensagem_feedback mf ON mf.id_chat = cf.id_chat
+             WHERE cf.id_professor = ?
+             AND mf.remetente = 'aluno'
+             AND mf.lida = 0`,
+            [idProfessor]
+        )
+
+        const [mediaProgressaoRows] = await db.query(
+            `SELECT 
+                COALESCE(ROUND(AVG(
+                    CASE 
+                        WHEN ps.meta_dias IS NOT NULL AND ps.meta_dias > 0 
+                        THEN (ps.dias_treinados / ps.meta_dias) * 100
+                        ELSE 0
+                    END
+                )), 0) AS media_progressao
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             JOIN aluno a ON a.id_aluno = af.id_aluno
+             LEFT JOIN progresso_semanal ps 
+               ON ps.id_aluno = a.id_aluno
+              AND ps.semana_inicio = (
+                    SELECT MAX(ps2.semana_inicio)
+                    FROM progresso_semanal ps2
+                    WHERE ps2.id_aluno = a.id_aluno
+                )
+             WHERE ft.id_professor = ?
+             AND af.ativo = 1`,
+            [idProfessor]
+        )
+
+        const [alunosRows] = await db.query(
+            `SELECT 
+                a.id_aluno,
+                a.nome,
+                a.email,
+                a.foto_perfil,
+                p.nome AS plano,
+                COALESCE(s.streak_atual, 0) AS streak_atual,
+                COALESCE(ps.dias_treinados, 0) AS dias_treinados,
+                COALESCE(ps.meta_dias, 5) AS meta_dias,
+                COALESCE(ps.variacao_pct, 0) AS variacao_pct,
+                COALESCE(ps.tempo_total_min, 0) AS tempo_total_min,
+                (
+                    SELECT COUNT(*)
+                    FROM sessao_treino st
+                    WHERE st.id_aluno = a.id_aluno
+                ) AS total_treinos
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             JOIN aluno a ON a.id_aluno = af.id_aluno
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             LEFT JOIN streak s ON s.id_aluno = a.id_aluno
+             LEFT JOIN progresso_semanal ps 
+               ON ps.id_aluno = a.id_aluno
+              AND ps.semana_inicio = (
+                    SELECT MAX(ps2.semana_inicio)
+                    FROM progresso_semanal ps2
+                    WHERE ps2.id_aluno = a.id_aluno
+                )
+             WHERE ft.id_professor = ?
+             AND af.ativo = 1
+             GROUP BY 
+                a.id_aluno,
+                a.nome,
+                a.email,
+                a.foto_perfil,
+                p.nome,
+                s.streak_atual,
+                ps.dias_treinados,
+                ps.meta_dias,
+                ps.variacao_pct,
+                ps.tempo_total_min
+             ORDER BY a.nome ASC
+             LIMIT 6`,
+            [idProfessor]
+        )
+
+        const [videosRows] = await db.query(
+            `SELECT 
+                id_video,
+                titulo,
+                descricao,
+                thumbnail,
+                duracao_seg,
+                categoria,
+                nivel,
+                exclusivo,
+                ativo,
+                criado_em
+             FROM video
+             WHERE id_professor = ?
+             ORDER BY criado_em DESC
+             LIMIT 4`,
+            [idProfessor]
+        )
+
+        res.render('painelprofessor', {
+            professor: req.session.professor,
+            estatisticas: {
+                total_alunos: estatisticasAlunosRows[0]?.total_alunos || 0,
+                total_videos: estatisticasVideosRows[0]?.total_videos || 0,
+                feedbacks_pendentes: feedbackRows[0]?.feedbacks_pendentes || 0,
+                media_progressao: mediaProgressaoRows[0]?.media_progressao || 0
+            },
+            alunos: alunosRows,
+            videos: videosRows
+        })
+    } catch (err) {
+        console.error('[painelprofessor]', err)
+
+        res.render('painelprofessor', {
+            professor: req.session.professor,
+            estatisticas: {
+                total_alunos: 0,
+                total_videos: 0,
+                feedbacks_pendentes: 0,
+                media_progressao: 0
+            },
+            alunos: [],
+            videos: [],
+            erro: 'Erro ao carregar dados reais do painel.'
+        })
+    }
 })
 
-router.get('/todosalunos', authProfessor, (req, res) => {
-    res.render('todosalunos', { professor: req.session.professor })
+router.get('/todosalunos', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+
+    const busca = (req.query.busca || '').trim()
+    const planoFiltro = (req.query.plano || 'todos').trim()
+    const paginaAtual = Math.max(Number(req.query.page) || 1, 1)
+    const porPagina = 8
+
+    try {
+        const parametros = [idProfessor]
+        let filtroSql = ''
+
+        if (busca) {
+            filtroSql += ` AND (a.nome LIKE ? OR a.email LIKE ?)`
+            parametros.push(`%${busca}%`, `%${busca}%`)
+        }
+
+        if (planoFiltro !== 'todos') {
+            filtroSql += ` AND p.nome = ?`
+            parametros.push(planoFiltro)
+        }
+
+        const [alunosRows] = await db.query(
+            `SELECT 
+                a.id_aluno,
+                a.nome,
+                a.email,
+                a.foto_perfil,
+                a.id_plano,
+                COALESCE(p.nome, 'Free') AS plano,
+                COALESCE(s.streak_atual, 0) AS streak_atual,
+                COALESCE(s.streak_maximo, 0) AS streak_maximo,
+
+                COUNT(DISTINCT st_semana.id_sessao) AS treinos_semana,
+                COUNT(DISTINCT st_semana.data_treino) AS dias_treinados_semana,
+                COALESCE(SUM(st_semana.duracao_min), 0) AS tempo_semana,
+
+                (
+                    SELECT COUNT(*)
+                    FROM sessao_treino st_total
+                    WHERE st_total.id_aluno = a.id_aluno
+                ) AS total_treinos,
+
+                (
+                    SELECT MAX(st_ultimo.data_treino)
+                    FROM sessao_treino st_ultimo
+                    WHERE st_ultimo.id_aluno = a.id_aluno
+                ) AS ultimo_treino,
+
+                ft.id_ficha,
+                ft.nome_ficha,
+                ft.categoria,
+                ft.nivel
+
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             JOIN aluno a ON a.id_aluno = af.id_aluno
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             LEFT JOIN streak s ON s.id_aluno = a.id_aluno
+             LEFT JOIN sessao_treino st_semana 
+               ON st_semana.id_aluno = a.id_aluno
+              AND st_semana.data_treino BETWEEN 
+                    DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                    AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)
+
+             WHERE ft.id_professor = ?
+             AND af.ativo = 1
+             ${filtroSql}
+
+             GROUP BY 
+                a.id_aluno,
+                a.nome,
+                a.email,
+                a.foto_perfil,
+                a.id_plano,
+                p.nome,
+                s.streak_atual,
+                s.streak_maximo,
+                ft.id_ficha,
+                ft.nome_ficha,
+                ft.categoria,
+                ft.nivel
+
+             ORDER BY a.nome ASC`,
+            parametros
+        )
+
+        const alunosComProgresso = alunosRows.map((aluno) => {
+            const metaDias = 5
+            const diasTreinados = Number(aluno.dias_treinados_semana) || 0
+            const totalTreinos = Number(aluno.total_treinos) || 0
+
+            let status = 'Novo'
+
+            if (diasTreinados > 0) {
+                status = 'Ativo'
+            } else if (totalTreinos > 0) {
+                status = 'Em pausa'
+            }
+
+            const progresso = Math.min(Math.round((diasTreinados / metaDias) * 100), 100)
+
+            return {
+                ...aluno,
+                meta_dias_aluno: metaDias,
+                progresso,
+                status
+            }
+        })
+
+        const totalAlunos = alunosComProgresso.length
+        const totalPaginas = Math.max(Math.ceil(totalAlunos / porPagina), 1)
+        const inicio = (paginaAtual - 1) * porPagina
+        const alunosPaginados = alunosComProgresso.slice(inicio, inicio + porPagina)
+
+        const totalAtivos = alunosComProgresso.filter(aluno => aluno.status === 'Ativo').length
+        const totalLazuli = alunosComProgresso.filter(aluno => aluno.plano === 'Lazuli').length
+        const totalDiamante = alunosComProgresso.filter(aluno => aluno.plano === 'Diamante').length
+
+        const mediaProgresso = totalAlunos > 0
+            ? Math.round(alunosComProgresso.reduce((acc, aluno) => acc + aluno.progresso, 0) / totalAlunos)
+            : 0
+
+        const [alunosDisponiveisRows] = await db.query(
+            `SELECT 
+                a.id_aluno,
+                a.nome,
+                a.email,
+                a.foto_perfil,
+                COALESCE(p.nome, 'Free') AS plano
+             FROM aluno a
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             WHERE NOT EXISTS (
+                SELECT 1
+                FROM aluno_ficha af
+                JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+                WHERE af.id_aluno = a.id_aluno
+                AND ft.id_professor = ?
+                AND af.ativo = 1
+             )
+             ORDER BY a.nome ASC
+             LIMIT 100`,
+            [idProfessor]
+        )
+
+        res.render('todosalunos', {
+            professor: req.session.professor,
+            alunos: alunosPaginados,
+            alunosDisponiveis: alunosDisponiveisRows,
+            estatisticas: {
+                totalAlunos,
+                totalAtivos,
+                totalLazuli,
+                totalDiamante,
+                mediaProgresso
+            },
+            filtros: {
+                busca,
+                plano: planoFiltro,
+                paginaAtual,
+                totalPaginas,
+                porPagina
+            },
+            sucesso: req.query.sucesso || null,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[todosalunos]', err)
+
+        res.render('todosalunos', {
+            professor: req.session.professor,
+            alunos: [],
+            alunosDisponiveis: [],
+            estatisticas: {
+                totalAlunos: 0,
+                totalAtivos: 0,
+                totalLazuli: 0,
+                totalDiamante: 0,
+                mediaProgresso: 0
+            },
+            filtros: {
+                busca,
+                plano: planoFiltro,
+                paginaAtual: 1,
+                totalPaginas: 1,
+                porPagina
+            },
+            erro: 'Erro ao carregar alunos do professor.',
+            sucesso: null
+        })
+    }
 })
 
-router.get('/todosvideos', authProfessor, (req, res) => {
-    res.render('todosvideos', { professor: req.session.professor })
+router.post('/professor/vincular-aluno', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idAluno = Number(req.body.id_aluno)
+
+    const nomeFicha = req.body.nome_ficha || 'Ficha principal'
+    const categoria = req.body.categoria || 'Treino personalizado'
+    const nivel = req.body.nivel || 'iniciante'
+
+    if (!idAluno) {
+        return res.redirect('/todosalunos?erro=' + encodeURIComponent('Selecione um aluno para vincular.'))
+    }
+
+    try {
+        const [alunoRows] = await db.query(
+            `SELECT id_aluno, nome
+             FROM aluno
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        if (alunoRows.length === 0) {
+            return res.redirect('/todosalunos?erro=' + encodeURIComponent('Aluno não encontrado.'))
+        }
+
+        const resultado = await vincularAlunoAoProfessor(idProfessor, idAluno, {
+            nomeFicha,
+            categoria,
+            nivel
+        })
+
+        if (resultado.jaExistia) {
+            return res.redirect('/todosalunos?erro=' + encodeURIComponent('Este aluno já está vinculado a você.'))
+        }
+
+        res.redirect('/todosalunos?sucesso=' + encodeURIComponent('Aluno vinculado com sucesso.'))
+    } catch (err) {
+        console.error('[vincular-aluno]', err)
+
+        res.redirect('/todosalunos?erro=' + encodeURIComponent('Erro ao vincular aluno: ' + err.message))
+    }
+})
+
+router.post('/professor/vincular-alunos-disponiveis', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+
+    try {
+        const colunasAlunoFicha = await obterColunasTabela('aluno_ficha')
+        const temAtivo = colunasAlunoFicha.includes('ativo')
+        const filtroAtivo = temAtivo ? 'AND af.ativo = 1' : ''
+
+        const [alunosRows] = await db.query(
+            `SELECT a.id_aluno, a.nome
+             FROM aluno a
+             WHERE NOT EXISTS (
+                SELECT 1
+                FROM aluno_ficha af
+                JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+                WHERE af.id_aluno = a.id_aluno
+                AND ft.id_professor = ?
+                ${filtroAtivo}
+             )
+             ORDER BY a.nome ASC`,
+            [idProfessor]
+        )
+
+        if (alunosRows.length === 0) {
+            return res.redirect('/todosalunos?erro=' + encodeURIComponent('Nenhum aluno disponível para vincular.'))
+        }
+
+        let vinculados = 0
+
+        for (const aluno of alunosRows) {
+            const resultado = await vincularAlunoAoProfessor(idProfessor, aluno.id_aluno, {
+                nomeFicha: `Ficha principal - ${aluno.nome}`,
+                categoria: 'Treino personalizado',
+                nivel: 'iniciante'
+            })
+
+            if (!resultado.jaExistia) {
+                vinculados++
+            }
+        }
+
+        res.redirect('/todosalunos?sucesso=' + encodeURIComponent(`${vinculados} aluno(s) vinculado(s) com sucesso.`))
+    } catch (err) {
+        console.error('[vincular-alunos-disponiveis]', err)
+
+        res.redirect('/todosalunos?erro=' + encodeURIComponent('Erro ao vincular alunos disponíveis: ' + err.message))
+    }
+})
+
+router.post('/professor/desvincular-aluno', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idAluno = Number(req.body.id_aluno)
+
+    if (!idAluno) {
+        return res.redirect('/todosalunos?erro=' + encodeURIComponent('Aluno inválido.'))
+    }
+
+    try {
+        await db.query(
+            `UPDATE aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             SET af.ativo = 0
+             WHERE af.id_aluno = ?
+             AND ft.id_professor = ?`,
+            [idAluno, idProfessor]
+        )
+
+        res.redirect('/todosalunos?sucesso=' + encodeURIComponent('Aluno desvinculado com sucesso.'))
+    } catch (err) {
+        console.error('[desvincular-aluno]', err)
+        res.redirect('/todosalunos?erro=' + encodeURIComponent('Erro ao desvincular aluno: ' + err.message))
+    }
+})
+
+router.get('/todosvideos', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const busca = (req.query.busca || '').trim()
+    const categoria = (req.query.categoria || 'todos').trim()
+
+    try {
+        const params = [idProfessor]
+        let filtroSql = ''
+
+        if (busca) {
+            filtroSql += ' AND (titulo LIKE ? OR descricao LIKE ? OR categoria LIKE ?)'
+            params.push(`%${busca}%`, `%${busca}%`, `%${busca}%`)
+        }
+
+        if (categoria !== 'todos') {
+            filtroSql += ' AND categoria = ?'
+            params.push(categoria)
+        }
+
+        const [videos] = await db.query(
+            `SELECT 
+                id_video,
+                titulo,
+                descricao,
+                video_url,
+                thumbnail,
+                duracao_seg,
+                categoria,
+                nivel,
+                exclusivo,
+                ativo,
+                criado_em,
+                atualizado_em
+             FROM video
+             WHERE id_professor = ?
+             AND ativo = 1
+             ${filtroSql}
+             ORDER BY criado_em DESC`,
+            params
+        )
+
+        const [categorias] = await db.query(
+            `SELECT DISTINCT categoria
+             FROM video
+             WHERE id_professor = ?
+             AND ativo = 1
+             AND categoria IS NOT NULL
+             AND categoria <> ''
+             ORDER BY categoria ASC`,
+            [idProfessor]
+        )
+
+        const [estatisticasRows] = await db.query(
+            `SELECT
+                COUNT(*) AS total_videos,
+                COALESCE(SUM(duracao_seg), 0) AS duracao_total,
+                SUM(CASE WHEN exclusivo = 1 THEN 1 ELSE 0 END) AS total_exclusivos
+             FROM video
+             WHERE id_professor = ?
+             AND ativo = 1`,
+            [idProfessor]
+        )
+
+        res.render('todosvideos', {
+            professor: req.session.professor,
+            videos,
+            categorias,
+            estatisticas: estatisticasRows[0] || {
+                total_videos: 0,
+                duracao_total: 0,
+                total_exclusivos: 0
+            },
+            filtros: {
+                busca,
+                categoria
+            },
+            sucesso: req.query.sucesso || null,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[todosvideos]', err)
+
+        res.render('todosvideos', {
+            professor: req.session.professor,
+            videos: [],
+            categorias: [],
+            estatisticas: {
+                total_videos: 0,
+                duracao_total: 0,
+                total_exclusivos: 0
+            },
+            filtros: {
+                busca,
+                categoria
+            },
+            erro: 'Erro ao carregar vídeos: ' + err.message,
+            sucesso: null
+        })
+    }
+})
+
+router.post('/professor/videos/criar', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+
+    const titulo = (req.body.titulo || '').trim()
+    const descricao = (req.body.descricao || '').trim()
+    const videoUrl = (req.body.video_url || '').trim()
+    const thumbnail = (req.body.thumbnail || '').trim()
+    const categoria = (req.body.categoria || 'Treino').trim()
+    const nivel = req.body.nivel || 'iniciante'
+    const duracaoSeg = Number(req.body.duracao_seg) || null
+    const exclusivo = req.body.exclusivo ? 1 : 0
+
+    if (!titulo) {
+        return res.redirect('/todosvideos?erro=' + encodeURIComponent('Informe o título do vídeo.'))
+    }
+
+    try {
+        await db.query(
+            `INSERT INTO video
+             (id_professor, titulo, descricao, video_url, thumbnail, duracao_seg, categoria, nivel, exclusivo, ativo)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+            [
+                idProfessor,
+                titulo,
+                descricao || null,
+                videoUrl || null,
+                thumbnail || null,
+                duracaoSeg,
+                categoria || null,
+                nivel,
+                exclusivo
+            ]
+        )
+
+        res.redirect('/todosvideos?sucesso=' + encodeURIComponent('Vídeo adicionado com sucesso.'))
+    } catch (err) {
+        console.error('[criar video]', err)
+        res.redirect('/todosvideos?erro=' + encodeURIComponent('Erro ao adicionar vídeo: ' + err.message))
+    }
+})
+
+router.get('/editarvideos/:id', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idVideo = Number(req.params.id)
+
+    if (!idVideo) {
+        return res.redirect('/todosvideos?erro=' + encodeURIComponent('Vídeo inválido.'))
+    }
+
+    try {
+        const [rows] = await db.query(
+            `SELECT 
+                id_video,
+                titulo,
+                descricao,
+                video_url,
+                thumbnail,
+                duracao_seg,
+                categoria,
+                nivel,
+                exclusivo,
+                ativo,
+                criado_em,
+                atualizado_em
+             FROM video
+             WHERE id_video = ?
+             AND id_professor = ?
+             LIMIT 1`,
+            [idVideo, idProfessor]
+        )
+
+        if (rows.length === 0) {
+            return res.redirect('/todosvideos?erro=' + encodeURIComponent('Vídeo não encontrado.'))
+        }
+
+        res.render('editarvideos', {
+            professor: req.session.professor,
+            video: rows[0],
+            sucesso: req.query.sucesso || null,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[editarvideos GET]', err)
+        res.redirect('/todosvideos?erro=' + encodeURIComponent('Erro ao abrir vídeo: ' + err.message))
+    }
+})
+
+router.post('/editarvideos/:id', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idVideo = Number(req.params.id)
+
+    const titulo = (req.body.titulo || '').trim()
+    const descricao = (req.body.descricao || '').trim()
+    const videoUrl = (req.body.video_url || '').trim()
+    const thumbnail = (req.body.thumbnail || '').trim()
+    const categoria = (req.body.categoria || '').trim()
+    const nivel = req.body.nivel || 'iniciante'
+    const duracaoSeg = Number(req.body.duracao_seg) || null
+    const exclusivo = req.body.exclusivo ? 1 : 0
+
+    if (!idVideo) {
+        return res.redirect('/todosvideos?erro=' + encodeURIComponent('Vídeo inválido.'))
+    }
+
+    if (!titulo) {
+        return res.redirect('/editarvideos/' + idVideo + '?erro=' + encodeURIComponent('Informe o título do vídeo.'))
+    }
+
+    try {
+        const [result] = await db.query(
+            `UPDATE video
+             SET titulo = ?,
+                 descricao = ?,
+                 video_url = ?,
+                 thumbnail = ?,
+                 duracao_seg = ?,
+                 categoria = ?,
+                 nivel = ?,
+                 exclusivo = ?,
+                 atualizado_em = NOW()
+             WHERE id_video = ?
+             AND id_professor = ?`,
+            [
+                titulo,
+                descricao || null,
+                videoUrl || null,
+                thumbnail || null,
+                duracaoSeg,
+                categoria || null,
+                nivel,
+                exclusivo,
+                idVideo,
+                idProfessor
+            ]
+        )
+
+        if (result.affectedRows === 0) {
+            return res.redirect('/todosvideos?erro=' + encodeURIComponent('Vídeo não encontrado ou sem permissão.'))
+        }
+
+        res.redirect('/editarvideos/' + idVideo + '?sucesso=' + encodeURIComponent('Alterações salvas com sucesso.'))
+    } catch (err) {
+        console.error('[editarvideos POST]', err)
+        res.redirect('/editarvideos/' + idVideo + '?erro=' + encodeURIComponent('Erro ao salvar vídeo: ' + err.message))
+    }
+})
+
+router.post('/professor/videos/:id/excluir', authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idVideo = Number(req.params.id)
+
+    if (!idVideo) {
+        return res.redirect('/todosvideos?erro=' + encodeURIComponent('Vídeo inválido.'))
+    }
+
+    try {
+        await db.query(
+            `UPDATE video
+             SET ativo = 0,
+                 atualizado_em = NOW()
+             WHERE id_video = ?
+             AND id_professor = ?`,
+            [idVideo, idProfessor]
+        )
+
+        res.redirect('/todosvideos?sucesso=' + encodeURIComponent('Vídeo removido com sucesso.'))
+    } catch (err) {
+        console.error('[excluir video]', err)
+        res.redirect('/todosvideos?erro=' + encodeURIComponent('Erro ao remover vídeo: ' + err.message))
+    }
+})
+
+router.get('/editarexercicios', authProfessor, (req, res) => {
+    res.redirect('/todosvideos')
 })
 
 router.get('/visaoperfilaluno', authProfessor, (req, res) => {
     res.render('visaoperfilaluno', { professor: req.session.professor })
 })
 
-router.get('/editarexercicios', authProfessor, (req, res) => {
-    res.render('editarexercicios', { professor: req.session.professor })
-})
+
 
 router.get('/feedbackprofessor', authProfessor, (req, res) => {
     res.render('feedbackprofessor', { professor: req.session.professor })
@@ -947,7 +1754,7 @@ router.post('/cadastroaluno', async (req, res) => {
     try {
         const [rows] = await db.query(
             'SELECT id_aluno FROM aluno WHERE email = ?',
-            [email]
+            [email.trim().toLowerCase()]
         )
 
         if (rows.length > 0) {
@@ -1388,7 +2195,6 @@ router.post('/pagamento', authAluno, async (req, res) => {
         res.redirect(redirecionarPainelAluno(idPlano))
     } catch (err) {
         console.error('[pagamento]', err)
-
         return renderizarErroPagamento('Erro ao processar pagamento.')
     }
 })
@@ -1422,89 +2228,6 @@ router.post('/suporte', async (req, res) => {
 
         res.render('suporte', {
             erro: 'Erro ao enviar mensagem. Tente novamente.'
-        })
-    }
-})
-
-// =======================
-// FEEDBACK ALUNO
-// =======================
-
-router.post('/feedbackaluno', authAluno, async (req, res) => {
-    if (Number(req.session.aluno.id_plano) === 1) {
-        return res.redirect('/perfilaluno')
-    }
-
-    const idAluno = req.session.aluno.id
-    const intensidade = req.body['intensity']
-    const cansaco = req.body['tiredness-range']
-    const texto = req.body['trainer-message']
-
-    if (!texto) {
-        return res.render('feedbackaluno', {
-            aluno: req.session.aluno,
-            erro: 'Escreva uma mensagem para enviar ao professor.'
-        })
-    }
-
-    try {
-        const [fichaRows] = await db.query(
-            `SELECT ft.id_professor 
-             FROM aluno_ficha af
-             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
-             WHERE af.id_aluno = ? 
-             AND af.ativo = 1
-             LIMIT 1`,
-            [idAluno]
-        )
-
-        if (fichaRows.length === 0) {
-            return res.render('feedbackaluno', {
-                aluno: req.session.aluno,
-                erro: 'Nenhum professor associado à sua conta ainda.'
-            })
-        }
-
-        const idProfessor = fichaRows[0].id_professor
-        let idChat
-
-        const [chatRows] = await db.query(
-            `SELECT id_chat 
-             FROM chat_feedback
-             WHERE id_professor = ? 
-             AND id_aluno = ?`,
-            [idProfessor, idAluno]
-        )
-
-        if (chatRows.length > 0) {
-            idChat = chatRows[0].id_chat
-        } else {
-            const [chatResult] = await db.query(
-                `INSERT INTO chat_feedback (id_professor, id_aluno)
-                 VALUES (?, ?)`,
-                [idProfessor, idAluno]
-            )
-
-            idChat = chatResult.insertId
-        }
-
-        await db.query(
-            `INSERT INTO mensagem_feedback
-             (id_chat, remetente, intensidade, nivel_cansaco, texto)
-             VALUES (?, 'aluno', ?, ?, ?)`,
-            [idChat, intensidade || null, cansaco || null, texto.trim()]
-        )
-
-        res.render('feedbackaluno', {
-            aluno: req.session.aluno,
-            sucesso: 'Feedback enviado ao seu professor!'
-        })
-    } catch (err) {
-        console.error('[feedbackaluno]', err)
-
-        res.render('feedbackaluno', {
-            aluno: req.session.aluno,
-            erro: 'Erro ao enviar feedback.'
         })
     }
 })

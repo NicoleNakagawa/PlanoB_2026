@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>PlanoB Pro - Biblioteca de Vídeos</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Meus Vídeos</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
   <script id="tailwind-config">
     tailwind.config = {
@@ -15,31 +17,26 @@
       theme: {
         extend: {
           colors: {
-            "surface-tint": "#0058ba", "surface-container-high": "#dde1ff",
-            "tertiary": "#6c5a00", "surface-container": "#e4e7ff",
-            "primary-container": "#6c9fff", "primary-dim": "#004da4",
-            "outline": "#6c759e", "primary-fixed": "#6c9fff",
-            "on-primary-container": "#00214e", "surface-dim": "#cad2ff",
-            "secondary-dim": "#00576c", "background": "#f7f5ff",
-            "on-secondary-container": "#004e61", "error-container": "#fb5151",
-            "tertiary-dim": "#5e4e00", "outline-variant": "#a2abd7",
-            "on-surface-variant": "#505a81", "tertiary-fixed-dim": "#efc900",
-            "surface-bright": "#f7f5ff", "tertiary-fixed": "#ffd709",
-            "error": "#b31b25", "inverse-surface": "#020a2f",
-            "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#5091ff",
-            "surface-variant": "#d5dbff", "on-surface": "#232c51",
-            "surface-container-highest": "#d5dbff", "inverse-primary": "#4a8eff",
-            "tertiary-container": "#ffd709", "on-tertiary": "#fff2cd",
-            "secondary-container": "#80deff", "surface-container-low": "#efefff",
-            "on-primary": "#f0f2ff", "inverse-on-surface": "#929bc6",
-            "surface": "#f7f5ff", "primary": "#0058ba",
-            "on-background": "#232c51", "secondary": "#00647b",
-            "on-tertiary-fixed": "#453900", "on-tertiary-container": "#5b4b00",
-            "on-tertiary-fixed-variant": "#665500", "on-error": "#ffefee",
-            "on-error-container": "#570008", "error-dim": "#9f0519"
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "secondary": "#00647b",
+            "on-primary": "#f0f2ff",
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-highest": "#d5dbff",
+            "outline": "#6c759e",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
+            "error": "#b31b25"
           },
-          borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
-          fontFamily: { headline: ["Lexend"], body: ["Manrope"], label: ["Manrope"] }
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"]
+          }
         }
       }
     }
@@ -50,171 +47,495 @@
       font-family: 'Baumans';
       src: url('/fonts/Baumans-Regular.ttf') format('truetype');
     }
-    .logo-font { font-family: 'Baumans', sans-serif !important; font-weight: 400 !important; letter-spacing: 0.02em; }
-    .logo-header { font-size: 2.7rem; line-height: 1; }
-    body { font-family: 'Manrope', sans-serif; }
-    h1, h2, h3, h4 { font-family: 'Lexend', sans-serif; }
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
-    .action-gradient { background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%); }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .video-card:hover img {
+      transform: scale(1.08);
+    }
+
     @media (max-width: 768px) {
-      html, body { overflow-x: hidden; }
-      main { margin-left: 0 !important; padding: 88px 16px 120px !important; }
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      article.hero-videos-prof {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-videos-prof h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      section.card-mobile,
+      article.card-mobile {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 52px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
+        color: #0058ba !important;
+        opacity: 1 !important;
+        background: #d5dbff;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
     }
   </style>
 </head>
 
 <body class="bg-surface text-on-surface min-h-screen">
 
-  <!-- Header -->
+  <%
+    const professorSeguro = typeof professor !== 'undefined' && professor ? professor : {}
+    const videosSeguros = typeof videos !== 'undefined' && videos ? videos : []
+    const categoriasSeguras = typeof categorias !== 'undefined' && categorias ? categorias : []
+    const estatisticasSeguras = typeof estatisticas !== 'undefined' && estatisticas ? estatisticas : {
+      total_videos: 0,
+      duracao_total: 0,
+      total_exclusivos: 0
+    }
+    const filtrosSeguros = typeof filtros !== 'undefined' && filtros ? filtros : {
+      busca: '',
+      categoria: 'todos'
+    }
+
+    function segundosParaMinutos(segundos) {
+      const valor = Number(segundos) || 0
+      if (valor <= 0) return '0 min'
+      const minutos = Math.floor(valor / 60)
+      const resto = valor % 60
+
+      if (minutos <= 0) return resto + 's'
+      if (resto === 0) return minutos + ' min'
+
+      return minutos + 'm ' + resto + 's'
+    }
+
+    function dataFormatada(data) {
+      if (!data) return 'Sem data'
+      return new Date(data).toLocaleDateString('pt-BR')
+    }
+  %>
+
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-    <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/painelprofessor" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+    </nav>
 
-    <section class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+    <form action="/todosvideos" method="GET" class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
       <i class="material-symbols-outlined text-outline text-sm not-italic" aria-hidden="true">search</i>
-      <label for="search-videos" class="sr-only">Buscar vídeos</label>
-      <input id="search-videos" class="bg-transparent border-none focus:ring-0 text-sm w-48 ml-2" placeholder="Buscar vídeos..." type="search"/>
-    </section>
+      <label for="top-search" class="sr-only">Buscar vídeos</label>
+      <input
+        id="top-search"
+        name="busca"
+        value="<%= filtrosSeguros.busca %>"
+        class="bg-transparent border-none focus:ring-0 text-sm w-48 ml-2"
+        placeholder="Buscar vídeos..."
+        type="search"
+      />
+      <input type="hidden" name="categoria" value="<%= filtrosSeguros.categoria %>">
+    </form>
 
-    <menu class="flex items-center gap-2 p-0 m-0">
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
       <li>
-        <button class="p-2 rounded-full hover:bg-surface-container transition-colors" aria-label="Notificações">
-          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
-        </button>
+        <a href="/feedbackprofessor" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Feedbacks">
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">notifications</i>
+        </a>
       </li>
+
       <li>
-        <figure class="h-9 w-9 rounded-full overflow-hidden border-2 border-primary/20 m-0">
-          <img alt="Professor" class="w-full h-full object-cover"
-               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"/>
-        </figure>
+        <a href="/painelprofessor" class="p-1 rounded-full bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil do professor">
+          <% if (professorSeguro.foto) { %>
+            <img src="<%= professorSeguro.foto %>" alt="Foto do professor" class="w-10 h-10 rounded-full object-cover">
+          <% } else { %>
+            <span class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </span>
+          <% } %>
+        </a>
       </li>
     </menu>
+
     <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
   </header>
 
-  <!-- Sidebar Desktop -->
   <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] flex-col gap-2 py-8 z-40 mt-16">
-    <header class="px-6 mb-6">
-      <figure class="flex items-center gap-3 m-0">
-        <picture>
-          <img class="w-12 h-12 rounded-full object-cover"
-               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"
-               alt="Foto do professor"/>
-        </picture>
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <% if (professorSeguro.foto) { %>
+          <img class="w-12 h-12 rounded-full object-cover" src="<%= professorSeguro.foto %>" alt="Foto de perfil do professor" />
+        <% } else { %>
+          <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Professor sem foto">
+            <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+          </span>
+        <% } %>
+
         <figcaption>
           <p class="text-sm font-bold text-on-surface">Portal do Professor</p>
-          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+          <p class="text-xs text-on-surface-variant">
+            <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0] : 'Bem-vindo' %>
+          </p>
         </figcaption>
       </figure>
     </header>
 
     <nav class="flex flex-col gap-1" aria-label="Menu lateral">
-      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="/painelprofessor">
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelprofessor">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
-        <em class="not-italic font-medium">Dashboard</em>
-      </a>
-      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="/todosalunos">
-        <i class="material-symbols-outlined not-italic" aria-hidden="true">groups</i>
-        <em class="not-italic font-medium">Meus Alunos</em>
-      </a>
-      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-primary/20 px-4 py-3 flex items-center gap-3" href="/todosvideos" aria-current="page">
-        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">video_library</i>
-        <em class="not-italic font-medium">Meus Vídeos</em>
-      </a>
-      <a class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all" href="#">
-        <i class="material-symbols-outlined not-italic" aria-hidden="true">assignment</i>
-        <em class="not-italic font-medium">Avaliações</em>
+        <em class="not-italic">Dashboard</em>
       </a>
 
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/todosalunos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">groups</i>
+        <em class="not-italic">Meus Alunos</em>
+      </a>
+
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/todosvideos" aria-current="page">
+        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">video_library</i>
+        <em class="not-italic">Meus Vídeos</em>
+      </a>
+
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="not-italic">Feedbacks</em>
+      </a>
     </nav>
 
     <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
-      <button class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+      <a href="#novo-video" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
-        Novo Conteúdo
-      </button>
-      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="#">
+        Novo Vídeo
+      </a>
+
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="/logout">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
         <em class="not-italic">Sair</em>
       </a>
     </footer>
   </aside>
 
-  <!-- Main -->
   <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
-    <section class="max-w-6xl mx-auto space-y-8">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
 
-      <!-- Hero -->
-      <header class="relative overflow-hidden rounded-3xl action-gradient p-10 text-white">
-        <hgroup class="relative z-10 max-w-2xl">
-          <h1 class="text-4xl md:text-5xl font-black mb-3 tracking-tight leading-tight">
-            BIBLIOTECA DE <em class="not-italic opacity-80">VÍDEOS</em>
-          </h1>
-          <p class="text-blue-100 text-lg font-medium">Gerencie e organize todos os seus conteúdos de treino em um só lugar.</p>
-        </hgroup>
-        <b class="absolute -right-16 -top-16 w-64 h-64 bg-white/10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
-      </header>
+      <article class="hero-videos-prof md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <hgroup class="max-w-2xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Biblioteca do Professor
+            </mark>
 
-      <!-- Filtros -->
-      <nav class="flex items-center gap-3 overflow-x-auto pb-2" aria-label="Filtros de categoria" style="scrollbar-width:none">
-        <button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/20 whitespace-nowrap active:scale-95 transition-transform">Todos</button>
-        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Força</button>
-        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Cardio</button>
-        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">HIIT</button>
-        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Mobilidade</button>
-        <button class="bg-surface-container-lowest text-on-surface-variant px-6 py-2.5 rounded-full font-bold text-sm hover:bg-surface-container whitespace-nowrap active:scale-95 transition-all">Ioga</button>
-      </nav>
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              MEUS VÍDEOS.
+            </h1>
 
-      <!-- Grid de Vídeos -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <p class="text-lg opacity-90 max-w-xl">
+              Adicione, edite, visualize e remova os vídeos que seus alunos verão na plataforma.
+            </p>
+          </hgroup>
 
-        <article class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm group hover:shadow-xl transition-all hover:-translate-y-1">
-          <figure class="relative aspect-video overflow-hidden m-0">
-            <img alt="Fluxo Cinético" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYW4lYK1KF2OYkl-77anASJD1c4zyYSV6otvc5MqAPpAQcbHTT-ATFataDkZcL5qfF3s8hUTobSG-osLT3AFNl0GqqQJXkADH1wwV62NYR1i9CkUMITAV7q1w85vH1W38xUjbxXvB6_0IrPOWoI8muGUaIzZsdbAsrzoehQyGZ0W-KW4J0I1oq1Eqzr6dA27RXE9PCsmp8cky62n2jd_SvHNCO5B3tFZ-zlX2bgDpsSCeOEV97Ipd90Iu9kLRcT3mwrmxlna6ziQub"/>
-            <figcaption class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <i class="material-symbols-outlined text-white text-5xl not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">play_arrow</i>
+          <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/10 w-full max-w-[240px] mx-auto md:mx-0 md:w-auto m-0">
+            <span class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center">
+              <i class="material-symbols-outlined text-white text-7xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">video_library</i>
+            </span>
+
+            <figcaption class="text-sm font-black uppercase tracking-widest text-center">
+              <%= estatisticasSeguras.total_videos %> vídeos ativos
             </figcaption>
-            <footer class="absolute bottom-3 left-3 right-3 flex justify-between items-center pointer-events-none">
-              <mark class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black px-2 py-1 rounded">MASTERCLASS</mark>
-              <time class="text-white text-xs font-bold bg-black/60 px-2 py-1 rounded">45:00</time>
-            </footer>
           </figure>
-          <section class="p-5">
-            <h3 class="font-bold text-on-surface mb-1 line-clamp-1">Fundamentos do Agachamento</h3>
-            <p class="text-on-surface-variant text-xs mb-3 line-clamp-2">Técnica completa do agachamento com e sem barra para todos os níveis.</p>
-            <nav class="flex justify-between pt-3 border-t border-surface-container items-center">
-              <small class="text-[10px] font-bold text-primary uppercase tracking-widest">Força · Intermediário</small>
-              <section class="flex gap-1">
-                <a href="/editarexercicios" class="p-1.5 text-primary hover:bg-primary/10 rounded-full transition-colors">
-                  <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">edit</i>
-                </a>
-                <button class="p-1.5 text-error hover:bg-error/10 rounded-full transition-colors">
-                  <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">delete</i>
-                </button>
-              </section>
-            </nav>
+        </section>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-[#80deff] opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <% if (erro) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
+          <%= erro %>
+        </section>
+      <% } %>
+
+      <% if (sucesso) { %>
+        <section class="md:col-span-12 bg-green-50 text-green-700 rounded-3xl p-5 font-bold text-center" role="status">
+          <%= sucesso %>
+        </section>
+      <% } %>
+
+      <section class="md:col-span-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
+          <figure class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">movie_filter</i>
+          </figure>
+          <section>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Total de vídeos</p>
+            <strong class="text-3xl font-black headline text-on-surface"><%= estatisticasSeguras.total_videos %></strong>
           </section>
         </article>
 
-        <!-- Card Adicionar -->
-        <label class="bg-surface-container-low border-2 border-dashed border-outline-variant rounded-3xl flex flex-col items-center justify-center min-h-[220px] group cursor-pointer hover:bg-surface-container transition-all">
-          <figure class="w-14 h-14 bg-surface-container-lowest rounded-full flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform mb-3 m-0">
-            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
+        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
+          <figure class="w-14 h-14 rounded-2xl bg-tertiary-fixed/20 text-on-tertiary-fixed flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">workspace_premium</i>
           </figure>
-          <strong class="text-on-surface-variant text-sm">Adicionar Vídeo</strong>
-          <small class="text-xs text-on-surface-variant/60 mt-1">MP4, MOV (Max. 2GB)</small>
-          <input type="file" class="hidden" accept="video/*"/>
-        </label>
+          <section>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Exclusivos</p>
+            <strong class="text-3xl font-black headline text-on-surface"><%= estatisticasSeguras.total_exclusivos || 0 %></strong>
+          </section>
+        </article>
 
+        <article class="card-mobile bg-primary rounded-3xl p-6 shadow-xl shadow-primary/20 flex items-center gap-4 text-white">
+          <figure class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">schedule</i>
+          </figure>
+          <section>
+            <p class="text-xs font-black uppercase tracking-widest text-white/70">Tempo total</p>
+            <strong class="text-3xl font-black headline text-white"><%= segundosParaMinutos(estatisticasSeguras.duracao_total) %></strong>
+          </section>
+        </article>
       </section>
+
+      <section id="novo-video" class="card-mobile md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+        <header class="mb-6">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Adicionar novo vídeo</h2>
+          <p class="text-sm text-on-surface-variant mt-1">
+            Use link do vídeo e da capa. Isso funciona melhor no Render do que upload local.
+          </p>
+        </header>
+
+        <form action="/professor/videos/criar" method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <label class="md:col-span-6">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Título</span>
+            <input name="titulo" required class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="Ex: Treino de pernas completo">
+          </label>
+
+          <label class="md:col-span-3">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Categoria</span>
+            <input name="categoria" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="Força">
+          </label>
+
+          <label class="md:col-span-3">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Nível</span>
+            <select name="nivel" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary">
+              <option value="iniciante">Iniciante</option>
+              <option value="intermediario">Intermediário</option>
+              <option value="avancado">Avançado</option>
+            </select>
+          </label>
+
+          <label class="md:col-span-6">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL do vídeo</span>
+            <input name="video_url" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="https://.../video.mp4 ou link incorporável">
+          </label>
+
+          <label class="md:col-span-6">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL da capa</span>
+            <input name="thumbnail" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="https://.../imagem.jpg">
+          </label>
+
+          <label class="md:col-span-3">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Duração em segundos</span>
+            <input name="duracao_seg" type="number" min="1" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary" placeholder="600">
+          </label>
+
+          <label class="md:col-span-3 flex items-end">
+            <span class="w-full rounded-2xl bg-surface-container-low px-5 py-4 flex items-center gap-3 font-bold">
+              <input name="exclusivo" type="checkbox" checked class="rounded text-primary focus:ring-primary">
+              Exclusivo Premium
+            </span>
+          </label>
+
+          <label class="md:col-span-6">
+            <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Descrição</span>
+            <textarea name="descricao" rows="3" class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary resize-none" placeholder="Descreva o exercício, objetivo e cuidados..."></textarea>
+          </label>
+
+          <button type="submit" class="md:col-span-12 bg-primary text-white rounded-full px-8 py-4 font-black shadow-lg shadow-primary/20 active:scale-95 transition-transform inline-flex items-center justify-center gap-2">
+            Adicionar vídeo
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
+          </button>
+        </form>
+      </section>
+
+      <section class="card-mobile md:col-span-12 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
+        <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <hgroup>
+            <h2 class="text-2xl font-extrabold headline text-on-surface">Biblioteca de vídeos</h2>
+            <p class="text-sm text-on-surface-variant mt-1">
+              Clique em um vídeo para abrir, assistir e editar informações.
+            </p>
+          </hgroup>
+
+          <form action="/todosvideos" method="GET" class="flex flex-col md:flex-row gap-3">
+            <input
+              name="busca"
+              value="<%= filtrosSeguros.busca %>"
+              type="search"
+              placeholder="Buscar vídeo"
+              class="rounded-full border-none bg-surface-container-lowest px-5 py-3 focus:ring-2 focus:ring-primary min-w-[220px]"
+            />
+
+            <select name="categoria" class="rounded-full border-none bg-surface-container-lowest px-5 py-3 focus:ring-2 focus:ring-primary">
+              <option value="todos" <%= filtrosSeguros.categoria === 'todos' ? 'selected' : '' %>>Todas</option>
+              <% categoriasSeguras.forEach(function(cat) { %>
+                <option value="<%= cat.categoria %>" <%= filtrosSeguros.categoria === cat.categoria ? 'selected' : '' %>>
+                  <%= cat.categoria %>
+                </option>
+              <% }) %>
+            </select>
+
+            <button type="submit" class="bg-primary text-white rounded-full px-6 py-3 font-bold active:scale-95 transition-transform">
+              Filtrar
+            </button>
+          </form>
+        </header>
+
+        <% if (videosSeguros.length > 0) { %>
+          <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            <% videosSeguros.forEach(function(video) { %>
+              <article class="video-card bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm group hover:shadow-xl transition-all hover:-translate-y-1">
+                <a href="/editarvideos/<%= video.id_video %>" class="block text-inherit no-underline">
+                  <figure class="relative aspect-video overflow-hidden m-0 bg-surface-container-highest">
+                    <% if (video.thumbnail) { %>
+                      <img alt="<%= video.titulo %>" class="w-full h-full object-cover transition-transform duration-500" src="<%= video.thumbnail %>">
+                    <% } else { %>
+                      <span class="w-full h-full flex items-center justify-center">
+                        <i class="material-symbols-outlined text-primary text-7xl not-italic" aria-hidden="true">play_circle</i>
+                      </span>
+                    <% } %>
+
+                    <figcaption class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <i class="material-symbols-outlined text-white text-5xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">play_arrow</i>
+                    </figcaption>
+
+                    <footer class="absolute bottom-3 left-3 right-3 flex justify-between items-center pointer-events-none">
+                      <mark class="<%= video.exclusivo ? 'bg-tertiary-fixed text-on-tertiary-fixed' : 'bg-surface-container-lowest text-on-surface' %> text-[10px] font-black px-2 py-1 rounded uppercase">
+                        <%= video.exclusivo ? 'Premium' : 'Geral' %>
+                      </mark>
+                      <time class="text-white text-xs font-bold bg-black/60 px-2 py-1 rounded">
+                        <%= segundosParaMinutos(video.duracao_seg) %>
+                      </time>
+                    </footer>
+                  </figure>
+                </a>
+
+                <section class="p-5">
+                  <h3 class="font-black text-on-surface mb-1 line-clamp-1"><%= video.titulo %></h3>
+                  <p class="text-on-surface-variant text-xs mb-3 line-clamp-2">
+                    <%= video.descricao || 'Sem descrição cadastrada.' %>
+                  </p>
+
+                  <nav class="flex justify-between pt-3 border-t border-surface-container items-center">
+                    <small class="text-[10px] font-bold text-primary uppercase tracking-widest">
+                      <%= video.categoria || 'Sem categoria' %> · <%= video.nivel || 'Livre' %>
+                    </small>
+
+                    <section class="flex gap-1">
+                      <a href="/editarvideos/<%= video.id_video %>" class="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors" aria-label="Editar vídeo">
+                        <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">edit</i>
+                      </a>
+
+                      <form action="/professor/videos/<%= video.id_video %>/excluir" method="POST" onsubmit="return confirm('Deseja remover este vídeo?')">
+                        <button type="submit" class="p-2 text-error hover:bg-error/10 rounded-full transition-colors" aria-label="Excluir vídeo">
+                          <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">delete</i>
+                        </button>
+                      </form>
+                    </section>
+                  </nav>
+
+                  <p class="text-[10px] text-on-surface-variant mt-3">
+                    Criado em <%= dataFormatada(video.criado_em) %>
+                  </p>
+                </section>
+              </article>
+            <% }) %>
+          </section>
+        <% } else { %>
+          <section class="bg-surface-container-lowest rounded-3xl p-10 text-center">
+            <i class="material-symbols-outlined text-primary text-6xl not-italic mb-4" aria-hidden="true">video_library</i>
+            <h3 class="text-2xl font-black headline text-on-surface">Nenhum vídeo encontrado</h3>
+            <p class="text-on-surface-variant mt-2">
+              Adicione seu primeiro vídeo usando o formulário acima.
+            </p>
+          </section>
+        <% } %>
+      </section>
+
     </section>
   </main>
 
-  <!-- Menu Mobile Professor com botão + -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2
-              bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
-       aria-label="Navegação mobile">
-
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
     <a href="/painelprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
@@ -225,19 +546,18 @@
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
     </a>
 
-    <button class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform"
-            aria-label="Adicionar novo vídeo">
+    <a href="#novo-video" class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform" aria-label="Adicionar novo vídeo">
       <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
-    </button>
+    </a>
 
-    <a href="/todosvideos" class="flex flex-col items-center justify-center text-[#0058ba] p-3 rounded-[18px] bg-[#d5dbff]" aria-current="page">
-      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">video_library</i>
+    <a href="/todosvideos" class="flex flex-col items-center justify-center text-[#0058ba] opacity-100 p-3 rounded-[18px] bg-[#d5dbff]" aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">video_library</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
     </a>
 
-    <a href="#" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
-      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
-      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    <a href="/feedbackprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
     </a>
   </nav>
 
