@@ -126,6 +126,21 @@
       font-family: 'Lexend', sans-serif;
     }
 
+    .plan-card-clickable {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .plan-card-clickable:focus-visible {
+      outline: 4px solid rgba(0, 88, 186, 0.35);
+      outline-offset: 6px;
+    }
+
+    .plan-card-clickable a {
+      position: relative;
+      z-index: 20;
+    }
+
     article,
     section,
     aside {
@@ -535,12 +550,11 @@
 
     <ul class="grid grid-cols-1 gap-8 items-stretch mx-auto max-w-7xl lg:grid-cols-3" role="list" aria-label="Planos disponíveis">
 
-      <li class="bg-surface-container-low border-2 border-outline-variant/30 rounded-[40px] p-10 flex flex-col justify-between transition-all hover:scale-[1.02] duration-300 opacity-90">
+      <li class="plan-card-clickable bg-surface-container-low border-2 border-outline-variant/30 rounded-[40px] p-10 flex flex-col justify-between transition-all hover:scale-[1.02] duration-300 opacity-90" data-href="/painelfree" role="link" tabindex="0" aria-label="Acessar Plano Comum">
 
         <section>
           <header class="flex justify-between items-start mb-12">
             <i class="material-symbols-outlined text-5xl text-on-surface-variant not-italic" aria-hidden="true">person</i>
-            <strong class="bg-on-surface-variant/10 text-on-surface-variant text-xs font-bold px-5 py-2 rounded-full tracking-widest uppercase">PLANO ATUAL</strong>
           </header>
 
           <h2 class="text-4xl font-black text-on-surface mb-2">Plano Comum</h2>
@@ -555,10 +569,6 @@
               <i class="material-symbols-outlined text-on-surface-variant text-xl not-italic" aria-hidden="true">check_circle</i>
               <b class="text-on-surface font-medium">Tempo de duração: 1 semana</b>
             </li>
-            <li class="flex items-center gap-3">
-              <i class="material-symbols-outlined text-on-surface-variant text-xl not-italic" aria-hidden="true">check_circle</i>
-              <b class="text-on-surface font-medium">Próximo acesso gratuito em 6 meses</b>
-            </li>
           </ul>
         </section>
 
@@ -567,14 +577,14 @@
             <strong class="text-5xl font-black text-on-surface">R$ 0</strong>
             <em class="text-on-surface-variant font-bold not-italic">/grátis</em>
           </p>
-          <button class="w-full py-5 rounded-full bg-outline-variant/20 text-on-surface-variant font-black text-lg cursor-not-allowed" disabled aria-disabled="true">
-            Ativo no momento
-          </button>
+          <a href="/painelfree" class="w-full py-5 rounded-full bg-outline-variant/20 text-on-surface-variant font-black text-lg hover:bg-outline-variant/30 transition-colors block text-center">
+            Fazer teste
+          </a>
         </section>
 
       </li>
 
-      <li class="relative bg-primary text-white rounded-[40px] p-10 flex flex-col justify-between shadow-2xl overflow-hidden transition-all hover:scale-[1.02] duration-300">
+      <li class="plan-card-clickable relative bg-primary text-white rounded-[40px] p-10 flex flex-col justify-between shadow-2xl overflow-hidden transition-all hover:scale-[1.02] duration-300" data-href="/pagamento?plano=2" role="link" tabindex="0" aria-label="Selecionar Plano Lazuli">
 
         <b class="absolute -top-20 -right-20 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl block font-normal" aria-hidden="true"></b>
 
@@ -592,10 +602,7 @@
               <i class="material-symbols-outlined text-tertiary-fixed text-2xl not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">stars</i>
               <b class="font-bold text-lg">Acesso a todos os vídeos</b>
             </li>
-            <li class="flex items-center gap-3">
-              <i class="material-symbols-outlined text-white text-xl not-italic" aria-hidden="true">check_circle</i>
-              <b class="font-medium">Página de planos</b>
-            </li>
+
             <li class="flex items-start gap-3">
               <i class="material-symbols-outlined text-white text-xl not-italic" aria-hidden="true">check_circle</i>
               <section class="flex flex-col">
@@ -612,13 +619,13 @@
             <em class="text-white/70 font-bold not-italic">/mês</em>
           </p>
           <a href="/pagamento?plano=2" class="w-full py-5 rounded-full bg-white text-primary font-black text-lg shadow-lg hover:bg-surface-bright transition-transform active:scale-95 duration-200 block text-center">
-            Fazer Upgrade Agora
+            Selecionar Lazuli
           </a>
         </section>
 
       </li>
 
-      <li class="bg-surface-container-lowest rounded-[40px] p-10 flex flex-col justify-between shadow-[0_12px_40px_rgba(35,44,81,0.08)] transition-all hover:scale-[1.02] duration-300">
+      <li class="plan-card-clickable bg-surface-container-lowest rounded-[40px] p-10 flex flex-col justify-between shadow-[0_12px_40px_rgba(35,44,81,0.08)] transition-all hover:scale-[1.02] duration-300" data-href="/pagamento?plano=3" role="link" tabindex="0" aria-label="Selecionar Plano Diamante">
 
         <section>
           <header class="flex justify-between items-start mb-12">
@@ -638,10 +645,7 @@
               <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
               <b class="text-on-surface font-medium">Treinos montados pelo professor</b>
             </li>
-            <li class="flex items-center gap-3">
-              <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
-              <b class="text-on-surface font-medium">Página de planos</b>
-            </li>
+
             <li class="flex items-center gap-3">
               <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
               <b class="text-on-surface font-medium">Ofensiva/Descontos</b>
@@ -700,6 +704,31 @@
         link.classList.add("ativo")
         link.setAttribute("aria-current", "page")
       }
+    })
+
+
+    const cardsPlanos = document.querySelectorAll(".plan-card-clickable")
+
+    cardsPlanos.forEach(card => {
+      card.addEventListener("click", event => {
+        if (event.target.closest("a, button")) return
+
+        const destino = card.dataset.href
+        if (destino) {
+          window.location.href = destino
+        }
+      })
+
+      card.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+
+          const destino = card.dataset.href
+          if (destino) {
+            window.location.href = destino
+          }
+        }
+      })
     })
   </script>
 
