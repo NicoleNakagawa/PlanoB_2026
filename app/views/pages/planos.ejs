@@ -85,6 +85,26 @@
   </script>
 
   <style>
+
+    @media (prefers-reduced-motion: no-preference) {
+  body {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.28s ease,
+      transform 0.28s ease;
+  }
+
+  body.pagina-carregada {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  body.pagina-saindo {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
     @font-face {
       font-family: 'Baumans';
       src: url('/fonts/Baumans-Regular.ttf') format('truetype');
@@ -731,6 +751,8 @@
       })
     })
   </script>
-
+  
+<script src="/js/transicao-paginas.js"></script>
+  
 </body>
 </html>

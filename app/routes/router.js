@@ -2,6 +2,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
 
 const router = express.Router()
 const db = require('../config/pool_conexoes')
@@ -50,6 +51,51 @@ const uploadVideo = multer({
         cb(null, true)
     }
 })
+
+// =======================
+// UPLOAD DE FOTO DE PERFIL
+// =======================
+
+const pastaPerfis = path.join(__dirname, '..', 'public', 'uploads', 'perfis')
+
+if (!fs.existsSync(pastaPerfis)) {
+    fs.mkdirSync(pastaPerfis, { recursive: true })
+}
+
+const storagePerfil = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, pastaPerfis)
+    },
+    filename: (req, file, cb) => {
+        const extensao = path.extname(file.originalname).toLowerCase()
+
+        cb(null, `perfil-${req.session.aluno.id}-${Date.now()}${extensao}`)
+    }
+})
+
+const uploadPerfil = multer({
+    storage: storagePerfil,
+    limits: {
+        fileSize: 3 * 1024 * 1024
+    },
+    fileFilter: (req, file, cb) => {
+        const tiposPermitidos = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ]
+
+        if (!tiposPermitidos.includes(file.mimetype)) {
+            return cb(new Error('Envie uma imagem nos formatos JPG, PNG ou WEBP.'))
+        }
+
+        cb(null, true)
+    }
+})
+
+// =======================
+// VÍDEOS FIXOS / FREE
+// =======================
 
 const videosFree = [
     {
@@ -132,12 +178,12 @@ const videosFree = [
 
 function authAluno(req, res, next) {
     if (req.session && req.session.aluno) return next()
-    res.redirect('/loginaluno')
+    res.redirect('/login')
 }
 
 function authProfessor(req, res, next) {
     if (req.session && req.session.professor) return next()
-    res.redirect('/loginprofessor')
+    res.redirect('/login')
 }
 
 function redirecionarPainelAluno(idPlano) {
@@ -161,6 +207,10 @@ async function obterColunasTabela(nomeTabela) {
     const [colunas] = await db.query(`SHOW COLUMNS FROM \`${nomeTabela}\``)
     return colunas.map(coluna => coluna.Field)
 }
+
+// =======================
+// FUNÇÕES PROFESSOR / ALUNO
+// =======================
 
 async function criarFichaParaProfessor(idProfessor, dados = {}) {
     const colunasFicha = await obterColunasTabela('ficha_treino')
@@ -339,16 +389,138 @@ router.get('/cadastroprofessor', (req, res) => {
     res.render('cadastroprofessor')
 })
 
-router.get('/loginaluno', (req, res) => {
-    res.render('loginaluno', {
+// =======================
+// LOGIN ÚNICO
+// =======================
+
+router.get('/login', (req, res) => {
+    res.render('login', {
         sucesso: req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null
     })
 })
 
+router.get('/loginaluno', (req, res) => {
+    res.redirect('/login')
+})
+
 router.get('/loginprofessor', (req, res) => {
-    res.render('loginprofessor', {
-        sucesso: req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null
-    })
+    res.redirect('/login')
+})
+
+router.post('/login', async (req, res) => {
+    const { email, password, remember } = req.body
+
+    if (!email || !password) {
+        return res.render('login', {
+            erro: 'Informe e-mail e senha.'
+        })
+    }
+
+    const emailLimpo = email.trim().toLowerCase()
+
+    try {
+        const [alunoRows] = await db.query(
+            `SELECT 
+                id_aluno,
+                nome,
+                email,
+                senha_hash,
+                id_plano,
+                foto_perfil,
+                dados_completos
+             FROM aluno
+             WHERE email = ?
+             LIMIT 1`,
+            [emailLimpo]
+        )
+
+        if (alunoRows.length > 0) {
+            const aluno = alunoRows[0]
+            const senhaCorreta = await bcrypt.compare(password, aluno.senha_hash)
+
+            if (!senhaCorreta) {
+                return res.render('login', {
+                    erro: 'E-mail ou senha inválidos.'
+                })
+            }
+
+            if (remember) {
+                req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
+            }
+
+            req.session.aluno = {
+                id: aluno.id_aluno,
+                nome: aluno.nome,
+                email: aluno.email,
+                id_plano: aluno.id_plano,
+                foto: aluno.foto_perfil,
+                dados_completos: aluno.dados_completos
+            }
+
+            if (!aluno.dados_completos) {
+                return res.redirect('/dadosaluno')
+            }
+
+            return res.redirect(redirecionarPainelAluno(aluno.id_plano))
+        }
+
+        const [professorRows] = await db.query(
+            `SELECT 
+                id_professor,
+                nome,
+                email,
+                senha_hash,
+                cref,
+                foto_perfil
+             FROM professor
+             WHERE email = ?
+             LIMIT 1`,
+            [emailLimpo]
+        )
+
+        if (professorRows.length > 0) {
+            const professor = professorRows[0]
+            const senhaCorreta = await bcrypt.compare(password, professor.senha_hash)
+
+            if (!senhaCorreta) {
+                return res.render('login', {
+                    erro: 'E-mail ou senha inválidos.'
+                })
+            }
+
+            if (remember) {
+                req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
+            }
+
+            req.session.professor = {
+                id: professor.id_professor,
+                nome: professor.nome,
+                email: professor.email,
+                cref: professor.cref,
+                foto: professor.foto_perfil
+            }
+
+            return res.redirect('/painelprofessor')
+        }
+
+        res.render('login', {
+            erro: 'E-mail ou senha inválidos.'
+        })
+    } catch (err) {
+        console.error('[login único]', err)
+
+        res.render('login', {
+            erro: 'Erro interno. Tente novamente.'
+        })
+    }
+})
+
+router.post('/loginaluno', (req, res) => {
+    res.redirect(307, '/login')
+})
+
+router.post('/loginprofessor', (req, res) => {
+    res.redirect(307, '/login')
 })
 
 // =======================
@@ -360,29 +532,263 @@ router.get('/painelfree', authAluno, (req, res) => {
         return res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
     }
 
-    res.render('painelfree', { aluno: req.session.aluno })
+    res.render('painelfree', {
+        aluno: req.session.aluno,
+        linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+        linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+    })
 })
 
-router.get('/painellazuli', authAluno, (req, res) => {
+router.get('/painellazuli', authAluno, async (req, res) => {
     if (Number(req.session.aluno.id_plano) < 2) {
         return res.redirect('/painelfree')
     }
 
-    res.render('painellazuli', {
-        aluno: req.session.aluno,
-        videosFree
-    })
+    const idAluno = req.session.aluno.id
+
+    try {
+        const [resumoSemanaRows] = await db.query(
+            `SELECT 
+                COUNT(*) AS total_treinos,
+                COUNT(DISTINCT data_treino) AS dias_treinados,
+                COALESCE(SUM(duracao_min), 0) AS tempo_total_min,
+                COALESCE(SUM(calorias), 0) AS calorias_total,
+                COALESCE(MAX(bpm_maximo), 0) AS bpm_maximo
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)`,
+            [idAluno]
+        )
+
+        const [resumoSemanaAnteriorRows] = await db.query(
+            `SELECT COALESCE(SUM(duracao_min), 0) AS tempo_total_min
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 7 DAY)
+                AND DATE_SUB(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 1 DAY)`,
+            [idAluno]
+        )
+
+        const [streakRows] = await db.query(
+            `SELECT streak_atual, streak_maximo, ultima_atividade
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        const [descontosRows] = await db.query(
+            `SELECT codigo, percentual, dias_streak, usado, validade
+             FROM desconto
+             WHERE id_aluno = ?
+             ORDER BY dias_streak ASC
+             LIMIT 4`,
+            [idAluno]
+        )
+
+        const resumoSemana = resumoSemanaRows[0] || {
+            total_treinos: 0,
+            dias_treinados: 0,
+            tempo_total_min: 0,
+            calorias_total: 0,
+            bpm_maximo: 0
+        }
+
+        const tempoAtual = Number(resumoSemana.tempo_total_min) || 0
+        const tempoAnterior = Number(resumoSemanaAnteriorRows[0]?.tempo_total_min) || 0
+
+        let variacaoPct = 0
+
+        if (tempoAnterior > 0) {
+            variacaoPct = Math.round(((tempoAtual - tempoAnterior) / tempoAnterior) * 100)
+        } else if (tempoAtual > 0) {
+            variacaoPct = 100
+        }
+
+        const metaDias = 5
+        const porcentagemMeta = Math.min(Math.round((Number(resumoSemana.dias_treinados) / metaDias) * 100), 100)
+        const treinosRestantes = Math.max(metaDias - Number(resumoSemana.dias_treinados), 0)
+
+        res.render('painellazuli', {
+            aluno: req.session.aluno,
+            videosFree,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            progresso: {
+                resumoSemana,
+                streak: streakRows[0] || {
+                    streak_atual: 0,
+                    streak_maximo: 0,
+                    ultima_atividade: null
+                },
+                descontos: descontosRows,
+                variacaoPct,
+                metaDias,
+                porcentagemMeta,
+                treinosRestantes,
+                tempoSemanaAnterior: tempoAnterior
+            }
+        })
+    } catch (err) {
+        console.error('[painellazuli]', err)
+
+        res.render('painellazuli', {
+            aluno: req.session.aluno,
+            videosFree,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            progresso: {
+                resumoSemana: {
+                    total_treinos: 0,
+                    dias_treinados: 0,
+                    tempo_total_min: 0,
+                    calorias_total: 0,
+                    bpm_maximo: 0
+                },
+                streak: {
+                    streak_atual: 0,
+                    streak_maximo: 0,
+                    ultima_atividade: null
+                },
+                descontos: [],
+                variacaoPct: 0,
+                metaDias: 5,
+                porcentagemMeta: 0,
+                treinosRestantes: 5,
+                tempoSemanaAnterior: 0
+            },
+            erro: 'Erro ao carregar painel Lazuli.'
+        })
+    }
 })
 
-router.get('/paineldiamante', authAluno, (req, res) => {
+router.get('/paineldiamante', authAluno, async (req, res) => {
     if (Number(req.session.aluno.id_plano) < 3) {
         return res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
     }
 
-    res.render('paineldiamante', {
-        aluno: req.session.aluno,
-        videosFree
-    })
+    const idAluno = req.session.aluno.id
+
+    try {
+        const [resumoSemanaRows] = await db.query(
+            `SELECT 
+                COUNT(*) AS total_treinos,
+                COUNT(DISTINCT data_treino) AS dias_treinados,
+                COALESCE(SUM(duracao_min), 0) AS tempo_total_min,
+                COALESCE(SUM(calorias), 0) AS calorias_total,
+                COALESCE(MAX(bpm_maximo), 0) AS bpm_maximo
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)`,
+            [idAluno]
+        )
+
+        const [resumoSemanaAnteriorRows] = await db.query(
+            `SELECT COALESCE(SUM(duracao_min), 0) AS tempo_total_min
+             FROM sessao_treino
+             WHERE id_aluno = ?
+             AND data_treino BETWEEN 
+                DATE_SUB(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 7 DAY)
+                AND DATE_SUB(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 1 DAY)`,
+            [idAluno]
+        )
+
+        const [streakRows] = await db.query(
+            `SELECT streak_atual, streak_maximo, ultima_atividade
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        const [descontosRows] = await db.query(
+            `SELECT codigo, percentual, dias_streak, usado, validade
+             FROM desconto
+             WHERE id_aluno = ?
+             ORDER BY dias_streak ASC
+             LIMIT 4`,
+            [idAluno]
+        )
+
+        const resumoSemana = resumoSemanaRows[0] || {
+            total_treinos: 0,
+            dias_treinados: 0,
+            tempo_total_min: 0,
+            calorias_total: 0,
+            bpm_maximo: 0
+        }
+
+        const tempoAtual = Number(resumoSemana.tempo_total_min) || 0
+        const tempoAnterior = Number(resumoSemanaAnteriorRows[0]?.tempo_total_min) || 0
+
+        let variacaoPct = 0
+
+        if (tempoAnterior > 0) {
+            variacaoPct = Math.round(((tempoAtual - tempoAnterior) / tempoAnterior) * 100)
+        } else if (tempoAtual > 0) {
+            variacaoPct = 100
+        }
+
+        const metaDias = 5
+        const porcentagemMeta = Math.min(Math.round((Number(resumoSemana.dias_treinados) / metaDias) * 100), 100)
+        const treinosRestantes = Math.max(metaDias - Number(resumoSemana.dias_treinados), 0)
+
+        res.render('paineldiamante', {
+            aluno: req.session.aluno,
+            videosFree,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            progresso: {
+                resumoSemana,
+                streak: streakRows[0] || {
+                    streak_atual: 0,
+                    streak_maximo: 0,
+                    ultima_atividade: null
+                },
+                descontos: descontosRows,
+                variacaoPct,
+                metaDias,
+                porcentagemMeta,
+                treinosRestantes,
+                tempoSemanaAnterior: tempoAnterior
+            }
+        })
+    } catch (err) {
+        console.error('[paineldiamante]', err)
+
+        res.render('paineldiamante', {
+            aluno: req.session.aluno,
+            videosFree,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            progresso: {
+                resumoSemana: {
+                    total_treinos: 0,
+                    dias_treinados: 0,
+                    tempo_total_min: 0,
+                    calorias_total: 0,
+                    bpm_maximo: 0
+                },
+                streak: {
+                    streak_atual: 0,
+                    streak_maximo: 0,
+                    ultima_atividade: null
+                },
+                descontos: [],
+                variacaoPct: 0,
+                metaDias: 5,
+                porcentagemMeta: 0,
+                treinosRestantes: 5,
+                tempoSemanaAnterior: 0
+            },
+            erro: 'Erro ao carregar painel Diamante.'
+        })
+    }
 })
 
 router.get('/dadosaluno', authAluno, async (req, res) => {
@@ -571,7 +977,9 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
             },
             dadosAluno: dadosAlunoRows[0] || null,
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
-            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            sucesso: req.query.sucesso || null,
+            erroPerfil: req.query.erroPerfil || null
         })
     } catch (err) {
         console.error('[perfilaluno]', err)
@@ -591,13 +999,119 @@ router.get('/perfilaluno', authAluno, async (req, res) => {
             dadosAluno: null,
             erro: 'Erro ao carregar o perfil.',
             linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
-            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            sucesso: null,
+            erroPerfil: req.query.erroPerfil || null
         })
     }
 })
 
+// =======================
+// ALTERAR DADOS DO PERFIL DO ALUNO
+// =======================
+
+router.post('/perfilaluno/dados', authAluno, async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    const nome = (req.body.nome || '').trim()
+    const email = (req.body.email || '').trim().toLowerCase()
+
+    if (!nome || !email) {
+        return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Preencha nome e e-mail.'))
+    }
+
+    if (!email.includes('@') || !email.includes('.')) {
+        return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Informe um e-mail válido.'))
+    }
+
+    try {
+        const [emailAlunoRows] = await db.query(
+            `SELECT id_aluno
+             FROM aluno
+             WHERE email = ?
+             AND id_aluno <> ?
+             LIMIT 1`,
+            [email, idAluno]
+        )
+
+        if (emailAlunoRows.length > 0) {
+            return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Este e-mail já está sendo usado por outro aluno.'))
+        }
+
+        const [emailProfessorRows] = await db.query(
+            `SELECT id_professor
+             FROM professor
+             WHERE email = ?
+             LIMIT 1`,
+            [email]
+        )
+
+        if (emailProfessorRows.length > 0) {
+            return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Este e-mail já está sendo usado por um professor.'))
+        }
+
+        await db.query(
+            `UPDATE aluno
+             SET nome = ?,
+                 email = ?
+             WHERE id_aluno = ?`,
+            [nome, email, idAluno]
+        )
+
+        req.session.aluno.nome = nome
+        req.session.aluno.email = email
+
+        res.redirect('/perfilaluno?sucesso=' + encodeURIComponent('Dados do perfil atualizados com sucesso.'))
+    } catch (err) {
+        console.error('[perfilaluno dados]', err)
+
+        res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Erro ao atualizar os dados do perfil.'))
+    }
+})
+
+// =======================
+// ALTERAR FOTO DE PERFIL DO ALUNO
+// =======================
+
+router.post('/perfilaluno/foto', authAluno, (req, res) => {
+    uploadPerfil.single('foto_perfil')(req, res, async (err) => {
+        const idAluno = req.session.aluno.id
+
+        if (err) {
+            return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent(err.message))
+        }
+
+        if (!req.file) {
+            return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Selecione uma imagem para alterar a foto.'))
+        }
+
+        const fotoPerfil = `/uploads/perfis/${req.file.filename}`
+
+        try {
+            await db.query(
+                `UPDATE aluno
+                 SET foto_perfil = ?
+                 WHERE id_aluno = ?`,
+                [fotoPerfil, idAluno]
+            )
+
+            req.session.aluno.foto = fotoPerfil
+
+            res.redirect('/perfilaluno?sucesso=' + encodeURIComponent('Foto de perfil atualizada com sucesso.'))
+        } catch (err) {
+            console.error('[perfilaluno foto]', err)
+
+            res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Erro ao atualizar a foto de perfil.'))
+        }
+    })
+})
+
 router.get('/perfilprofparaaluno', authAluno, (req, res) => {
-    res.render('perfilprofparaaluno', { aluno: req.session.aluno })
+    res.render('perfilprofparaaluno', {
+        aluno: req.session.aluno,
+        linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+        linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
+    })
 })
 
 router.get('/videosfree', authAluno, (req, res) => {
@@ -607,7 +1121,9 @@ router.get('/videosfree', authAluno, (req, res) => {
 
     res.render('videosfree', {
         aluno: req.session.aluno,
-        videosFree
+        videosFree,
+        linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+        linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
 })
 
@@ -1186,28 +1702,23 @@ router.get('/todosalunos', authProfessor, async (req, res) => {
                 COALESCE(p.nome, 'Free') AS plano,
                 COALESCE(s.streak_atual, 0) AS streak_atual,
                 COALESCE(s.streak_maximo, 0) AS streak_maximo,
-
                 COUNT(DISTINCT st_semana.id_sessao) AS treinos_semana,
                 COUNT(DISTINCT st_semana.data_treino) AS dias_treinados_semana,
                 COALESCE(SUM(st_semana.duracao_min), 0) AS tempo_semana,
-
                 (
                     SELECT COUNT(*)
                     FROM sessao_treino st_total
                     WHERE st_total.id_aluno = a.id_aluno
                 ) AS total_treinos,
-
                 (
                     SELECT MAX(st_ultimo.data_treino)
                     FROM sessao_treino st_ultimo
                     WHERE st_ultimo.id_aluno = a.id_aluno
                 ) AS ultimo_treino,
-
                 ft.id_ficha,
                 ft.nome_ficha,
                 ft.categoria,
                 ft.nivel
-
              FROM aluno_ficha af
              JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
              JOIN aluno a ON a.id_aluno = af.id_aluno
@@ -1218,11 +1729,9 @@ router.get('/todosalunos', authProfessor, async (req, res) => {
               AND st_semana.data_treino BETWEEN 
                     DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
                     AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)
-
              WHERE ft.id_professor = ?
              AND af.ativo = 1
              ${filtroSql}
-
              GROUP BY 
                 a.id_aluno,
                 a.nome,
@@ -1236,7 +1745,6 @@ router.get('/todosalunos', authProfessor, async (req, res) => {
                 ft.nome_ficha,
                 ft.categoria,
                 ft.nivel
-
              ORDER BY a.nome ASC`,
             parametros
         )
@@ -1460,6 +1968,7 @@ router.post('/professor/desvincular-aluno', authProfessor, async (req, res) => {
         res.redirect('/todosalunos?sucesso=' + encodeURIComponent('Aluno desvinculado com sucesso.'))
     } catch (err) {
         console.error('[desvincular-aluno]', err)
+
         res.redirect('/todosalunos?erro=' + encodeURIComponent('Erro ao desvincular aluno: ' + err.message))
     }
 })
@@ -1594,26 +2103,70 @@ router.post('/professor/videos/criar', authProfessor, uploadVideo.single('arquiv
     }
 
     try {
+        const colunasVideo = await obterColunasTabela('video')
+
+        const campos = ['id_professor', 'titulo', 'descricao']
+        const valores = [idProfessor, titulo, descricao || null]
+        const placeholders = ['?', '?', '?']
+
+        if (colunasVideo.includes('video_url')) {
+            campos.push('video_url')
+            valores.push(videoUrl)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('link_video')) {
+            campos.push('link_video')
+            valores.push(videoUrl)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('thumbnail')) {
+            campos.push('thumbnail')
+            valores.push(thumbnail || null)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('duracao_seg')) {
+            campos.push('duracao_seg')
+            valores.push(duracaoSeg)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('categoria')) {
+            campos.push('categoria')
+            valores.push(categoria || null)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('nivel')) {
+            campos.push('nivel')
+            valores.push(nivel)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('exclusivo')) {
+            campos.push('exclusivo')
+            valores.push(exclusivo)
+            placeholders.push('?')
+        }
+
+        if (colunasVideo.includes('ativo')) {
+            campos.push('ativo')
+            valores.push(1)
+            placeholders.push('?')
+        }
+
         await db.query(
-            `INSERT INTO video
-             (id_professor, titulo, descricao, video_url, thumbnail, duracao_seg, categoria, nivel, exclusivo, ativo)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
-            [
-                idProfessor,
-                titulo,
-                descricao || null,
-                videoUrl,
-                thumbnail || null,
-                duracaoSeg,
-                categoria || null,
-                nivel,
-                exclusivo
-            ]
+            `INSERT INTO video (${campos.map(campo => `\`${campo}\``).join(', ')})
+             VALUES (${placeholders.join(', ')})`,
+            valores
         )
 
         res.redirect('/todosvideos?sucesso=' + encodeURIComponent('Vídeo adicionado com sucesso.'))
     } catch (err) {
         console.error('[criar video]', err)
+
         res.redirect('/todosvideos?erro=' + encodeURIComponent('Erro ao adicionar vídeo: ' + err.message))
     }
 })
@@ -1660,6 +2213,7 @@ router.get('/editarvideos/:id', authProfessor, async (req, res) => {
         })
     } catch (err) {
         console.error('[editarvideos GET]', err)
+
         res.redirect('/todosvideos?erro=' + encodeURIComponent('Erro ao abrir vídeo: ' + err.message))
     }
 })
@@ -1686,31 +2240,58 @@ router.post('/editarvideos/:id', authProfessor, async (req, res) => {
     }
 
     try {
+        const colunasVideo = await obterColunasTabela('video')
+
+        const campos = ['titulo = ?', 'descricao = ?']
+        const valores = [titulo, descricao || null]
+
+        if (colunasVideo.includes('video_url')) {
+            campos.push('video_url = ?')
+            valores.push(videoUrl || null)
+        }
+
+        if (colunasVideo.includes('link_video')) {
+            campos.push('link_video = ?')
+            valores.push(videoUrl || null)
+        }
+
+        if (colunasVideo.includes('thumbnail')) {
+            campos.push('thumbnail = ?')
+            valores.push(thumbnail || null)
+        }
+
+        if (colunasVideo.includes('duracao_seg')) {
+            campos.push('duracao_seg = ?')
+            valores.push(duracaoSeg)
+        }
+
+        if (colunasVideo.includes('categoria')) {
+            campos.push('categoria = ?')
+            valores.push(categoria || null)
+        }
+
+        if (colunasVideo.includes('nivel')) {
+            campos.push('nivel = ?')
+            valores.push(nivel)
+        }
+
+        if (colunasVideo.includes('exclusivo')) {
+            campos.push('exclusivo = ?')
+            valores.push(exclusivo)
+        }
+
+        if (colunasVideo.includes('atualizado_em')) {
+            campos.push('atualizado_em = NOW()')
+        }
+
+        valores.push(idVideo, idProfessor)
+
         const [result] = await db.query(
             `UPDATE video
-             SET titulo = ?,
-                 descricao = ?,
-                 video_url = ?,
-                 thumbnail = ?,
-                 duracao_seg = ?,
-                 categoria = ?,
-                 nivel = ?,
-                 exclusivo = ?,
-                 atualizado_em = NOW()
+             SET ${campos.join(', ')}
              WHERE id_video = ?
              AND id_professor = ?`,
-            [
-                titulo,
-                descricao || null,
-                videoUrl || null,
-                thumbnail || null,
-                duracaoSeg,
-                categoria || null,
-                nivel,
-                exclusivo,
-                idVideo,
-                idProfessor
-            ]
+            valores
         )
 
         if (result.affectedRows === 0) {
@@ -1720,6 +2301,7 @@ router.post('/editarvideos/:id', authProfessor, async (req, res) => {
         res.redirect('/editarvideos/' + idVideo + '?sucesso=' + encodeURIComponent('Alterações salvas com sucesso.'))
     } catch (err) {
         console.error('[editarvideos POST]', err)
+
         res.redirect('/editarvideos/' + idVideo + '?erro=' + encodeURIComponent('Erro ao salvar vídeo: ' + err.message))
     }
 })
@@ -1733,18 +2315,29 @@ router.post('/professor/videos/:id/excluir', authProfessor, async (req, res) => 
     }
 
     try {
-        await db.query(
-            `UPDATE video
-             SET ativo = 0,
-                 atualizado_em = NOW()
-             WHERE id_video = ?
-             AND id_professor = ?`,
-            [idVideo, idProfessor]
-        )
+        const colunasVideo = await obterColunasTabela('video')
+
+        if (colunasVideo.includes('ativo')) {
+            await db.query(
+                `UPDATE video
+                 SET ativo = 0
+                 WHERE id_video = ?
+                 AND id_professor = ?`,
+                [idVideo, idProfessor]
+            )
+        } else {
+            await db.query(
+                `DELETE FROM video
+                 WHERE id_video = ?
+                 AND id_professor = ?`,
+                [idVideo, idProfessor]
+            )
+        }
 
         res.redirect('/todosvideos?sucesso=' + encodeURIComponent('Vídeo removido com sucesso.'))
     } catch (err) {
         console.error('[excluir video]', err)
+
         res.redirect('/todosvideos?erro=' + encodeURIComponent('Erro ao remover vídeo: ' + err.message))
     }
 })
@@ -1754,8 +2347,14 @@ router.get('/editarexercicios', authProfessor, (req, res) => {
 })
 
 router.get('/visaoperfilaluno', authProfessor, (req, res) => {
-    res.render('visaoperfilaluno', { professor: req.session.professor })
+    res.render('visaoperfilaluno', {
+        professor: req.session.professor
+    })
 })
+
+// =======================
+// FEEDBACK PROFESSOR
+// =======================
 
 router.get('/feedbackprofessor', authProfessor, async (req, res) => {
     const idProfessor = req.session.professor.id
@@ -2002,10 +2601,13 @@ router.post('/cadastroaluno', async (req, res) => {
         })
     }
 
+    const nomeLimpo = name.trim()
+    const emailLimpo = email.trim().toLowerCase()
+
     try {
         const [rows] = await db.query(
             'SELECT id_aluno FROM aluno WHERE email = ?',
-            [email.trim().toLowerCase()]
+            [emailLimpo]
         )
 
         if (rows.length > 0) {
@@ -2019,16 +2621,27 @@ router.post('/cadastroaluno', async (req, res) => {
         const [result] = await db.query(
             `INSERT INTO aluno (nome, email, senha_hash, id_plano)
              VALUES (?, ?, ?, 1)`,
-            [name.trim(), email.trim().toLowerCase(), senhaHash]
+            [nomeLimpo, emailLimpo, senhaHash]
         )
+
+        const idAluno = result.insertId
 
         await db.query(
             `INSERT INTO streak (id_aluno, streak_atual, streak_maximo)
              VALUES (?, 0, 0)`,
-            [result.insertId]
+            [idAluno]
         )
 
-        res.redirect('/loginaluno?sucesso=1')
+        req.session.aluno = {
+            id: idAluno,
+            nome: nomeLimpo,
+            email: emailLimpo,
+            id_plano: 1,
+            foto: null,
+            dados_completos: 0
+        }
+
+        res.redirect('/dadosaluno')
     } catch (err) {
         console.error('[cadastroaluno]', err)
 
@@ -2088,145 +2701,27 @@ router.post('/cadastroprofessor', async (req, res) => {
 
         const senhaHash = await bcrypt.hash(password, SALT_ROUNDS)
 
-        await db.query(
+        const [result] = await db.query(
             `INSERT INTO professor (nome, email, senha_hash, cref)
              VALUES (?, ?, ?, ?)`,
             [nomeLimpo, emailLimpo, senhaHash, crefLimpo]
         )
 
-        res.redirect('/loginprofessor?sucesso=1')
-    } catch (err) {
-        console.error('[cadastroprofessor]', err)
-
-        res.render('cadastroprofessor', {
-            erro: 'Erro interno. Tente novamente.'
-        })
-    }
-})
-
-// =======================
-// LOGIN ALUNO
-// =======================
-
-router.post('/loginaluno', async (req, res) => {
-    const { email, password, remember } = req.body
-
-    if (!email || !password) {
-        return res.render('loginaluno', {
-            erro: 'Informe e-mail e senha.'
-        })
-    }
-
-    try {
-        const [rows] = await db.query(
-            `SELECT 
-                id_aluno, 
-                nome, 
-                email, 
-                senha_hash, 
-                id_plano, 
-                foto_perfil,
-                dados_completos
-             FROM aluno 
-             WHERE email = ?`,
-            [email.trim().toLowerCase()]
-        )
-
-        if (rows.length === 0) {
-            return res.render('loginaluno', {
-                erro: 'E-mail ou senha inválidos.'
-            })
-        }
-
-        const aluno = rows[0]
-        const senhaCorreta = await bcrypt.compare(password, aluno.senha_hash)
-
-        if (!senhaCorreta) {
-            return res.render('loginaluno', {
-                erro: 'E-mail ou senha inválidos.'
-            })
-        }
-
-        if (remember) {
-            req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
-        }
-
-        req.session.aluno = {
-            id: aluno.id_aluno,
-            nome: aluno.nome,
-            email: aluno.email,
-            id_plano: aluno.id_plano,
-            foto: aluno.foto_perfil,
-            dados_completos: aluno.dados_completos
-        }
-
-        if (!aluno.dados_completos) {
-            return res.redirect('/dadosaluno')
-        }
-
-        res.redirect(redirecionarPainelAluno(aluno.id_plano))
-    } catch (err) {
-        console.error('[loginaluno]', err)
-
-        res.render('loginaluno', {
-            erro: 'Erro interno. Tente novamente.'
-        })
-    }
-})
-
-// =======================
-// LOGIN PROFESSOR
-// =======================
-
-router.post('/loginprofessor', async (req, res) => {
-    const { email, password, remember } = req.body
-
-    if (!email || !password) {
-        return res.render('loginprofessor', {
-            erro: 'Informe e-mail e senha.'
-        })
-    }
-
-    try {
-        const [rows] = await db.query(
-            `SELECT id_professor, nome, email, senha_hash, cref, foto_perfil
-             FROM professor 
-             WHERE email = ?`,
-            [email.trim().toLowerCase()]
-        )
-
-        if (rows.length === 0) {
-            return res.render('loginprofessor', {
-                erro: 'E-mail ou senha inválidos.'
-            })
-        }
-
-        const professor = rows[0]
-        const senhaCorreta = await bcrypt.compare(password, professor.senha_hash)
-
-        if (!senhaCorreta) {
-            return res.render('loginprofessor', {
-                erro: 'E-mail ou senha inválidos.'
-            })
-        }
-
-        if (remember) {
-            req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
-        }
+        const idProfessor = result.insertId
 
         req.session.professor = {
-            id: professor.id_professor,
-            nome: professor.nome,
-            email: professor.email,
-            cref: professor.cref,
-            foto: professor.foto_perfil
+            id: idProfessor,
+            nome: nomeLimpo,
+            email: emailLimpo,
+            cref: crefLimpo,
+            foto: null
         }
 
         res.redirect('/painelprofessor')
     } catch (err) {
-        console.error('[loginprofessor]', err)
+        console.error('[cadastroprofessor]', err)
 
-        res.render('loginprofessor', {
+        res.render('cadastroprofessor', {
             erro: 'Erro interno. Tente novamente.'
         })
     }
@@ -2478,6 +2973,7 @@ router.post('/pagamento', authAluno, async (req, res) => {
         res.redirect(redirecionarPainelAluno(idPlano))
     } catch (err) {
         console.error('[pagamento]', err)
+
         return renderizarErroPagamento('Erro ao processar pagamento.')
     }
 })
@@ -2560,69 +3056,6 @@ router.post('/api/aluno/registrar-treino', authAluno, async (req, res) => {
         }
 
         res.redirect('/execucaoexercicios')
-    }
-})
-
-// =======================
-// RESPOSTA PROFESSOR
-// =======================
-
-router.post('/feedbackresposta', authProfessor, async (req, res) => {
-    const idProfessor = req.session.professor.id
-    const idAluno = Number(req.body['id-aluno'])
-    const texto = req.body['resposta']
-
-    if (!idAluno || !texto) {
-        return res.render('feedbackresposta', {
-            professor: req.session.professor,
-            idAluno: req.body['id-aluno'] || '',
-            erro: 'Escolha um aluno e escreva uma resposta.'
-        })
-    }
-
-    try {
-        const [chatRows] = await db.query(
-            `SELECT id_chat 
-             FROM chat_feedback
-             WHERE id_professor = ? 
-             AND id_aluno = ?`,
-            [idProfessor, idAluno]
-        )
-
-        if (chatRows.length === 0) {
-            return res.render('feedbackresposta', {
-                professor: req.session.professor,
-                idAluno,
-                erro: 'Conversa não encontrada.'
-            })
-        }
-
-        const idChat = chatRows[0].id_chat
-
-        await db.query(
-            `INSERT INTO mensagem_feedback (id_chat, remetente, texto)
-             VALUES (?, 'professor', ?)`,
-            [idChat, texto.trim()]
-        )
-
-        await db.query(
-            `UPDATE mensagem_feedback 
-             SET lida = 1
-             WHERE id_chat = ? 
-             AND remetente = 'aluno' 
-             AND lida = 0`,
-            [idChat]
-        )
-
-        res.redirect('/feedbackprofessor')
-    } catch (err) {
-        console.error('[feedbackresposta]', err)
-
-        res.render('feedbackresposta', {
-            professor: req.session.professor,
-            idAluno,
-            erro: 'Erro ao enviar resposta.'
-        })
     }
 })
 
@@ -2809,3 +3242,4 @@ router.use((req, res) => {
 })
 
 module.exports = router
+

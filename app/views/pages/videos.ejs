@@ -304,6 +304,9 @@
         ? 'Lazuli'
         : 'Free'
 
+    const alunoSeguro = typeof aluno !== 'undefined' && aluno ? aluno : {}
+    const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
+
     const planoPago = planoAluno >= 2
 
     const imagensPremium = {
@@ -367,10 +370,10 @@
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
         <picture>
-          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+          <% if (alunoSeguro.foto) { %>
             <img
               class="w-12 h-12 rounded-full object-cover"
-              src="<%= aluno.foto %>"
+              src="<%= alunoSeguro.foto %>"
               alt="Foto de perfil do aluno"
             />
           <% } else { %>
@@ -381,9 +384,11 @@
         </picture>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
+          <p class="text-sm font-bold text-on-surface">
+            <%= nomeAluno %>
+          </p>
           <p class="text-xs text-on-surface-variant">
-            <%= planoPago ? 'Plano premium ativo' : 'Plano gratuito ativo' %>
+            Plano <%= nomePlanoAluno %> ativo
           </p>
         </figcaption>
       </figure>

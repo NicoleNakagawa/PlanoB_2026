@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>PlanoB - Cadastro Aluno</title>
+  <title>PlanoB - Login</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,26 +48,26 @@
   </script>
 
   <style>
+
     @media (prefers-reduced-motion: no-preference) {
-      body {
-        opacity: 0;
-        transform: translateY(12px);
-        transition:
-          opacity 0.28s ease,
-          transform 0.28s ease;
-      }
+  body {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.28s ease,
+      transform 0.28s ease;
+  }
 
-      body.pagina-carregada {
-        opacity: 1;
-        transform: translateY(0);
-      }
+  body.pagina-carregada {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-      body.pagina-saindo {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-    }
-
+  body.pagina-saindo {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
     @font-face {
       font-family: 'Baumans';
       src: url('/fonts/Baumans-Regular.ttf') format('truetype');
@@ -97,13 +97,18 @@
       vertical-align: middle;
     }
 
+    @media (max-width: 1023px) {
+      main {
+        min-height: 100vh;
+      }
+    }
+
     @media (max-width: 640px) {
       section.form-area {
         padding: 2rem 1.25rem !important;
       }
 
-      h1.page-title,
-      h3.page-title {
+      h1.page-title {
         font-size: 2.25rem !important;
       }
     }
@@ -112,14 +117,19 @@
 
 <body class="min-h-screen overflow-x-hidden bg-surface text-on-surface">
 
+  <%
+    const erroSeguro = typeof erro !== 'undefined' ? erro : null
+    const sucessoSeguro = typeof sucesso !== 'undefined' ? sucesso : null
+  %>
+
   <main class="grid min-h-screen w-full bg-surface-container-lowest lg:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr]">
 
     <aside class="relative hidden overflow-hidden bg-primary-dim lg:flex">
       <picture>
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-ucD8BXcQBtF9lwoWkG9ILtmvn39xeC70rBb47fvAKJY4MHRVUGiKwHa79b2JxmddKza3IxwtCpXiYtctaGgh8PHEskTN5WMTIxvu46_a-2N-g3HYswt0Gmm4kBqA5ACLxdZCil7iNFiIjdHm8vVzYMbo4sfw_rF8yVNVSbL1-ZZv0RAoU4SvaTVa3i1NKGlMEsPHPBqn_OW9G1NjS387ayz8Hqv1vahZdPsKHfFobCzpoP0Porh3zKaaJXfMxJDbK42UkPnQDdIX"
-          alt="Ambiente fitness PlanoB"
-          class="absolute inset-0 h-full w-full object-cover opacity-75 mix-blend-overlay"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuApM84iwpJg_o7rWHbCNIQ6LsC4v-8Dii4gGIySlGzqDyYjy-w6jczrcYJViEUZ0w_wz8IOfpuSxj2KeqxlgweD1l0myH_zi0RPM5ZMLmDUHMDHGVQQZLnqeXc6n6hfe64E6bH_UJlUSXFmjk4Ok5cpLgzKVBgT2I4f856cjUsNuIi-aJq6rNf1qoNcn-t4lkkV2vnTyKcSpAz3Us6A0WGGTBPMyty4z_txondCIcAdyr4yFPvA0NrZvwVCi8OyT5KJL6sL_eNHbvCg"
+          alt="Atleta treinando na plataforma PlanoB"
+          class="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-overlay"
         />
       </picture>
 
@@ -129,11 +139,11 @@
         <p class="mb-5 text-sm font-black tracking-widest text-tertiary-fixed">PLANO B</p>
 
         <h1 class="headline max-w-2xl text-6xl font-black leading-[1.05] tracking-tighter text-on-primary xl:text-7xl 2xl:text-8xl">
-          MOVA SEU POTENCIAL
+          ACESSE SUA JORNADA
         </h1>
 
         <p class="mt-6 max-w-xl text-lg font-semibold leading-relaxed text-on-primary/85 xl:text-xl">
-          Crie sua conta de aluno e comece sua jornada fitness com treinos, progresso e acompanhamento.
+          Entre com seu e-mail e senha. O sistema reconhece automaticamente se você é aluno ou professor.
         </p>
       </header>
     </aside>
@@ -150,61 +160,36 @@
       <header class="mt-10 flex items-center justify-between">
         <h2 class="logo-font text-3xl text-primary md:text-4xl">PlanoB</h2>
 
-        <p class="hidden rounded-full bg-surface-container px-5 py-2 text-xs font-black uppercase tracking-widest text-on-surface-variant sm:block">
-          Cadastro aluno
-        </p>
       </header>
 
       <section class="mx-auto flex w-full max-w-[30rem] flex-1 flex-col justify-center py-10">
 
         <header class="mb-10">
           <h3 class="page-title headline text-4xl font-black tracking-tight text-on-surface md:text-5xl">
-            Criar conta
+            Bem-vindo de volta
           </h3>
 
           <p class="mt-3 text-base font-semibold leading-relaxed text-on-surface-variant">
-            Preencha os dados abaixo para começar sua jornada fitness.
+            Use suas credenciais para acessar sua conta de aluno ou professor.
           </p>
         </header>
 
-        <% if (locals.erro) { %>
+        <% if (erroSeguro) { %>
           <p class="mb-5 rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert">
-            <%= erro %>
+            <%= erroSeguro %>
           </p>
         <% } %>
 
-        <% if (locals.sucesso) { %>
+        <% if (sucessoSeguro) { %>
           <p class="mb-5 rounded-2xl bg-green-50 px-4 py-3 text-center text-sm font-bold text-green-700" role="status">
-            <%= sucesso %>
+            <%= sucessoSeguro %>
           </p>
         <% } %>
 
-        <form class="space-y-6" action="/cadastroaluno" method="POST" data-form="cadastroaluno" aria-label="Formulário de cadastro de aluno" novalidate>
+        <form class="space-y-6" action="/login" method="POST" data-form="login" aria-label="Formulário de login único" novalidate>
 
           <fieldset class="space-y-2">
-            <legend class="sr-only">Nome completo</legend>
-
-            <label for="name" class="ml-1 block text-sm font-bold text-on-surface-variant">
-              Nome completo
-            </label>
-
-            <article class="relative">
-              <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline not-italic" aria-hidden="true">person</i>
-
-              <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Como devemos te chamar?"
-                autocomplete="name"
-                class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-4 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
-                required
-              />
-            </article>
-          </fieldset>
-
-          <fieldset class="space-y-2">
-            <legend class="sr-only">E-mail</legend>
+            <legend class="sr-only">Dados de acesso</legend>
 
             <label for="email" class="ml-1 block text-sm font-bold text-on-surface-variant">
               E-mail
@@ -217,7 +202,7 @@
                 id="email"
                 name="email"
                 type="email"
-                placeholder="seu@email.com"
+                placeholder="nome@exemplo.com"
                 autocomplete="email"
                 class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-4 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
                 required
@@ -228,9 +213,15 @@
           <fieldset class="space-y-2">
             <legend class="sr-only">Senha</legend>
 
-            <label for="password" class="ml-1 block text-sm font-bold text-on-surface-variant">
-              Senha
-            </label>
+            <header class="flex items-center justify-between px-1">
+              <label for="password" class="text-sm font-bold text-on-surface-variant">
+                Senha
+              </label>
+
+              <a href="#" class="text-sm font-bold text-primary transition-colors hover:text-primary-dim">
+                Esqueceu a senha?
+              </a>
+            </header>
 
             <article class="relative">
               <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline not-italic" aria-hidden="true">lock</i>
@@ -240,7 +231,7 @@
                 name="password"
                 type="password"
                 placeholder="••••••••"
-                autocomplete="new-password"
+                autocomplete="current-password"
                 class="w-full rounded-2xl border-none bg-surface-container-highest py-4 pl-12 pr-12 text-on-surface transition-all placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary"
                 required
               />
@@ -256,41 +247,35 @@
             </article>
           </fieldset>
 
-          <fieldset>
-            <legend class="sr-only">Termos de uso</legend>
+          <label for="remember" class="flex cursor-pointer items-center gap-3 px-1">
+            <input
+              id="remember"
+              name="remember"
+              type="checkbox"
+              class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary"
+            />
 
-            <label for="terms" class="flex cursor-pointer items-start gap-3 py-2">
-              <input
-                id="terms"
-                name="terms"
-                type="checkbox"
-                class="mt-0.5 h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary"
-                required
-              />
-
-              <em class="text-sm leading-relaxed text-on-surface-variant not-italic">
-                Eu aceito os <strong class="text-primary">Termos de Uso</strong> e a <strong class="text-primary">Política de Privacidade</strong>.
-              </em>
-            </label>
-          </fieldset>
+            <em class="text-sm font-semibold text-on-surface-variant not-italic">
+              Lembrar de mim
+            </em>
+          </label>
 
           <button
             type="submit"
             class="w-full rounded-full bg-gradient-to-r from-primary to-primary-container py-4 text-lg font-black text-on-primary shadow-lg shadow-primary/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           >
-            Criar minha conta
+            Entrar na Plataforma
           </button>
-
         </form>
 
         <footer class="mt-10 text-center">
           <p class="text-sm font-semibold text-on-surface-variant">
-            Já possui uma conta?
+            Ainda não tem uma conta?
           </p>
 
-          <nav class="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center" aria-label="Links de acesso">
-            <a href="/login" class="rounded-full bg-surface-container px-5 py-3 text-sm font-black text-primary transition-colors hover:bg-surface-container-high">
-              Entrar
+          <nav class="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center" aria-label="Links de cadastro">
+            <a href="/cadastroaluno" class="rounded-full bg-surface-container px-5 py-3 text-sm font-black text-primary transition-colors hover:bg-surface-container-high">
+              Criar conta de aluno
             </a>
 
             <a href="/cadastroprofessor" class="rounded-full bg-surface-container px-5 py-3 text-sm font-black text-primary transition-colors hover:bg-surface-container-high">
@@ -322,7 +307,8 @@
   </script>
 
   <script src="/js/validacoes.js"></script>
-  <script src="/js/transicao-paginas.js"></script>
 </body>
-
+  
+<script src="/js/transicao-paginas.js"></script>
+  
 </html>

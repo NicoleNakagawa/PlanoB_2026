@@ -208,6 +208,8 @@
         : '/videosfree'
 
     const nomePlanoAluno = planoAluno === 3 ? 'Diamante' : planoAluno === 2 ? 'Lazuli' : 'Free'
+    const alunoSeguro = typeof aluno !== 'undefined' && aluno ? aluno : {}
+    const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
     const professor = typeof professorResponsavel !== 'undefined' && professorResponsavel ? professorResponsavel : null
   %>
 
@@ -237,8 +239,8 @@
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
         <picture>
-          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
-            <img class="w-12 h-12 rounded-full object-cover" src="<%= aluno.foto %>" alt="Foto de perfil do aluno" />
+          <% if (alunoSeguro.foto) { %>
+            <img class="w-12 h-12 rounded-full object-cover" src="<%= alunoSeguro.foto %>" alt="Foto de perfil do aluno" />
           <% } else { %>
             <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
               <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
@@ -247,8 +249,12 @@
         </picture>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
-          <p class="text-xs text-on-surface-variant">Plano premium ativo</p>
+          <p class="text-sm font-bold text-on-surface">
+            <%= nomeAluno %>
+          </p>
+          <p class="text-xs text-on-surface-variant">
+            Plano <%= nomePlanoAluno %> ativo
+          </p>
         </figcaption>
       </figure>
     </header>

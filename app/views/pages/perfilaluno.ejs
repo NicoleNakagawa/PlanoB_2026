@@ -314,6 +314,9 @@
         ? 'Lazuli'
         : 'Free'
 
+    const alunoSeguro = typeof aluno !== 'undefined' && aluno ? aluno : {}
+    const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
+
     const dadosTreino = typeof dadosAluno !== 'undefined' && dadosAluno ? dadosAluno : {}
 
     const mapaObjetivo = {
@@ -396,23 +399,25 @@
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
         <picture>
-          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+          <% if (alunoSeguro.foto) { %>
             <img
               class="w-12 h-12 rounded-full object-cover"
-              src="<%= aluno.foto %>"
+              src="<%= alunoSeguro.foto %>"
               alt="Foto de perfil do aluno"
             />
           <% } else { %>
-            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+            <em class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Aluno sem foto">
               <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
-            </span>
+            </em>
           <% } %>
         </picture>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal <%= nomePlanoAluno %></p>
+          <p class="text-sm font-bold text-on-surface">
+            <%= nomeAluno %>
+          </p>
           <p class="text-xs text-on-surface-variant">
-            <%= alunoPago ? 'Plano premium ativo' : 'Plano gratuito ativo' %>
+            Plano <%= nomePlanoAluno %> ativo
           </p>
         </figcaption>
       </figure>
@@ -467,7 +472,7 @@
             </mark>
 
             <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
-              OLÁ, <%= typeof aluno !== 'undefined' && aluno.nome ? aluno.nome.split(' ')[0].toUpperCase() : 'ALUNO' %>.
+              OLÁ, <%= alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0].toUpperCase() : 'ALUNO' %>.
             </h1>
 
             <p class="text-lg opacity-90 max-w-xl">
@@ -475,18 +480,40 @@
             </p>
           </hgroup>
 
-          <figure class="relative w-40 h-40 md:w-44 md:h-44 rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/10 p-3 m-0">
-            <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+          <figure class="relative w-40 h-40 md:w-44 md:h-44 rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/10 p-3 m-0 group">
+            <% if (alunoSeguro.foto) { %>
               <img
                 class="w-full h-full rounded-[1.5rem] object-cover"
-                src="<%= aluno.foto %>"
+                src="<%= alunoSeguro.foto %>"
                 alt="Foto do aluno"
               />
             <% } else { %>
-              <span class="w-full h-full rounded-[1.5rem] avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+              <em class="w-full h-full rounded-[1.5rem] avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Aluno sem foto">
                 <i class="material-symbols-outlined text-[7rem] md:text-[8rem] not-italic" aria-hidden="true">account_circle</i>
-              </span>
+              </em>
             <% } %>
+
+            <form action="/perfilaluno/foto" method="POST" enctype="multipart/form-data">
+              <label
+                for="foto-perfil-hero"
+                class="absolute inset-3 rounded-[1.5rem] bg-black/0 group-hover:bg-black/35 flex items-center justify-center cursor-pointer transition-all"
+                aria-label="Alterar foto de perfil"
+              >
+                <strong class="opacity-0 group-hover:opacity-100 bg-white text-primary px-4 py-2 rounded-full font-black text-xs flex items-center gap-2 shadow-xl transition-opacity">
+                  <i class="material-symbols-outlined text-lg not-italic" aria-hidden="true">photo_camera</i>
+                  Alterar foto
+                </strong>
+              </label>
+
+              <input
+                id="foto-perfil-hero"
+                name="foto_perfil"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                class="hidden"
+                onchange="this.form.submit()"
+              />
+            </form>
 
             <figcaption class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-tertiary-fixed text-on-tertiary-fixed font-black px-4 py-1 rounded-full text-xs tracking-widest uppercase shadow-lg">
               <%= nomePlanoAluno %>
@@ -499,6 +526,18 @@
         <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
       </article>
 
+      <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+        <section class="md:col-span-12 bg-green-50 text-green-700 rounded-3xl p-5 font-bold text-center" role="status">
+          <%= sucesso %>
+        </section>
+      <% } %>
+
+      <% if (typeof erroPerfil !== 'undefined' && erroPerfil) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
+          <%= erroPerfil %>
+        </section>
+      <% } %>
+
       <section class="profile-card md:col-span-5 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
 
         <header class="flex items-center justify-between">
@@ -510,14 +549,14 @@
           <li class="bg-surface-container-low rounded-2xl p-4">
             <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Nome</p>
             <p class="font-bold text-on-surface">
-              <%= typeof aluno !== 'undefined' && aluno.nome ? aluno.nome : 'Aluno' %>
+              <%= alunoSeguro.nome || 'Aluno' %>
             </p>
           </li>
 
           <li class="bg-surface-container-low rounded-2xl p-4">
             <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">E-mail</p>
             <p class="font-bold text-on-surface break-all">
-              <%= typeof aluno !== 'undefined' && aluno.email ? aluno.email : 'email@exemplo.com' %>
+              <%= alunoSeguro.email || 'email@exemplo.com' %>
             </p>
           </li>
 
@@ -526,6 +565,55 @@
             <p class="font-bold text-primary"><%= nomePlanoAluno %></p>
           </li>
         </ul>
+
+        <details class="bg-surface-container-low rounded-3xl p-4 group">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-3 font-black text-primary">
+            <strong>Alterar dados do perfil</strong>
+            <i class="material-symbols-outlined not-italic transition-transform group-open:rotate-180" aria-hidden="true">expand_more</i>
+          </summary>
+
+          <section class="mt-5 flex flex-col gap-6">
+
+            <form action="/perfilaluno/dados" method="POST" class="flex flex-col gap-4">
+              <fieldset class="flex flex-col gap-2">
+                <legend class="sr-only">Alterar nome e e-mail</legend>
+
+                <label for="nome-perfil" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">
+                  Nome
+                </label>
+
+                <input
+                  id="nome-perfil"
+                  name="nome"
+                  type="text"
+                  value="<%= alunoSeguro.nome || '' %>"
+                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
+                  required
+                />
+
+                <label for="email-perfil" class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-2">
+                  E-mail
+                </label>
+
+                <input
+                  id="email-perfil"
+                  name="email"
+                  type="email"
+                  value="<%= alunoSeguro.email || '' %>"
+                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
+                  required
+                />
+              </fieldset>
+
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
+                Salvar nome e e-mail
+              </button>
+            </form>
+
+          </section>
+        </details>
 
         <a href="<%= painelCorreto %>" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
           Voltar aos Treinos
@@ -813,7 +901,6 @@
     </a>
 
     <% if (alunoPago) { %>
-
       <a href="/feedbackaluno"
          class="flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
