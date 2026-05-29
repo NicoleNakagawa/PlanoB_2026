@@ -331,49 +331,78 @@
 
   </main>
 
-  <footer class="bg-white dark:bg-slate-950 w-full py-24 border-t border-slate-200 dark:border-slate-800">
-    <article class="max-w-[90rem] mx-auto px-8 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-16">
+<footer class="bg-[#020a2f] text-white w-full py-10 md:py-12 border-t border-white/10">
+  <article class="max-w-[90rem] mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
 
-      <section class="col-span-1">
-        <p class="logo-font logo-footer text-primary dark:text-blue-200 mb-8">PlanoB</p>
-        <p class="text-slate-500 font-body text-lg leading-relaxed max-w-xs">
-          Redefinindo os limites do fitness em casa através da ciência e do design editorial.
-        </p>
-      </section>
+    <section>
+      <p class="logo-font text-3xl md:text-4xl text-white mb-3">PlanoB</p>
+      <p class="text-white/60 text-sm md:text-base leading-relaxed max-w-sm">
+        Treinos em casa com praticidade, foco e acompanhamento para sua evolução.
+      </p>
+    </section>
 
-      <nav aria-label="Empresa">
-        <h3 class="font-headline font-black text-xl text-slate-900 dark:text-slate-100 mb-8 uppercase tracking-wide">Empresa</h3>
-        <ul class="space-y-6" role="list">
-          <li><a class="text-lg text-slate-500 hover:text-primary transition-all font-medium" href="suporte">Suporte</a></li>
-          <li><a class="text-lg text-slate-500 hover:text-primary transition-all font-medium" href="#">Privacidade</a></li>
-        </ul>
-      </nav>
+    <nav aria-label="Links rápidos">
+      <h3 class="font-headline font-black text-sm text-white mb-4 uppercase tracking-widest">
+        Links
+      </h3>
 
-      <section>
-        <h3 class="font-headline font-black text-xl text-slate-900 dark:text-slate-100 mb-8 uppercase tracking-wide">Contato</h3>
-        <form class="flex gap-3" onsubmit="return false;" novalidate>
-          <label for="newsletter-email" class="sr-only">Seu e-mail</label>
-          <input
-            id="newsletter-email"
-            type="email"
-            placeholder="email@exemplo.com"
-            class="bg-surface-container-highest border-none rounded-full px-6 py-4 w-full text-lg focus:ring-4 focus:ring-primary/20 transition-all"
-          />
-          <button type="submit" class="primary-gradient p-4 rounded-full text-white shadow-lg hover:scale-110 transition-transform" aria-label="Inscrever na newsletter">
-            <i class="material-symbols-outlined text-2xl not-italic" aria-hidden="true">send</i>
-          </button>
-        </form>
-        <p class="text-slate-400 text-sm mt-6">Receba treinos exclusivos semanalmente.</p>
-      </section>
+      <ul class="space-y-3" role="list">
+        <li>
+          <a class="text-sm md:text-base text-white/60 hover:text-white transition-colors" href="home">
+            Início
+          </a>
+        </li>
 
-    </article>
+        <li>
+          <a class="text-sm md:text-base text-white/60 hover:text-white transition-colors" href="planos">
+            Planos
+          </a>
+        </li>
 
-    <aside class="max-w-[90rem] mx-auto px-8 mt-24 pt-10 border-t border-slate-200 dark:border-slate-800 text-center">
-      <small class="text-slate-400 text-sm font-bold tracking-widest uppercase">
-        © 2024 PlanoB. Todos os direitos reservados.
-      </small>
-    </aside>
-  </footer>
+        <li>
+          <a class="text-sm md:text-base text-white/60 hover:text-white transition-colors" href="suporte">
+            Suporte
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <section>
+      <h3 class="font-headline font-black text-sm text-white mb-4 uppercase tracking-widest">
+        Contato
+      </h3>
+
+      <p class="text-white/60 text-sm md:text-base mb-4">
+        Precisa de ajuda? Fale com o suporte do PlanoB.
+      </p>
+
+      <a
+        href="suporte"
+        class="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all"
+      >
+        Ir para suporte
+        <i class="material-symbols-outlined text-lg not-italic" aria-hidden="true">arrow_forward</i>
+      </a>
+    </section>
+
+  </article>
+
+  <aside class="max-w-[90rem] mx-auto px-6 lg:px-12 mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-3">
+    <small class="text-white/40 text-xs md:text-sm font-semibold">
+      © 2024 PlanoB. Todos os direitos reservados.
+    </small>
+
+    <nav class="flex items-center gap-4" aria-label="Links legais">
+      <a class="text-white/40 hover:text-white text-xs md:text-sm transition-colors" href="#">
+        Privacidade
+      </a>
+
+      <a class="text-white/40 hover:text-white text-xs md:text-sm transition-colors" href="suporte">
+        Ajuda
+      </a>
+    </nav>
+  </aside>
+</footer>
 
   <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
 
