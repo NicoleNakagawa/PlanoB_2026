@@ -3139,45 +3139,95 @@ router.post('/suporte', async (req, res) => {
 
 router.post('/api/aluno/registrar-treino', authAluno, async (req, res) => {
     const idAluno = req.session.aluno.id
-    const idFicha = req.body.id_ficha || null
     const duracaoMin = Number(req.body.duracao_min) || 0
-    const calorias = req.body.calorias || null
-    const bpmMaximo = req.body.bpm_maximo || null
-    const observacao = req.body.observacao || null
+    const observacao = req.body.observacao || 'Exercício concluído.'
+    const redirectTo = req.body.redirect_to || redirecionarPainelAluno(req.session.aluno.id_plano)
 
     try {
+        let idFicha = null
+
+        const [fichaRows] = await db.query(
+            `SELECT af.id_ficha
+             FROM aluno_ficha af
+             WHERE af.id_aluno = ?
+             AND af.ativo = 1
+             ORDER BY af.id_aluno_ficha DESC
+             LIMIT 1`,
+            [idAluno]
+        ).catch(async () => {
+            return [[]]
+        })
+
+        if (fichaRows.length > 0) {
+            idFicha = fichaRows[0].id_ficha
+        }
+
         await db.query(
             `INSERT INTO sessao_treino
              (id_aluno, id_ficha, data_treino, duracao_min, calorias, bpm_maximo, observacao)
-             VALUES (?, ?, CURDATE(), ?, ?, ?, ?)`,
-            [idAluno, idFicha, duracaoMin, calorias, bpmMaximo, observacao]
+             VALUES (?, ?, CURDATE(), ?, 0, 0, ?)`,
+            [idAluno, idFicha, duracaoMin, observacao]
         )
 
-        await db.query(
-            `UPDATE streak
-             SET streak_atual = streak_atual + 1,
-                 streak_maximo = GREATEST(streak_maximo, streak_atual + 1),
-                 ultima_atividade = CURDATE()
-             WHERE id_aluno = ?`,
+        const [streakRows] = await db.query(
+            `SELECT id_streak, streak_atual, streak_maximo, ultima_atividade
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
             [idAluno]
-        )
+        ).catch(async () => {
+            return [[]]
+        })
 
-        if (req.headers.accept && req.headers.accept.includes('application/json')) {
-            return res.json({ ok: true })
+        if (streakRows.length > 0) {
+            const streak = streakRows[0]
+            const ultimaAtividade = streak.ultima_atividade ? new Date(streak.ultima_atividade) : null
+            const hoje = new Date()
+            hoje.setHours(0, 0, 0, 0)
+
+            let novoStreak = Number(streak.streak_atual) || 0
+
+            if (!ultimaAtividade) {
+                novoStreak = 1
+            } else {
+                const ultima = new Date(ultimaAtividade)
+                ultima.setHours(0, 0, 0, 0)
+
+                const diferencaDias = Math.round((hoje - ultima) / (1000 * 60 * 60 * 24))
+
+                if (diferencaDias === 0) {
+                    novoStreak = Number(streak.streak_atual) || 1
+                } else if (diferencaDias === 1) {
+                    novoStreak = (Number(streak.streak_atual) || 0) + 1
+                } else {
+                    novoStreak = 1
+                }
+            }
+
+            const novoMaximo = Math.max(novoStreak, Number(streak.streak_maximo) || 0)
+
+            await db.query(
+                `UPDATE streak
+                 SET streak_atual = ?,
+                     streak_maximo = ?,
+                     ultima_atividade = CURDATE()
+                 WHERE id_aluno = ?`,
+                [novoStreak, novoMaximo, idAluno]
+            )
+        } else {
+            await db.query(
+                `INSERT INTO streak
+                 (id_aluno, streak_atual, streak_maximo, ultima_atividade)
+                 VALUES (?, 1, 1, CURDATE())`,
+                [idAluno]
+            ).catch(async () => {})
         }
 
-        res.redirect('/perfilaluno')
+        return res.redirect(redirectTo)
     } catch (err) {
-        console.error('[registrar-treino]', err)
+        console.error('[registrar treino]', err)
 
-        if (req.headers.accept && req.headers.accept.includes('application/json')) {
-            return res.status(500).json({
-                ok: false,
-                erro: 'Erro ao registrar treino.'
-            })
-        }
-
-        res.redirect('/execucaoexercicios')
+        return res.redirect(redirectTo)
     }
 })
 

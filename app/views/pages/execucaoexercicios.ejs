@@ -668,8 +668,9 @@
 
           <section class="mt-8 space-y-3">
             <form action="/api/aluno/registrar-treino" method="POST">
-              <input type="hidden" name="duracao_min" value="<%= video.duracaoMin %>">
-              <input type="hidden" name="observacao" value="<%= video.titulo %> concluído pela tela de execução.">
+  <input type="hidden" name="duracao_min" value="<%= video.duracaoMin %>">
+  <input type="hidden" name="observacao" value="<%= video.titulo %> concluído pela tela de execução.">
+  <input type="hidden" name="redirect_to" value="<%= painelCorreto %>">
 
               <button
                 type="submit"
