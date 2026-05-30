@@ -1,40 +1,73 @@
 <!DOCTYPE html>
+<html class="light" lang="pt-BR">
 
-<html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Perfil do Professor | PlanoB</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Perfil do Professor</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "primary": "#0058ba",
-            "on-primary": "#f0f2ff",
-            "primary-container": "#6c9fff",
-            "on-primary-container": "#00214e",
-            "secondary": "#00647b",
-            "surface": "#f7f5ff",
-            "on-surface": "#232c51",
-            "surface-variant": "#d5dbff",
-            "on-surface-variant": "#505a81",
-            "outline": "#6c759e",
-            "outline-variant": "#a2abd7",
+            "surface-bright": "#f7f5ff",
+            "tertiary-dim": "#5e4e00",
             "error": "#b31b25",
-            "surface-container-low": "#efefff",
-            "surface-container": "#e4e7ff",
-            "surface-container-high": "#dde1ff",
+            "surface-dim": "#cad2ff",
+            "outline-variant": "#a2abd7",
+            "on-secondary": "#e2f6ff",
             "surface-container-highest": "#d5dbff",
-            "surface-container-lowest": "#ffffff",
-            "tertiary-container": "#ffd709",
+            "inverse-primary": "#4a8eff",
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "outline": "#6c759e",
+            "inverse-on-surface": "#929bc6",
+            "error-container": "#fb5151",
+            "surface-variant": "#d5dbff",
+            "primary-fixed": "#6c9fff",
+            "primary-container": "#6c9fff",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-error": "#ffefee",
+            "on-tertiary": "#fff2cd",
+            "on-surface-variant": "#505a81",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container-high": "#dde1ff",
+            "secondary-dim": "#00576c",
+            "on-secondary-fixed-variant": "#00586d",
             "on-tertiary-container": "#5b4b00",
             "tertiary-fixed": "#ffd709",
-            "on-tertiary-fixed": "#453900"
+            "on-primary-fixed": "#000000",
+            "on-primary": "#f0f2ff",
+            "on-error-container": "#570008",
+            "secondary-fixed": "#80deff",
+            "secondary-container": "#80deff",
+            "on-tertiary-fixed": "#453900",
+            "primary-fixed-dim": "#5091ff",
+            "surface-container": "#e4e7ff",
+            "primary-dim": "#004da4",
+            "on-background": "#232c51",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#020a2f",
+            "tertiary-container": "#ffd709",
+            "on-tertiary-fixed-variant": "#665500",
+            "on-primary-container": "#00214e",
+            "surface-container-low": "#efefff",
+            "secondary": "#00647b",
+            "on-primary-fixed-variant": "#002a60",
+            "on-secondary-container": "#004e61",
+            "on-surface": "#232c51",
+            "surface-tint": "#0058ba",
+            "background": "#f7f5ff",
+            "on-secondary-fixed": "#003a48",
+            "error-dim": "#9f0519",
+            "tertiary": "#6c5a00"
           },
           borderRadius: {
             DEFAULT: "0.25rem",
@@ -51,302 +84,843 @@
       }
     }
   </script>
-<style>
+
+  <style>
     @font-face {
       font-family: 'Baumans';
       src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
     }
-    .logo-font { font-family: 'Baumans', sans-serif !important; letter-spacing: 0.02em; }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       vertical-align: middle;
     }
-    body { font-family: 'Manrope', sans-serif; }
-    h1, h2, h3, h4, h5, h6 { font-family: 'Lexend', sans-serif; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    progress {
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    progress::-webkit-progress-bar {
+      background: #d5dbff;
+      border-radius: 999px;
+    }
+
+    progress::-webkit-progress-value {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    progress::-moz-progress-bar {
+      background: #0058ba;
+      border-radius: 999px;
+    }
 
     @media (max-width: 768px) {
-      aside.sidebar { display: none !important; }
-      .content-area { margin-left: 0 !important; }
-      main { padding: 80px 16px 120px !important; }
-      header.topbar { left: 0 !important; width: 100% !important; }
-    }
-  
-    /* Ajustes gerais de responsividade */
-    img, video { max-width: 100%; height: auto; }
-    a, button { -webkit-tap-highlight-color: transparent; }
-    @media (max-width: 768px) {
-      body { overflow-x: hidden; }
-      main { max-width: 100%; }
-      .hide-mobile { display: none !important; }
-    }
-</style>
-</head>
-<body class="bg-surface text-on-surface">
-<!-- Sidebar (desktop only) -->
-<aside class="sidebar h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col py-6 z-40 border-r border-outline-variant/20">
-<header class="px-6 mb-10">
-<strong class="logo-font text-primary block" style="font-size:1.5rem;">PlanoB</strong>
-<p class="text-xs font-headline text-on-surface-variant/70 font-medium mt-1 uppercase tracking-wider">Área do Professor</p>
-</header>
-<nav aria-label="Menu lateral do professor" class="flex-1 space-y-1">
-<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="painelprofessor">
-<i class="material-symbols-outlined not-italic">dashboard</i>
-<strong class="font-headline font-medium text-sm">Dashboard</strong>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="todosalunos">
-<i class="material-symbols-outlined not-italic">group</i>
-<strong class="font-headline font-medium text-sm">Meus Alunos</strong>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="todosvideos">
-<i class="material-symbols-outlined not-italic">menu_book</i>
-<strong class="font-headline font-medium text-sm">Conteúdos</strong>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 mx-2 text-on-surface hover:bg-surface-container rounded-xl transition-all duration-200" href="feedbackprofessor">
-<i class="material-symbols-outlined not-italic">reviews</i>
-<strong class="font-headline font-medium text-sm">Feedbacks</strong>
-</a>
-<a aria-current="page" class="flex items-center gap-3 py-3 px-4 mx-2 text-primary bg-primary-container/40 rounded-xl transition-all duration-200 font-semibold" href="perfilprofessor">
-<i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1;">person</i>
-<strong class="font-headline font-semibold text-sm">Meu Perfil</strong>
-</a>
-</nav>
-<footer class="mt-auto px-2 space-y-1">
-<a class="flex items-center gap-3 py-3 px-4 text-on-surface hover:bg-surface-container rounded-xl mx-2" href="suporte">
-<i class="material-symbols-outlined not-italic">help</i>
-<strong class="font-headline font-medium text-sm">Suporte</strong>
-</a>
-<a class="flex items-center gap-3 py-3 px-4 text-error hover:bg-error/5 rounded-xl mx-2" href="logout">
-<i class="material-symbols-outlined not-italic">logout</i>
-<strong class="font-headline font-medium text-sm">Sair</strong>
-</a>
-</footer>
-</aside>
-<section class="content-area md:ml-64 min-h-screen flex flex-col">
-<!-- Top NavBar -->
-<header class="topbar w-full sticky top-0 z-50 bg-surface/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 border-b border-outline-variant/10">
-<label class="relative flex-1 max-w-md" for="busca-professor">
-<i class="material-symbols-outlined not-italic absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</i>
-<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="busca-professor" placeholder="Buscar alunos ou treinos..." type="search"/>
-</label>
-<menu class="flex items-center gap-3 m-0 p-0 list-none">
-<li class="relative">
-<a aria-label="Notificações" class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors" href="suporte">
-<i class="material-symbols-outlined not-italic">notifications</i>
-</a>
-<strong aria-hidden="true" class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></strong>
-</li>
-<li>
-<figure class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/20 cursor-pointer m-0">
-<img alt="Avatar do professor" class="h-full w-full object-cover" src="https://placeholder.pics/svg/300"/>
-</figure>
-</li>
-</menu>
-</header>
-<main class="flex-1 p-6 lg:p-10 max-w-7xl mx-auto w-full pb-24 md:pb-10">
-<!-- Hero Profile -->
-<section aria-labelledby="nome-professor" class="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-<article class="lg:col-span-5 relative group">
-<figure class="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 m-0">
-<img alt="Foto do professor" class="w-full h-full object-cover" src="https://placeholder.pics/svg/300"/>
-<strong aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent"></strong>
-</figure>
-<ul class="absolute -bottom-4 -right-4 flex flex-col gap-2 list-none m-0 p-0">
-<li class="bg-tertiary-container text-on-tertiary-container px-5 py-2.5 rounded-2xl text-xs font-bold font-headline shadow-lg">MUSCULAÇÃO</li>
-<li class="bg-primary text-white px-5 py-2.5 rounded-2xl text-xs font-bold font-headline shadow-lg">TREINO FUNCIONAL</li>
-</ul>
-</article>
-<article class="lg:col-span-7 flex flex-col justify-center space-y-4">
-<p class="text-primary font-headline font-extrabold tracking-widest text-xs uppercase flex items-center gap-2">
-<strong aria-hidden="true" class="w-8 h-px bg-primary"></strong>
-            Personal Trainer &amp; Coach
-          </p>
-<h1 class="text-5xl md:text-6xl lg:text-7xl font-black font-headline text-on-surface tracking-tighter leading-[0.9]" id="nome-professor">
-            &lt;%= typeof professor !== 'undefined' ? professor.nome : 'Ricardo Mendes' %&gt;
-          </h1>
-<p class="text-primary text-xl font-headline font-semibold">
-            CREF &lt;%= typeof professor !== 'undefined' &amp;&amp; professor.cref ? professor.cref : '123456-G/SP' %&gt;
-          </p>
-<p class="text-on-surface-variant text-lg leading-relaxed font-medium max-w-xl">
-            Especialista em biomecânica aplicada ao treinamento de força. Com mais de 10 anos de experiência, transformo vidas através de metodologias personalizadas que unem ciência e motivação.
-          </p>
-<menu class="flex flex-wrap gap-4 m-0 p-0 list-none">
-<li>
-<a class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-headline font-bold text-sm shadow-xl shadow-primary/20 transition-all active:scale-95 inline-block" href="feedbackprofessor">
-                VER FEEDBACKS
-              </a>
-</li>
-<li>
-<a class="bg-surface-container-low border-2 border-outline-variant/30 text-on-surface px-8 py-4 rounded-2xl font-headline font-bold text-sm hover:bg-surface-container transition-all inline-block" href="todosalunos">
-                VER ALUNOS
-              </a>
-</li>
-</menu>
-</article>
-</section>
-<!-- Metrics -->
-<ul class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 list-none m-0 p-0">
-<li class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col items-center text-center border border-outline-variant/10 shadow-sm transition-transform hover:scale-[1.02]">
-<figure class="w-14 h-14 bg-primary-container text-primary rounded-2xl flex items-center justify-center mb-4 m-0">
-<i class="material-symbols-outlined text-3xl not-italic">groups</i>
-</figure>
-<strong class="text-4xl font-headline font-black text-on-surface">42</strong>
-<p class="text-xs font-headline font-bold text-outline tracking-widest uppercase mt-2">Alunos Ativos</p>
-</li>
-<li class="bg-primary p-8 rounded-[2rem] flex flex-col items-center text-center shadow-2xl shadow-primary/30 transition-transform hover:scale-[1.02]">
-<figure class="w-14 h-14 bg-white/20 text-white rounded-2xl flex items-center justify-center mb-4 m-0">
-<i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-</figure>
-<strong class="text-4xl font-headline font-black text-white">4.9</strong>
-<p class="text-xs font-headline font-bold text-white/80 tracking-widest uppercase mt-2">Média de Avaliação</p>
-</li>
-<li class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col items-center text-center border border-outline-variant/10 shadow-sm transition-transform hover:scale-[1.02]">
-<figure class="w-14 h-14 bg-primary-container text-primary rounded-2xl flex items-center justify-center mb-4 m-0">
-<i class="material-symbols-outlined text-3xl not-italic">fitness_center</i>
-</figure>
-<strong class="text-4xl font-headline font-black text-on-surface">156</strong>
-<p class="text-xs font-headline font-bold text-outline tracking-widest uppercase mt-2">Aulas Realizadas</p>
-</li>
-</ul>
-<!-- Featured Videos -->
-<section aria-labelledby="videos-heading" class="mb-20">
-<header class="flex justify-between items-end mb-8">
-<hgroup>
-<h2 class="text-3xl font-black font-headline text-on-surface tracking-tight" id="videos-heading">Vídeos em Destaque</h2>
-<p class="text-on-surface-variant font-medium mt-1">As técnicas mais acessadas pelos alunos.</p>
-</hgroup>
-<a class="text-primary font-bold font-headline text-sm flex items-center gap-1 hover:underline group" href="todosvideos">
-            Ver todos <i class="material-symbols-outlined text-sm not-italic group-hover:translate-x-1 transition-transform">arrow_forward</i>
-</a>
-</header>
-<ul class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none m-0 p-0">
-<li class="group cursor-pointer">
-<figure class="aspect-video rounded-3xl overflow-hidden relative mb-4 shadow-lg m-0">
-<img alt="Agachamento Perfeito" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/ADBb0uiHf5yBD1OtKZ9OibcAsInnQ1_NNKuUhYAmFcYvCXtQ7kcxe66WxUnMm_cuFd8qMGr4HJDRpVBpLsfrHZp3rzbRG4-_HeMBdRDoWx-un5VAnQzs0G6VtKIuuG4UMH0lgywkJ4DdMHh1e4DX8pserETt8ZXvJfsTQUAbKV5k9CvVm9iWis8P97a-IHNhE-Yhk-nR8PTnrmkh9QWjv8bcmtIKSTrLUrJXyGelaeS0dCKfEdX9FwLC84GP4--8"/>
-<strong aria-hidden="true" class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-<strong class="bg-primary text-white p-4 rounded-full shadow-xl">
-<i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1;">play_arrow</i>
-</strong>
-</strong>
-</figure>
-<h3 class="font-headline font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">Agachamento Perfeito: Biomecânica</h3>
-<p class="flex items-center gap-2 mt-2 text-xs font-headline font-bold text-outline uppercase tracking-wider">
-              12.4k views <strong aria-hidden="true">•</strong> 15 min
-            </p>
-</li>
-<li class="group cursor-pointer">
-<figure class="aspect-video rounded-3xl overflow-hidden relative mb-4 shadow-lg m-0">
-<img alt="HIIT Explosivo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/ADBb0uhiZSMiZ6TYwl_L2KYMu8aO1jGj167z3oRhyBBoH8s2sUWmp4zOlewVbRHLUu965149sBuGBFUk2hU9ySbV1Oam-oDZJBFMU1VLqR3nPZSIDo2A8MZF-XZKDTMFQJS_XaeqoIyiHccK4Y9fB1lXN0skye6wYNCC-eK66iAGrTE1JqrmiVUqp7URl1-4_sWXKcYKHcZrA9x6kJTIrDOd2VAqYrizZc69eDzrjugLOD897tX_VooM9K6MjBvm"/>
-<strong aria-hidden="true" class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-<strong class="bg-primary text-white p-4 rounded-full shadow-xl">
-<i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1;">play_arrow</i>
-</strong>
-</strong>
-</figure>
-<h3 class="font-headline font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">HIIT Explosivo para Iniciantes</h3>
-<p class="flex items-center gap-2 mt-2 text-xs font-headline font-bold text-outline uppercase tracking-wider">
-              8.9k views <strong aria-hidden="true">•</strong> 20 min
-            </p>
-</li>
-<li class="group cursor-pointer">
-<figure class="aspect-video rounded-3xl overflow-hidden relative mb-4 shadow-lg m-0">
-<img alt="Mobilidade" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/ADBb0ujvMAT4XdA4ZcgBZqm82NeZJujKLdnQNiO1WcZSPVs_7nqyOai0Scy-CdEGNwQETsrdUyKyvYWJEEDZXQzgKtOt31Z3YtxMX3z916Jg25Z20ekq5yvGJOypCHjho_Hr4Hs8lk7AWRgOtDKaqy12faAG_iYUhgpypJjhiOf9Cvsj7oK090GcP1OzTram5WbsM0uXs85P6b_TVXHJKmegTnydm3PsxGjszHROMW7fkH5AEXBC8zFILnbNavE"/>
-<strong aria-hidden="true" class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-<strong class="bg-primary text-white p-4 rounded-full shadow-xl">
-<i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1;">play_arrow</i>
-</strong>
-</strong>
-</figure>
-<h3 class="font-headline font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">Mobilidade de Ombro e Coluna</h3>
-<p class="flex items-center gap-2 mt-2 text-xs font-headline font-bold text-outline uppercase tracking-wider">
-              5.2k views <strong aria-hidden="true">•</strong> 10 min
-            </p>
-</li>
-</ul>
-</section>
-<!-- Recent Feedback -->
-<section aria-labelledby="feedback-heading" class="mb-12">
-<h2 class="text-3xl font-black font-headline text-on-surface tracking-tight mb-8" id="feedback-heading">Feedback Recente</h2>
-<ul class="grid grid-cols-1 gap-6 list-none m-0 p-0">
-<li class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col md:flex-row gap-8 relative overflow-hidden border border-outline-variant/10 shadow-sm">
-<figure class="flex-shrink-0 m-0">
-<img alt="Mariana Costa" class="h-20 w-20 rounded-[1.5rem] shadow-md object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb6d73_3mZbyZWb6nBgYHiNYqwdWNBv97VB7STLPaX4j0YqxsMI0Lz4FnOqKM-aDU53OYEHZC0JGyYCl2I2HAPkTQCkKR8ZHJxgsp5Q1Y0ux5UufeyUneErES08WquyBTLH0ft7HyDKq2di7EufMyWfk-W7OLofxvFik-tdMrAOp6WKQWMyoxkuzEkbcs4sw0qHnHTV3apYvQOpAY2PcDXv_G3g3_CaPljOe1Jm9uLmyrtlPXy-92eRDZAmsf-wOHNXD0q0RqtmT-J"/>
-</figure>
-<article class="flex-1 relative z-10">
-<header class="flex items-center gap-3 mb-3">
-<p aria-label="5 estrelas" class="flex text-tertiary-container">
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-</p>
-<mark class="bg-primary-container/40 text-primary px-3 py-1 rounded-full text-[10px] font-headline font-black uppercase tracking-wider">ALUNO VIP</mark>
-</header>
-<h4 class="font-headline font-bold text-xl text-on-surface">Mariana Costa</h4>
-<blockquote class="text-on-surface-variant font-medium text-lg leading-relaxed mt-3">
-                O Ricardo mudou completamente minha visão sobre treino. As explicações técnicas dele fazem toda a diferença para evitar lesões e realmente sentir o músculo trabalhar. Excelente profissional!
-              </blockquote>
-<p class="text-xs font-headline font-bold text-outline uppercase tracking-widest mt-6">Postado há 2 dias</p>
-</article>
-<i class="material-symbols-outlined not-italic absolute -right-6 -bottom-6 text-[12rem] text-primary/5 select-none rotate-12">format_quote</i>
-</li>
-<li class="bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col md:flex-row gap-8 relative overflow-hidden border border-outline-variant/10 shadow-sm">
-<figure class="flex-shrink-0 m-0">
-<img alt="Carlos Eduardo" class="h-20 w-20 rounded-[1.5rem] shadow-md object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujg5LL6w4JJ8s-7K1ghaFx6Y28FItfVVR0TC1KTxyxHn52RQuSSdPNj3Y580fFMiTZ1gHW5anarvNkKAPrdd_yGtu4qDR7hf_m3OcIa1ha6jgRgYVKEy_RsGR7yHAgPHalGrNB67G3u1jObLcR9vsvDRz5Br2f9rh7Jp1U_qe9krFAH7dG-7cnhJiZ7qGM3V1Br8TdjMgWEypfnR3XtUTxvWwDuRU2TchsF-PZM52SKRmxzsO7gZ5s-9Ek"/>
-</figure>
-<article class="flex-1 relative z-10">
-<header class="flex items-center gap-3 mb-3">
-<p aria-label="4 estrelas" class="flex text-tertiary-container">
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic" style="font-variation-settings:'FILL' 1;">star</i>
-<i class="material-symbols-outlined text-lg not-italic">star</i>
-</p>
-</header>
-<h4 class="font-headline font-bold text-xl text-on-surface">Carlos Eduardo</h4>
-<blockquote class="text-on-surface-variant font-medium text-lg leading-relaxed mt-3">
-                Muito focado e direto ao ponto. Os treinos de perna que ele montou para mim são desafiadores mas os resultados apareceram em menos de 2 meses.
-              </blockquote>
-<p class="text-xs font-headline font-bold text-outline uppercase tracking-widest mt-6">Postado há 1 semana</p>
-</article>
-<i class="material-symbols-outlined not-italic absolute -right-6 -bottom-6 text-[12rem] text-primary/5 select-none rotate-12">format_quote</i>
-</li>
-</ul>
-</section>
-</main>
-<footer class="py-12 text-center border-t border-outline-variant/10">
-<p class="font-headline font-bold text-outline text-[10px] tracking-[0.2em] uppercase">PlanoB © 2025 • A Excelência em Treinamento Personalizado</p>
-</footer>
-</section>
-<!-- Mobile Bottom NavBar -->
-<nav aria-label="Navegação mobile" class="md:hidden fixed bottom-0 left-0 right-0 bg-[#f7f5ff]/90 backdrop-blur-xl border-t border-outline-variant/10 flex justify-around items-center py-4 z-50 px-4 pb-6 rounded-t-[28px] shadow-[0_-10px_40px_rgba(35,44,81,0.08)]">
-<a class="mobile-link flex flex-col items-center text-outline transition-colors p-2" data-page="painelprofessor" href="painelprofessor">
-<i class="material-symbols-outlined not-italic">dashboard</i>
-<em class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider not-italic">Painel</em>
-</a>
-<a class="mobile-link flex flex-col items-center text-outline transition-colors p-2" data-page="todosalunos" href="todosalunos">
-<i class="material-symbols-outlined not-italic">group</i>
-<em class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider not-italic">Alunos</em>
-</a>
-<a class="mobile-link flex flex-col items-center text-outline transition-colors p-2" data-page="todosvideos" href="todosvideos">
-<i class="material-symbols-outlined not-italic">menu_book</i>
-<em class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider not-italic">Vídeos</em>
-</a>
-<a aria-current="page" class="mobile-link flex flex-col items-center text-primary transition-colors p-2" data-page="perfilprofessor" href="perfilprofessor">
-<i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1;">person</i>
-<em class="text-[9px] font-bold font-headline uppercase mt-1 tracking-wider not-italic">Perfil</em>
-</a>
-</nav>
-<script>
-    const paginaAtual = window.location.pathname.split("/").pop().replace(".html", "");
-    document.querySelectorAll(".mobile-link").forEach(link => {
-      if (link.dataset.page === paginaAtual) {
-        link.classList.remove("text-outline");
-        link.classList.add("text-primary");
-        link.setAttribute("aria-current", "page");
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
       }
-    });
-  </script>
+
+      body {
+        background: #f7f5ff;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      header.fixed menu {
+        gap: 8px;
+      }
+
+      header.fixed button,
+      header.fixed a {
+        padding: 8px;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      article.hero-professor {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-professor > section {
+        align-items: flex-start !important;
+        gap: 26px !important;
+      }
+
+      article.hero-professor h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      article.hero-professor p {
+        font-size: 0.95rem !important;
+      }
+
+      article.hero-professor figure {
+        width: 132px !important;
+        height: 132px !important;
+        margin: 0 auto !important;
+      }
+
+      section.card-mobile,
+      article.card-mobile {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 52px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
+        color: #0058ba !important;
+        opacity: 1 !important;
+        background: #d5dbff;
+      }
+
+      nav[aria-label="Navegação mobile"] a:hover {
+        color: #0058ba !important;
+        opacity: 1 !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      article.hero-professor h1 {
+        font-size: 1.75rem !important;
+      }
+
+      article.hero-professor figure {
+        width: 118px !important;
+        height: 118px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 48px;
+        padding: 10px 4px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="/css/transicao-paginas.css">
+</head>
+
+<body class="bg-surface text-on-surface">
+
+  <%
+    const professorSeguro = typeof professor !== 'undefined' && professor ? professor : {}
+    const estatisticasSeguras = typeof estatisticas !== 'undefined' && estatisticas ? estatisticas : {
+      total_alunos: 0,
+      total_videos: 0,
+      feedbacks_pendentes: 0,
+      aulas_realizadas: 0,
+      media_progressao: 0
+    }
+
+    const videosSeguros = typeof videos !== 'undefined' && videos ? videos : []
+    const feedbacksSeguros = typeof feedbacksRecentes !== 'undefined' && feedbacksRecentes ? feedbacksRecentes : []
+    const alunosSeguros = typeof alunos !== 'undefined' && alunos ? alunos : []
+
+    const nomeProfessor = professorSeguro.nome ? professorSeguro.nome.split(' ')[0] : 'Professor'
+
+    function dataFormatada(data) {
+      if (!data) return 'Sem data'
+      return new Date(data).toLocaleDateString('pt-BR')
+    }
+
+    function segundosParaMinutos(segundos) {
+      const valor = Number(segundos) || 0
+      if (valor <= 0) return '0 min'
+      return Math.round(valor / 60) + ' min'
+    }
+
+    function textoPlano(plano) {
+      if (!plano) return 'Sem plano'
+      return plano
+    }
+
+    function progressoAluno(aluno) {
+      const dias = Number(aluno.dias_treinados) || 0
+      const meta = Number(aluno.meta_dias) || 5
+      if (meta <= 0) return 0
+      return Math.min(Math.round((dias / meta) * 100), 100)
+    }
+  %>
+
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/painelprofessor" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+    </nav>
+
+    <form action="/todosalunos" method="GET" class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+      <i class="material-symbols-outlined text-outline text-sm not-italic" aria-hidden="true">search</i>
+
+      <label for="top-search-professor" class="sr-only">Buscar alunos</label>
+
+      <input
+        id="top-search-professor"
+        name="busca"
+        class="bg-transparent border-none focus:ring-0 text-sm w-48 ml-2"
+        placeholder="Buscar alunos..."
+        type="search"
+      />
+    </form>
+
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
+      <li>
+        <a href="/feedbackprofessor" class="relative p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Feedbacks pendentes">
+          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+
+          <% if (Number(estatisticasSeguras.feedbacks_pendentes) > 0) { %>
+            <strong class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-error text-white text-[10px] font-black flex items-center justify-center">
+              <%= estatisticasSeguras.feedbacks_pendentes %>
+            </strong>
+          <% } %>
+        </a>
+      </li>
+
+      <li>
+        <a href="/perfilprofessor" class="p-1 rounded-full bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil do professor" aria-current="page">
+          <% if (professorSeguro.foto) { %>
+            <img src="<%= professorSeguro.foto %>" alt="Foto do professor" class="w-10 h-10 rounded-full object-cover">
+          <% } else { %>
+            <em class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </em>
+          <% } %>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <% if (professorSeguro.foto) { %>
+            <img
+              class="w-12 h-12 rounded-full object-cover"
+              src="<%= professorSeguro.foto %>"
+              alt="Foto de perfil do professor"
+            />
+          <% } else { %>
+            <em class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Professor sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </em>
+          <% } %>
+        </picture>
+
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">
+            <%= nomeProfessor %>
+          </p>
+          <p class="text-xs text-on-surface-variant">
+            <%= professorSeguro.cref ? 'CREF ' + professorSeguro.cref : 'Professor PlanoB' %>
+          </p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+        <em class="not-italic">Dashboard</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/todosalunos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">groups</i>
+        <em class="not-italic">Meus Alunos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/todosvideos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
+        <em class="not-italic">Meus Vídeos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="not-italic">Feedbacks</em>
+      </a>
+
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/perfilprofessor" aria-current="page">
+        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+    </nav>
+
+    <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <a href="/todosvideos" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
+        Novo Conteúdo
+      </a>
+
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm"
+         href="/logout">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="not-italic">Sair</em>
+      </a>
+    </footer>
+  </aside>
+
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <article class="hero-professor md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+
+          <hgroup class="max-w-2xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Perfil do Professor
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              OLÁ, <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0].toUpperCase() : 'PROFESSOR' %>.
+            </h1>
+
+            <p class="text-lg opacity-90 max-w-xl">
+              Gerencie seus dados profissionais, acompanhe seus conteúdos, alunos vinculados e feedbacks recebidos dentro do PlanoB.
+            </p>
+          </hgroup>
+
+          <figure class="relative w-40 h-40 md:w-44 md:h-44 rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/10 p-3 m-0 group">
+            <% if (professorSeguro.foto) { %>
+              <img
+                class="w-full h-full rounded-[1.5rem] object-cover"
+                src="<%= professorSeguro.foto %>"
+                alt="Foto do professor"
+              />
+            <% } else { %>
+              <em class="w-full h-full rounded-[1.5rem] avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Professor sem foto">
+                <i class="material-symbols-outlined text-[7rem] md:text-[8rem] not-italic" aria-hidden="true">account_circle</i>
+              </em>
+            <% } %>
+
+            <form action="/perfilprofessor/foto" method="POST" enctype="multipart/form-data">
+              <label
+                for="foto-professor-hero"
+                class="absolute inset-3 rounded-[1.5rem] bg-black/0 group-hover:bg-black/35 flex items-center justify-center cursor-pointer transition-all"
+                aria-label="Alterar foto de perfil"
+              >
+                <strong class="opacity-0 group-hover:opacity-100 bg-white text-primary px-4 py-2 rounded-full font-black text-xs flex items-center gap-2 shadow-xl transition-opacity">
+                  <i class="material-symbols-outlined text-lg not-italic" aria-hidden="true">photo_camera</i>
+                  Alterar foto
+                </strong>
+              </label>
+
+              <input
+                id="foto-professor-hero"
+                name="foto_perfil"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                class="hidden"
+                onchange="this.form.submit()"
+              />
+            </form>
+
+            <figcaption class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-tertiary-fixed text-on-tertiary-fixed font-black px-4 py-1 rounded-full text-xs tracking-widest uppercase shadow-lg">
+              Professor
+            </figcaption>
+          </figure>
+
+        </section>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary-fixed opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+        <section class="md:col-span-12 bg-green-50 text-green-700 rounded-3xl p-5 font-bold text-center" role="status">
+          <%= sucesso %>
+        </section>
+      <% } %>
+
+      <% if (typeof erroPerfil !== 'undefined' && erroPerfil) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
+          <%= erroPerfil %>
+        </section>
+      <% } %>
+
+      <section class="card-mobile md:col-span-5 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+
+        <header class="flex items-center justify-between">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Dados Profissionais</h2>
+          <i class="material-symbols-outlined text-primary text-3xl not-italic" aria-hidden="true">badge</i>
+        </header>
+
+        <ul class="flex flex-col gap-4 list-none p-0 m-0">
+          <li class="bg-surface-container-low rounded-2xl p-4">
+            <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Nome</p>
+            <p class="font-bold text-on-surface">
+              <%= professorSeguro.nome || 'Professor' %>
+            </p>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-4">
+            <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">E-mail</p>
+            <p class="font-bold text-on-surface break-all">
+              <%= professorSeguro.email || 'email@exemplo.com' %>
+            </p>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-4">
+            <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">CREF</p>
+            <p class="font-bold text-primary">
+              <%= professorSeguro.cref || 'Não informado' %>
+            </p>
+          </li>
+        </ul>
+
+        <details class="bg-surface-container-low rounded-3xl p-4 group">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-3 font-black text-primary">
+            <strong>Alterar dados do perfil</strong>
+            <i class="material-symbols-outlined not-italic transition-transform group-open:rotate-180" aria-hidden="true">expand_more</i>
+          </summary>
+
+          <section class="mt-5 flex flex-col gap-6">
+
+            <form action="/perfilprofessor/dados" method="POST" class="flex flex-col gap-4">
+              <fieldset class="flex flex-col gap-2">
+                <legend class="sr-only">Alterar nome, e-mail e CREF</legend>
+
+                <label for="nome-professor" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">
+                  Nome
+                </label>
+
+                <input
+                  id="nome-professor"
+                  name="nome"
+                  type="text"
+                  value="<%= professorSeguro.nome || '' %>"
+                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
+                  required
+                />
+
+                <label for="email-professor" class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-2">
+                  E-mail
+                </label>
+
+                <input
+                  id="email-professor"
+                  name="email"
+                  type="email"
+                  value="<%= professorSeguro.email || '' %>"
+                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
+                  required
+                />
+
+                <label for="cref-professor" class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-2">
+                  CREF
+                </label>
+
+                <input
+                  id="cref-professor"
+                  name="cref"
+                  type="text"
+                  value="<%= professorSeguro.cref || '' %>"
+                  placeholder="Ex: 123456-G/SP"
+                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
+                  required
+                />
+              </fieldset>
+
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
+                Salvar dados profissionais
+              </button>
+            </form>
+
+          </section>
+        </details>
+
+        <a href="/painelprofessor" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
+          Voltar ao Painel
+        </a>
+
+        <a href="/logout"
+          class="w-full bg-error text-white py-4 rounded-full font-bold shadow-lg shadow-error/20 hover:scale-[1.02] active:scale-95 transition-all text-center flex items-center justify-center gap-2">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+          Sair da conta
+        </a>
+
+      </section>
+
+      <section class="card-mobile md:col-span-7 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
+
+        <header class="flex items-center justify-between">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Resumo do Professor</h2>
+
+          <mark class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase text-on-surface-variant">
+            Atualizado
+          </mark>
+        </header>
+
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <figure class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center m-0 mb-4">
+              <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">groups</i>
+            </figure>
+
+            <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Alunos vinculados</p>
+
+            <p class="flex items-end gap-1">
+              <strong class="text-4xl font-black text-on-surface">
+                <%= estatisticasSeguras.total_alunos || 0 %>
+              </strong>
+              <em class="not-italic text-sm text-on-surface-variant mb-1">ativos</em>
+            </p>
+          </article>
+
+          <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <figure class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center m-0 mb-4">
+              <i class="material-symbols-outlined text-secondary not-italic" aria-hidden="true">movie_filter</i>
+            </figure>
+
+            <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Vídeos publicados</p>
+
+            <p class="flex items-end gap-1">
+              <strong class="text-4xl font-black text-on-surface">
+                <%= estatisticasSeguras.total_videos || 0 %>
+              </strong>
+              <em class="not-italic text-sm text-on-surface-variant mb-1">conteúdos</em>
+            </p>
+          </article>
+
+          <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <figure class="w-12 h-12 rounded-full bg-tertiary-fixed/20 flex items-center justify-center m-0 mb-4">
+              <i class="material-symbols-outlined text-on-tertiary-fixed not-italic" aria-hidden="true">fitness_center</i>
+            </figure>
+
+            <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Aulas realizadas</p>
+
+            <p class="flex items-end gap-1">
+              <strong class="text-4xl font-black text-on-surface">
+                <%= estatisticasSeguras.aulas_realizadas || 0 %>
+              </strong>
+              <em class="not-italic text-sm text-on-surface-variant mb-1">treinos</em>
+            </p>
+          </article>
+
+          <article class="bg-primary rounded-3xl p-6 shadow-xl shadow-primary/20 text-white">
+            <figure class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center m-0 mb-4">
+              <i class="material-symbols-outlined text-white not-italic" aria-hidden="true">forum</i>
+            </figure>
+
+            <p class="text-xs font-bold uppercase tracking-widest text-white/70 mb-2">Feedbacks novos</p>
+
+            <p class="flex items-end gap-1">
+              <strong class="text-4xl font-black text-white">
+                <%= estatisticasSeguras.feedbacks_pendentes || 0 %>
+              </strong>
+              <em class="not-italic text-sm text-white/70 mb-1">pendentes</em>
+            </p>
+          </article>
+
+        </section>
+
+        <article class="bg-primary rounded-3xl p-6 text-white relative overflow-hidden">
+          <h3 class="text-xl font-extrabold headline mb-2">Seu painel está conectado</h3>
+
+          <p class="opacity-90 mb-5 max-w-lg">
+            As informações do perfil são usadas no painel do professor, nos feedbacks e nas áreas de alunos e vídeos.
+          </p>
+
+          <a href="/todosalunos" class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+            Ver meus alunos
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+          </a>
+
+          <b class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+        </article>
+
+      </section>
+
+      <section class="card-mobile md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <hgroup>
+            <h2 class="text-2xl font-extrabold headline text-on-surface">Alunos Recentes</h2>
+            <p class="text-sm text-on-surface-variant mt-1">
+              Últimos alunos vinculados às suas fichas de treino.
+            </p>
+          </hgroup>
+
+          <a href="/todosalunos" class="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+            Ver todos
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+          </a>
+        </header>
+
+        <% if (alunosSeguros.length > 0) { %>
+          <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 list-none p-0 m-0">
+            <% alunosSeguros.slice(0, 3).forEach(function(alunoItem) { %>
+              <li class="bg-surface-container-low rounded-3xl p-5">
+                <article class="flex items-center gap-3 mb-4">
+                  <figure class="w-12 h-12 rounded-full overflow-hidden m-0 avatar-placeholder flex items-center justify-center shrink-0">
+                    <% if (alunoItem.foto_perfil) { %>
+                      <img alt="Foto de <%= alunoItem.nome %>" src="<%= alunoItem.foto_perfil %>" class="w-full h-full object-cover">
+                    <% } else { %>
+                      <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+                    <% } %>
+                  </figure>
+
+                  <hgroup>
+                    <h3 class="font-black text-on-surface"><%= alunoItem.nome %></h3>
+                    <p class="text-xs text-on-surface-variant"><%= textoPlano(alunoItem.plano) %></p>
+                  </hgroup>
+                </article>
+
+                <section class="flex items-center gap-3">
+                  <progress class="flex-1 h-3 rounded-full overflow-hidden" value="<%= progressoAluno(alunoItem) %>" max="100">
+                    <%= progressoAluno(alunoItem) %>%
+                  </progress>
+                  <strong class="w-10 text-xs font-black text-primary"><%= progressoAluno(alunoItem) %>%</strong>
+                </section>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <section class="bg-surface-container-low rounded-3xl p-8 text-center">
+            <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">groups</i>
+            <h3 class="font-black text-xl text-on-surface">Nenhum aluno vinculado ainda</h3>
+            <p class="text-sm text-on-surface-variant mt-2">
+              Quando alunos forem vinculados às suas fichas, eles aparecerão aqui.
+            </p>
+          </section>
+        <% } %>
+
+      </section>
+
+      <section class="card-mobile md:col-span-7 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
+
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <hgroup>
+            <h2 class="text-2xl font-extrabold headline text-on-surface">Vídeos em Destaque</h2>
+            <p class="text-sm text-on-surface-variant mt-1">
+              Conteúdos mais recentes publicados por você.
+            </p>
+          </hgroup>
+
+          <a href="/todosvideos" class="text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
+            Gerenciar
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+          </a>
+        </header>
+
+        <% if (videosSeguros.length > 0) { %>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-5 list-none p-0 m-0">
+            <% videosSeguros.slice(0, 4).forEach(function(video) { %>
+              <li class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm group hover:shadow-lg transition-all">
+                <figure class="relative aspect-video overflow-hidden m-0 bg-surface-container-highest">
+                  <% if (video.thumbnail) { %>
+                    <img
+                      alt="Thumbnail do vídeo <%= video.titulo %>"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      src="<%= video.thumbnail %>"
+                    />
+                  <% } else { %>
+                    <em class="w-full h-full flex items-center justify-center not-italic">
+                      <i class="material-symbols-outlined text-primary text-6xl not-italic" aria-hidden="true">play_circle</i>
+                    </em>
+                  <% } %>
+
+                  <figcaption class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <i class="material-symbols-outlined text-white text-4xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">play_arrow</i>
+                  </figcaption>
+
+                  <time class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded">
+                    <%= segundosParaMinutos(video.duracao_seg) %>
+                  </time>
+                </figure>
+
+                <section class="p-4">
+                  <h3 class="font-black text-on-surface line-clamp-1"><%= video.titulo %></h3>
+                  <p class="text-xs text-on-surface-variant mt-1">
+                    <%= video.categoria || 'Sem categoria' %> • <%= video.nivel || 'Nível livre' %>
+                  </p>
+
+                  <time datetime="<%= video.criado_em %>" class="text-xs text-on-surface-variant block mt-2">
+                    <%= dataFormatada(video.criado_em) %>
+                  </time>
+                </section>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <section class="bg-surface-container-lowest rounded-3xl p-8 text-center">
+            <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">video_library</i>
+            <h3 class="font-black text-xl text-on-surface">Nenhum vídeo publicado</h3>
+            <p class="text-sm text-on-surface-variant mt-2">
+              Publique conteúdos para que eles apareçam no seu perfil.
+            </p>
+          </section>
+        <% } %>
+
+      </section>
+
+      <section class="card-mobile md:col-span-5 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+
+        <header class="flex items-center justify-between">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Feedback Recente</h2>
+
+          <a href="/feedbackprofessor" class="text-primary text-sm font-bold">Ver todos</a>
+        </header>
+
+        <% if (feedbacksSeguros.length > 0) { %>
+          <ul class="flex flex-col gap-4 list-none p-0 m-0">
+            <% feedbacksSeguros.slice(0, 4).forEach(function(feedback) { %>
+              <li class="bg-surface-container-low rounded-3xl p-5">
+                <article class="flex items-start gap-4">
+                  <figure class="w-12 h-12 rounded-full overflow-hidden m-0 avatar-placeholder flex items-center justify-center shrink-0">
+                    <% if (feedback.foto_perfil) { %>
+                      <img alt="Foto de <%= feedback.aluno %>" src="<%= feedback.foto_perfil %>" class="w-full h-full object-cover">
+                    <% } else { %>
+                      <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+                    <% } %>
+                  </figure>
+
+                  <hgroup class="flex-1">
+                    <h3 class="font-black text-on-surface"><%= feedback.aluno %></h3>
+
+                    <p class="text-sm text-on-surface-variant mt-1 line-clamp-2">
+                      <%= feedback.texto || 'Feedback recebido.' %>
+                    </p>
+
+                    <time datetime="<%= feedback.enviado_em %>" class="text-xs text-on-surface-variant block mt-2">
+                      <%= dataFormatada(feedback.enviado_em) %>
+                    </time>
+                  </hgroup>
+                </article>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <section class="bg-surface-container-low rounded-3xl p-8 text-center">
+            <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">forum</i>
+            <h3 class="font-black text-xl text-on-surface">Nenhum feedback recente</h3>
+            <p class="text-sm text-on-surface-variant mt-2">
+              Quando alunos enviarem feedback, eles aparecerão aqui.
+            </p>
+          </section>
+        <% } %>
+
+      </section>
+
+    </section>
+  </main>
+
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
+
+    <a href="/painelprofessor"
+       class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+    </a>
+
+    <a href="/todosalunos"
+       class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">groups</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
+    </a>
+
+    <a href="/todosvideos"
+       class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform"
+       aria-label="Adicionar ou gerenciar conteúdo">
+      <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
+    </a>
+
+    <a href="/todosvideos"
+       class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+
+    <a href="/perfilprofessor"
+       class="flex flex-col items-center justify-center text-[#0058ba] opacity-100 p-3 rounded-[18px] bg-[#d5dbff]"
+       aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
+    </a>
+
+  </nav>
+
+  <script src="/js/transicao-paginas.js"></script>
 </body>
+
 </html>
