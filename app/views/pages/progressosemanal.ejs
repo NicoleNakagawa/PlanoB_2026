@@ -131,15 +131,19 @@
       font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
     }
 
-    .grafico-barras meter {
-      writing-mode: vertical-lr;
-      direction: rtl;
-      width: 100%;
-      height: 180px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: #d5dbff;
-    }
+ .grafico-barras {
+  min-height: 360px;
+}
+
+.grafico-barras meter {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 100%;
+  height: 300px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #d5dbff;
+}
 
     .grafico-barras meter::-webkit-meter-bar {
       background: #d5dbff;
@@ -277,9 +281,13 @@
         font-size: 1.35rem !important;
       }
 
-      .grafico-barras meter {
-        height: 130px;
-      }
+      .grafico-barras {
+  min-height: 280px;
+}
+
+.grafico-barras meter {
+  height: 220px;
+}
 
       nav[aria-label="Navegação mobile"] {
         padding: 10px 8px 22px !important;
@@ -427,9 +435,7 @@
 
     <menu class="flex items-center gap-4 p-0 m-0">
       <li>
-        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
-          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
-        </button>
+
       </li>
 
       <li>
