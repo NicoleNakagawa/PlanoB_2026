@@ -5,18 +5,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     links.forEach((link) => {
         link.addEventListener('click', (event) => {
+            if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+                return
+            }
+
             const href = link.getAttribute('href')
 
             if (!href) return
 
-            const linkExterno = link.hostname && link.hostname !== window.location.hostname
+            const url = new URL(href, window.location.href)
+
+            const linkExterno = url.hostname !== window.location.hostname
+            const mesmaPaginaComAncora = url.pathname === window.location.pathname && url.hash
             const ancora = href.startsWith('#')
             const javascriptLink = href.startsWith('javascript:')
+            const mailOuTelefone = href.startsWith('mailto:') || href.startsWith('tel:')
             const novaAba = link.target === '_blank'
             const download = link.hasAttribute('download')
-            const logout = href === '/logout'
+            const semTransicao = link.closest('[data-no-transition]')
 
-            if (linkExterno || ancora || javascriptLink || novaAba || download || logout) {
+            if (
+                linkExterno ||
+                mesmaPaginaComAncora ||
+                ancora ||
+                javascriptLink ||
+                mailOuTelefone ||
+                novaAba ||
+                download ||
+                semTransicao
+            ) {
                 return
             }
 
@@ -26,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('pagina-saindo')
 
             setTimeout(() => {
-                window.location.href = href
+                window.location.href = url.href
             }, 280)
         })
     })

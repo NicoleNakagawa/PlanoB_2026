@@ -49,25 +49,6 @@
 
   <style>
 
-    @media (prefers-reduced-motion: no-preference) {
-  body {
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 0.28s ease,
-      transform 0.28s ease;
-  }
-
-  body.pagina-carregada {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  body.pagina-saindo {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-}
     @font-face {
       font-family: 'Baumans';
       src: url('/fonts/Baumans-Regular.ttf') format('truetype');
@@ -113,6 +94,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/css/transicao-paginas.css">
 </head>
 
 <body class="min-h-screen overflow-x-hidden bg-surface text-on-surface">

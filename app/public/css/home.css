@@ -5,25 +5,7 @@
   font-style: normal;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  body {
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 0.28s ease,
-      transform 0.28s ease;
-  }
 
-  body.pagina-carregada {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  body.pagina-saindo {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-}
 
 body {
   font-family: 'Manrope', sans-serif;
