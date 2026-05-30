@@ -34,6 +34,7 @@ app.use((req, res, next) => {
     res.locals.sucesso = null
     res.locals.aluno = req.session.aluno || null
     res.locals.professor = req.session.professor || null
+    res.locals.moderador = req.session.moderador || null
     next()
 })
 

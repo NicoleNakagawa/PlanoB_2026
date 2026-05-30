@@ -1,472 +1,562 @@
 <!DOCTYPE html>
+<html class="light" lang="pt-BR">
 
-<html class="light" lang="pt-br"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Manrope:wght@200..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "surface-bright": "#f7f5ff",
-                    "tertiary": "#6c5a00",
-                    "on-tertiary-fixed-variant": "#665500",
-                    "secondary-fixed-dim": "#37d4ff",
-                    "on-secondary-fixed": "#003a48",
-                    "primary-fixed-dim": "#5091ff",
-                    "secondary-container": "#80deff",
-                    "secondary-dim": "#00576c",
-                    "on-tertiary-container": "#5b4b00",
-                    "outline": "#6c759e",
-                    "surface-container-highest": "#d5dbff",
-                    "on-background": "#232c51",
-                    "on-surface-variant": "#505a81",
-                    "outline-variant": "#a2abd7",
-                    "secondary": "#00647b",
-                    "on-primary-container": "#00214e",
-                    "inverse-on-surface": "#929bc6",
-                    "inverse-surface": "#020a2f",
-                    "background": "#f7f5ff",
-                    "error": "#b31b25",
-                    "on-tertiary": "#fff2cd",
-                    "on-primary": "#f0f2ff",
-                    "on-error-container": "#570008",
-                    "tertiary-fixed-dim": "#efc900",
-                    "tertiary-dim": "#5e4e00",
-                    "secondary-fixed": "#80deff",
-                    "tertiary-fixed": "#ffd709",
-                    "surface-tint": "#0058ba",
-                    "primary": "#0058ba",
-                    "tertiary-container": "#ffd709",
-                    "on-tertiary-fixed": "#453900",
-                    "on-secondary": "#e2f6ff",
-                    "on-secondary-fixed-variant": "#00586d",
-                    "on-primary-fixed": "#000000",
-                    "surface-container-lowest": "#ffffff",
-                    "surface-variant": "#d5dbff",
-                    "surface-container-high": "#dde1ff",
-                    "primary-dim": "#004da4",
-                    "surface-container": "#e4e7ff",
-                    "primary-container": "#6c9fff",
-                    "error-dim": "#9f0519",
-                    "primary-fixed": "#6c9fff",
-                    "error-container": "#fb5151",
-                    "on-error": "#ffefee",
-                    "surface": "#f7f5ff",
-                    "surface-container-low": "#efefff",
-                    "surface-dim": "#cad2ff",
-                    "on-surface": "#232c51",
-                    "on-primary-fixed-variant": "#002a60",
-                    "on-secondary-container": "#004e61",
-                    "inverse-primary": "#4a8eff"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "fontFamily": {
-                    "headline": ["Lexend"],
-                    "display": ["Lexend"],
-                    "body": ["Manrope"],
-                    "label": ["Manrope"]
-            }
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>PlanoB - Moderador</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            surface: "#f7f5ff",
+            primary: "#0058ba",
+            "primary-container": "#6c9fff",
+            "primary-dim": "#004da4",
+            "on-primary": "#f0f2ff",
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-high": "#dde1ff",
+            "surface-container-highest": "#d5dbff",
+            outline: "#6c759e",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
+            secondary: "#00647b",
+            error: "#b31b25"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
           }
         }
       }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        body { font-family: 'Manrope', sans-serif; }
-        h1, h2, h3 { font-family: 'Lexend', sans-serif; }
-    
-    /* Ajustes gerais de responsividade */
-    img, video { max-width: 100%; height: auto; }
-    a, button { -webkit-tap-highlight-color: transparent; }
-    @media (max-width: 768px) {
-      body { overflow-x: hidden; }
-      main { max-width: 100%; }
-      .hide-mobile { display: none !important; }
     }
-</style>
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 14px 135px !important;
+      }
+
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      article.hero-admin {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-admin h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+    }
+  </style>
 </head>
-<body class="bg-surface text-on-surface">
-<!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-[#f7f5ff] flex flex-col p-4 space-y-2 transition-all duration-300 ease-in-out">
-<article class="flex items-center gap-3 px-2 py-6 mb-4">
-<article class="w-10 h-10 bg-primary flex items-center justify-center rounded-xl shadow-lg shadow-primary-container/20">
-<i aria-hidden="true" class="material-symbols-outlined text-white not-italic" style="font-variation-settings: 'FILL' 1;">bolt</i>
-</article>
-<section>
-<h2 class="font-['Lexend'] font-bold text-blue-700 text-lg leading-none">PlanoB Admin</h2>
-<p class="text-xs text-on-surface-variant font-medium">Gestão Fitness</p>
-</section>
-</article>
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#e4e7ff] hover:translate-x-1 transition-all rounded-lg font-['Manrope'] text-sm font-medium" href="moderador">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="dashboard">dashboard</i>
-<strong>Painel</strong>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 bg-blue-600 text-white rounded-lg shadow-lg shadow-blue-200 transition-all font-['Manrope'] text-sm font-bold" href="moderador">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</i>
-<strong>Gestão de Usuários</strong>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#e4e7ff] hover:translate-x-1 transition-all rounded-lg font-['Manrope'] text-sm font-medium" href="moderador">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="history_edu">history_edu</i>
-<strong>Atividades Recentes</strong>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#e4e7ff] hover:translate-x-1 transition-all rounded-lg font-['Manrope'] text-sm font-medium" href="moderador">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="insights">insights</i>
-<strong>Métricas</strong>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#e4e7ff] hover:translate-x-1 transition-all rounded-lg font-['Manrope'] text-sm font-medium" href="suporte">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="tune">tune</i>
-<strong>Configurações</strong>
-</a>
-</nav>
-<a class="bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition-shadow flex items-center justify-center gap-2 mb-6 active:scale-95 duration-200 text-center" href="cadastroaluno">
-<i aria-hidden="true" class="material-symbols-outlined text-sm not-italic">add</i>
-            Adicionar Novo Membro
-        
-<section class="pt-4 border-t border-slate-200/50 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#e4e7ff] hover:translate-x-1 transition-all rounded-lg font-['Manrope'] text-sm font-medium" href="suporte">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="help">help</i>
-<strong>Suporte</strong>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error/5 hover:translate-x-1 transition-all rounded-lg font-['Manrope'] text-sm font-medium" href="logout">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="logout">logout</i>
-<strong>Sair</strong>
-</a>
-</section>
-</a></aside>
-<!-- Main Content Canvas -->
-<main class="ml-64 min-h-screen flex flex-col">
-<!-- TopNavBar -->
-<header class="fixed top-0 right-0 left-64 z-40 bg-white/80 backdrop-blur-xl flex justify-between items-center px-8 py-4 border-b border-slate-100 shadow-sm">
-<article class="flex items-center gap-4 flex-1">
-<section class="relative w-full max-w-md">
-<i aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl not-italic">search</i>
-<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Buscar alunos, professores ou planos..." type="text"/>
-</section>
-</article>
-<article class="flex items-center gap-6">
-<article class="flex items-center gap-2">
-<a class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors relative" href="suporte">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="notifications">notifications</i>
-<strong class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></strong>
-</a>
-<a class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors" href="perfilprofessor">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" data-icon="settings">settings</i>
-</a>
-</article>
-<section class="h-8 w-[1px] bg-slate-100"></section>
-<article class="flex items-center gap-3">
-<section class="text-right">
-<p class="text-sm font-bold text-on-surface leading-none">Admin PlanoB</p>
-<p class="text-[10px] font-medium text-primary uppercase tracking-wider">Moderador Master</p>
-</section>
-<section class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
-<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a modern administrative professional in a high-key setting. The subject is a male with a friendly but authoritative expression, lit by soft directional office light. The aesthetic is clean, professional, and corporate-modern with a neutral background, matching the sophisticated blue and white PlanoB brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLD13m6uTk2f83VHamDwVYgVk53H9UGdFXD6BIjta_0ykFoCIA5IEth-xC4VfJmpMsY6suJ8OONq5Qb7BQJGxzGtIxYUT0LYTI8L-w3Zmidx-O0BMg8lMv4Dt18iZAevaqScoBmn-dsMQev2D_95rXtbKG1Ipz-u6nG9cIUo70eHIuD25GAHP1yyTZ7dOlZUMlqaDam3ROV_Av2d4azC_r5SUS8A_o3Zz1dSWzBY8xVusFp12TezrqAEvL4-Zg0pQkK8ehOyWRr_Z_"/>
-</section>
-</article>
-</article>
-</header>
-<!-- Page Canvas -->
-<section class="mt-20 p-8 flex-1">
-<!-- Breadcrumbs & Title -->
-<section class="mb-10">
-<article class="flex items-center gap-2 text-sm text-slate-400 mb-2">
-<strong>Admin</strong>
-<i aria-hidden="true" class="material-symbols-outlined text-xs not-italic">chevron_right</i>
-<strong class="text-primary font-medium">Gestão de Usuários</strong>
-</article>
-<h1 class="text-4xl font-black text-on-surface tracking-tight">Gestão de <strong class="text-primary italic">Comunidade</strong></h1>
-</section>
-<!-- Dashboard Stats Bento Grid -->
-<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-<section class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-primary shadow-sm">
-<p class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Total Alunos</p>
-<article class="flex items-end justify-between">
-<h3 class="text-4xl font-black text-on-surface">1,284</h3>
-<strong class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
-<i aria-hidden="true" class="material-symbols-outlined text-xs not-italic">trending_up</i> +12%
-                        </strong>
-</article>
-</section>
-<section class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-secondary shadow-sm">
-<p class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Professores</p>
-<article class="flex items-end justify-between">
-<h3 class="text-4xl font-black text-on-surface">42</h3>
-<strong class="text-xs font-bold text-primary bg-primary/5 px-2 py-1 rounded-full">Ativos</strong>
-</article>
-</section>
-<section class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-tertiary-fixed shadow-sm">
-<p class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Planos Diamante</p>
-<article class="flex items-end justify-between">
-<h3 class="text-4xl font-black text-on-surface">156</h3>
-<i aria-hidden="true" class="material-symbols-outlined text-tertiary-fixed-dim not-italic" style="font-variation-settings: 'FILL' 1;">workspace_premium</i>
-</article>
-</section>
-<section class="bg-primary text-white p-6 rounded-3xl shadow-xl shadow-primary/20 flex flex-col justify-between">
-<p class="text-sm font-bold text-white/70 uppercase tracking-widest">Receita Mensal</p>
-<h3 class="text-3xl font-black italic">R$ 45.920</h3>
-</section>
-</section>
-<!-- Filters & Actions -->
-<article class="flex flex-wrap items-center justify-between gap-4 mb-8">
-<section class="flex gap-2 bg-surface-container-low p-1.5 rounded-full">
-<button class="px-6 py-2 bg-white text-primary font-bold rounded-full shadow-sm text-sm">Todos</button>
-<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium text-sm transition-colors">Alunos</button>
-<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium text-sm transition-colors">Professores</button>
-</section>
-<article class="flex items-center gap-3">
-<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-full text-sm hover:bg-surface-variant transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined text-lg not-italic">filter_list</i>
-                        Filtros Avançados
-                    </button>
-<button class="flex items-center gap-2 px-5 py-2.5 bg-on-surface text-white font-bold rounded-full text-sm hover:bg-on-surface/90 transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined text-lg not-italic">download</i>
-                        Exportar CSV
-                    </button>
-</article>
-</article>
-<!-- Content Table (Tonal Layering instead of borders) -->
-<section class="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden mb-12">
-<section class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container/50">
-<th class="px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Usuário</th>
-<th class="px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Tipo</th>
-<th class="px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Plano</th>
-<th class="px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Status</th>
-<th class="px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant text-right">Ações</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-50">
-<!-- User 1: Student Diamante -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-8 py-4">
-<article class="flex items-center gap-4">
-<section class="w-12 h-12 rounded-2xl bg-surface-container-highest overflow-hidden">
-<img alt="Beatriz Santos" class="w-full h-full object-cover" data-alt="A portrait of a young athletic woman with a confident expression, captured in a high-intensity fitness environment. The lighting is dramatic yet bright, emphasizing movement and vitality. The overall aesthetic follows the Kinetic Elegance design system with vibrant blue highlights and a premium, professional editorial feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO-EzLZW16dkPy6iPJagRCZT0GWfcKfEJRgXrgEVaSdrg4-0SnulgPqc-gSih-7adDO8nPtJLj01rzG5rzyWW4ouPl85ml08MDJY_g9uz09V30bL7tCldP1XfYrw4txBQT22DrYnyDK4IUSFFvkjqUUt2cejc5gWD-CuowDgpJvCYdIVA8mwplZ1qQd3U_sfJluQEdS6IRFpOfJWnB5jX7-4jZYtUMUKQOgBJ3Ga9vbPkn_9GwQrVVR_sLkZuhodgtUj6N5BlkyjK-"/>
-</section>
-<section>
-<p class="font-black text-on-surface group-hover:text-primary transition-colors">Beatriz Santos</p>
-<p class="text-xs text-on-surface-variant">beatriz.santos@email.com</p>
-</section>
-</article>
-</td>
-<td class="px-8 py-4">
-<strong class="text-sm font-medium text-on-surface">Aluno</strong>
-</td>
-<td class="px-8 py-4">
-<strong class="px-4 py-1 rounded-full bg-surface-container-low text-tertiary font-bold text-xs flex items-center gap-1 w-fit border border-tertiary/10">
-<i aria-hidden="true" class="material-symbols-outlined text-xs not-italic" style="font-variation-settings: 'FILL' 1;">diamond</i>
-                                        Diamante
-                                    </strong>
-</td>
-<td class="px-8 py-4">
-<article class="flex items-center gap-2">
-<strong class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></strong>
-<strong class="text-sm font-bold text-on-surface">Ativo</strong>
-</article>
-</td>
-<td class="px-8 py-4 text-right">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">more_vert</i>
-</button>
-</td>
-</tr>
-<!-- User 2: Teacher Lazuli -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-8 py-4">
-<article class="flex items-center gap-4">
-<section class="w-12 h-12 rounded-2xl bg-surface-container-highest overflow-hidden">
-<img alt="Ricardo Mendes" class="w-full h-full object-cover" data-alt="Close up shot of a professional fitness instructor performing a stretching move. The background is a modern, architectural gym space with clean lines and soft blue ambient lighting. The style is energetic, editorial, and conveys deep focus and professionalism, aligning with the PlanoB brand's Kinetic Elegance aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0bQeQe-Kie5WLmNkHy1Jwj1iMnN0AEJ7h_KX8bycc8N7EgyMeYSu0c60Do_Sx20RMzYsllINW86V2srcvy5DcnSm7pT8AiTO_h4STk51BUfKi54vvR36Z-pbQxslRezrNRvlecV3St2tiETdQQUPrjWi95w85ZkPW1I4NrGu_sDWtJBZmehHxiE6498WmYxThxN1pc8jAdHNZP0L9vnUjTGvbCYRb2eYugJUn_llrwAlVzt2vUDFp5NIOoUQjiC0aKfyQPpO899VW"/>
-</section>
-<section>
-<p class="font-black text-on-surface group-hover:text-primary transition-colors">Prof. Ricardo Mendes</p>
-<p class="text-xs text-on-surface-variant">r.mendes@planob.fit</p>
-</section>
-</article>
-</td>
-<td class="px-8 py-4">
-<strong class="text-sm font-medium text-primary font-bold">Professor</strong>
-</td>
-<td class="px-8 py-4">
-<strong class="px-4 py-1 rounded-full bg-primary text-white font-bold text-xs flex items-center gap-1 w-fit">
-<i aria-hidden="true" class="material-symbols-outlined text-xs not-italic">star</i>
-                                        Lazuli
-                                    </strong>
-</td>
-<td class="px-8 py-4">
-<article class="flex items-center gap-2">
-<strong class="w-2 h-2 rounded-full bg-green-500"></strong>
-<strong class="text-sm font-bold text-on-surface">Ativo</strong>
-</article>
-</td>
-<td class="px-8 py-4 text-right">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">more_vert</i>
-</button>
-</td>
-</tr>
-<!-- User 3: Student Free -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-8 py-4">
-<article class="flex items-center gap-4">
-<section class="w-12 h-12 rounded-2xl bg-surface-container-highest overflow-hidden">
-<img alt="Lucas Oliveira" class="w-full h-full object-cover" data-alt="A portrait of a young student in casual workout gear, looking friendly and approachable. The lighting is bright and natural, suggesting an outdoor or sun-filled gym environment. The composition is asymmetrical, capturing a sense of motion and accessibility, consistent with the PlanoB design system's focus on students." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzndgUPmmaYCO_CQEVw6t-pUTN9RI5V9q_kxOg4j9HXh11iCjjdoM91fZgZTYgIa667kasyC---dPF0P19xH6OY-gjPNbNAOpnCAllD-BCiB4a4THPK9Ly0zYBdGdVhNpbAp_p1Bc-yyTjleMX9edeqzheYFpnC5WAuRWQ23dwF66MxvpqaTx_k511ATkrRxOyZSDZCR5IzA60PicQaTAAirdIFK6kKMPop3I33e8x1TETI_2LdYGVgm33iKQEG5cP6b3E-y8Eom0E"/>
-</section>
-<section>
-<p class="font-black text-on-surface group-hover:text-primary transition-colors">Lucas Oliveira</p>
-<p class="text-xs text-on-surface-variant">lucas.oli@email.com</p>
-</section>
-</article>
-</td>
-<td class="px-8 py-4">
-<strong class="text-sm font-medium text-on-surface">Aluno</strong>
-</td>
-<td class="px-8 py-4">
-<strong class="px-4 py-1 rounded-full bg-slate-100 text-slate-500 font-bold text-xs w-fit">
-                                        Gratuito
-                                    </strong>
-</td>
-<td class="px-8 py-4">
-<article class="flex items-center gap-2">
-<strong class="w-2 h-2 rounded-full bg-slate-300"></strong>
-<strong class="text-sm font-bold text-slate-400 italic">Inativo</strong>
-</article>
-</td>
-<td class="px-8 py-4 text-right">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">more_vert</i>
-</button>
-</td>
-</tr>
-<!-- User 4: Student Lazuli -->
-<tr class="hover:bg-primary/5 transition-colors group">
-<td class="px-8 py-4">
-<article class="flex items-center gap-4">
-<section class="w-12 h-12 rounded-2xl bg-surface-container-highest overflow-hidden">
-<img alt="Mariana Costa" class="w-full h-full object-cover" data-alt="A close-up high-impact editorial portrait of a female athlete after a workout, glowing with effort. The background features subtle blue gradients and architectural glass elements. The lighting is high-key and clean, reflecting the modern and professional energy of the PlanoB brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx8TQ5VS7KMLVKI1cQe3hIjNctV-qjpVY7Ir8-1uDeSl8W8LIII24eAp9UXkZmVABAB1d_5M-vTbqmPCNBduafj_6bndYKO-dEV0XBnTBwZNriTDNlPP9dwYl5fECCpnOpus2iqCcSHBcxns6BjWmbYNXGOhDbZoy_9CCN2ZNSQD1EbZFcO6oIZ6a9O7yZF9dBGSBTc7PBdPY9zf-p10lriZlxLPI15kDpMrD31IKOc6arddeEVv9SOL0Y-bNsdScfFDPHLNd2nTi1"/>
-</section>
-<section>
-<p class="font-black text-on-surface group-hover:text-primary transition-colors">Mariana Costa</p>
-<p class="text-xs text-on-surface-variant">mari.costa@email.com</p>
-</section>
-</article>
-</td>
-<td class="px-8 py-4">
-<strong class="text-sm font-medium text-on-surface">Aluno</strong>
-</td>
-<td class="px-8 py-4">
-<strong class="px-4 py-1 rounded-full bg-primary text-white font-bold text-xs flex items-center gap-1 w-fit">
-<i aria-hidden="true" class="material-symbols-outlined text-xs not-italic">star</i>
-                                        Lazuli
-                                    </strong>
-</td>
-<td class="px-8 py-4">
-<article class="flex items-center gap-2">
-<strong class="w-2 h-2 rounded-full bg-green-500"></strong>
-<strong class="text-sm font-bold text-on-surface">Ativo</strong>
-</article>
-</td>
-<td class="px-8 py-4 text-right">
-<button class="p-2 text-slate-400 hover:text-primary transition-colors">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">more_vert</i>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<!-- Pagination -->
-<article class="px-8 py-6 bg-surface-container-low flex items-center justify-between">
-<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Mostrando 1-10 de 1,326 usuários</p>
-<section class="flex gap-2">
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-slate-400 hover:text-primary shadow-sm transition-all">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">chevron_left</i>
-</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/20 font-bold text-sm">1</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-on-surface-variant hover:bg-slate-50 font-bold text-sm transition-all">2</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-on-surface-variant hover:bg-slate-50 font-bold text-sm transition-all">3</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-slate-400 hover:text-primary shadow-sm transition-all">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">chevron_right</i>
-</button>
-</section>
-</article>
-</section>
-<!-- Recent Activity Ticker (Asymmetric layout moment) -->
-<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<section class="lg:col-span-2">
-<article class="flex items-center justify-between mb-6">
-<h2 class="text-2xl font-black text-on-surface italic">Atividades Recentes</h2>
-<a class="text-primary font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all" href="todosalunos">
-                            Ver Histórico Completo <i aria-hidden="true" class="material-symbols-outlined text-sm not-italic">arrow_forward</i>
-</a>
-</article>
-<section class="space-y-4">
-<article class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border-l-4 border-primary">
-<article class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">person_add</i>
-</article>
-<section class="flex-1">
-<p class="text-sm text-on-surface font-bold">Novo registro de aluno: <strong class="text-primary italic">Juliana Ferraz</strong></p>
-<p class="text-xs text-on-surface-variant">Há 5 minutos • Plano Lazuli</p>
-</section>
-</article>
-<article class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border-l-4 border-tertiary-fixed">
-<article class="w-10 h-10 rounded-full bg-tertiary-fixed/10 flex items-center justify-center text-tertiary-fixed-dim">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">payments</i>
-</article>
-<section class="flex-1">
-<p class="text-sm text-on-surface font-bold">Pagamento confirmado: <strong class="text-tertiary-fixed-dim italic">Upgrade para Diamante</strong></p>
-<p class="text-xs text-on-surface-variant">Há 22 minutos • Aluno: Carlos Magno</p>
-</section>
-</article>
-</section>
-</section>
-<section class="bg-gradient-to-br from-primary-dim to-primary p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-2xl">
-<section class="relative z-10">
-<h4 class="text-xl font-black mb-4">Relatório de<br/>Conversão</h4>
-<p class="text-white/70 text-sm mb-6 leading-relaxed">Sua taxa de retenção subiu 15% este mês após o novo programa de incentivos para alunos Lazuli.</p>
-<section class="w-full h-2 bg-white/20 rounded-full mb-2">
-<section class="w-[85%] h-full bg-tertiary-fixed rounded-full"></section>
-</section>
-<p class="text-[10px] font-bold uppercase tracking-tighter">Meta Mensal: 85% Atingida</p>
-</section>
-<!-- Decorative Glass Element -->
-<section class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></section>
-</section>
-</section>
-</section>
-</main>
-<!-- Mobile Bottom NavBar -->
-<nav aria-label="Navegação mobile" class="md:hidden fixed bottom-0 left-0 w-full bg-[#f7f5ff]/90 backdrop-blur-xl border-t border-[#e4e7ff] flex justify-around items-center px-4 pb-6 pt-2 z-50 rounded-t-[28px] shadow-[0_-10px_40px_rgba(35,44,81,0.08)]">
-<a class="flex flex-col items-center justify-center text-[#0058ba] p-3" href="moderador">
-<i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1;">dashboard</i>
-<em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Painel</em>
-</a>
-<a class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100" href="todosalunos">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">group</i>
-<em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
-</a>
-<a class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100" href="cadastroprofessor">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">person_add</i>
-<em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Cadastros</em>
-</a>
-<a class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100" href="suporte">
-<i aria-hidden="true" class="material-symbols-outlined not-italic">support_agent</i>
-<em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Suporte</em>
-</a>
-</nav>
-</body></html>
+
+<body class="bg-surface text-on-surface min-h-screen">
+
+  <%
+    const moderadorSeguro = typeof moderador !== 'undefined' && moderador ? moderador : {}
+    const usuariosSeguros = typeof usuarios !== 'undefined' && usuarios ? usuarios : []
+    const atividadesSeguras = typeof atividadesRecentes !== 'undefined' && atividadesRecentes ? atividadesRecentes : []
+    const estatisticasSeguras = typeof estatisticas !== 'undefined' && estatisticas ? estatisticas : {}
+    const filtrosSeguros = typeof filtros !== 'undefined' && filtros ? filtros : {}
+
+    function moeda(valor) {
+      return Number(valor || 0).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      })
+    }
+
+    function dataFormatada(valor) {
+      if (!valor) return 'Sem registro'
+
+      return new Date(valor).toLocaleDateString('pt-BR')
+    }
+
+    function tipoLabel(tipo) {
+      return tipo === 'professor' ? 'Professor' : 'Aluno'
+    }
+
+    function badgePlanoClasse(plano) {
+      if (plano === 'Diamante') return 'bg-tertiary-fixed text-on-tertiary-fixed'
+      if (plano === 'Lazuli') return 'bg-primary text-white'
+      if (plano === 'Professor') return 'bg-secondary text-white'
+      return 'bg-surface-container-highest text-on-surface-variant'
+    }
+  %>
+
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/85 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/moderador" class="logo-font text-4xl text-primary no-underline">PlanoB</a>
+      <p class="hidden md:block text-xs font-black uppercase tracking-widest text-on-surface-variant">
+        Painel de Moderador
+      </p>
+    </nav>
+
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
+      <li>
+        <a href="/moderador/exportar" class="hidden md:inline-flex items-center gap-2 rounded-full bg-primary text-white px-5 py-3 text-sm font-black active:scale-95 transition-transform">
+          <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i>
+          Exportar
+        </a>
+      </li>
+
+      <li>
+        <a href="/logout" class="p-2 rounded-full hover:bg-red-50 transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Sair">
+          <i class="material-symbols-outlined text-error not-italic" aria-hidden="true">logout</i>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
+  </header>
+
+  <aside class="hidden md:flex h-screen w-72 fixed left-0 top-0 bg-[#efefff] flex-col gap-2 py-8 z-40 mt-16">
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <% if (moderadorSeguro.foto) { %>
+          <img class="w-12 h-12 rounded-full object-cover" src="<%= moderadorSeguro.foto %>" alt="Foto do moderador" />
+        <% } else { %>
+          <em class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Moderador sem foto">
+            <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">admin_panel_settings</i>
+          </em>
+        <% } %>
+
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">
+            <%= moderadorSeguro.nome || 'Admin PlanoB' %>
+          </p>
+          <p class="text-xs text-on-surface-variant">
+            <%= moderadorSeguro.nivel || 'Moderador Master' %>
+          </p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/moderador" aria-current="page">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+        <em class="not-italic">Painel</em>
+      </a>
+
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/moderador?tipo=alunos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">group</i>
+        <em class="not-italic">Alunos</em>
+      </a>
+
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/moderador?tipo=professores">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">school</i>
+        <em class="not-italic">Professores</em>
+      </a>
+
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="#atividades">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">history</i>
+        <em class="not-italic">Atividades</em>
+      </a>
+    </nav>
+
+    <footer class="mt-auto px-4 pb-8 flex flex-col gap-3">
+      <a href="/moderador/exportar" class="w-full bg-primary text-white rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i>
+        Exportar CSV
+      </a>
+
+      <a class="flex items-center gap-3 px-4 py-3 text-error hover:bg-red-50 rounded-full transition-colors text-sm" href="/logout">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="not-italic">Sair</em>
+      </a>
+    </footer>
+  </aside>
+
+  <main class="md:ml-72 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <article class="hero-admin md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+        <section class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <hgroup class="max-w-3xl">
+            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+              Gestão da Plataforma
+            </mark>
+
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              COMUNIDADE PLANOB.
+            </h1>
+
+            <p class="text-lg opacity-90 max-w-2xl">
+              Gerencie alunos, professores, cadastros, planos e atividades reais da plataforma.
+            </p>
+          </hgroup>
+
+          <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/10 w-full max-w-[240px] mx-auto md:mx-0 md:w-auto m-0">
+            <em class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center not-italic">
+              <i class="material-symbols-outlined text-white text-7xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">admin_panel_settings</i>
+            </em>
+
+            <figcaption class="text-sm font-black uppercase tracking-widest text-center">
+              <%= usuariosSeguros.length %> usuários listados
+            </figcaption>
+          </figure>
+        </section>
+
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
+
+      <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+        <section class="md:col-span-12 bg-green-50 text-green-700 rounded-3xl p-5 font-bold text-center" role="status">
+          <%= sucesso %>
+        </section>
+      <% } %>
+
+      <% if (typeof erro !== 'undefined' && erro) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
+          <%= erro %>
+        </section>
+      <% } %>
+
+      <section class="md:col-span-12 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <article class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-primary shadow-sm">
+          <p class="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Total Alunos</p>
+          <h3 class="text-4xl font-black text-on-surface"><%= estatisticasSeguras.totalAlunos || 0 %></h3>
+        </article>
+
+        <article class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-secondary shadow-sm">
+          <p class="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Professores</p>
+          <h3 class="text-4xl font-black text-on-surface"><%= estatisticasSeguras.totalProfessores || 0 %></h3>
+        </article>
+
+        <article class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-tertiary-fixed shadow-sm">
+          <p class="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Diamante</p>
+          <h3 class="text-4xl font-black text-on-surface"><%= estatisticasSeguras.totalDiamante || 0 %></h3>
+        </article>
+
+        <article class="bg-primary text-white p-6 rounded-3xl shadow-xl shadow-primary/20">
+          <p class="text-sm font-bold text-white/70 uppercase tracking-widest mb-4">Receita Mensal</p>
+          <h3 class="text-3xl font-black italic"><%= moeda(estatisticasSeguras.receitaMensal || 0) %></h3>
+        </article>
+      </section>
+
+      <section class="md:col-span-12 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+        <form action="/moderador" method="GET" class="flex flex-col xl:flex-row gap-4 xl:items-center justify-between">
+          <fieldset class="flex flex-col sm:flex-row gap-3 flex-1">
+            <legend class="sr-only">Filtros</legend>
+
+            <label for="busca" class="sr-only">Buscar cadastro</label>
+
+            <section class="relative flex-1">
+              <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline not-italic" aria-hidden="true">search</i>
+
+              <input
+                id="busca"
+                name="busca"
+                type="search"
+                value="<%= filtrosSeguros.busca || '' %>"
+                placeholder="Buscar por nome, e-mail ou CREF..."
+                class="w-full rounded-full border-none bg-surface-container-low px-12 py-4 text-sm focus:ring-2 focus:ring-primary"
+              />
+            </section>
+
+            <label for="tipo" class="sr-only">Tipo</label>
+
+            <select
+              id="tipo"
+              name="tipo"
+              class="rounded-full border-none bg-surface-container-low px-6 py-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary"
+            >
+              <option value="todos" <%= filtrosSeguros.tipo === 'todos' ? 'selected' : '' %>>Todos</option>
+              <option value="alunos" <%= filtrosSeguros.tipo === 'alunos' ? 'selected' : '' %>>Alunos</option>
+              <option value="professores" <%= filtrosSeguros.tipo === 'professores' ? 'selected' : '' %>>Professores</option>
+            </select>
+          </fieldset>
+
+          <menu class="flex flex-col sm:flex-row gap-3 p-0 m-0 list-none">
+            <li>
+              <button type="submit" class="w-full sm:w-auto bg-primary text-white px-6 py-4 rounded-full font-black active:scale-95 transition-transform">
+                Pesquisar
+              </button>
+            </li>
+
+            <li>
+              <a href="/moderador/exportar" class="w-full sm:w-auto bg-on-surface text-white px-6 py-4 rounded-full font-black active:scale-95 transition-transform inline-flex justify-center items-center gap-2">
+                <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i>
+                CSV
+              </a>
+            </li>
+          </menu>
+        </form>
+      </section>
+
+      <section class="md:col-span-12 bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+        <header class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-3 bg-surface-container-low">
+          <h2 class="text-2xl font-black headline text-on-surface">Cadastros encontrados</h2>
+
+          <p class="text-sm font-bold text-on-surface-variant">
+            <%= usuariosSeguros.length %> resultado(s)
+          </p>
+        </header>
+
+        <section class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container/50">
+                <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Usuário</th>
+                <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Tipo</th>
+                <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Plano/Cargo</th>
+                <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Atividades</th>
+                <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant">Última atividade</th>
+                <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-on-surface-variant text-right">Ações</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-surface-container-low">
+              <% if (usuariosSeguros.length > 0) { %>
+                <% usuariosSeguros.forEach(function(usuario) { %>
+                  <tr class="hover:bg-primary/5 transition-colors group">
+                    <td class="px-6 py-4">
+                      <article class="flex items-center gap-4">
+                        <% if (usuario.foto_perfil) { %>
+                          <img class="w-12 h-12 rounded-2xl object-cover" src="<%= usuario.foto_perfil %>" alt="Foto de <%= usuario.nome %>" />
+                        <% } else { %>
+                          <em class="w-12 h-12 rounded-2xl avatar-placeholder flex items-center justify-center overflow-hidden not-italic">
+                            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">
+                              <%= usuario.tipo_usuario === 'professor' ? 'school' : 'account_circle' %>
+                            </i>
+                          </em>
+                        <% } %>
+
+                        <section>
+                          <p class="font-black text-on-surface group-hover:text-primary transition-colors">
+                            <%= usuario.nome %>
+                          </p>
+
+                          <p class="text-xs text-on-surface-variant">
+                            <%= usuario.email %>
+                          </p>
+                        </section>
+                      </article>
+                    </td>
+
+                    <td class="px-6 py-4">
+                      <strong class="text-sm font-bold <%= usuario.tipo_usuario === 'professor' ? 'text-primary' : 'text-on-surface' %>">
+                        <%= tipoLabel(usuario.tipo_usuario) %>
+                      </strong>
+                    </td>
+
+                    <td class="px-6 py-4">
+                      <strong class="px-4 py-1 rounded-full font-bold text-xs inline-flex items-center gap-1 w-fit <%= badgePlanoClasse(usuario.plano) %>">
+                        <% if (usuario.plano === 'Diamante') { %>
+                          <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true" style="font-variation-settings:'FILL' 1">diamond</i>
+                        <% } else if (usuario.plano === 'Lazuli') { %>
+                          <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">star</i>
+                        <% } else if (usuario.plano === 'Professor') { %>
+                          <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">school</i>
+                        <% } %>
+
+                        <%= usuario.plano %>
+                      </strong>
+                    </td>
+
+                    <td class="px-6 py-4">
+                      <strong class="text-sm text-on-surface">
+                        <%= usuario.total_atividades || 0 %>
+                      </strong>
+                    </td>
+
+                    <td class="px-6 py-4">
+                      <p class="text-sm text-on-surface-variant">
+                        <%= dataFormatada(usuario.ultima_atividade || usuario.criado_em) %>
+                      </p>
+                    </td>
+
+                    <td class="px-6 py-4 text-right">
+                      <form
+                        action="/moderador/excluir/<%= usuario.tipo_usuario %>/<%= usuario.id %>"
+                        method="POST"
+                        onsubmit="return confirm('Tem certeza que deseja excluir este cadastro definitivamente do banco de dados? Essa ação não pode ser desfeita.')"
+                      >
+                        <button type="submit" class="p-3 text-error hover:bg-red-50 rounded-full transition-colors" aria-label="Excluir cadastro">
+                          <i class="material-symbols-outlined not-italic" aria-hidden="true">delete</i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="6" class="px-6 py-12 text-center">
+                    <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">search_off</i>
+                    <p class="font-black text-on-surface">Nenhum cadastro encontrado</p>
+                    <p class="text-sm text-on-surface-variant mt-1">Tente mudar a busca ou o filtro.</p>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <section id="atividades" class="md:col-span-8">
+        <header class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-black headline text-on-surface">Atividades Recentes</h2>
+        </header>
+
+        <section class="space-y-4">
+          <% if (atividadesSeguras.length > 0) { %>
+            <% atividadesSeguras.forEach(function(atividade) { %>
+              <article class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border-l-4 <%= atividade.tipo === 'cadastro_professor' ? 'border-secondary' : 'border-primary' %>">
+                <figure class="w-10 h-10 rounded-full <%= atividade.tipo === 'cadastro_professor' ? 'bg-secondary/10 text-secondary' : 'bg-primary/10 text-primary' %> flex items-center justify-center m-0">
+                  <i aria-hidden="true" class="material-symbols-outlined not-italic">
+                    <%= atividade.tipo === 'cadastro_professor' ? 'school' : 'person_add' %>
+                  </i>
+                </figure>
+
+                <section class="flex-1">
+                  <p class="text-sm text-on-surface font-bold">
+                    <% if (atividade.tipo === 'cadastro_professor') { %>
+                      Professor cadastrado:
+                    <% } else { %>
+                      Aluno cadastrado:
+                    <% } %>
+
+                    <strong class="text-primary italic"><%= atividade.nome %></strong>
+                  </p>
+
+                  <p class="text-xs text-on-surface-variant">
+                    <%= atividade.detalhe %> • <%= dataFormatada(atividade.data_evento) %>
+                  </p>
+                </section>
+              </article>
+            <% }) %>
+          <% } else { %>
+            <article class="bg-white p-8 rounded-3xl text-center shadow-sm">
+              <p class="font-bold text-on-surface">Nenhuma atividade recente encontrada.</p>
+            </article>
+          <% } %>
+        </section>
+      </section>
+
+      <aside class="md:col-span-4 bg-gradient-to-br from-primary-dim to-primary p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-2xl">
+        <section class="relative z-10">
+          <h2 class="text-2xl font-black headline mb-4">Resumo da plataforma</h2>
+
+          <p class="text-white/80 text-sm mb-6 leading-relaxed">
+            Os números são carregados diretamente do banco de dados do PlanoB.
+          </p>
+
+          <ul class="grid grid-cols-1 gap-3 list-none p-0 m-0">
+            <li class="bg-white/15 rounded-2xl p-4">
+              <p class="text-xs font-black uppercase text-white/60">Usuários totais</p>
+              <strong class="text-3xl"><%= (estatisticasSeguras.totalAlunos || 0) + (estatisticasSeguras.totalProfessores || 0) %></strong>
+            </li>
+
+            <li class="bg-white/15 rounded-2xl p-4">
+              <p class="text-xs font-black uppercase text-white/60">Diamante</p>
+              <strong class="text-3xl"><%= estatisticasSeguras.totalDiamante || 0 %></strong>
+            </li>
+
+            <li class="bg-white/15 rounded-2xl p-4">
+              <p class="text-xs font-black uppercase text-white/60">Receita mês</p>
+              <strong class="text-2xl"><%= moeda(estatisticasSeguras.receitaMensal || 0) %></strong>
+            </li>
+          </ul>
+        </section>
+
+        <b class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+      </aside>
+
+    </section>
+  </main>
+
+  <nav aria-label="Navegação mobile" class="md:hidden fixed bottom-0 left-0 w-full bg-[#f7f5ff]/90 backdrop-blur-xl border-t border-[#e4e7ff] flex justify-around items-center px-4 pb-6 pt-2 z-50 rounded-t-[28px] shadow-[0_-10px_40px_rgba(35,44,81,0.08)]">
+    <a class="flex flex-col items-center justify-center text-[#0058ba] p-3 rounded-[18px] bg-[#d5dbff]" href="/moderador" aria-current="page">
+      <i aria-hidden="true" class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1">dashboard</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Painel</em>
+    </a>
+
+    <a class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100" href="/moderador?tipo=alunos">
+      <i aria-hidden="true" class="material-symbols-outlined not-italic">group</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
+    </a>
+
+    <a class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100" href="/moderador?tipo=professores">
+      <i aria-hidden="true" class="material-symbols-outlined not-italic">school</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Profs</em>
+    </a>
+
+    <a class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100" href="/logout">
+      <i aria-hidden="true" class="material-symbols-outlined not-italic">logout</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Sair</em>
+    </a>
+  </nav>
+
+</body>
+
+</html>

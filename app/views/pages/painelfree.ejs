@@ -340,6 +340,13 @@
 
 <body class="bg-surface text-on-surface">
 
+  <%
+    const alunoSeguro = typeof aluno !== 'undefined' && aluno ? aluno : {}
+    const planoAluno = alunoSeguro.id_plano ? Number(alunoSeguro.id_plano) : 1
+    const nomePlanoAluno = planoAluno === 3 ? 'Diamante' : planoAluno === 2 ? 'Lazuli' : 'Free'
+    const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
+  %>
+
   <!-- Header -->
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
 
@@ -356,9 +363,15 @@
 
       <li>
         <a href="/perfilaluno"
-          class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center"
+          class="p-1 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center"
           aria-label="Perfil">
-          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">account_circle</i>
+          <% if (alunoSeguro.foto) { %>
+            <img src="<%= alunoSeguro.foto %>" alt="Foto do aluno" class="w-10 h-10 rounded-full object-cover" />
+          <% } else { %>
+            <em class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </em>
+          <% } %>
         </a>
       </li>
     </menu>
@@ -372,10 +385,10 @@
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
         <picture>
-          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+          <% if (alunoSeguro.foto) { %>
             <img
               class="w-12 h-12 rounded-full object-cover"
-              src="<%= aluno.foto %>"
+              src="<%= alunoSeguro.foto %>"
               alt="Foto de perfil do aluno"
             />
           <% } else { %>
@@ -386,8 +399,8 @@
         </picture>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal do Aluno</p>
-          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+          <p class="text-sm font-bold text-on-surface"><%= nomeAluno %></p>
+          <p class="text-xs text-on-surface-variant">Plano <%= nomePlanoAluno %> ativo</p>
         </figcaption>
       </figure>
     </header>
@@ -412,6 +425,13 @@
         <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
         <em class="not-italic">Perfil</em>
       </a>
+            <br><br><br><br><br>
+          <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="/logout">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="not-italic">Sair</em>
+      </a>
+    </footer>
     </nav>
 
   </aside>
@@ -651,17 +671,15 @@
             <ul class="flex flex-col gap-3 text-sm text-on-surface-variant list-none p-0 m-0" role="list">
               <li class="flex items-center gap-2">
                 <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                3 Vídeos Liberados
+                Vídeos Demonstrativos
               </li>
 
               <li class="flex items-center gap-2">
-                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                Suporte Comunitário
+            
               </li>
 
               <li class="flex items-center gap-2 opacity-30">
-                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">close</i>
-                Planos Personalizados
+              
               </li>
             </ul>
           </li>
@@ -685,17 +703,17 @@
             <ul class="flex flex-col gap-3 text-sm list-none p-0 m-0" role="list">
               <li class="flex items-center gap-2">
                 <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                Biblioteca Completa
+                Todos os Vídeos
               </li>
 
               <li class="flex items-center gap-2">
                 <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                Planos de Treino
+                Ofensiva e Desconto
               </li>
 
               <li class="flex items-center gap-2">
-                <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                Chat com Instrutor
+                
+                
               </li>
             </ul>
 
@@ -724,12 +742,12 @@
 
               <li class="flex items-center gap-2">
                 <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                Consultoria VIP 1-on-1
+                Feedback com professor
               </li>
 
               <li class="flex items-center gap-2">
                 <i class="material-symbols-outlined text-xs not-italic" aria-hidden="true">done</i>
-                Kit de Suplementos
+                Treinos Montados para você
               </li>
             </ul>
           <a href="/pagamento?plano=3" class="mt-auto w-full bg-surface-container-highest text-on-surface py-4 rounded-full font-bold active:scale-95 transition-transform text-center">

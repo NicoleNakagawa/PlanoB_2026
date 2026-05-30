@@ -27,6 +27,7 @@
             "surface-container-highest": "#d5dbff",
             "outline-variant": "#a2abd7",
             "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
             "error": "#b31b25"
           },
           borderRadius: {
@@ -98,6 +99,21 @@
       box-shadow: 0 18px 35px rgba(0, 88, 186, 0.22);
     }
 
+    .chat-scroll {
+      max-height: 560px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .chat-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: #a2abd7;
+      border-radius: 999px;
+    }
+
     @media (max-width: 768px) {
       html,
       body {
@@ -147,6 +163,11 @@
       article.card-mobile {
         padding: 22px !important;
         border-radius: 26px !important;
+      }
+
+      .chat-scroll {
+        max-height: unset;
+        overflow-y: visible;
       }
 
       nav[aria-label="Navegação mobile"] {
@@ -211,6 +232,32 @@
     const alunoSeguro = typeof aluno !== 'undefined' && aluno ? aluno : {}
     const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
     const professor = typeof professorResponsavel !== 'undefined' && professorResponsavel ? professorResponsavel : null
+    const mensagensSeguras = typeof mensagens !== 'undefined' && mensagens ? mensagens : []
+    const sucessoSeguro = typeof sucesso !== 'undefined' ? sucesso : null
+    const erroSeguro = typeof erro !== 'undefined' ? erro : null
+
+    function dataFormatada(data) {
+      if (!data) return 'Agora'
+
+      return new Date(data).toLocaleDateString('pt-BR') + ' às ' + new Date(data).toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    }
+
+    function intensidadeTexto(valor) {
+      if (!valor) return ''
+
+      const mapa = {
+        leve: 'Leve',
+        moderado: 'Moderado',
+        intenso: 'Intenso',
+        pesado: 'Pesado',
+        exaustivo: 'Exaustivo'
+      }
+
+      return mapa[valor] || valor
+    }
   %>
 
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
@@ -220,14 +267,20 @@
 
     <menu class="flex items-center gap-4 p-0 m-0 list-none">
       <li>
-        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
+        <a href="/feedbackaluno#conversa-professor" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Conversas">
           <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">notifications</i>
-        </button>
+        </a>
       </li>
 
       <li>
         <a href="/perfilaluno" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil">
-          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">account_circle</i>
+          <% if (alunoSeguro.foto) { %>
+            <img src="<%= alunoSeguro.foto %>" alt="Foto do aluno" class="w-10 h-10 rounded-full object-cover">
+          <% } else { %>
+            <em class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Aluno sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </em>
+          <% } %>
         </a>
       </li>
     </menu>
@@ -242,9 +295,9 @@
           <% if (alunoSeguro.foto) { %>
             <img class="w-12 h-12 rounded-full object-cover" src="<%= alunoSeguro.foto %>" alt="Foto de perfil do aluno" />
           <% } else { %>
-            <span class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Aluno sem foto">
+            <em class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Aluno sem foto">
               <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
-            </span>
+            </em>
           <% } %>
         </picture>
 
@@ -284,6 +337,14 @@
         <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
         <em class="not-italic">Perfil</em>
       </a>
+
+            <br><br><br>
+          <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="/logout">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="not-italic">Sair</em>
+      </a>
+    </footer>
     </nav>
   </aside>
 
@@ -298,18 +359,18 @@
             </mark>
 
             <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
-              COMO FOI SEU TREINO?
+              CONVERSE COM SEU PROFESSOR.
             </h1>
 
             <p class="text-lg opacity-90 max-w-xl">
-              Envie sua percepção para o professor acompanhar sua evolução e ajustar seus treinos.
+              Envie o feedback do dia, veja as respostas do professor e continue a conversa pelo mesmo histórico.
             </p>
           </hgroup>
 
           <figure class="flex flex-col items-center gap-4 bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/10 w-full max-w-[240px] mx-auto md:mx-0 md:w-auto m-0">
-            <span class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center">
+            <em class="w-28 h-28 rounded-full bg-white/15 flex items-center justify-center not-italic">
               <i class="material-symbols-outlined text-white text-7xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">forum</i>
-            </span>
+            </em>
 
             <figcaption class="text-sm font-black uppercase tracking-widest text-center">
               Plano <%= nomePlanoAluno %>
@@ -321,27 +382,142 @@
         <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
       </article>
 
-      <% if (typeof erro !== 'undefined' && erro) { %>
+      <% if (erroSeguro) { %>
         <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
-          <%= erro %>
+          <%= erroSeguro %>
         </section>
       <% } %>
 
-      <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+      <% if (sucessoSeguro) { %>
         <section class="md:col-span-12 bg-green-50 text-green-700 rounded-3xl p-5 font-bold text-center" role="status">
-          <%= sucesso %>
+          <%= sucessoSeguro %>
         </section>
       <% } %>
 
-      <section class="card-mobile md:col-span-8 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+      <section id="conversa-professor" class="card-mobile md:col-span-7 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col">
+        <header class="flex items-center justify-between gap-4 pb-5 border-b border-surface-container">
+          <article class="flex items-center gap-3 min-w-0">
+            <figure class="w-14 h-14 rounded-2xl overflow-hidden m-0 avatar-placeholder flex items-center justify-center shrink-0">
+              <% if (professor && professor.foto_perfil) { %>
+                <img src="<%= professor.foto_perfil %>" alt="Foto do professor" class="w-full h-full object-cover">
+              <% } else { %>
+                <i class="material-symbols-outlined text-5xl not-italic" aria-hidden="true">account_circle</i>
+              <% } %>
+            </figure>
+
+            <hgroup class="min-w-0">
+              <h2 class="text-xl font-black headline truncate">
+                <%= professor ? professor.nome : 'Nenhum professor vinculado' %>
+              </h2>
+              <p class="text-sm text-on-surface-variant truncate">
+                <%= professor && professor.cref ? 'CREF ' + professor.cref : 'Conversa de acompanhamento' %>
+              </p>
+            </hgroup>
+          </article>
+
+          <strong class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-primary text-white">
+            Chat
+          </strong>
+        </header>
+
+        <% if (professor) { %>
+          <section id="chat-area" class="chat-scroll py-6 flex flex-col gap-4">
+            <% if (mensagensSeguras.length > 0) { %>
+              <% mensagensSeguras.forEach(function(msg) { %>
+                <% const isAluno = msg.remetente === 'aluno' %>
+
+                <article class="flex <%= isAluno ? 'justify-end' : 'justify-start' %>">
+                  <section class="max-w-[85%] rounded-3xl px-5 py-4 <%= isAluno ? 'bg-primary text-white rounded-br-md' : 'bg-surface-container-low text-on-surface rounded-bl-md' %>">
+                    <header class="flex flex-wrap items-center gap-2 mb-2">
+                      <strong class="text-xs uppercase tracking-widest">
+                        <%= isAluno ? 'Você' : professor.nome %>
+                      </strong>
+
+                      <time class="<%= isAluno ? 'text-white/70' : 'text-on-surface-variant' %> text-[10px] font-bold">
+                        <%= dataFormatada(msg.enviado_em) %>
+                      </time>
+                    </header>
+
+                    <p class="text-sm leading-relaxed whitespace-pre-wrap"><%= msg.texto %></p>
+
+                    <% if (isAluno && (msg.intensidade || msg.nivel_cansaco)) { %>
+                      <footer class="flex flex-wrap gap-2 mt-3">
+                        <% if (msg.intensidade) { %>
+                          <em class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white/20 text-white not-italic">
+                            Intensidade: <%= intensidadeTexto(msg.intensidade) %>
+                          </em>
+                        <% } %>
+
+                        <% if (msg.nivel_cansaco) { %>
+                          <em class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white/20 text-white not-italic">
+                            Cansaço: <%= msg.nivel_cansaco %>/10
+                          </em>
+                        <% } %>
+                      </footer>
+                    <% } %>
+                  </section>
+                </article>
+              <% }) %>
+            <% } else { %>
+              <section class="min-h-[280px] flex flex-col items-center justify-center text-center">
+                <i class="material-symbols-outlined text-primary text-6xl not-italic mb-3" aria-hidden="true">forum</i>
+                <h3 class="text-xl font-black headline text-on-surface">Nenhuma mensagem ainda</h3>
+                <p class="text-sm text-on-surface-variant mt-2 max-w-md">
+                  Envie seu feedback do dia ou mande uma mensagem para iniciar a conversa com seu professor.
+                </p>
+              </section>
+            <% } %>
+          </section>
+
+          <form action="/feedbackaluno/responder" method="POST" class="pt-5 border-t border-surface-container">
+            <label for="mensagem-resposta" class="sr-only">Responder professor</label>
+
+            <section class="bg-surface-container-low rounded-3xl p-3 flex flex-col gap-3">
+              <textarea
+                id="mensagem-resposta"
+                name="mensagem"
+                rows="4"
+                required
+                placeholder="Responda seu professor ou mande uma dúvida rápida..."
+                class="w-full bg-transparent border-none focus:ring-0 resize-none text-sm"
+              ></textarea>
+
+              <footer class="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                <p class="text-xs text-on-surface-variant px-2">
+                  Essa mensagem ficará no histórico do acompanhamento.
+                </p>
+
+                <button type="submit" class="bg-primary text-white rounded-full px-8 py-3 font-black shadow-lg shadow-primary/20 active:scale-95 transition-transform inline-flex items-center justify-center gap-2">
+                  Responder professor
+                  <i class="material-symbols-outlined not-italic" aria-hidden="true">send</i>
+                </button>
+              </footer>
+            </section>
+          </form>
+        <% } else { %>
+          <section class="min-h-[420px] flex flex-col items-center justify-center text-center">
+            <i class="material-symbols-outlined text-error text-6xl not-italic mb-3" aria-hidden="true">link_off</i>
+            <h3 class="text-xl font-black headline text-on-surface">Nenhum professor vinculado</h3>
+            <p class="text-sm text-on-surface-variant mt-2 max-w-md">
+              Para conversar e enviar feedback, sua conta precisa estar vinculada a uma ficha criada por um professor.
+            </p>
+          </section>
+        <% } %>
+      </section>
+
+      <section class="card-mobile md:col-span-5 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
         <form action="/feedbackaluno" method="POST" class="flex flex-col gap-8">
 
           <fieldset class="flex flex-col gap-4">
             <legend class="text-2xl font-extrabold headline text-on-surface mb-2">
-              Intensidade do esforço
+              Feedback do dia
             </legend>
 
-            <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <p class="text-sm text-on-surface-variant -mt-3">
+              Use esta parte para registrar como foi seu treino de hoje.
+            </p>
+
+            <section class="grid grid-cols-2 gap-4">
               <label class="radio-card cursor-pointer">
                 <input type="radio" name="intensity" value="leve" class="sr-only" />
                 <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
@@ -374,7 +550,7 @@
                 </span>
               </label>
 
-              <label class="radio-card cursor-pointer">
+              <label class="radio-card cursor-pointer col-span-2">
                 <input type="radio" name="intensity" value="exaustivo" class="sr-only" />
                 <span class="h-full bg-surface-container-low rounded-3xl p-4 flex flex-col items-center gap-3 transition-all">
                   <b class="text-4xl">💀</b>
@@ -392,15 +568,15 @@
             <input id="tiredness-range" name="tiredness-range" value="5" max="10" min="1" step="1" type="range" class="w-full accent-primary" />
 
             <section class="flex justify-between text-xs font-black uppercase tracking-widest text-on-surface-variant mt-3">
-              <span>Leve</span>
-              <span>Moderado</span>
-              <span>Esgotado</span>
+              <em class="not-italic">Leve</em>
+              <em class="not-italic">Moderado</em>
+              <em class="not-italic">Esgotado</em>
             </section>
           </section>
 
           <section>
             <label for="trainer-message" class="text-xl font-extrabold headline block mb-5">
-              Mensagem para o professor
+              Mensagem do treino
             </label>
 
             <textarea
@@ -413,62 +589,42 @@
             ></textarea>
           </section>
 
-          <button type="submit" class="w-full md:w-auto md:self-end bg-primary text-white px-10 py-5 rounded-full font-black shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-3">
-            Enviar feedback
+          <button type="submit" class="w-full bg-primary text-white px-10 py-5 rounded-full font-black shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all inline-flex items-center justify-center gap-3">
+            Enviar feedback do dia
             <i class="material-symbols-outlined not-italic" aria-hidden="true">send</i>
           </button>
 
         </form>
-      </section>
 
-      <aside class="card-mobile md:col-span-4 bg-surface-container-low rounded-3xl p-8 flex flex-col gap-6">
-        <header>
-          <h2 class="text-2xl font-extrabold headline text-on-surface">Professor responsável</h2>
-          <p class="text-sm text-on-surface-variant mt-1">
-            Seu feedback será enviado para o professor associado à sua ficha ativa.
-          </p>
-        </header>
-
-        <figure class="bg-surface-container-lowest rounded-3xl p-6 flex items-center gap-4 m-0">
-          <% if (professor && professor.foto_perfil) { %>
-            <img src="<%= professor.foto_perfil %>" alt="Foto do professor" class="w-16 h-16 rounded-full object-cover">
-          <% } else { %>
-            <span class="w-16 h-16 rounded-full avatar-placeholder flex items-center justify-center">
-              <i class="material-symbols-outlined text-5xl not-italic" aria-hidden="true">account_circle</i>
-            </span>
-          <% } %>
-
-          <figcaption>
-            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Seu treinador</p>
-            <p class="font-black text-on-surface">
-              <%= professor ? professor.nome : 'Nenhum professor vinculado' %>
+        <aside class="mt-6 bg-surface-container-low rounded-3xl p-6 flex flex-col gap-4">
+          <header>
+            <h2 class="text-xl font-extrabold headline text-on-surface">Professor responsável</h2>
+            <p class="text-sm text-on-surface-variant mt-1">
+              Seu feedback será enviado para o professor associado à sua ficha ativa.
             </p>
-            <% if (professor && professor.cref) { %>
-              <p class="text-xs text-primary font-bold mt-1">CREF <%= professor.cref %></p>
+          </header>
+
+          <figure class="bg-surface-container-lowest rounded-3xl p-5 flex items-center gap-4 m-0">
+            <% if (professor && professor.foto_perfil) { %>
+              <img src="<%= professor.foto_perfil %>" alt="Foto do professor" class="w-16 h-16 rounded-full object-cover">
+            <% } else { %>
+              <em class="w-16 h-16 rounded-full avatar-placeholder flex items-center justify-center not-italic">
+                <i class="material-symbols-outlined text-5xl not-italic" aria-hidden="true">account_circle</i>
+              </em>
             <% } %>
-          </figcaption>
-        </figure>
 
-        <% if (!professor) { %>
-          <section class="bg-red-50 text-error rounded-3xl p-5">
-            <p class="font-bold text-sm">
-              Para enviar feedback, sua conta precisa estar vinculada a uma ficha de treino com professor.
-            </p>
-          </section>
-        <% } else { %>
-          <section class="bg-primary rounded-3xl p-6 text-white">
-            <i class="material-symbols-outlined text-4xl not-italic mb-3" aria-hidden="true">verified</i>
-            <p class="font-black text-lg">Canal ativo</p>
-            <p class="text-sm text-white/80 mt-1">
-              Seu feedback será salvo no chat de acompanhamento.
-            </p>
-          </section>
-        <% } %>
-
-        <a href="/progressosemanal" class="w-full bg-surface-container-highest text-on-surface py-4 rounded-full font-bold text-center active:scale-95 transition-transform">
-          Ver progresso semanal
-        </a>
-      </aside>
+            <figcaption>
+              <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Seu treinador</p>
+              <p class="font-black text-on-surface">
+                <%= professor ? professor.nome : 'Nenhum professor vinculado' %>
+              </p>
+              <% if (professor && professor.cref) { %>
+                <p class="text-xs text-primary font-bold mt-1">CREF <%= professor.cref %></p>
+              <% } %>
+            </figcaption>
+          </figure>
+        </aside>
+      </section>
 
     </section>
   </main>
@@ -496,6 +652,14 @@
     </a>
 
   </nav>
+
+  <script>
+    const chatArea = document.getElementById('chat-area')
+
+    if (chatArea) {
+      chatArea.scrollTop = chatArea.scrollHeight
+    }
+  </script>
 
 </body>
 </html>

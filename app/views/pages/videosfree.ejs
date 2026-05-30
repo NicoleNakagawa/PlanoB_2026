@@ -43,6 +43,12 @@
 </head>
 
 <body>
+  <%
+    const alunoSeguro = typeof aluno !== 'undefined' && aluno ? aluno : {}
+    const planoAluno = alunoSeguro.id_plano ? Number(alunoSeguro.id_plano) : 1
+    const nomePlanoAluno = planoAluno === 3 ? 'Diamante' : planoAluno === 2 ? 'Lazuli' : 'Free'
+    const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
+  %>
   <header class="topbar">
     <nav class="topbar-logo" aria-label="Navegação principal">
       <a href="/painelfree" class="logo">PlanoB</a>
@@ -57,7 +63,11 @@
 
       <li>
         <a href="/perfilaluno" aria-label="Perfil">
-          <i class="material-symbols-outlined" aria-hidden="true">account_circle</i>
+          <% if (alunoSeguro.foto) { %>
+            <img src="<%= alunoSeguro.foto %>" alt="Foto do aluno" style="width: 40px; height: 40px; border-radius: 999px; object-fit: cover;" />
+          <% } else { %>
+            <i class="material-symbols-outlined" aria-hidden="true">account_circle</i>
+          <% } %>
         </a>
       </li>
     </menu>
@@ -67,9 +77,9 @@
     <header class="sidebar-profile">
       <figure>
         <picture>
-          <% if (typeof aluno !== 'undefined' && aluno.foto) { %>
+          <% if (alunoSeguro.foto) { %>
             <img
-              src="<%= aluno.foto %>"
+              src="<%= alunoSeguro.foto %>"
               alt="Foto de perfil do aluno"
             />
           <% } else { %>
@@ -80,8 +90,8 @@
         </picture>
 
         <figcaption>
-          <p>Portal do Aluno</p>
-          <p>Bem-vindo de volta</p>
+          <p><%= nomeAluno %></p>
+          <p>Plano <%= nomePlanoAluno %> ativo</p>
         </figcaption>
       </figure>
     </header>
@@ -106,6 +116,14 @@
         <i class="material-symbols-outlined" aria-hidden="true">person</i>
         <em>Perfil</em>
       </a>
+
+            <br><br><br><br><br>
+          <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="/logout">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        <em class="not-italic">Sair</em>
+      </a>
+    </footer>
     </nav>
   </aside>
 

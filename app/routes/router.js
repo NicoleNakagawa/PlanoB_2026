@@ -447,6 +447,199 @@ router.get('/loginprofessor', (req, res) => {
     res.redirect('/login')
 })
 
+router.get('/loginmoderador', (req, res) => {
+    res.redirect('/login')
+})
+
+router.post('/login', async (req, res) => {
+    const { email, password, remember } = req.body
+
+    if (!email || !password) {
+        return res.render('login', {
+            erro: 'Informe e-mail e senha.'
+        })
+    }
+
+    const emailLimpo = email.trim().toLowerCase()
+
+    try {
+        // =======================
+        // TENTA LOGIN COMO ALUNO
+        // =======================
+
+        const [alunoRows] = await db.query(
+            `SELECT 
+                id_aluno,
+                nome,
+                email,
+                senha_hash,
+                id_plano,
+                foto_perfil,
+                dados_completos
+             FROM aluno
+             WHERE email = ?
+             LIMIT 1`,
+            [emailLimpo]
+        )
+
+        if (alunoRows.length > 0) {
+            const aluno = alunoRows[0]
+            const senhaCorreta = await bcrypt.compare(password, aluno.senha_hash)
+
+            if (!senhaCorreta) {
+                return res.render('login', {
+                    erro: 'E-mail ou senha inválidos.'
+                })
+            }
+
+            if (remember) {
+                req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
+            }
+
+            req.session.aluno = {
+                id: aluno.id_aluno,
+                nome: aluno.nome,
+                email: aluno.email,
+                id_plano: aluno.id_plano,
+                foto: aluno.foto_perfil,
+                dados_completos: aluno.dados_completos
+            }
+
+            if (!aluno.dados_completos) {
+                return res.redirect('/dadosaluno')
+            }
+
+            return res.redirect(redirecionarPainelAluno(aluno.id_plano))
+        }
+
+        // =======================
+        // TENTA LOGIN COMO PROFESSOR
+        // =======================
+
+        const [professorRows] = await db.query(
+            `SELECT 
+                id_professor,
+                nome,
+                email,
+                senha_hash,
+                cref,
+                foto_perfil
+             FROM professor
+             WHERE email = ?
+             LIMIT 1`,
+            [emailLimpo]
+        )
+
+        if (professorRows.length > 0) {
+            const professor = professorRows[0]
+            const senhaCorreta = await bcrypt.compare(password, professor.senha_hash)
+
+            if (!senhaCorreta) {
+                return res.render('login', {
+                    erro: 'E-mail ou senha inválidos.'
+                })
+            }
+
+            if (remember) {
+                req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
+            }
+
+            req.session.professor = {
+                id: professor.id_professor,
+                nome: professor.nome,
+                email: professor.email,
+                cref: professor.cref,
+                foto: professor.foto_perfil
+            }
+
+            return res.redirect('/painelprofessor')
+        }
+
+        // =======================
+        // TENTA LOGIN COMO MODERADOR
+        // =======================
+
+        const [moderadorRows] = await db.query(
+            `SELECT 
+                id_moderador,
+                nome,
+                email,
+                senha_hash,
+                nivel,
+                foto_perfil,
+                ativo
+             FROM moderador
+             WHERE email = ?
+             LIMIT 1`,
+            [emailLimpo]
+        )
+
+        if (moderadorRows.length > 0) {
+            const moderador = moderadorRows[0]
+
+            if (Number(moderador.ativo) !== 1) {
+                return res.render('login', {
+                    erro: 'Este moderador está desativado.'
+                })
+            }
+
+            const senhaCorreta = await bcrypt.compare(password, moderador.senha_hash)
+
+            if (!senhaCorreta) {
+                return res.render('login', {
+                    erro: 'E-mail ou senha inválidos.'
+                })
+            }
+
+            if (remember) {
+                req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000
+            }
+
+            req.session.moderador = {
+                id: moderador.id_moderador,
+                nome: moderador.nome,
+                email: moderador.email,
+                nivel: moderador.nivel,
+                foto: moderador.foto_perfil
+            }
+
+            return res.redirect('/moderador')
+        }
+
+        return res.render('login', {
+            erro: 'E-mail ou senha inválidos.'
+        })
+    } catch (err) {
+        console.error('[login único]', err)
+
+        return res.render('login', {
+            erro: 'Erro interno. Tente novamente.'
+        })
+    }
+})
+
+router.post('/loginaluno', (req, res) => {
+    res.redirect(307, '/login')
+})
+
+router.post('/loginprofessor', (req, res) => {
+    res.redirect(307, '/login')
+})
+
+router.get('/login', (req, res) => {
+    res.render('login', {
+        sucesso: req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null
+    })
+})
+
+router.get('/loginaluno', (req, res) => {
+    res.redirect('/login')
+})
+
+router.get('/loginprofessor', (req, res) => {
+    res.redirect('/login')
+})
+
 router.post('/login', async (req, res) => {
     const { email, password, remember } = req.body
 
@@ -1447,112 +1640,6 @@ router.get('/streakprogress', authAluno, async (req, res) => {
     }
 })
 
-router.get('/feedbackaluno', authAluno, async (req, res) => {
-    if (Number(req.session.aluno.id_plano) === 1) {
-        return res.redirect('/perfilaluno')
-    }
-
-    try {
-        const professorResponsavel = await buscarProfessorResponsavelDoAluno(req.session.aluno.id)
-
-        res.render('feedbackaluno', {
-            aluno: req.session.aluno,
-            professorResponsavel,
-            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
-            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
-        })
-    } catch (err) {
-        console.error('[feedbackaluno GET]', err)
-
-        res.render('feedbackaluno', {
-            aluno: req.session.aluno,
-            professorResponsavel: null,
-            erro: 'Erro ao carregar professor responsável.',
-            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
-            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
-        })
-    }
-})
-
-router.post('/feedbackaluno', authAluno, async (req, res) => {
-    if (Number(req.session.aluno.id_plano) === 1) {
-        return res.redirect('/perfilaluno')
-    }
-
-    const idAluno = req.session.aluno.id
-    const intensidade = req.body['intensity']
-    const cansaco = Number(req.body['tiredness-range']) || null
-    const texto = req.body['trainer-message']
-
-    async function renderFeedback(payload = {}) {
-        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
-
-        return res.render('feedbackaluno', {
-            aluno: req.session.aluno,
-            professorResponsavel,
-            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
-            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
-            ...payload
-        })
-    }
-
-    if (!texto || !texto.trim()) {
-        return renderFeedback({
-            erro: 'Escreva uma mensagem para enviar ao professor.'
-        })
-    }
-
-    try {
-        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
-
-        if (!professorResponsavel) {
-            return renderFeedback({
-                erro: 'Nenhum professor associado à sua conta ainda.'
-            })
-        }
-
-        const idProfessor = professorResponsavel.id_professor
-        let idChat
-
-        const [chatRows] = await db.query(
-            `SELECT id_chat
-             FROM chat_feedback
-             WHERE id_professor = ?
-             AND id_aluno = ?
-             LIMIT 1`,
-            [idProfessor, idAluno]
-        )
-
-        if (chatRows.length > 0) {
-            idChat = chatRows[0].id_chat
-        } else {
-            const [chatResult] = await db.query(
-                `INSERT INTO chat_feedback (id_professor, id_aluno)
-                 VALUES (?, ?)`,
-                [idProfessor, idAluno]
-            )
-
-            idChat = chatResult.insertId
-        }
-
-        await db.query(
-            `INSERT INTO mensagem_feedback
-             (id_chat, remetente, intensidade, nivel_cansaco, texto)
-             VALUES (?, 'aluno', ?, ?, ?)`,
-            [idChat, intensidade || null, cansaco, texto.trim()]
-        )
-
-        return renderFeedback({
-            sucesso: 'Feedback enviado ao seu professor!'
-        })
-    } catch (err) {
-        console.error('[feedbackaluno POST]', err)
-
-        return renderFeedback({
-            erro: 'Erro ao enviar feedback: ' + err.message
-        })
-    }
-})
 
 // =======================
 // PROFESSOR
@@ -2386,11 +2473,6 @@ router.get('/editarexercicios', authProfessor, (req, res) => {
     res.redirect('/todosvideos')
 })
 
-router.get('/visaoperfilaluno', authProfessor, (req, res) => {
-    res.render('visaoperfilaluno', {
-        professor: req.session.professor
-    })
-})
 
 // =======================
 // FEEDBACK PROFESSOR
@@ -3554,7 +3636,852 @@ router.post('/perfilprofessor/foto', authProfessor, (req, res) => {
         }
     })
 })
+// =======================
+// VISÃO DO PERFIL DO ALUNO PARA O PROFESSOR
+// =======================
 
+router.get(['/visaoperfilaluno', '/visaoperfilaluno/:id'], authProfessor, async (req, res) => {
+    const idProfessor = req.session.professor.id
+    const idAluno = Number(req.params.id || req.query.id_aluno || req.query.aluno || req.query.id)
+
+    if (!idAluno) {
+        return res.redirect('/todosalunos?erro=' + encodeURIComponent('Aluno não informado.'))
+    }
+
+    try {
+        const [vinculoRows] = await db.query(
+            `SELECT af.id_aluno
+             FROM aluno_ficha af
+             JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+             WHERE af.id_aluno = ?
+             AND ft.id_professor = ?
+             AND af.ativo = 1
+             LIMIT 1`,
+            [idAluno, idProfessor]
+        )
+
+        if (vinculoRows.length === 0) {
+            return res.redirect('/todosalunos?erro=' + encodeURIComponent('Este aluno não está vinculado ao seu perfil.'))
+        }
+
+        const [alunoRows] = await db.query(
+            `SELECT 
+                a.id_aluno,
+                a.nome,
+                a.email,
+                a.foto_perfil,
+                a.id_plano,
+                a.objetivo,
+                a.tipo_treino,
+                a.nivel_treino,
+                a.local_treino,
+                a.equipamentos,
+                a.dias_semana,
+                a.limitacoes,
+                a.dados_completos,
+                a.criado_em,
+                COALESCE(p.nome, 'Free') AS plano
+             FROM aluno a
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             WHERE a.id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        if (alunoRows.length === 0) {
+            return res.redirect('/todosalunos?erro=' + encodeURIComponent('Aluno não encontrado.'))
+        }
+
+        const [historicoTreinos] = await db.query(
+            `SELECT 
+                st.id_sessao,
+                st.data_treino,
+                st.duracao_min,
+                st.calorias,
+                st.bpm_maximo,
+                st.observacao,
+                ft.nome_ficha,
+                ft.categoria,
+                ft.nivel
+             FROM sessao_treino st
+             LEFT JOIN ficha_treino ft ON ft.id_ficha = st.id_ficha
+             WHERE st.id_aluno = ?
+             ORDER BY st.data_treino DESC, st.id_sessao DESC
+             LIMIT 8`,
+            [idAluno]
+        )
+
+        const [resumoRows] = await db.query(
+            `SELECT 
+                COUNT(*) AS total_treinos,
+                COALESCE(SUM(duracao_min), 0) AS tempo_total,
+                COALESCE(ROUND(AVG(duracao_min)), 0) AS tempo_medio,
+                COALESCE(SUM(calorias), 0) AS calorias_total,
+                COALESCE(MAX(bpm_maximo), 0) AS bpm_maximo
+             FROM sessao_treino
+             WHERE id_aluno = ?`,
+            [idAluno]
+        )
+
+        const [streakRows] = await db.query(
+            `SELECT streak_atual, streak_maximo, ultima_atividade
+             FROM streak
+             WHERE id_aluno = ?
+             LIMIT 1`,
+            [idAluno]
+        )
+
+        const [progressoRows] = await db.query(
+            `SELECT 
+                semana_inicio,
+                dias_treinados,
+                meta_dias,
+                tempo_total_min,
+                calorias_total,
+                bpm_maximo,
+                variacao_pct,
+                LEAST(ROUND((COALESCE(dias_treinados, 0) / NULLIF(COALESCE(meta_dias, 5), 0)) * 100), 100) AS porcentagem
+             FROM progresso_semanal
+             WHERE id_aluno = ?
+             ORDER BY semana_inicio DESC
+             LIMIT 5`,
+            [idAluno]
+        ).catch(async () => {
+            return [[]]
+        })
+
+        let progressoSemana = progressoRows[0] || null
+
+        let frequenciaSemanas = progressoRows.slice().reverse().map((item, index) => ({
+            ...item,
+            rotulo: index === progressoRows.length - 1 ? 'Atual' : `Sem ${index + 1}`
+        }))
+
+        if (!progressoSemana) {
+            const [semanaAtualRows] = await db.query(
+                `SELECT 
+                    COUNT(DISTINCT data_treino) AS dias_treinados,
+                    ? AS meta_dias,
+                    COALESCE(SUM(duracao_min), 0) AS tempo_total_min,
+                    COALESCE(SUM(calorias), 0) AS calorias_total,
+                    COALESCE(MAX(bpm_maximo), 0) AS bpm_maximo
+                 FROM sessao_treino
+                 WHERE id_aluno = ?
+                 AND data_treino BETWEEN 
+                    DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+                    AND DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY)`,
+                [alunoRows[0].dias_semana || 5, idAluno]
+            )
+
+            const semanaAtual = semanaAtualRows[0] || {
+                dias_treinados: 0,
+                meta_dias: alunoRows[0].dias_semana || 5,
+                tempo_total_min: 0,
+                calorias_total: 0,
+                bpm_maximo: 0
+            }
+
+            const metaDias = Number(semanaAtual.meta_dias || 5) || 5
+            const diasTreinados = Number(semanaAtual.dias_treinados || 0) || 0
+
+            progressoSemana = {
+                ...semanaAtual,
+                variacao_pct: 0,
+                porcentagem: Math.min(Math.round((diasTreinados / metaDias) * 100), 100)
+            }
+
+            frequenciaSemanas = [
+                {
+                    ...progressoSemana,
+                    rotulo: 'Atual'
+                }
+            ]
+        }
+
+        const [feedbacksAluno] = await db.query(
+            `SELECT 
+                mf.id_mensagem,
+                mf.texto,
+                mf.intensidade,
+                mf.nivel_cansaco,
+                mf.enviado_em,
+                mf.lida
+             FROM chat_feedback cf
+             JOIN mensagem_feedback mf ON mf.id_chat = cf.id_chat
+             WHERE cf.id_professor = ?
+             AND cf.id_aluno = ?
+             AND mf.remetente = 'aluno'
+             ORDER BY mf.enviado_em DESC
+             LIMIT 6`,
+            [idProfessor, idAluno]
+        ).catch(async () => {
+            return [[]]
+        })
+
+        res.render('visaoperfilaluno', {
+            professor: req.session.professor,
+            alunoPerfil: alunoRows[0],
+            historicoTreinos,
+            resumoTreinos: resumoRows[0] || {
+                total_treinos: 0,
+                tempo_total: 0,
+                tempo_medio: 0,
+                calorias_total: 0,
+                bpm_maximo: 0
+            },
+            streak: streakRows[0] || {
+                streak_atual: 0,
+                streak_maximo: 0,
+                ultima_atividade: null
+            },
+            progressoSemana,
+            frequenciaSemanas,
+            feedbacksAluno,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[visaoperfilaluno]', err)
+
+        res.redirect('/todosalunos?erro=' + encodeURIComponent('Erro ao carregar perfil do aluno.'))
+    }
+})
+// =======================
+// FEEDBACK ALUNO COM CHAT COMPLETO
+// =======================
+
+async function buscarOuCriarChatFeedback(idProfessor, idAluno) {
+    const [chatRows] = await db.query(
+        `SELECT id_chat
+         FROM chat_feedback
+         WHERE id_professor = ?
+         AND id_aluno = ?
+         LIMIT 1`,
+        [idProfessor, idAluno]
+    )
+
+    if (chatRows.length > 0) {
+        return chatRows[0].id_chat
+    }
+
+    const [chatResult] = await db.query(
+        `INSERT INTO chat_feedback (id_professor, id_aluno)
+         VALUES (?, ?)`,
+        [idProfessor, idAluno]
+    )
+
+    return chatResult.insertId
+}
+
+router.get('/feedbackaluno', authAluno, async (req, res) => {
+    if (Number(req.session.aluno.id_plano) === 1) {
+        return res.redirect('/perfilaluno')
+    }
+
+    const idAluno = req.session.aluno.id
+
+    try {
+        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
+
+        let mensagens = []
+
+        if (professorResponsavel) {
+            const [chatRows] = await db.query(
+                `SELECT id_chat
+                 FROM chat_feedback
+                 WHERE id_professor = ?
+                 AND id_aluno = ?
+                 LIMIT 1`,
+                [professorResponsavel.id_professor, idAluno]
+            )
+
+            if (chatRows.length > 0) {
+                const idChat = chatRows[0].id_chat
+
+                await db.query(
+                    `UPDATE mensagem_feedback
+                     SET lida = 1
+                     WHERE id_chat = ?
+                     AND remetente = 'professor'
+                     AND lida = 0`,
+                    [idChat]
+                )
+
+                const [mensagensRows] = await db.query(
+                    `SELECT 
+                        id_mensagem,
+                        remetente,
+                        intensidade,
+                        nivel_cansaco,
+                        texto,
+                        enviado_em,
+                        lida
+                     FROM mensagem_feedback
+                     WHERE id_chat = ?
+                     ORDER BY enviado_em ASC, id_mensagem ASC`,
+                    [idChat]
+                )
+
+                mensagens = mensagensRows
+            }
+        }
+
+        res.render('feedbackaluno', {
+            aluno: req.session.aluno,
+            professorResponsavel,
+            mensagens,
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            sucesso: req.query.sucesso || null,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[feedbackaluno GET]', err)
+
+        res.render('feedbackaluno', {
+            aluno: req.session.aluno,
+            professorResponsavel: null,
+            mensagens: [],
+            linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
+            linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano),
+            sucesso: null,
+            erro: 'Erro ao carregar a conversa com o professor.'
+        })
+    }
+})
+
+router.post('/feedbackaluno', authAluno, async (req, res) => {
+    if (Number(req.session.aluno.id_plano) === 1) {
+        return res.redirect('/perfilaluno')
+    }
+
+    const idAluno = req.session.aluno.id
+    const intensidade = req.body['intensity'] || null
+    const cansaco = req.body['tiredness-range'] || null
+    const texto = (req.body['trainer-message'] || '').trim()
+
+    if (!texto) {
+        return res.redirect('/feedbackaluno?erro=' + encodeURIComponent('Escreva uma mensagem para enviar ao professor.') + '#feedback-dia')
+    }
+
+    try {
+        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
+
+        if (!professorResponsavel) {
+            return res.redirect('/feedbackaluno?erro=' + encodeURIComponent('Nenhum professor associado à sua conta ainda.') + '#feedback-dia')
+        }
+
+        const idChat = await buscarOuCriarChatFeedback(professorResponsavel.id_professor, idAluno)
+
+        await db.query(
+            `INSERT INTO mensagem_feedback
+             (id_chat, remetente, intensidade, nivel_cansaco, texto, lida)
+             VALUES (?, 'aluno', ?, ?, ?, 0)`,
+            [idChat, intensidade, cansaco, texto]
+        )
+
+        res.redirect('/feedbackaluno?sucesso=' + encodeURIComponent('Feedback do dia enviado e adicionado à conversa!') + '#conversa-professor')
+    } catch (err) {
+        console.error('[feedbackaluno POST]', err)
+
+        res.redirect('/feedbackaluno?erro=' + encodeURIComponent('Erro ao enviar feedback do dia.') + '#feedback-dia')
+    }
+})
+
+router.post('/feedbackaluno/responder', authAluno, async (req, res) => {
+    if (Number(req.session.aluno.id_plano) === 1) {
+        return res.redirect('/perfilaluno')
+    }
+
+    const idAluno = req.session.aluno.id
+    const mensagem = (req.body.mensagem || '').trim()
+
+    if (!mensagem) {
+        return res.redirect('/feedbackaluno?erro=' + encodeURIComponent('Escreva uma resposta antes de enviar.') + '#conversa-professor')
+    }
+
+    try {
+        const professorResponsavel = await buscarProfessorResponsavelDoAluno(idAluno)
+
+        if (!professorResponsavel) {
+            return res.redirect('/feedbackaluno?erro=' + encodeURIComponent('Nenhum professor associado à sua conta ainda.') + '#conversa-professor')
+        }
+
+        const idChat = await buscarOuCriarChatFeedback(professorResponsavel.id_professor, idAluno)
+
+        await db.query(
+            `INSERT INTO mensagem_feedback
+             (id_chat, remetente, texto, lida)
+             VALUES (?, 'aluno', ?, 0)`,
+            [idChat, mensagem]
+        )
+
+        res.redirect('/feedbackaluno?sucesso=' + encodeURIComponent('Resposta enviada ao professor!') + '#conversa-professor')
+    } catch (err) {
+        console.error('[feedbackaluno responder]', err)
+
+        res.redirect('/feedbackaluno?erro=' + encodeURIComponent('Erro ao responder o professor.') + '#conversa-professor')
+    }
+})
+
+
+// =======================
+// MODERADOR
+// =======================
+
+function authModerador(req, res, next) {
+    if (req.session && req.session.moderador) return next()
+    res.redirect('/loginmoderador')
+}
+
+async function tabelaExiste(nomeTabela) {
+    const [rows] = await db.query('SHOW TABLES LIKE ?', [nomeTabela])
+    return rows.length > 0
+}
+
+async function executarSeTabelaExiste(nomeTabela, sql, params = []) {
+    const existe = await tabelaExiste(nomeTabela)
+
+    if (existe) {
+        await db.query(sql, params)
+    }
+}
+
+async function contarSeTabelaExiste(nomeTabela, sql, params = []) {
+    const existe = await tabelaExiste(nomeTabela)
+
+    if (!existe) {
+        return 0
+    }
+
+    const [rows] = await db.query(sql, params)
+    return rows[0]?.total || 0
+}
+
+router.get('/loginmoderador', (req, res) => {
+    res.render('loginmoderador', {
+        erro: null,
+        sucesso: null
+    })
+})
+
+router.post('/loginmoderador', async (req, res) => {
+    const email = (req.body.email || '').trim().toLowerCase()
+    const senha = req.body.password || req.body.senha || ''
+
+    if (!email || !senha) {
+        return res.render('loginmoderador', {
+            erro: 'Informe e-mail e senha.',
+            sucesso: null
+        })
+    }
+
+    try {
+        const [rows] = await db.query(
+            `SELECT id_moderador, nome, email, senha_hash, nivel, foto_perfil, ativo
+             FROM moderador
+             WHERE email = ?
+             LIMIT 1`,
+            [email]
+        )
+
+        if (rows.length === 0) {
+            return res.render('loginmoderador', {
+                erro: 'E-mail ou senha inválidos.',
+                sucesso: null
+            })
+        }
+
+        const moderador = rows[0]
+
+        if (Number(moderador.ativo) !== 1) {
+            return res.render('loginmoderador', {
+                erro: 'Este moderador está desativado.',
+                sucesso: null
+            })
+        }
+
+        const senhaCorreta = await bcrypt.compare(senha, moderador.senha_hash)
+
+        if (!senhaCorreta) {
+            return res.render('loginmoderador', {
+                erro: 'E-mail ou senha inválidos.',
+                sucesso: null
+            })
+        }
+
+        req.session.moderador = {
+            id: moderador.id_moderador,
+            nome: moderador.nome,
+            email: moderador.email,
+            nivel: moderador.nivel,
+            foto: moderador.foto_perfil
+        }
+
+        res.redirect('/moderador')
+    } catch (err) {
+        console.error('[loginmoderador]', err)
+
+        res.render('loginmoderador', {
+            erro: 'Erro interno ao fazer login de moderador.',
+            sucesso: null
+        })
+    }
+})
+
+router.get('/moderador', authModerador, async (req, res) => {
+    const busca = (req.query.busca || '').trim()
+    const tipo = (req.query.tipo || 'todos').trim()
+
+    try {
+        const [totalAlunosRows] = await db.query(
+            `SELECT COUNT(*) AS total FROM aluno`
+        )
+
+        const [totalProfessoresRows] = await db.query(
+            `SELECT COUNT(*) AS total FROM professor`
+        )
+
+        const [totalDiamanteRows] = await db.query(
+            `SELECT COUNT(*) AS total
+             FROM aluno
+             WHERE id_plano = 3`
+        )
+
+        const receitaMensal = await contarSeTabelaExiste(
+            'pagamento',
+            `SELECT COALESCE(SUM(valor), 0) AS total
+            FROM pagamento
+            WHERE status = 'aprovado'`
+        )
+
+        const usuarios = []
+
+        if (tipo === 'todos' || tipo === 'alunos') {
+            const params = []
+            let filtro = ''
+
+            if (busca) {
+                filtro = `WHERE a.nome LIKE ? OR a.email LIKE ?`
+                params.push(`%${busca}%`, `%${busca}%`)
+            }
+
+            const [alunosRows] = await db.query(
+                `SELECT
+                    'aluno' AS tipo_usuario,
+                    a.id_aluno AS id,
+                    a.nome,
+                    a.email,
+                    a.foto_perfil,
+                    a.id_plano,
+                    COALESCE(p.nome, 'Free') AS plano,
+                    a.criado_em,
+                    (
+                        SELECT COUNT(*)
+                        FROM sessao_treino st
+                        WHERE st.id_aluno = a.id_aluno
+                    ) AS total_atividades,
+                    (
+                        SELECT MAX(st.data_treino)
+                        FROM sessao_treino st
+                        WHERE st.id_aluno = a.id_aluno
+                    ) AS ultima_atividade
+                 FROM aluno a
+                 LEFT JOIN plano p ON p.id_plano = a.id_plano
+                 ${filtro}
+                 ORDER BY a.id_aluno DESC
+                 LIMIT 150`,
+                params
+            )
+
+            usuarios.push(...alunosRows)
+        }
+
+        if (tipo === 'todos' || tipo === 'professores') {
+            const params = []
+            let filtro = ''
+
+            if (busca) {
+                filtro = `WHERE p.nome LIKE ? OR p.email LIKE ? OR p.cref LIKE ?`
+                params.push(`%${busca}%`, `%${busca}%`, `%${busca}%`)
+            }
+
+            const [professoresRows] = await db.query(
+                `SELECT
+                    'professor' AS tipo_usuario,
+                    p.id_professor AS id,
+                    p.nome,
+                    p.email,
+                    p.foto_perfil,
+                    NULL AS id_plano,
+                    'Professor' AS plano,
+                    NULL AS criado_em,
+                    (
+                        SELECT COUNT(*)
+                        FROM video v
+                        WHERE v.id_professor = p.id_professor
+                        AND v.ativo = 1
+                    ) AS total_atividades,
+                    NULL AS ultima_atividade
+                 FROM professor p
+                 ${filtro}
+                 ORDER BY p.id_professor DESC
+                 LIMIT 150`,
+                params
+            )
+
+            usuarios.push(...professoresRows)
+        }
+
+        const [atividadesAlunos] = await db.query(
+            `SELECT
+                'cadastro_aluno' AS tipo,
+                a.nome,
+                a.email,
+                COALESCE(p.nome, 'Free') AS detalhe,
+                a.criado_em AS data_evento
+             FROM aluno a
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             ORDER BY a.id_aluno DESC
+             LIMIT 8`
+        )
+
+        const [atividadesProfessores] = await db.query(
+            `SELECT
+                'cadastro_professor' AS tipo,
+                p.nome,
+                p.email,
+                COALESCE(p.cref, 'Sem CREF') AS detalhe,
+                NULL AS data_evento
+             FROM professor p
+             ORDER BY p.id_professor DESC
+             LIMIT 8`
+        )
+
+        const atividadesRecentes = atividadesAlunos
+            .concat(atividadesProfessores)
+            .slice(0, 10)
+
+        res.render('moderador', {
+            moderador: req.session.moderador,
+            usuarios,
+            atividadesRecentes,
+            estatisticas: {
+                totalAlunos: totalAlunosRows[0]?.total || 0,
+                totalProfessores: totalProfessoresRows[0]?.total || 0,
+                totalDiamante: totalDiamanteRows[0]?.total || 0,
+                receitaMensal
+            },
+            filtros: {
+                busca,
+                tipo
+            },
+            sucesso: req.query.sucesso || null,
+            erro: req.query.erro || null
+        })
+    } catch (err) {
+        console.error('[moderador]', err)
+
+        res.render('moderador', {
+            moderador: req.session.moderador,
+            usuarios: [],
+            atividadesRecentes: [],
+            estatisticas: {
+                totalAlunos: 0,
+                totalProfessores: 0,
+                totalDiamante: 0,
+                receitaMensal: 0
+            },
+            filtros: {
+                busca,
+                tipo
+            },
+            sucesso: null,
+            erro: 'Erro ao carregar painel do moderador: ' + err.message
+        })
+    }
+})
+
+router.post('/moderador/excluir/:tipo/:id', authModerador, async (req, res) => {
+    const tipo = req.params.tipo
+    const id = Number(req.params.id)
+
+    if (!id || !['aluno', 'professor'].includes(tipo)) {
+        return res.redirect('/moderador?erro=' + encodeURIComponent('Cadastro inválido.'))
+    }
+
+    try {
+        await db.query('START TRANSACTION')
+
+        if (tipo === 'aluno') {
+            await executarSeTabelaExiste(
+                'mensagem_feedback',
+                `DELETE mf FROM mensagem_feedback mf
+                 JOIN chat_feedback cf ON cf.id_chat = mf.id_chat
+                 WHERE cf.id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'chat_feedback',
+                `DELETE FROM chat_feedback WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'aluno_ficha',
+                `DELETE FROM aluno_ficha WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'sessao_treino',
+                `DELETE FROM sessao_treino WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'progresso_semanal',
+                `DELETE FROM progresso_semanal WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'streak',
+                `DELETE FROM streak WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'desconto',
+                `DELETE FROM desconto WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'pagamento',
+                `DELETE FROM pagamento WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'assinatura',
+                `DELETE FROM assinatura WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'suporte',
+                `DELETE FROM suporte WHERE id_aluno = ?`,
+                [id]
+            )
+
+            await db.query(
+                `DELETE FROM aluno WHERE id_aluno = ?`,
+                [id]
+            )
+        }
+
+        if (tipo === 'professor') {
+            await executarSeTabelaExiste(
+                'mensagem_feedback',
+                `DELETE mf FROM mensagem_feedback mf
+                 JOIN chat_feedback cf ON cf.id_chat = mf.id_chat
+                 WHERE cf.id_professor = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'chat_feedback',
+                `DELETE FROM chat_feedback WHERE id_professor = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'aluno_ficha',
+                `DELETE af FROM aluno_ficha af
+                 JOIN ficha_treino ft ON ft.id_ficha = af.id_ficha
+                 WHERE ft.id_professor = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'video',
+                `DELETE FROM video WHERE id_professor = ?`,
+                [id]
+            )
+
+            await executarSeTabelaExiste(
+                'ficha_treino',
+                `DELETE FROM ficha_treino WHERE id_professor = ?`,
+                [id]
+            )
+
+            await db.query(
+                `DELETE FROM professor WHERE id_professor = ?`,
+                [id]
+            )
+        }
+
+        await db.query('COMMIT')
+
+        res.redirect('/moderador?sucesso=' + encodeURIComponent('Cadastro excluído definitivamente do banco.'))
+    } catch (err) {
+        await db.query('ROLLBACK')
+
+        console.error('[moderador excluir]', err)
+
+        res.redirect('/moderador?erro=' + encodeURIComponent('Erro ao excluir cadastro: ' + err.message))
+    }
+})
+
+router.get('/moderador/exportar', authModerador, async (req, res) => {
+    try {
+        const [alunos] = await db.query(
+            `SELECT
+                'Aluno' AS tipo,
+                a.nome,
+                a.email,
+                COALESCE(p.nome, 'Free') AS plano,
+                a.criado_em
+             FROM aluno a
+             LEFT JOIN plano p ON p.id_plano = a.id_plano
+             ORDER BY a.nome ASC`
+        )
+
+        const [professores] = await db.query(
+            `SELECT
+                'Professor' AS tipo,
+                p.nome,
+                p.email,
+                COALESCE(p.cref, '') AS plano,
+                NULL AS criado_em
+             FROM professor p
+             ORDER BY p.nome ASC`
+        )
+
+        const linhas = alunos.concat(professores)
+
+        const cabecalho = 'tipo,nome,email,plano_ou_cref,criado_em\n'
+
+        const corpo = linhas.map((item) => {
+            return [
+                item.tipo,
+                item.nome,
+                item.email,
+                item.plano,
+                item.criado_em || ''
+            ].map((valor) => `"${String(valor || '').replace(/"/g, '""')}"`).join(',')
+        }).join('\n')
+
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8')
+        res.setHeader('Content-Disposition', 'attachment; filename="usuarios-planob.csv"')
+        res.send(cabecalho + corpo)
+    } catch (err) {
+        console.error('[moderador exportar]', err)
+
+        res.redirect('/moderador?erro=' + encodeURIComponent('Erro ao exportar CSV.'))
+    }
+})
 // =======================
 // 404
 // =======================

@@ -219,6 +219,110 @@
         font-size: 8px !important;
       }
     }
+
+
+    .notification-menu {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .notification-button {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-popup {
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 300px;
+      max-width: calc(100vw - 24px);
+      background: #ffffff;
+      border: 1px solid #e4e7ff;
+      border-radius: 22px;
+      box-shadow: 0 18px 45px rgba(35, 44, 81, 0.18);
+      padding: 12px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+      z-index: 99999;
+    }
+
+    .notification-popup.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .notification-arrow {
+      position: absolute;
+      top: -7px;
+      right: 18px;
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border-left: 1px solid #e4e7ff;
+      border-top: 1px solid #e4e7ff;
+      transform: rotate(45deg);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: #b31b25;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 900;
+      line-height: 18px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-badge.active {
+      display: flex;
+    }
+
+    .notification-list {
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .notification-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .notification-list::-webkit-scrollbar-thumb {
+      background: #a2abd7;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 640px) {
+      .notification-popup {
+        right: -52px;
+        width: 280px;
+      }
+
+      .notification-arrow {
+        right: 66px;
+      }
+    }
+
   </style>
 </head>
 
@@ -229,6 +333,14 @@
 
     const alunosSeguros = typeof alunos !== 'undefined' && alunos ? alunos : []
     const alunosDisponiveisSeguros = typeof alunosDisponiveis !== 'undefined' && alunosDisponiveis ? alunosDisponiveis : []
+
+    const alunosDiamante = alunosSeguros.filter(function(aluno) {
+      return String(aluno.plano || '').toLowerCase() === 'diamante' || Number(aluno.id_plano) === 3
+    })
+
+    const alunosDisponiveisDiamante = alunosDisponiveisSeguros.filter(function(aluno) {
+      return String(aluno.plano || '').toLowerCase() === 'diamante' || Number(aluno.id_plano) === 3
+    })
 
     const estatisticasSeguras = typeof estatisticas !== 'undefined' && estatisticas ? estatisticas : {
       totalAlunos: 0,
@@ -266,7 +378,7 @@
     function queryPagina(numero) {
       const params = new URLSearchParams()
       if (filtrosSeguros.busca) params.set('busca', filtrosSeguros.busca)
-      if (filtrosSeguros.plano) params.set('plano', filtrosSeguros.plano)
+      params.set('plano', 'Diamante')
       params.set('page', numero)
       return '/todosalunos?' + params.toString()
     }
@@ -292,24 +404,64 @@
         type="search"
       />
 
-      <input type="hidden" name="plano" value="<%= filtrosSeguros.plano %>">
+      <input type="hidden" name="plano" value="Diamante">
     </form>
 
     <menu class="flex items-center gap-4 p-0 m-0 list-none">
-      <li>
-        <a href="/feedbackprofessor" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Feedbacks">
-          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
-        </a>
+      <li class="notification-menu">
+        <button
+          id="notification-button"
+          type="button"
+          class="notification-button hover:bg-surface-container transition-colors active:scale-95"
+          aria-label="Abrir notificações"
+          aria-expanded="false"
+          aria-controls="notification-popup"
+        >
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">notifications</i>
+
+          <em id="notification-badge" class="notification-badge not-italic">
+            0
+          </em>
+        </button>
+
+        <section id="notification-popup" class="notification-popup" aria-label="Notificações">
+          <b class="notification-arrow font-normal" aria-hidden="true"></b>
+
+          <header class="flex items-center justify-between gap-3 px-2 pb-3 border-b border-surface-container">
+            <h2 class="text-sm font-black text-on-surface">
+              Notificações
+            </h2>
+
+            <a href="/feedbackprofessor?status=pendentes" class="text-xs font-black text-primary hover:underline">
+              Ver todas
+            </a>
+          </header>
+
+          <section id="notification-content" class="notification-list pt-3">
+            <article class="rounded-2xl bg-surface-container-low p-4 text-center">
+              <i class="material-symbols-outlined text-primary text-4xl not-italic mb-2" aria-hidden="true">hourglass_empty</i>
+
+              <p class="text-sm font-bold text-on-surface">
+                Carregando...
+              </p>
+            </article>
+          </section>
+        </section>
       </li>
 
       <li>
-        <a href="/painelprofessor" class="p-1 rounded-full bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil do professor">
+        <a
+          href="/perfilprofessor"
+          class="p-1 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors active:scale-95 inline-flex items-center justify-center"
+          aria-label="Abrir perfil do professor"
+          title="Perfil do professor"
+        >
           <% if (professorSeguro.foto) { %>
             <img src="<%= professorSeguro.foto %>" alt="Foto do professor" class="w-10 h-10 rounded-full object-cover">
           <% } else { %>
-            <span class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden">
+            <em class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Professor sem foto">
               <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
-            </span>
+            </em>
           <% } %>
         </a>
       </li>
@@ -337,9 +489,11 @@
         </picture>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal do Professor</p>
+          <p class="text-sm font-bold text-on-surface">
+            <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0] : 'Professor' %>
+          </p>
           <p class="text-xs text-on-surface-variant">
-            <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0] : 'Bem-vindo' %>
+            <%= professorSeguro.cref ? 'CREF ' + professorSeguro.cref : 'Professor PlanoB' %>
           </p>
         </figcaption>
       </figure>
@@ -365,6 +519,11 @@
         <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
         <em class="not-italic">Feedbacks</em>
       </a>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+
 
     </nav>
 
@@ -409,7 +568,7 @@
             </span>
 
             <figcaption class="text-sm font-black uppercase tracking-widest text-center">
-              <%= estatisticasSeguras.totalAlunos %> alunos vinculados
+              <%= alunosDiamante.length %> alunos diamante
             </figcaption>
           </figure>
 
@@ -431,22 +590,10 @@
         </section>
       <% } %>
 
-      <section class="md:col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section class="md:col-span-12 flex flex-col sm:flex-row justify-center items-stretch gap-6">
 
-        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
-          <figure class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center m-0">
-            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">groups</i>
-          </figure>
 
-          <section>
-            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Total vinculados</p>
-            <data value="<%= estatisticasSeguras.totalAlunos %>" class="text-3xl font-black headline text-on-surface">
-              <%= estatisticasSeguras.totalAlunos %>
-            </data>
-          </section>
-        </article>
-
-        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
+        <article class="card-mobile w-full sm:max-w-[300px] bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
           <figure class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center m-0">
             <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">check_circle</i>
           </figure>
@@ -459,20 +606,8 @@
           </section>
         </article>
 
-        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
-          <figure class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center m-0">
-            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">workspace_premium</i>
-          </figure>
 
-          <section>
-            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Lazuli</p>
-            <data value="<%= estatisticasSeguras.totalLazuli %>" class="text-3xl font-black headline text-on-surface">
-              <%= estatisticasSeguras.totalLazuli %>
-            </data>
-          </section>
-        </article>
-
-        <article class="card-mobile bg-tertiary-fixed rounded-3xl p-6 shadow-sm flex items-center gap-4 text-on-tertiary-fixed">
+        <article class="card-mobile w-full sm:max-w-[300px] bg-tertiary-fixed rounded-3xl p-6 shadow-sm flex items-center gap-4 text-on-tertiary-fixed">
           <figure class="w-14 h-14 rounded-2xl bg-white/25 flex items-center justify-center m-0">
             <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">diamond</i>
           </figure>
@@ -497,15 +632,13 @@
             </p>
           </hgroup>
 
-          <form action="/professor/vincular-alunos-disponiveis" method="POST">
-            <button type="submit" class="inline-flex items-center justify-center gap-2 bg-surface-container-highest text-on-surface px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
-              Vincular todos disponíveis
-              <i class="material-symbols-outlined not-italic" aria-hidden="true">group_add</i>
-            </button>
-          </form>
+          <p class="inline-flex items-center justify-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest">
+            Apenas alunos Diamante
+            <i class="material-symbols-outlined not-italic text-base" aria-hidden="true">diamond</i>
+          </p>
         </header>
 
-        <form action="/professor/vincular-aluno" method="POST" class="flex flex-col gap-6">
+        <form id="form-vincular-aluno" action="/professor/vincular-aluno" method="POST" class="flex flex-col gap-6">
 
           <section>
             <label for="busca-alunos-disponiveis" class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">
@@ -521,14 +654,21 @@
             />
           </section>
 
-          <% if (alunosDisponiveisSeguros.length > 0) { %>
+          <% if (alunosDisponiveisDiamante.length > 0) { %>
             <section class="max-h-[420px] overflow-y-auto pr-2 rounded-3xl">
               <fieldset class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 <legend class="sr-only">Alunos disponíveis</legend>
 
-                <% alunosDisponiveisSeguros.forEach(function(alunoDisponivel) { %>
+                <% alunosDisponiveisDiamante.forEach(function(alunoDisponivel) { %>
                   <label class="aluno-radio cursor-pointer aluno-disponivel-card" data-aluno-texto="<%= (alunoDisponivel.nome + ' ' + alunoDisponivel.email + ' ' + alunoDisponivel.plano).toLowerCase() %>">
-                    <input type="radio" name="id_aluno" value="<%= alunoDisponivel.id_aluno %>" class="sr-only" required>
+                    <input
+                      id="aluno-disponivel-<%= alunoDisponivel.id_aluno %>"
+                      type="radio"
+                      name="id_aluno"
+                      value="<%= alunoDisponivel.id_aluno %>"
+                      class="sr-only"
+                      required
+                    >
 
                     <article class="h-full rounded-3xl border-2 border-outline-variant/20 bg-surface-container-low p-5 flex items-center gap-4 transition-all">
                       <figure class="w-14 h-14 rounded-2xl overflow-hidden avatar-placeholder flex items-center justify-center m-0 shrink-0">
@@ -539,12 +679,25 @@
                         <% } %>
                       </figure>
 
-                      <hgroup class="min-w-0">
+                      <hgroup class="min-w-0 flex-1">
                         <h3 class="font-black text-on-surface truncate"><%= alunoDisponivel.nome %></h3>
                         <p class="text-xs text-on-surface-variant truncate"><%= alunoDisponivel.email %></p>
-                        <strong class="inline-block mt-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest <%= badgePlanoClasse(alunoDisponivel.plano) %>">
-                          <%= alunoDisponivel.plano %>
-                        </strong>
+
+                        <footer class="mt-3 flex items-center gap-2 flex-wrap">
+                          <strong class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest <%= badgePlanoClasse(alunoDisponivel.plano) %>">
+                            <%= alunoDisponivel.plano %>
+                          </strong>
+
+                          <button
+                            type="button"
+                            onclick="vincularAlunoAgora('<%= alunoDisponivel.id_aluno %>')"
+                            class="inline-flex items-center gap-1 bg-primary text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest active:scale-95 transition-transform"
+                            aria-label="Vincular <%= alunoDisponivel.nome %>"
+                          >
+                            Vincular
+                            <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">person_add</i>
+                          </button>
+                        </footer>
                       </hgroup>
                     </article>
                   </label>
@@ -556,7 +709,7 @@
               <i class="material-symbols-outlined text-primary text-6xl not-italic mb-3" aria-hidden="true">person_search</i>
               <h3 class="text-xl font-black headline text-on-surface">Nenhum aluno disponível</h3>
               <p class="text-sm text-on-surface-variant mt-2">
-                Todos os alunos cadastrados já estão vinculados a você, ou ainda não existem alunos cadastrados.
+                Todos os alunos Diamante já estão vinculados a você, ou ainda não existem alunos Diamante cadastrados.
               </p>
             </section>
           <% } %>
@@ -609,7 +762,7 @@
           <hgroup>
             <h2 class="text-2xl font-extrabold headline text-on-surface">Lista de alunos</h2>
             <p class="text-sm text-on-surface-variant mt-1">
-              Exibindo <%= alunosSeguros.length %> de <%= estatisticasSeguras.totalAlunos %> alunos vinculados.
+              Exibindo <%= alunosDiamante.length %> aluno(s) do Plano Diamante vinculados.
             </p>
           </hgroup>
 
@@ -625,18 +778,12 @@
               class="rounded-full border-none bg-surface-container-lowest px-5 py-3 focus:ring-2 focus:ring-primary min-w-[240px]"
             />
 
-            <label class="sr-only" for="plano">Plano</label>
+            <input type="hidden" name="plano" value="Diamante">
 
-            <select
-              id="plano"
-              name="plano"
-              class="rounded-full border-none bg-surface-container-lowest px-5 py-3 focus:ring-2 focus:ring-primary"
-            >
-              <option value="todos" <%= filtrosSeguros.plano === 'todos' ? 'selected' : '' %>>Todos</option>
-              <option value="Free" <%= filtrosSeguros.plano === 'Free' ? 'selected' : '' %>>Free</option>
-              <option value="Lazuli" <%= filtrosSeguros.plano === 'Lazuli' ? 'selected' : '' %>>Lazuli</option>
-              <option value="Diamante" <%= filtrosSeguros.plano === 'Diamante' ? 'selected' : '' %>>Diamante</option>
-            </select>
+            <p class="inline-flex items-center justify-center gap-2 rounded-full bg-tertiary-fixed text-on-tertiary-fixed px-5 py-3 text-xs font-black uppercase tracking-widest">
+              <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">diamond</i>
+              Apenas Diamante
+            </p>
 
             <button type="submit" class="bg-primary text-white rounded-full px-6 py-3 font-bold active:scale-95 transition-transform">
               Filtrar
@@ -644,7 +791,7 @@
           </form>
         </header>
 
-        <% if (alunosSeguros.length > 0) { %>
+        <% if (alunosDiamante.length > 0) { %>
           <section class="tabela-alunos overflow-x-auto">
             <table class="w-full text-left border-separate border-spacing-y-3">
               <thead>
@@ -659,7 +806,7 @@
               </thead>
 
               <tbody class="text-sm">
-                <% alunosSeguros.forEach(function(alunoItem) { %>
+                <% alunosDiamante.forEach(function(alunoItem) { %>
                   <tr class="bg-surface-container-lowest hover:bg-surface-container-highest transition-colors">
                     <td class="px-4 py-4 rounded-l-3xl">
                       <article class="flex items-center gap-3">
@@ -720,9 +867,7 @@
 
                     <td class="px-4 py-4 text-right rounded-r-3xl">
                       <section class="flex justify-end gap-2">
-                        <a href="/feedbackresposta?aluno=<%= alunoItem.id_aluno %>" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors" aria-label="Responder aluno">
-                          <i class="material-symbols-outlined not-italic" aria-hidden="true">chat</i>
-                        </a>
+                        
 
                         <a href="/visaoperfilaluno?id_aluno=<%= alunoItem.id_aluno %>" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant hover:bg-primary hover:text-white transition-colors" aria-label="Ver perfil do aluno">
                           <i class="material-symbols-outlined not-italic" aria-hidden="true">visibility</i>
@@ -747,7 +892,7 @@
             <i class="material-symbols-outlined text-primary text-6xl not-italic mb-4" aria-hidden="true">groups</i>
             <h3 class="text-2xl font-black headline text-on-surface">Nenhum aluno encontrado</h3>
             <p class="text-on-surface-variant mt-2">
-              Vincule um aluno cadastrado usando o formulário acima.
+              Vincule um aluno Diamante usando o formulário acima.
             </p>
           </section>
         <% } %>
@@ -836,5 +981,225 @@
     }
   </script>
 
+
+  <script>
+    function vincularAlunoAgora(idAluno) {
+      const form = document.getElementById('form-vincular-aluno')
+      const radio = document.getElementById('aluno-disponivel-' + idAluno)
+
+      if (!form || !radio) return
+
+      radio.checked = true
+
+      const nomeFicha = form.querySelector('input[name="nome_ficha"]')
+      const categoria = form.querySelector('input[name="categoria"]')
+      const nivel = form.querySelector('select[name="nivel"]')
+
+      if (nomeFicha && !nomeFicha.value.trim()) {
+        nomeFicha.value = 'Ficha principal'
+      }
+
+      if (categoria && !categoria.value.trim()) {
+        categoria.value = 'Treino personalizado'
+      }
+
+      if (nivel && !nivel.value) {
+        nivel.value = 'iniciante'
+      }
+
+      if (form.requestSubmit) {
+        form.requestSubmit()
+      } else {
+        form.submit()
+      }
+    }
+  </script>
+
+  <script>
+    ;(() => {
+      const badge = document.querySelector('[data-notification-badge]')
+
+      if (!badge) return
+
+      function atualizarBadge(total) {
+        const quantidade = Number(total) || 0
+
+        badge.textContent = String(quantidade)
+
+        if (quantidade > 0) {
+          badge.classList.remove('hidden')
+        } else {
+          badge.classList.add('hidden')
+        }
+      }
+
+      fetch('/api/professor/feedbacks', {
+        headers: {
+          Accept: 'application/json'
+        }
+      })
+        .then((resposta) => {
+          if (!resposta.ok) return null
+          return resposta.json()
+        })
+        .then((resultado) => {
+          if (!resultado || !resultado.ok || !Array.isArray(resultado.data)) return
+          atualizarBadge(resultado.data.length)
+        })
+        .catch(() => {})
+    })()
+  </script>
+
+<script>
+  const notificationButton = document.getElementById('notification-button')
+  const notificationPopup = document.getElementById('notification-popup')
+  const notificationBadge = document.getElementById('notification-badge')
+  const notificationContent = document.getElementById('notification-content')
+
+  function textoSeguro(valor) {
+    return String(valor || '').replace(/[&<>"']/g, (char) => {
+      const mapa = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }
+
+      return mapa[char]
+    })
+  }
+
+  function montarNotificacaoVazia() {
+    if (!notificationContent) return
+
+    notificationContent.innerHTML = `
+      <article class="rounded-2xl bg-surface-container-low p-4 text-center">
+        <i class="material-symbols-outlined text-primary text-4xl not-italic mb-2" aria-hidden="true">notifications_off</i>
+
+        <p class="text-sm font-black text-on-surface">
+          Não há notificações no momento.
+        </p>
+
+        <p class="text-xs text-on-surface-variant mt-1">
+          Novos feedbacks aparecerão aqui.
+        </p>
+      </article>
+    `
+  }
+
+  function montarNotificacoes(lista) {
+    if (!notificationContent) return
+
+    if (!lista || lista.length === 0) {
+      montarNotificacaoVazia()
+      return
+    }
+
+    notificationContent.innerHTML = lista.slice(0, 5).map((item) => {
+      const aluno = textoSeguro(item.aluno || item.aluno_nome || 'Aluno')
+      const texto = textoSeguro(item.texto || 'Enviou um novo feedback.')
+      const data = item.enviado_em
+        ? new Date(item.enviado_em).toLocaleDateString('pt-BR')
+        : 'Agora'
+
+      return `
+        <a href="/feedbackprofessor?status=pendentes&aluno=${item.id_aluno || ''}" class="block rounded-2xl p-3 hover:bg-surface-container-low transition-colors">
+          <article class="flex items-start gap-3">
+            <figure class="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center m-0 shrink-0">
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+            </figure>
+
+            <section class="min-w-0 flex-1">
+              <h3 class="text-sm font-black text-on-surface truncate">
+                ${aluno}
+              </h3>
+
+              <p class="text-xs text-on-surface-variant line-clamp-2 mt-1">
+                ${texto}
+              </p>
+
+              <time class="text-[10px] font-bold text-primary mt-2 block">
+                ${data}
+              </time>
+            </section>
+          </article>
+        </a>
+      `
+    }).join('')
+  }
+
+  async function carregarNotificacoes() {
+    if (!notificationBadge || !notificationContent) return
+
+    try {
+      const resposta = await fetch('/api/professor/feedbacks', {
+        headers: {
+          Accept: 'application/json'
+        }
+      })
+
+      const resultado = await resposta.json()
+      const lista = resultado.data || []
+
+      if (lista.length > 0) {
+        notificationBadge.textContent = lista.length > 9 ? '9+' : lista.length
+        notificationBadge.classList.add('active')
+      } else {
+        notificationBadge.textContent = '0'
+        notificationBadge.classList.remove('active')
+      }
+
+      montarNotificacoes(lista)
+    } catch (erro) {
+      notificationBadge.classList.remove('active')
+
+      notificationContent.innerHTML = `
+        <article class="rounded-2xl bg-red-50 p-4 text-center">
+          <i class="material-symbols-outlined text-error text-4xl not-italic mb-2" aria-hidden="true">error</i>
+
+          <p class="text-sm font-black text-error">
+            Erro ao carregar notificações.
+          </p>
+        </article>
+      `
+    }
+  }
+
+  if (notificationButton && notificationPopup) {
+    notificationButton.addEventListener('click', async (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+
+      const vaiAbrir = !notificationPopup.classList.contains('open')
+
+      notificationPopup.classList.toggle('open')
+      notificationButton.setAttribute('aria-expanded', String(vaiAbrir))
+
+      if (vaiAbrir) {
+        await carregarNotificacoes()
+      }
+    })
+
+    notificationPopup.addEventListener('click', (event) => {
+      event.stopPropagation()
+    })
+
+    document.addEventListener('click', () => {
+      notificationPopup.classList.remove('open')
+      notificationButton.setAttribute('aria-expanded', 'false')
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        notificationPopup.classList.remove('open')
+        notificationButton.setAttribute('aria-expanded', 'false')
+      }
+    })
+
+    carregarNotificacoes()
+    setInterval(carregarNotificacoes, 30000)
+  }
+</script>
 </body>
 </html>

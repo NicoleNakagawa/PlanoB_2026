@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="light" lang="pt-BR">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Perfil do Aluno | PlanoB Pro</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Perfil do Aluno</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
   <script id="tailwind-config">
     tailwind.config = {
@@ -16,63 +17,22 @@
       theme: {
         extend: {
           colors: {
-            "surface-tint": "#0058ba",
-            "surface-container-high": "#dde1ff",
-            "tertiary": "#6c5a00",
-            "surface-container": "#e4e7ff",
-            "primary-container": "#6c9fff",
-            "on-primary-fixed": "#000000",
-            "on-secondary-fixed": "#003a48",
-            "primary-dim": "#004da4",
-            "outline": "#6c759e",
-            "primary-fixed": "#6c9fff",
-            "secondary-fixed-dim": "#37d4ff",
-            "on-primary-container": "#00214e",
-            "surface-dim": "#cad2ff",
-            "secondary-dim": "#00576c",
-            "on-error-container": "#570008",
-            "on-tertiary-container": "#5b4b00",
-            "background": "#f7f5ff",
-            "error-dim": "#9f0519",
-            "on-secondary-container": "#004e61",
-            "error-container": "#fb5151",
-            "tertiary-dim": "#5e4e00",
-            "outline-variant": "#a2abd7",
-            "on-surface-variant": "#505a81",
-            "tertiary-fixed-dim": "#efc900",
-            "surface-bright": "#f7f5ff",
-            "tertiary-fixed": "#ffd709",
-            "error": "#b31b25",
-            "inverse-surface": "#020a2f",
-            "surface-container-lowest": "#ffffff",
-            "primary-fixed-dim": "#5091ff",
-            "on-primary-fixed-variant": "#002a60",
-            "on-secondary-fixed-variant": "#00586d",
-            "surface-variant": "#d5dbff",
-            "on-surface": "#232c51",
-            "on-tertiary-fixed": "#453900",
-            "on-secondary": "#e2f6ff",
-            "surface-container-highest": "#d5dbff",
-            "inverse-primary": "#4a8eff",
-            "on-error": "#ffefee",
-            "tertiary-container": "#ffd709",
-            "on-tertiary": "#fff2cd",
-            "secondary-container": "#80deff",
-            "surface-container-low": "#efefff",
+            surface: "#f7f5ff",
+            primary: "#0058ba",
+            secondary: "#00647b",
             "on-primary": "#f0f2ff",
-            "on-tertiary-fixed-variant": "#665500",
-            "inverse-on-surface": "#929bc6",
-            "surface": "#f7f5ff",
-            "primary": "#0058ba",
-            "secondary-fixed": "#80deff",
-            "on-background": "#232c51",
-            "secondary": "#00647b"
-          },
-          borderRadius: {
-            DEFAULT: "0.25rem",
-            lg: "0.5rem",
-            xl: "0.75rem",
-            full: "9999px"
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-high": "#dde1ff",
+            "surface-container-highest": "#d5dbff",
+            outline: "#6c759e",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
+            error: "#b31b25"
           },
           fontFamily: {
             headline: ["Lexend"],
@@ -110,7 +70,8 @@
     h1,
     h2,
     h3,
-    h4 {
+    h4,
+    .headline {
       font-family: 'Lexend', sans-serif;
     }
 
@@ -119,8 +80,131 @@
       vertical-align: middle;
     }
 
-    .action-gradient {
-      background: linear-gradient(135deg, #0058ba 0%, #6c9fff 100%);
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    progress,
+    meter {
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    progress::-webkit-progress-bar {
+      background: #d5dbff;
+      border-radius: 999px;
+    }
+
+    progress::-webkit-progress-value {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    progress::-moz-progress-bar {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    meter::-webkit-meter-bar {
+      background: #d5dbff;
+      border: none;
+      border-radius: 999px;
+    }
+
+    meter::-webkit-meter-optimum-value,
+    meter::-webkit-meter-suboptimum-value,
+    meter::-webkit-meter-even-less-good-value {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    .notification-menu {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .notification-button {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-popup {
+      position: absolute;
+      top: 48px;
+      right: 0;
+      width: 300px;
+      max-width: calc(100vw - 24px);
+      background: #ffffff;
+      border: 1px solid #e4e7ff;
+      border-radius: 22px;
+      box-shadow: 0 18px 45px rgba(35, 44, 81, 0.18);
+      padding: 12px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+      z-index: 99999;
+    }
+
+    .notification-popup.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .notification-arrow {
+      position: absolute;
+      top: -7px;
+      right: 18px;
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border-left: 1px solid #e4e7ff;
+      border-top: 1px solid #e4e7ff;
+      transform: rotate(45deg);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: #b31b25;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 900;
+      line-height: 18px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-badge.active {
+      display: flex;
+    }
+
+    .notification-list {
+      max-height: 260px;
+      overflow-y: auto;
     }
 
     @media (max-width: 768px) {
@@ -130,57 +214,302 @@
         overflow-x: hidden;
       }
 
-      main {
-        margin-left: 0 !important;
-        padding: 88px 16px 120px !important;
+      body {
+        background: #f7f5ff;
       }
 
-      nav[aria-label="Navegação mobile"] a[aria-current="page"],
-      nav[aria-label="Navegação mobile"] a.ativo {
+      header.fixed {
+        padding: 14px 16px;
+        min-height: 68px;
+      }
+
+      header.fixed a.logo-header {
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+
+      header.fixed menu {
+        gap: 8px;
+      }
+
+      header.fixed button,
+      header.fixed a {
+        padding: 8px;
+      }
+
+      main {
+        margin-left: 0 !important;
+        padding: 92px 16px 135px !important;
+      }
+
+      article.hero-aluno-prof {
+        padding: 28px 20px !important;
+        border-radius: 28px !important;
+      }
+
+      article.hero-aluno-prof h1 {
+        font-size: 2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      section.card-mobile,
+      article.card-mobile {
+        padding: 22px !important;
+        border-radius: 26px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding: 10px 8px 22px !important;
+        border-radius: 28px 28px 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 52px;
+        border-radius: 18px;
+      }
+
+      nav[aria-label="Navegação mobile"] a[aria-current="page"] {
         color: #0058ba !important;
         opacity: 1 !important;
         background: #d5dbff;
-        border-radius: 18px;
+      }
+
+      .notification-popup {
+        right: -52px;
+        width: 280px;
+      }
+
+      .notification-arrow {
+        right: 66px;
       }
     }
+
+    @media (max-width: 420px) {
+      main {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        min-width: 48px;
+        padding: 10px 4px !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 8px !important;
+      }
+    }
+
+    .weekly-frequency-chart {
+  min-height: 320px;
+}
+
+.weekly-frequency-bars {
+  height: 240px;
+  align-items: flex-end;
+}
+
+.weekly-frequency-bar {
+  min-height: 18px;
+  background: linear-gradient(180deg, #0058ba 0%, #6c9fff 100%);
+  border-radius: 999px 999px 18px 18px;
+  box-shadow: 0 12px 28px rgba(0, 88, 186, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.weekly-frequency-bar:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 35px rgba(0, 88, 186, 0.3);
+}
+
+.weekly-frequency-bar.is-low {
+  background: linear-gradient(180deg, #a2abd7 0%, #d5dbff 100%);
+  box-shadow: none;
+}
+
+.weekly-frequency-value {
+  margin-bottom: 10px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #0058ba;
+}
+
+@media (max-width: 768px) {
+  .weekly-frequency-chart {
+    min-height: 280px;
+  }
+
+  .weekly-frequency-bars {
+    height: 200px;
+  }
+}
   </style>
+
+  <link rel="stylesheet" href="/css/transicao-paginas.css">
 </head>
 
-<body class="bg-surface text-on-surface min-h-screen">
+<body class="bg-surface text-on-surface">
+
+  <%
+    const professorSeguro = typeof professor !== 'undefined' && professor ? professor : {}
+    const alunoSeguro = typeof alunoPerfil !== 'undefined' && alunoPerfil ? alunoPerfil : {}
+    const resumoSeguro = typeof resumoTreinos !== 'undefined' && resumoTreinos ? resumoTreinos : {
+      total_treinos: 0,
+      tempo_total: 0,
+      tempo_medio: 0,
+      calorias_total: 0,
+      bpm_maximo: 0
+    }
+    const streakSeguro = typeof streak !== 'undefined' && streak ? streak : {
+      streak_atual: 0,
+      streak_maximo: 0
+    }
+    const historicoSeguro = typeof historicoTreinos !== 'undefined' && historicoTreinos ? historicoTreinos : []
+    const feedbacksSeguros = typeof feedbacksAluno !== 'undefined' && feedbacksAluno ? feedbacksAluno : []
+    const frequenciaSegura = typeof frequenciaSemanas !== 'undefined' && frequenciaSemanas ? frequenciaSemanas : []
+    const progressoSeguro = typeof progressoSemana !== 'undefined' && progressoSemana ? progressoSemana : {
+      dias_treinados: 0,
+      meta_dias: 5,
+      porcentagem: 0,
+      variacao_pct: 0
+    }
+
+    const nomeProfessor = professorSeguro.nome ? professorSeguro.nome.split(' ')[0] : 'Professor'
+    const nomeAluno = alunoSeguro.nome ? alunoSeguro.nome.split(' ')[0] : 'Aluno'
+
+    const planoAluno = alunoSeguro.id_plano ? Number(alunoSeguro.id_plano) : 1
+    const nomePlanoAluno = alunoSeguro.plano || (planoAluno === 3 ? 'Diamante' : planoAluno === 2 ? 'Lazuli' : 'Free')
+
+    const mapaObjetivo = {
+      hipertrofia: 'Hipertrofia',
+      emagrecimento: 'Emagrecimento',
+      forca: 'Força',
+      condicionamento: 'Condicionamento'
+    }
+
+    const mapaTipoTreino = {
+      musculacao: 'Musculação',
+      calistenia: 'Calistenia',
+      cardio: 'Cardio',
+      misto: 'Misto'
+    }
+
+    const mapaNivel = {
+      iniciante: 'Iniciante',
+      intermediario: 'Intermediário',
+      avancado: 'Avançado'
+    }
+
+    const mapaLocal = {
+      casa: 'Casa',
+      academia: 'Academia',
+      ar_livre: 'Ar livre'
+    }
+
+    const mapaEquipamentos = {
+      nenhum: 'Nenhum',
+      halteres: 'Halteres',
+      elasticos: 'Elásticos',
+      barra: 'Barra',
+      maquinas: 'Máquinas',
+      esteira: 'Esteira',
+      bicicleta: 'Bicicleta',
+      colchonete: 'Colchonete'
+    }
+
+    const equipamentosArray = alunoSeguro.equipamentos
+      ? alunoSeguro.equipamentos.split(',').filter(Boolean)
+      : []
+
+    const equipamentosFormatados = equipamentosArray.length > 0
+      ? equipamentosArray.map(function(item) { return mapaEquipamentos[item] || item }).join(', ')
+      : 'Não informado'
+
+    function dataFormatada(data) {
+      if (!data) return 'Sem data'
+      return new Date(data).toLocaleDateString('pt-BR')
+    }
+
+    function dataHoraFormatada(data) {
+      if (!data) return 'Sem registro'
+      return new Date(data).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })
+    }
+
+    function porcentagemFrequencia(item) {
+      const meta = Number(item.meta_dias || 5)
+      const dias = Number(item.dias_treinados || 0)
+      if (!meta) return 0
+      return Math.min(Math.round((dias / meta) * 100), 100)
+    }
+
+    const objetivoTexto = mapaObjetivo[alunoSeguro.objetivo] || alunoSeguro.objetivo || 'Não informado'
+    const tipoTreinoTexto = mapaTipoTreino[alunoSeguro.tipo_treino] || alunoSeguro.tipo_treino || 'Não informado'
+    const nivelTexto = mapaNivel[alunoSeguro.nivel_treino] || alunoSeguro.nivel_treino || 'Não informado'
+    const localTexto = mapaLocal[alunoSeguro.local_treino] || alunoSeguro.local_treino || 'Não informado'
+    const metaDias = Number(progressoSeguro.meta_dias || alunoSeguro.dias_semana || 5) || 5
+    const diasTreinados = Number(progressoSeguro.dias_treinados || 0) || 0
+    const porcentagemSemana = Number(progressoSeguro.porcentagem || Math.min(Math.round((diasTreinados / metaDias) * 100), 100)) || 0
+    const variacaoPct = Number(progressoSeguro.variacao_pct || 0) || 0
+  %>
 
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-    <nav class="flex items-center gap-4" aria-label="Identificação">
-      <strong class="font-headline logo-font logo-header text-primary">PlanoB</strong>
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/painelprofessor" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
     </nav>
 
-    <section class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
+    <form action="/todosalunos" method="GET" class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full">
       <i class="material-symbols-outlined text-outline text-sm not-italic" aria-hidden="true">search</i>
-
       <label for="top-search" class="sr-only">Buscar alunos</label>
-
-      <input 
-        id="top-search" 
-        class="bg-transparent border-none focus:ring-0 text-sm w-48 ml-2" 
-        placeholder="Buscar alunos..." 
+      <input
+        id="top-search"
+        name="busca"
+        class="bg-transparent border-none focus:ring-0 text-sm w-48 ml-2"
+        placeholder="Buscar alunos..."
         type="search"
       />
-    </section>
+    </form>
 
-    <menu class="flex items-center gap-2 p-0 m-0">
-      <li>
-        <button class="p-2 rounded-full hover:bg-surface-container transition-colors" aria-label="Notificações">
-          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+    <menu class="flex items-center gap-4 p-0 m-0 list-none">
+      <li class="notification-menu">
+        <button
+          id="notification-button"
+          type="button"
+          class="notification-button hover:bg-surface-container transition-colors active:scale-95"
+          aria-label="Abrir notificações"
+          aria-expanded="false"
+          aria-controls="notification-popup"
+        >
+          <i class="material-symbols-outlined text-on-surface not-italic" aria-hidden="true">notifications</i>
+          <em id="notification-badge" class="notification-badge not-italic">0</em>
         </button>
+
+        <section id="notification-popup" class="notification-popup" aria-label="Notificações">
+          <b class="notification-arrow font-normal" aria-hidden="true"></b>
+
+          <header class="flex items-center justify-between gap-3 px-2 pb-3 border-b border-surface-container">
+            <h2 class="text-sm font-black text-on-surface">Notificações</h2>
+            <a href="/feedbackprofessor?status=pendentes" class="text-xs font-black text-primary hover:underline">Ver todas</a>
+          </header>
+
+          <section id="notification-content" class="notification-list pt-3">
+            <article class="rounded-2xl bg-surface-container-low p-4 text-center">
+              <i class="material-symbols-outlined text-primary text-4xl not-italic mb-2" aria-hidden="true">hourglass_empty</i>
+              <p class="text-sm font-bold text-on-surface">Carregando...</p>
+            </article>
+          </section>
+        </section>
       </li>
 
       <li>
-        <figure class="h-9 w-9 rounded-full overflow-hidden border-2 border-primary/20 m-0">
-          <img 
-            alt="Foto do professor" 
-            class="w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"
-          />
-        </figure>
+        <a href="/perfilprofessor" class="p-1 rounded-full bg-surface-container transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Perfil do professor">
+          <% if (professorSeguro.foto) { %>
+            <img src="<%= professorSeguro.foto %>" alt="Foto do professor" class="w-10 h-10 rounded-full object-cover">
+          <% } else { %>
+            <em class="w-10 h-10 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </em>
+          <% } %>
+        </a>
       </li>
     </menu>
 
@@ -188,71 +517,57 @@
   </header>
 
   <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] flex-col gap-2 py-8 z-40 mt-16">
-    <header class="px-6 mb-6">
+    <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
-        <picture>
-          <img 
-            class="w-12 h-12 rounded-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-kiaRQYK7av_KMT9U2SDRD1NM2IGc--Kg1YlIKK1R-W7ljjtsw-N-jVurdmUlRJXaZo5z6SzADa4_DsYyeFBfdpSPu5gVaeVzeFbnrDWWfBBRQ1VCOz9kK-7cS9aWLwcZRGVacdSz_UQthSRccjvezgaCUt7DZBacdnmvtEpnooa6nNewiCtyLW0w51AeHOq_3OGOMdzIOD3ICgFVZ36UqQ486f7DnbQcy7Q-PLy7wmKYOW5PpnGC8KvX7lUWGg9shAKAL2rcw_ft"
-            alt="Foto de perfil do professor"
-          />
-        </picture>
+        <% if (professorSeguro.foto) { %>
+          <img class="w-12 h-12 rounded-full object-cover" src="<%= professorSeguro.foto %>" alt="Foto de perfil do professor" />
+        <% } else { %>
+          <em class="w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden not-italic" aria-label="Professor sem foto">
+            <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+          </em>
+        <% } %>
 
         <figcaption>
-          <p class="text-sm font-bold text-on-surface">Portal do Professor</p>
-          <p class="text-xs text-on-surface-variant">Bem-vindo de volta</p>
+          <p class="text-sm font-bold text-on-surface"><%= nomeProfessor %></p>
+          <p class="text-xs text-on-surface-variant"><%= professorSeguro.cref ? 'CREF ' + professorSeguro.cref : 'Professor PlanoB' %></p>
         </figcaption>
       </figure>
     </header>
 
     <nav class="flex flex-col gap-1" aria-label="Menu lateral">
-      <a 
-        class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all"
-        href="/painelprofessor"
-      >
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelprofessor">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
-        <em class="not-italic font-medium">Dashboard</em>
+        <em class="not-italic">Dashboard</em>
       </a>
 
-      <a 
-        class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-primary/20 px-4 py-3 flex items-center gap-3 active:scale-95"
-        href="/todosalunos" 
-        aria-current="page"
-      >
-        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">groups</i>
-        <em class="not-italic font-medium">Meus Alunos</em>
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/todosalunos" aria-current="page">
+        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">groups</i>
+        <em class="not-italic">Meus Alunos</em>
       </a>
 
-      <a 
-        class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all"
-        href="/todosvideos"
-      >
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/todosvideos">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
-        <em class="not-italic font-medium">Meus Vídeos</em>
+        <em class="not-italic">Meus Vídeos</em>
       </a>
 
-      <a 
-        class="text-on-surface hover:bg-surface-container/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all"
-        href="/feedbackprofessor"
-      >
-        <i class="material-symbols-outlined not-italic" aria-hidden="true">chat_bubble</i>
-        <em class="not-italic font-medium">Feedbacks</em>
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="not-italic">Feedbacks</em>
+      </a>
+
+      <a class="text-[#232c51] hover:bg-[#d5dbff]/50 rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
       </a>
     </nav>
 
     <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
-      <a 
-        href="/editarexercicios"
-        class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform"
-      >
+      <a href="/editarexercicios?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
-        Novo Conteúdo
+        Novo Treino
       </a>
 
-      <a 
-        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm"
-        href="/logout"
-      >
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm" href="/logout">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
         <em class="not-italic">Sair</em>
       </a>
@@ -260,384 +575,554 @@
   </aside>
 
   <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
-    <section class="max-w-6xl mx-auto space-y-8">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
 
-      <nav class="flex items-center justify-between gap-4" aria-label="Voltar">
-        <button 
-          type="button"
-          onclick="history.back()"
-          class="inline-flex items-center gap-2 bg-surface-container-lowest text-primary px-5 py-3 rounded-full font-bold shadow-sm hover:bg-surface-container transition-all active:scale-95"
-        >
+      <nav class="md:col-span-12 flex items-center justify-between gap-4" aria-label="Voltar">
+        <button type="button" onclick="history.back()" class="inline-flex items-center gap-2 bg-surface-container-lowest text-primary px-5 py-3 rounded-full font-bold shadow-sm hover:bg-surface-container transition-all active:scale-95">
           <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_back</i>
           Voltar
         </button>
-
-        <a 
-          href="/todosalunos"
-          class="hidden sm:inline-flex items-center gap-2 text-on-surface-variant hover:text-primary font-bold transition-colors"
-        >
-          Lista de alunos
-          <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">groups</i>
-        </a>
       </nav>
 
-      <header class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <article class="lg:col-span-8 action-gradient p-8 md:p-10 rounded-3xl text-white relative overflow-hidden min-h-[300px] flex flex-col md:flex-row items-center gap-8">
+      <article class="hero-aluno-prof md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <figure class="relative shrink-0 m-0">
-            <picture>
-              <img 
-                class="w-36 h-36 md:w-44 md:h-44 rounded-full object-cover border-4 border-white/30 shadow-2xl"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD46A8AN9PHXv764NW6KfEIMc2_G6dhJtbiUXaXlQXWIBhrq0cxIzhDyEvuASvrBkWKvW3XiK_lmJX1oR7bVo9cWBfv0oQuuK8_1w6KxQQ7bTuItReMwvEC_LBbOidYU3lfUYygELZM0ACrX_YuIrcNzrR0JmAAn8PELYJ59XuYc19yp-7v-sK-q2Dc4TQPaidtToTIJ-AbAuImjBpTY8Xshu3VyGWwcai7vvtTqUT3FIx-AulDqCxy_gIs3kluhOVrR7R9C7_ydRwG" 
-                alt="Foto do aluno Lucas Siqueira"
-              />
-            </picture>
+            <% if (alunoSeguro.foto_perfil || alunoSeguro.foto) { %>
+              <img class="w-36 h-36 md:w-44 md:h-44 rounded-[2rem] object-cover border-4 border-white/30 shadow-2xl" src="<%= alunoSeguro.foto_perfil || alunoSeguro.foto %>" alt="Foto do aluno <%= alunoSeguro.nome || '' %>">
+            <% } else { %>
+              <em class="w-36 h-36 md:w-44 md:h-44 rounded-[2rem] avatar-placeholder flex items-center justify-center overflow-hidden not-italic border-4 border-white/30 shadow-2xl" aria-label="Aluno sem foto">
+                <i class="material-symbols-outlined text-[8rem] not-italic" aria-hidden="true">account_circle</i>
+              </em>
+            <% } %>
           </figure>
 
-          <section class="relative z-10 text-center md:text-left">
+          <hgroup class="flex-1 text-center md:text-left">
             <mark class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">
-              <i class="material-symbols-outlined text-sm not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">diamond</i>
-              Plano Diamante
+              <i class="material-symbols-outlined text-sm not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true"><%= planoAluno === 3 ? 'diamond' : planoAluno === 2 ? 'workspace_premium' : 'person' %></i>
+              Plano <%= nomePlanoAluno %>
             </mark>
 
-            <h1 class="text-4xl md:text-6xl font-headline font-black leading-tight mb-4">
-              Lucas Siqueira
+            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+              <%= alunoSeguro.nome || 'Aluno' %>
             </h1>
 
-            <p class="text-blue-100 max-w-xl leading-relaxed">
-              Acompanhe o desempenho, histórico de atividades e evolução semanal do aluno.
+            <p class="text-lg opacity-90 max-w-xl mx-auto md:mx-0">
+              Acompanhe dados reais de treino, progresso, frequência, feedbacks e histórico do aluno.
             </p>
 
-            <ul class="flex flex-wrap justify-center md:justify-start gap-3 mt-6 list-none p-0">
-              <li class="bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold">24 anos</li>
-              <li class="bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold">Hipertrofia</li>
-              <li class="bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold">Avançado</li>
+            <ul class="flex flex-wrap justify-center md:justify-start gap-3 mt-6 list-none p-0 m-0">
+              <li class="bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold"><%= objetivoTexto %></li>
+              <li class="bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold"><%= nivelTexto %></li>
+              <li class="bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold"><%= localTexto %></li>
             </ul>
-          </section>
+          </hgroup>
 
-          <b class="absolute -right-20 -bottom-20 w-80 h-80 bg-white/10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
-        </article>
+          <aside class="w-full md:w-auto flex flex-col gap-3">
+            <a href="/editarexercicios?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-white text-primary px-6 py-4 rounded-full font-black text-center shadow-lg active:scale-95 transition-transform">
+              Montar treino
+            </a>
 
-        <section class="lg:col-span-4 flex flex-col gap-4">
-          <a 
-            href="/editarexercicios"
-            class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm flex items-center justify-between gap-4 hover:shadow-lg hover:-translate-y-1 transition-all"
-          >
-            <section>
-              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Rotina semanal</p>
-              <h2 class="font-headline font-bold text-lg">Montar Novo Treino</h2>
-            </section>
-
-            <figure class="bg-primary text-white p-3 rounded-2xl m-0">
-              <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
-            </figure>
-          </a>
-
-          <a 
-            href="/feedbackresposta"
-            class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm flex items-center justify-between gap-4 hover:shadow-lg hover:-translate-y-1 transition-all"
-          >
-            <section>
-              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Comunicação direta</p>
-              <h2 class="font-headline font-bold text-lg">Enviar Mensagem</h2>
-            </section>
-
-            <figure class="bg-primary/10 text-primary p-3 rounded-2xl m-0">
-              <i class="material-symbols-outlined not-italic" aria-hidden="true">chat</i>
-            </figure>
-          </a>
-
-          <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
-            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-2">Aluno desde</p>
-            <time class="text-2xl font-headline font-black text-primary" datetime="2024-01">Jan 2024</time>
-          </article>
+            <a href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-white/15 text-white px-6 py-4 rounded-full font-black text-center border border-white/20 active:scale-95 transition-transform">
+              Enviar resposta
+            </a>
+          </aside>
         </section>
-      </header>
 
-      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
-          <figure class="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center mb-4 m-0">
-            <i class="material-symbols-outlined not-italic" aria-hidden="true">timer</i>
-          </figure>
+        <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+        <b class="absolute -left-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+      </article>
 
-          <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Tempo de treino</p>
-          <h2 class="font-headline font-black text-3xl">42.5h</h2>
-
-          <p class="text-primary text-xs mt-2 font-bold flex items-center gap-1">
-            <i class="material-symbols-outlined text-sm not-italic" aria-hidden="true">trending_up</i>
-            +12% este mês
-          </p>
-        </article>
-
-        <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
-          <figure class="bg-tertiary-container/50 text-tertiary w-12 h-12 rounded-2xl flex items-center justify-center mb-4 m-0">
-            <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">stars</i>
-          </figure>
-
-          <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Média feedback</p>
-
-          <h2 class="font-headline font-black text-3xl">
-            4.8 
-            <small class="text-sm text-on-surface-variant font-bold">/ 5.0</small>
-          </h2>
-
-          <p class="text-xs text-on-surface-variant mt-2 font-medium">Baseado em 18 treinos</p>
-        </article>
-
-        <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
-          <figure class="bg-secondary/10 text-secondary w-12 h-12 rounded-2xl flex items-center justify-center mb-4 m-0">
-            <i class="material-symbols-outlined not-italic" aria-hidden="true">monitor_weight</i>
-          </figure>
-
-          <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Peso atual</p>
-          <h2 class="font-headline font-black text-3xl">82kg</h2>
-          <p class="text-xs text-on-surface-variant mt-2 font-medium">Altura: 1.84m</p>
-        </article>
-
-        <article class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm">
-          <figure class="bg-primary-container/30 text-primary w-12 h-12 rounded-2xl flex items-center justify-center mb-4 m-0">
-            <i class="material-symbols-outlined not-italic" aria-hidden="true">calendar_month</i>
-          </figure>
-
-          <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Frequência</p>
-          <h2 class="font-headline font-black text-3xl">95%</h2>
-          <p class="text-primary text-xs mt-2 font-bold">Semana atual</p>
-        </article>
-      </section>
-
-      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <article class="lg:col-span-5 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
-          <header class="mb-6">
-            <h2 class="font-headline font-bold text-xl mb-1">Frequência Semanal</h2>
-            <p class="text-on-surface-variant text-sm">Consistência nos últimos 30 dias</p>
-          </header>
-
-          <ol class="flex items-end justify-between h-44 gap-3 list-none p-0">
-            <li class="w-full h-full flex flex-col justify-end gap-3">
-              <meter min="0" max="100" value="60" class="w-full h-32 rotate-180 [writing-mode:vertical-lr]">60%</meter>
-              <small class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Sem 1</small>
-            </li>
-
-            <li class="w-full h-full flex flex-col justify-end gap-3">
-              <meter min="0" max="100" value="85" class="w-full h-32 rotate-180 [writing-mode:vertical-lr]">85%</meter>
-              <small class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Sem 2</small>
-            </li>
-
-            <li class="w-full h-full flex flex-col justify-end gap-3">
-              <meter min="0" max="100" value="95" class="w-full h-32 rotate-180 [writing-mode:vertical-lr]">95%</meter>
-              <small class="text-[10px] text-center font-bold text-primary uppercase">Sem 3</small>
-            </li>
-
-            <li class="w-full h-full flex flex-col justify-end gap-3">
-              <meter min="0" max="100" value="40" class="w-full h-32 rotate-180 [writing-mode:vertical-lr]">40%</meter>
-              <small class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Sem 4</small>
-            </li>
-
-            <li class="w-full h-full flex flex-col justify-end gap-3">
-              <meter min="0" max="100" value="75" class="w-full h-32 rotate-180 [writing-mode:vertical-lr]">75%</meter>
-              <small class="text-[10px] text-center font-bold text-on-surface-variant uppercase">Hoje</small>
-            </li>
-          </ol>
-        </article>
-
-        <section class="lg:col-span-7 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
-          <header class="flex justify-between items-center mb-6">
-            <section class="flex items-center gap-3">
-              <b class="w-2 h-8 bg-primary rounded-full font-normal" aria-hidden="true"></b>
-              <h2 class="font-headline font-bold text-xl">Resumo do Aluno</h2>
-            </section>
-          </header>
-
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0">
-            <li class="bg-surface-container-low rounded-2xl p-5">
-              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Objetivo</p>
-              <strong class="font-headline text-lg">Hipertrofia</strong>
-            </li>
-
-            <li class="bg-surface-container-low rounded-2xl p-5">
-              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Nível</p>
-              <strong class="font-headline text-lg">Avançado</strong>
-            </li>
-
-            <li class="bg-surface-container-low rounded-2xl p-5">
-              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Último treino</p>
-              <strong class="font-headline text-lg">Hoje, 09:45</strong>
-            </li>
-
-            <li class="bg-surface-container-low rounded-2xl p-5">
-              <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Plano</p>
-              <strong class="font-headline text-lg">Diamante</strong>
-            </li>
-          </ul>
+      <% if (typeof erro !== 'undefined' && erro) { %>
+        <section class="md:col-span-12 bg-red-50 text-error rounded-3xl p-5 font-bold text-center" role="alert">
+          <%= erro %>
         </section>
-      </section>
+      <% } %>
 
-      <section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 shadow-sm">
-        <header class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <section class="md:col-span-12 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
+          <figure class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">fitness_center</i>
+          </figure>
           <section>
-            <h2 class="font-headline font-extrabold text-3xl tracking-tight mb-2">Histórico de Atividades</h2>
-            <p class="text-on-surface-variant max-w-xl">
-              Acompanhe detalhadamente o desempenho e as impressões do aluno em cada sessão.
-            </p>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Treinos feitos</p>
+            <strong class="text-3xl font-black headline text-on-surface"><%= resumoSeguro.total_treinos || 0 %></strong>
           </section>
+        </article>
 
-          <a 
-            href="/todosalunos"
-            class="text-primary font-bold text-sm flex items-center gap-1 hover:underline group"
-          >
-            Ver tudo
-            <i class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform not-italic" aria-hidden="true">arrow_forward_ios</i>
+        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
+          <figure class="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">timer</i>
+          </figure>
+          <section>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Tempo total</p>
+            <strong class="text-3xl font-black headline text-on-surface"><%= resumoSeguro.tempo_total || 0 %> min</strong>
+          </section>
+        </article>
+
+        <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex items-center gap-4">
+          <figure class="w-14 h-14 rounded-2xl bg-tertiary-fixed/20 text-on-tertiary-fixed flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">local_fire_department</i>
+          </figure>
+          <section>
+            <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Ofensiva</p>
+            <strong class="text-3xl font-black headline text-on-surface"><%= streakSeguro.streak_atual || 0 %> dias</strong>
+          </section>
+        </article>
+
+        <article class="card-mobile bg-primary rounded-3xl p-6 shadow-xl shadow-primary/20 flex items-center gap-4 text-white">
+          <figure class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center m-0">
+            <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">calendar_month</i>
+          </figure>
+          <section>
+            <p class="text-xs font-black uppercase tracking-widest text-white/70">Frequência</p>
+            <strong class="text-3xl font-black headline text-white"><%= porcentagemSemana %>%</strong>
+          </section>
+        </article>
+      </section>
+
+     <section class="md:col-span-5 flex flex-col gap-6 self-start">
+
+  <article class="card-mobile bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <header class="mb-5">
+      <h2 class="text-2xl font-extrabold headline text-on-surface">
+        Frequência semanal
+      </h2>
+
+      <p class="text-sm text-on-surface-variant mt-1">
+        Evolução nas últimas semanas registradas.
+      </p>
+    </header>
+
+    <% if (frequenciaSegura.length > 0) { %>
+      <ol class="flex flex-col gap-4 list-none p-0 m-0">
+        <% frequenciaSegura.slice(-5).forEach(function(item, index) { 
+          const porcentagem = porcentagemFrequencia(item)
+        %>
+          <li class="bg-surface-container-low rounded-2xl p-4">
+            <header class="flex items-center justify-between gap-4 mb-3">
+              <strong class="text-xs font-black uppercase <%= index === frequenciaSegura.slice(-5).length - 1 ? 'text-primary' : 'text-on-surface' %>">
+                <%= item.rotulo || ('Semana ' + (index + 1)) %>
+              </strong>
+
+              <strong class="text-base font-black text-primary">
+                <%= porcentagem %>%
+              </strong>
+            </header>
+
+            <section class="w-full h-4 bg-surface-container-highest rounded-full overflow-hidden">
+              <b
+                class="block h-full bg-primary rounded-full font-normal"
+                style="width: <%= porcentagem %>%;"
+                aria-label="Frequência de <%= porcentagem %>%"
+              ></b>
+            </section>
+
+            <p class="text-xs text-on-surface-variant mt-2 font-bold">
+              <%= Number(item.dias_treinados || 0) %> de <%= Number(item.meta_dias || 5) %> dias treinados.
+            </p>
+          </li>
+        <% }) %>
+      </ol>
+    <% } else { %>
+      <section class="bg-surface-container-low rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+        <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">monitoring</i>
+
+        <p class="font-black text-on-surface">
+          Sem progresso semanal ainda
+        </p>
+
+        <p class="text-sm text-on-surface-variant mt-2">
+          Quando o aluno treinar, os dados aparecerão aqui.
+        </p>
+      </section>
+    <% } %>
+  </article>
+
+  <article class="card-mobile bg-primary rounded-3xl p-8 shadow-xl shadow-primary/25 text-white relative overflow-hidden">
+    <header class="relative z-10 flex items-start justify-between gap-4 mb-8">
+      <hgroup>
+        <p class="text-xs font-black uppercase tracking-widest text-white/70 mb-2">
+          Sequência do aluno
+        </p>
+
+        <h2 class="text-3xl font-black headline">
+          Ofensiva atual
+        </h2>
+      </hgroup>
+
+      <figure class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center m-0">
+        <i class="material-symbols-outlined text-white text-4xl not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">
+          local_fire_department
+        </i>
+      </figure>
+    </header>
+
+    <section class="relative z-10 grid grid-cols-2 gap-4">
+      <article class="bg-white/15 rounded-2xl p-5">
+        <p class="text-[10px] font-black uppercase tracking-widest text-white/60 mb-2">
+          Atual
+        </p>
+
+        <strong class="text-4xl font-black headline">
+          <%= Number(streakSeguro.streak_atual || 0) %>
+        </strong>
+
+        <p class="text-sm font-bold text-white/80 mt-1">
+          dias
+        </p>
+      </article>
+
+      <article class="bg-white/15 rounded-2xl p-5">
+        <p class="text-[10px] font-black uppercase tracking-widest text-white/60 mb-2">
+          Recorde
+        </p>
+
+        <strong class="text-4xl font-black headline">
+          <%= Number(streakSeguro.streak_maximo || 0) %>
+        </strong>
+
+        <p class="text-sm font-bold text-white/80 mt-1">
+          dias
+        </p>
+      </article>
+    </section>
+
+    <footer class="relative z-10 mt-6 bg-white/10 rounded-2xl p-4">
+      <% if (streakSeguro.ultima_atividade) { %>
+        <p class="text-sm font-bold text-white/85">
+          Última atividade:
+          <time datetime="<%= streakSeguro.ultima_atividade %>">
+            <%= dataFormatada(streakSeguro.ultima_atividade) %>
+          </time>
+        </p>
+      <% } else { %>
+        <p class="text-sm font-bold text-white/85">
+          O aluno ainda não possui atividade registrada na sequência.
+        </p>
+      <% } %>
+    </footer>
+
+    <b class="absolute -right-16 -bottom-16 w-52 h-52 bg-white/10 rounded-full blur-3xl font-normal" aria-hidden="true"></b>
+    <b class="absolute -left-16 -top-16 w-40 h-40 bg-white/10 rounded-full blur-2xl font-normal" aria-hidden="true"></b>
+  </article>
+
+</section>
+
+      <section class="md:col-span-7 card-mobile bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+        <header class="flex items-center justify-between gap-4 mb-6">
+          <h2 class="text-2xl font-extrabold headline text-on-surface">Resumo do aluno</h2>
+          <mark class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase text-on-surface-variant">Dados reais</mark>
+        </header>
+
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0 m-0">
+          <li class="bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Objetivo</p>
+            <strong class="headline text-lg"><%= objetivoTexto %></strong>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Tipo de treino</p>
+            <strong class="headline text-lg"><%= tipoTreinoTexto %></strong>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Nível</p>
+            <strong class="headline text-lg"><%= nivelTexto %></strong>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Local</p>
+            <strong class="headline text-lg"><%= localTexto %></strong>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Dias por semana</p>
+            <strong class="headline text-lg"><%= alunoSeguro.dias_semana ? alunoSeguro.dias_semana + ' dias' : 'Não informado' %></strong>
+          </li>
+
+          <li class="bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Plano</p>
+            <strong class="headline text-lg"><%= nomePlanoAluno %></strong>
+          </li>
+
+          <li class="sm:col-span-2 bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Equipamentos</p>
+            <strong class="headline text-lg"><%= equipamentosFormatados %></strong>
+          </li>
+
+          <li class="sm:col-span-2 bg-surface-container-low rounded-2xl p-5">
+            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-1">Limitações / observações</p>
+            <p class="font-bold text-on-surface leading-relaxed"><%= alunoSeguro.limitacoes && alunoSeguro.limitacoes.trim() ? alunoSeguro.limitacoes : 'Nenhuma limitação informada.' %></p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="md:col-span-12 card-mobile bg-surface-container-low rounded-3xl p-8 shadow-sm">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <hgroup>
+            <h2 class="text-3xl font-black headline text-on-surface">Histórico de atividades</h2>
+            <p class="text-on-surface-variant mt-2 max-w-xl">Treinos registrados pelo aluno e informações da sessão.</p>
+          </hgroup>
+
+          <a href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-primary text-white px-6 py-3 rounded-full font-bold text-center active:scale-95 transition-transform">
+            Responder aluno
           </a>
         </header>
 
-        <ol class="space-y-4 list-none p-0">
-          <li class="grid grid-cols-1 md:grid-cols-12 gap-4 p-5 rounded-3xl bg-surface-container-low hover:bg-surface-container transition-colors items-center">
-            <article class="md:col-span-3">
-              <p class="text-xs text-primary font-black uppercase tracking-widest mb-1">Hoje, 09:45</p>
-              <h3 class="font-headline font-bold text-lg">Membros Superiores A</h3>
-            </article>
+        <% if (historicoSeguro.length > 0) { %>
+          <ol class="space-y-4 list-none p-0 m-0">
+            <% historicoSeguro.forEach(function(treino) { %>
+              <li class="grid grid-cols-1 md:grid-cols-12 gap-4 p-5 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all items-center">
+                <article class="md:col-span-3">
+                  <p class="text-xs text-primary font-black uppercase tracking-widest mb-1"><%= dataHoraFormatada(treino.data_treino) %></p>
+                  <h3 class="font-bold headline text-lg"><%= treino.nome_ficha || 'Treino realizado' %></h3>
+                  <p class="text-xs text-on-surface-variant mt-1"><%= treino.categoria || 'Exercício' %> <% if (treino.nivel) { %>• <%= treino.nivel %><% } %></p>
+                </article>
 
-            <ul class="md:col-span-2 flex items-center gap-5 list-none p-0">
-              <li>
-                <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Duração</small>
-                <strong class="font-bold">58 min</strong>
+                <ul class="md:col-span-3 flex items-center gap-5 list-none p-0 m-0">
+                  <li>
+                    <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Duração</small>
+                    <strong class="font-bold"><%= treino.duracao_min || 0 %> min</strong>
+                  </li>
+
+                  <li>
+                    <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Calorias</small>
+                    <strong class="font-bold"><%= treino.calorias || 0 %></strong>
+                  </li>
+
+                  <li>
+                    <small class="text-[10px] uppercase font-bold text-on-surface-variant block">BPM</small>
+                    <strong class="font-bold"><%= treino.bpm_maximo || 0 %></strong>
+                  </li>
+                </ul>
+
+                <blockquote class="md:col-span-4 bg-surface-container-low p-4 rounded-2xl text-sm italic text-on-surface-variant">
+                  “<%= treino.observacao || 'Sem observações registradas nesta sessão.' %>”
+                </blockquote>
+
+                <nav class="md:col-span-2 flex md:justify-end gap-2" aria-label="Ações da atividade">
+                  <a class="p-2 hover:bg-primary/10 rounded-lg text-primary" href="/editarexercicios?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" aria-label="Editar treino">
+                    <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
+                  </a>
+
+                  <a class="p-2 hover:bg-primary/10 rounded-lg text-primary" href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" aria-label="Responder feedback">
+                    <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+                  </a>
+                </nav>
               </li>
-
-              <li>
-                <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Cargas</small>
-                <strong class="font-bold text-primary">↑ 5%</strong>
-              </li>
-            </ul>
-
-            <blockquote class="md:col-span-5 bg-surface-container-lowest p-4 rounded-2xl text-sm italic text-on-surface-variant">
-              “Senti que a carga no supino estava leve hoje, consegui completar as 12 reps com boa forma. Próximo treino vou aumentar.”
-            </blockquote>
-
-            <nav class="md:col-span-2 flex justify-end gap-2" aria-label="Ações da atividade">
-              <a class="p-2 hover:bg-primary-container/20 rounded-lg text-primary" href="/editarexercicios" aria-label="Editar treino">
-                <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
-              </a>
-
-              <a class="p-2 hover:bg-primary-container/20 rounded-lg text-primary" href="/todosalunos" aria-label="Visualizar treino">
-                <i class="material-symbols-outlined not-italic" aria-hidden="true">visibility</i>
-              </a>
-            </nav>
-          </li>
-
-          <li class="grid grid-cols-1 md:grid-cols-12 gap-4 p-5 rounded-3xl bg-surface-container-low hover:bg-surface-container transition-colors items-center">
-            <article class="md:col-span-3">
-              <p class="text-xs text-on-surface-variant font-black uppercase tracking-widest mb-1">15 Mar, 18:30</p>
-              <h3 class="font-headline font-bold text-lg">Membros Inferiores B</h3>
-            </article>
-
-            <ul class="md:col-span-2 flex items-center gap-5 list-none p-0">
-              <li>
-                <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Duração</small>
-                <strong class="font-bold">72 min</strong>
-              </li>
-
-              <li>
-                <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Cargas</small>
-                <strong class="font-bold">Mantidas</strong>
-              </li>
-            </ul>
-
-            <blockquote class="md:col-span-5 bg-surface-container-lowest p-4 rounded-2xl text-sm italic text-on-surface-variant">
-              “Treino muito intenso. Senti um pouco de dor no joelho esquerdo no final do leg press.”
-            </blockquote>
-
-            <nav class="md:col-span-2 flex justify-end gap-2" aria-label="Ações da atividade">
-              <a class="p-2 hover:bg-primary-container/20 rounded-lg text-primary" href="/editarexercicios" aria-label="Editar treino">
-                <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
-              </a>
-
-              <a class="p-2 hover:bg-primary-container/20 rounded-lg text-primary" href="/todosalunos" aria-label="Visualizar treino">
-                <i class="material-symbols-outlined not-italic" aria-hidden="true">visibility</i>
-              </a>
-            </nav>
-          </li>
-
-          <li class="grid grid-cols-1 md:grid-cols-12 gap-4 p-5 rounded-3xl bg-surface-container-low hover:bg-surface-container transition-colors items-center">
-            <article class="md:col-span-3">
-              <p class="text-xs text-on-surface-variant font-black uppercase tracking-widest mb-1">13 Mar, 07:15</p>
-              <h3 class="font-headline font-bold text-lg">Cardio HIIT & Core</h3>
-            </article>
-
-            <ul class="md:col-span-2 flex items-center gap-5 list-none p-0">
-              <li>
-                <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Duração</small>
-                <strong class="font-bold">45 min</strong>
-              </li>
-
-              <li>
-                <small class="text-[10px] uppercase font-bold text-on-surface-variant block">Cargas</small>
-                <strong class="font-bold">N/A</strong>
-              </li>
-            </ul>
-
-            <blockquote class="md:col-span-5 bg-surface-container-lowest p-4 rounded-2xl text-sm italic text-on-surface-variant">
-              “Foco total na respiração. Me senti bem disposto!”
-            </blockquote>
-
-            <nav class="md:col-span-2 flex justify-end gap-2" aria-label="Ações da atividade">
-              <a class="p-2 hover:bg-primary-container/20 rounded-lg text-primary" href="/editarexercicios" aria-label="Editar treino">
-                <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
-              </a>
-
-              <a class="p-2 hover:bg-primary-container/20 rounded-lg text-primary" href="/todosalunos" aria-label="Visualizar treino">
-                <i class="material-symbols-outlined not-italic" aria-hidden="true">visibility</i>
-              </a>
-            </nav>
-          </li>
-        </ol>
+            <% }) %>
+          </ol>
+        <% } else { %>
+          <section class="bg-surface-container-lowest rounded-3xl p-10 text-center">
+            <i class="material-symbols-outlined text-primary text-6xl not-italic mb-4" aria-hidden="true">history</i>
+            <h3 class="text-2xl font-black headline text-on-surface">Nenhuma atividade encontrada</h3>
+            <p class="text-on-surface-variant mt-2">Quando o aluno registrar treinos, eles aparecerão aqui.</p>
+          </section>
+        <% } %>
       </section>
+
+      <section class="md:col-span-12 card-mobile bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <hgroup>
+            <h2 class="text-2xl font-black headline text-on-surface">Feedbacks do aluno</h2>
+            <p class="text-on-surface-variant mt-1">Mensagens recentes enviadas por este aluno.</p>
+          </hgroup>
+
+          <a href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
+            Abrir conversa
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+          </a>
+        </header>
+
+        <% if (feedbacksSeguros.length > 0) { %>
+          <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <% feedbacksSeguros.forEach(function(feedback) { %>
+              <article class="bg-surface-container-low rounded-3xl p-5">
+                <header class="flex items-center justify-between gap-3 mb-3">
+                  <time class="text-xs font-black text-primary uppercase"><%= dataHoraFormatada(feedback.enviado_em) %></time>
+                  <% if (feedback.intensidade) { %>
+                    <mark class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase">Intensidade <%= feedback.intensidade %></mark>
+                  <% } %>
+                </header>
+
+                <p class="text-sm text-on-surface-variant leading-relaxed italic">“<%= feedback.texto || 'Sem texto.' %>”</p>
+
+                <% if (feedback.nivel_cansaco) { %>
+                  <p class="mt-4 text-xs font-bold text-on-surface-variant">Cansaço: <%= feedback.nivel_cansaco %></p>
+                <% } %>
+              </article>
+            <% }) %>
+          </section>
+        <% } else { %>
+          <section class="bg-surface-container-low rounded-3xl p-8 text-center">
+            <i class="material-symbols-outlined text-primary text-5xl not-italic mb-2" aria-hidden="true">forum</i>
+            <p class="font-bold text-on-surface">Nenhum feedback enviado por este aluno ainda.</p>
+          </section>
+        <% } %>
+      </section>
+
     </section>
   </main>
 
-  <nav 
-    class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
-    aria-label="Navegação mobile"
-  >
-    <a 
-      href="/painelprofessor"
-      class="mobile-link flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity"
-    >
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
+    <a href="/painelprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
     </a>
 
-    <a 
-      href="/todosalunos"
-      class="mobile-link flex flex-col items-center justify-center text-[#0058ba] opacity-100 p-3 rounded-[18px] bg-[#d5dbff]"
-      aria-current="page"
-    >
-      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">groups</i>
+    <a href="/todosalunos" class="flex flex-col items-center justify-center text-[#0058ba] opacity-100 p-3 rounded-[18px] bg-[#d5dbff]" aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1" aria-hidden="true">groups</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
     </a>
 
-    <a 
-      href="/editarexercicios"
-      class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform"
-      aria-label="Adicionar novo conteúdo"
-    >
-      <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">add</i>
-    </a>
-
-    <a 
-      href="/todosvideos"
-      class="mobile-link flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity"
-    >
+    <a href="/todosvideos" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
     </a>
 
-    <a 
-      href="/feedbackprofessor"
-      class="mobile-link flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity"
-    >
-      <i class="material-symbols-outlined not-italic" aria-hidden="true">chat_bubble</i>
-      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedbacks</em>
+    <a href="/feedbackprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
+    </a>
+
+    <a href="/perfilprofessor" class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
     </a>
   </nav>
 
+  <script>
+    const notificationButton = document.getElementById('notification-button')
+    const notificationPopup = document.getElementById('notification-popup')
+    const notificationBadge = document.getElementById('notification-badge')
+    const notificationContent = document.getElementById('notification-content')
+
+    function textoSeguro(valor) {
+      return String(valor || '').replace(/[&<>"']/g, (char) => {
+        const mapa = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }
+
+        return mapa[char]
+      })
+    }
+
+    function montarNotificacaoVazia() {
+      if (!notificationContent) return
+
+      notificationContent.innerHTML = `
+        <article class="rounded-2xl bg-surface-container-low p-4 text-center">
+          <i class="material-symbols-outlined text-primary text-4xl not-italic mb-2" aria-hidden="true">notifications_off</i>
+          <p class="text-sm font-black text-on-surface">Não há notificações no momento.</p>
+          <p class="text-xs text-on-surface-variant mt-1">Novos feedbacks aparecerão aqui.</p>
+        </article>
+      `
+    }
+
+    function montarNotificacoes(lista) {
+      if (!notificationContent) return
+
+      if (!lista || lista.length === 0) {
+        montarNotificacaoVazia()
+        return
+      }
+
+      notificationContent.innerHTML = lista.slice(0, 5).map((item) => {
+        const aluno = textoSeguro(item.aluno || item.aluno_nome || 'Aluno')
+        const texto = textoSeguro(item.texto || 'Enviou um novo feedback.')
+        const data = item.enviado_em
+          ? new Date(item.enviado_em).toLocaleDateString('pt-BR')
+          : 'Agora'
+
+        return `
+          <a href="/feedbackprofessor?status=pendentes&aluno=${item.id_aluno || ''}" class="block rounded-2xl p-3 hover:bg-surface-container-low transition-colors">
+            <article class="flex items-start gap-3">
+              <figure class="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center m-0 shrink-0">
+                <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+              </figure>
+
+              <section class="min-w-0 flex-1">
+                <h3 class="text-sm font-black text-on-surface truncate">${aluno}</h3>
+                <p class="text-xs text-on-surface-variant line-clamp-2 mt-1">${texto}</p>
+                <time class="text-[10px] font-bold text-primary mt-2 block">${data}</time>
+              </section>
+            </article>
+          </a>
+        `
+      }).join('')
+    }
+
+    async function carregarNotificacoes() {
+      if (!notificationBadge || !notificationContent) return
+
+      try {
+        const resposta = await fetch('/api/professor/feedbacks', {
+          headers: { Accept: 'application/json' }
+        })
+
+        const resultado = await resposta.json()
+        const lista = resultado.data || []
+
+        if (lista.length > 0) {
+          notificationBadge.textContent = lista.length > 9 ? '9+' : lista.length
+          notificationBadge.classList.add('active')
+        } else {
+          notificationBadge.textContent = '0'
+          notificationBadge.classList.remove('active')
+        }
+
+        montarNotificacoes(lista)
+      } catch (erro) {
+        notificationBadge.classList.remove('active')
+        notificationContent.innerHTML = `
+          <article class="rounded-2xl bg-red-50 p-4 text-center">
+            <i class="material-symbols-outlined text-error text-4xl not-italic mb-2" aria-hidden="true">error</i>
+            <p class="text-sm font-black text-error">Erro ao carregar notificações.</p>
+          </article>
+        `
+      }
+    }
+
+    if (notificationButton && notificationPopup) {
+      notificationButton.addEventListener('click', async (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+
+        const vaiAbrir = !notificationPopup.classList.contains('open')
+
+        notificationPopup.classList.toggle('open')
+        notificationButton.setAttribute('aria-expanded', String(vaiAbrir))
+
+        if (vaiAbrir) {
+          await carregarNotificacoes()
+        }
+      })
+
+      notificationPopup.addEventListener('click', (event) => {
+        event.stopPropagation()
+      })
+
+      document.addEventListener('click', () => {
+        notificationPopup.classList.remove('open')
+        notificationButton.setAttribute('aria-expanded', 'false')
+      })
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          notificationPopup.classList.remove('open')
+          notificationButton.setAttribute('aria-expanded', 'false')
+        }
+      })
+
+      carregarNotificacoes()
+      setInterval(carregarNotificacoes, 30000)
+    }
+  </script>
+
+  <script src="/js/transicao-paginas.js"></script>
 </body>
 </html>
