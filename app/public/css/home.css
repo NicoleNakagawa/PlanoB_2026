@@ -198,8 +198,9 @@ body {
   }
 
   #about-heading {
-    font-size: clamp(2.4rem, 11vw, 4rem) !important;
+    font-size: clamp(1.9rem, 8.5vw, 4rem) !important;
     line-height: 1 !important;
+    white-space: nowrap !important;
   }
 
   #about-heading + p {
@@ -254,9 +255,14 @@ body {
   }
 
   section[aria-labelledby="pricing-heading"] li {
-    padding: 2rem !important;
+    padding: 0 !important;
     border-radius: 2rem !important;
     transform: none !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] li > a {
+    padding: 2rem !important;
+    border-radius: 2rem !important;
   }
 
   section[aria-labelledby="pricing-heading"] strong.text-6xl {
@@ -275,7 +281,7 @@ body {
     font-size: 1rem !important;
   }
 
-  section[aria-labelledby="pricing-heading"] a {
+  section[aria-labelledby="pricing-heading"] li a > span {
     padding: 1.1rem 1.5rem !important;
     font-size: 1rem !important;
   }
@@ -408,7 +414,8 @@ body {
   }
 
   #about-heading {
-    font-size: 2.3rem !important;
+    font-size: 1.85rem !important;
+    white-space: nowrap !important;
   }
 
   section[aria-labelledby="about-heading"] li {
@@ -419,7 +426,7 @@ body {
     font-size: 2.6rem !important;
   }
 
-  section[aria-labelledby="pricing-heading"] li {
+  section[aria-labelledby="pricing-heading"] li > a {
     padding: 1.5rem !important;
   }
 
@@ -595,4 +602,3 @@ section[aria-labelledby="cta-heading"] {
     margin-top: 2rem !important;
   }
 }
-

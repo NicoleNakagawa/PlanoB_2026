@@ -175,7 +175,7 @@
           <h2 id="about-heading" class="font-headline text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 tracking-tight">
             PROJETADO PARA <mark class="text-primary bg-transparent">RESULTADOS.</mark>
           </h2>
-          <p class="text-on-surface-variant max-w-3xl text-xl md:text-2xl leading-relaxed">
+          <p class="text-on-surface-variant text-xl md:text-2xl leading-relaxed md:whitespace-nowrap">
             Removemos o ruído para focar no que importa: eficiência, ciência e estado de fluxo absoluto.
           </p>
         </header>
@@ -185,8 +185,10 @@
           <li class="bg-surface-container-lowest p-7 md:p-8 lg:p-10 rounded-[2rem] border border-outline/5 flex flex-col justify-between lg:col-span-3">
 
             <section class="mb-0">
-              <i class="material-symbols-outlined text-5xl text-primary mb-5 block not-italic" aria-hidden="true">bolt</i>
-              <h3 class="font-headline text-3xl lg:text-4xl font-bold mb-4">Conheça sobre a gente</h3>
+              <section class="flex items-center gap-4 mb-5">
+                <i class="material-symbols-outlined text-5xl text-primary not-italic" aria-hidden="true">bolt</i>
+                <h3 class="font-headline text-3xl lg:text-4xl font-bold">Conheça sobre a gente</h3>
+              </section>
               <p class="text-on-surface-variant text-base lg:text-xl leading-relaxed max-w-4xl">
                 Nem sempre a rotina ajuda, e tudo bem. Aqui, o treino se adapta à sua vida, e não o contrário. Oferecemos planos de exercícios práticos, pensados para qualquer lugar. Se o Plano A não deu certo, venha para o PlanoB!
               </p>
@@ -212,70 +214,74 @@
 
         <ul class="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-6xl mx-auto" role="list">
 
-          <li class="bg-primary p-12 rounded-[3rem] text-on-primary flex flex-col w-full md:w-1/2 shadow-2xl shadow-blue-500/30 transform lg:scale-105 z-10">
-            <header class="mb-6">
-              <strong class="bg-white/20 px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">Mais Popular</strong>
-            </header>
+          <li class="bg-primary rounded-[3rem] text-on-primary w-full md:w-1/2 shadow-2xl shadow-blue-500/30 transform lg:scale-105 z-10 overflow-hidden">
+            <a href="planos" class="flex flex-col h-full p-12 group" aria-label="Ver detalhes do Plano Lazuli">
+              <header class="mb-6">
+                <strong class="bg-white/20 px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">Mais Popular</strong>
+              </header>
 
-            <section class="mb-12">
-              <h3 class="font-headline text-3xl font-black mb-3">Plano Lazuli</h3>
-              <p class="flex items-baseline gap-1">
-                <strong class="text-6xl font-black">R$59</strong>
-                <em class="text-lg opacity-80 not-italic">/mês</em>
-              </p>
-            </section>
+              <section class="mb-12">
+                <h3 class="font-headline text-3xl font-black mb-3">Plano Lazuli</h3>
+                <p class="flex items-baseline gap-1">
+                  <strong class="text-6xl font-black">R$59</strong>
+                  <em class="text-lg opacity-80 not-italic">/mês</em>
+                </p>
+              </section>
 
-            <ul class="space-y-6 mb-16 flex-grow" role="list" aria-label="Benefícios do Plano Lazuli">
-              <li class="flex items-center gap-4">
-                <i class="material-symbols-outlined text-white not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">stars</i>
-                <b class="text-lg font-bold">Acesso a todos os vídeos</b>
-              </li>
+              <ul class="space-y-6 mb-16 flex-grow" role="list" aria-label="Benefícios do Plano Lazuli">
+                <li class="flex items-center gap-4">
+                  <i class="material-symbols-outlined text-white not-italic" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">stars</i>
+                  <b class="text-lg font-bold">Acesso a todos os vídeos</b>
+                </li>
 
-              <li class="flex items-start gap-4">
-                <i class="material-symbols-outlined text-white not-italic" aria-hidden="true">check_circle</i>
-                <section class="flex flex-col">
-                  <b class="text-lg font-bold">Ofensiva/Descontos</b>
-                  <small class="text-white/70 font-semibold">*Desconto apenas com ofensiva ativa</small>
-                </section>
-              </li>
-            </ul>
+                <li class="flex items-start gap-4">
+                  <i class="material-symbols-outlined text-white not-italic" aria-hidden="true">check_circle</i>
+                  <section class="flex flex-col">
+                    <b class="text-lg font-bold">Ofensiva/Descontos</b>
+                    <small class="text-white/70 font-semibold">*Desconto apenas com ofensiva ativa</small>
+                  </section>
+                </li>
+              </ul>
 
-            <a href="planos" class="w-full py-6 rounded-full font-black bg-white text-primary text-xl shadow-xl hover:bg-opacity-90 transition-all text-center">
-              Saiba Mais
+              <span class="w-full py-6 rounded-full font-black bg-white text-primary text-xl shadow-xl group-hover:bg-opacity-90 transition-all text-center block">
+                Saiba Mais
+              </span>
             </a>
           </li>
 
-          <li class="bg-surface-container-lowest p-10 rounded-[2.5rem] flex flex-col w-full md:w-1/2 border border-outline/5 shadow-lg">
-            <header class="flex justify-between items-start mb-8">
-              <h3 class="font-headline text-2xl font-bold">Plano Diamante</h3>
-              <strong class="bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter">Premium</strong>
-            </header>
+          <li class="bg-surface-container-lowest rounded-[2.5rem] w-full md:w-1/2 border border-outline/5 shadow-lg overflow-hidden">
+            <a href="planos" class="flex flex-col h-full p-10 group" aria-label="Ver detalhes do Plano Diamante">
+              <header class="flex justify-between items-start mb-8">
+                <h3 class="font-headline text-2xl font-bold">Plano Diamante</h3>
+                <strong class="bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter">Premium</strong>
+              </header>
 
-            <section class="mb-6">
-              <p class="flex items-baseline gap-1">
-                <strong class="text-4xl font-black">R$149</strong>
-                <em class="text-lg text-on-surface-variant not-italic">/mês</em>
-              </p>
-            </section>
+              <section class="mb-6">
+                <p class="flex items-baseline gap-1">
+                  <strong class="text-4xl font-black">R$149</strong>
+                  <em class="text-lg text-on-surface-variant not-italic">/mês</em>
+                </p>
+              </section>
 
-            <ul class="space-y-6 mb-16 flex-grow" role="list" aria-label="Benefícios do Plano Diamante">
-              <li class="flex items-center gap-4">
-                <i class="material-symbols-outlined text-primary text-2xl not-italic" aria-hidden="true">check_circle</i>
-                <b class="text-on-surface font-bold text-lg">Acesso a todos os vídeos</b>
-              </li>
-              <li class="flex items-center gap-4">
-                <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
-                <b class="text-on-surface font-medium text-lg">Treinos montados pelo professor</b>
-              </li>
+              <ul class="space-y-6 mb-16 flex-grow" role="list" aria-label="Benefícios do Plano Diamante">
+                <li class="flex items-center gap-4">
+                  <i class="material-symbols-outlined text-primary text-2xl not-italic" aria-hidden="true">check_circle</i>
+                  <b class="text-on-surface font-bold text-lg">Acesso a todos os vídeos</b>
+                </li>
+                <li class="flex items-center gap-4">
+                  <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
+                  <b class="text-on-surface font-medium text-lg">Treinos montados pelo professor</b>
+                </li>
 
-              <li class="flex items-center gap-4">
-                <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
-                <b class="text-on-surface font-medium text-lg">Ofensiva/Descontos</b>
-              </li>
-            </ul>
+                <li class="flex items-center gap-4">
+                  <i class="material-symbols-outlined text-primary text-xl not-italic" aria-hidden="true">check_circle</i>
+                  <b class="text-on-surface font-medium text-lg">Ofensiva/Descontos</b>
+                </li>
+              </ul>
 
-            <a href="planos" class="w-full py-5 rounded-full font-black text-lg primary-gradient text-white shadow-lg hover:opacity-90 transition-all text-center">
-              Saiba Mais
+              <span class="w-full py-5 rounded-full font-black text-lg primary-gradient text-white shadow-lg group-hover:opacity-90 transition-all text-center block">
+                Saiba Mais
+              </span>
             </a>
           </li>
 
