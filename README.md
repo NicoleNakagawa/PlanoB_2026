@@ -1,3 +1,6 @@
+/*IGNORE:*/
+sudo service mysql start
+
 # PlanoB 2026 🏋️
 
 Plataforma web de treinamento físico personalizado, conectando alunos e professores com planos de assinatura, vídeos, fichas de treino e acompanhamento de progresso.
