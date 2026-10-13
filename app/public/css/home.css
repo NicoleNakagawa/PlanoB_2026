@@ -134,7 +134,7 @@ body {
   }
 
   #hero-heading {
-    font-size: clamp(3.3rem, 17vw, 5rem) !important;
+    font-size: clamp(2.75rem, 12vw, 5rem) !important;
     line-height: 0.9 !important;
     margin-bottom: 1.8rem !important;
   }
@@ -200,7 +200,7 @@ body {
   #about-heading {
     font-size: clamp(1.9rem, 8.5vw, 4rem) !important;
     line-height: 1 !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
   }
 
   #about-heading + p {
@@ -398,7 +398,7 @@ body {
   }
 
   #hero-heading {
-    font-size: 3.1rem !important;
+    font-size: clamp(2.35rem, 10vw, 3.1rem) !important;
   }
 
   #hero-heading + p {
@@ -415,7 +415,7 @@ body {
 
   #about-heading {
     font-size: 1.85rem !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
   }
 
   section[aria-labelledby="about-heading"] li {
@@ -423,7 +423,7 @@ body {
   }
 
   #pricing-heading {
-    font-size: 2.6rem !important;
+    font-size: clamp(2rem, 8vw, 2.6rem) !important;
   }
 
   section[aria-labelledby="pricing-heading"] li > a {
@@ -600,5 +600,103 @@ section[aria-labelledby="cta-heading"] {
 
   footer aside {
     margin-top: 2rem !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  header > nav {
+    height: 5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  header ul[role="list"] {
+    display: none !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] {
+    height: auto !important;
+    gap: 1rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a {
+    font-size: 0.95rem !important;
+  }
+
+  header nav[aria-label="Ações do usuário"] a:last-child {
+    padding: 0.75rem 1.25rem !important;
+  }
+
+  section[aria-labelledby="hero-heading"] {
+    min-height: auto !important;
+    padding-top: 7rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  section[aria-labelledby="hero-heading"] article {
+    gap: 3rem !important;
+  }
+
+  #hero-heading {
+    font-size: clamp(3.5rem, 8vw, 5.5rem) !important;
+  }
+
+  #hero-heading + p {
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem) !important;
+  }
+
+  nav[aria-label="Ações principais"] {
+    gap: 1rem !important;
+  }
+
+  nav[aria-label="Ações principais"] a {
+    padding: 1rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+
+  section[aria-labelledby="hero-heading"] picture {
+    max-width: 420px;
+  }
+
+  #about-heading {
+    font-size: clamp(2.5rem, 5vw, 3.5rem) !important;
+    white-space: normal !important;
+  }
+
+  section[aria-labelledby="about-heading"] header {
+    margin-bottom: 2rem !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  #pricing-heading {
+    font-size: clamp(3rem, 6vw, 4.5rem) !important;
+  }
+
+  section[aria-labelledby="pricing-heading"] ul[role="list"] {
+    flex-direction: column !important;
+    max-width: 42rem;
+  }
+
+  section[aria-labelledby="pricing-heading"] li {
+    width: 100% !important;
+  }
+
+  section[aria-labelledby="cta-heading"] {
+    min-height: 55vh !important;
+  }
+
+  #cta-heading {
+    font-size: clamp(4rem, 11vw, 7rem) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  header nav[aria-label="Ações do usuário"] {
+    height: auto !important;
+    padding: 0 !important;
   }
 }

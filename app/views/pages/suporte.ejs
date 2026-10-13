@@ -559,7 +559,7 @@
       <article class="max-w-7xl mx-auto">
         <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
 
-          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+          <li data-support-quick="plano" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
             <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
               <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">account_circle</i>
             </figure>
@@ -567,7 +567,7 @@
             <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Gerencie sua assinatura, renovações e upgrades.</p>
           </li>
 
-          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+          <li data-support-quick="login" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
             <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
               <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">lock_open</i>
             </figure>
@@ -575,7 +575,7 @@
             <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Problemas para entrar? Recupere sua senha aqui.</p>
           </li>
 
-          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+          <li data-support-quick="pagamento" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
             <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
               <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">payments</i>
             </figure>
@@ -583,7 +583,7 @@
             <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Faturas, métodos de pagamento e reembolsos.</p>
           </li>
 
-          <li class="group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
+          <li data-support-quick="treino" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
             <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
               <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">exercise</i>
             </figure>
@@ -603,7 +603,7 @@
             <h2 id="faq-heading" class="font-headline text-4xl font-black tracking-tight text-on-surface mb-4">Perguntas Frequentes</h2>
             <p class="font-body text-on-surface-variant text-lg">As respostas mais rápidas para suas dúvidas cotidianas.</p>
           </section>
-          <a href="#" class="text-primary font-bold flex items-center gap-2 group font-headline">
+          <a href="#faq-plano" class="text-primary font-bold flex items-center gap-2 group font-headline">
             Ver todo o FAQ
             <i class="material-symbols-outlined transition-transform group-hover:translate-x-1 not-italic" aria-hidden="true">arrow_forward</i>
           </a>
@@ -611,7 +611,7 @@
 
         <ul class="space-y-4" role="list">
 
-          <li>
+          <li id="faq-plano" data-faq-item>
             <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
               <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
                 <h3 class="font-headline text-xl font-bold text-on-surface">Como faço para cancelar minha assinatura?</h3>
@@ -623,7 +623,7 @@
             </details>
           </li>
 
-          <li>
+          <li id="faq-login" data-faq-item>
             <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
               <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
                 <h3 class="font-headline text-xl font-bold text-on-surface">Posso treinar em mais de um dispositivo ao mesmo tempo?</h3>
@@ -635,7 +635,7 @@
             </details>
           </li>
 
-          <li>
+          <li id="faq-pagamento" data-faq-item>
             <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
               <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
                 <h3 class="font-headline text-xl font-bold text-on-surface">Como altero meu método de pagamento?</h3>
@@ -692,6 +692,30 @@
   </main>
 
 
+  <script>
+    (() => {
+      const input = document.getElementById('busca-suporte');
+      const searchButton = input?.parentElement?.querySelector('button[type="submit"]');
+      const faqItems = [...document.querySelectorAll('[data-faq-item]')];
+      const quickCards = [...document.querySelectorAll('[data-support-quick]')];
+      function searchSupport() {
+        const query = (input?.value || '').trim().toLocaleLowerCase('pt-BR');
+        let matches = 0;
+        faqItems.forEach(item => { const match = !query || item.innerText.toLocaleLowerCase('pt-BR').includes(query); item.hidden = !match; if (match) matches++; });
+        quickCards.forEach(card => { card.hidden = !!query && !card.innerText.toLocaleLowerCase('pt-BR').includes(query); });
+        const faqHeading = document.getElementById('faq-heading');
+        if (query && matches > 0) faqHeading?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      input?.addEventListener('input', searchSupport);
+      searchButton?.addEventListener('click', event => { event.preventDefault(); searchSupport(); });
+      quickCards.forEach(card => {
+        const openTarget = () => { const target = card.dataset.supportQuick === 'plano' ? 'faq-plano' : card.dataset.supportQuick === 'login' ? 'faq-login' : card.dataset.supportQuick === 'pagamento' ? 'faq-pagamento' : 'faq-login'; const item = document.getElementById(target); if (item) { item.hidden = false; const details = item.querySelector('details'); if (details) details.open = true; item.scrollIntoView({ behavior: 'smooth', block: 'center' }); } };
+        card.addEventListener('click', openTarget);
+        card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openTarget(); } });
+      });
+    })();
+  </script>
+
   <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
 
     <a href="/home" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="home">
@@ -707,11 +731,6 @@
     <a href="/suporte" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="suporte">
       <i class="material-symbols-outlined not-italic" aria-hidden="true">support_agent</i>
       <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Suporte</em>
-    </a>
-
-    <a href="/loginaluno" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="loginaluno">
-      <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
-      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Perfil</em>
     </a>
 
   </nav>

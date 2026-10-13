@@ -97,16 +97,16 @@
 
   <main class="grid min-h-screen w-full bg-surface-container-lowest lg:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr]">
 
-    <aside class="relative hidden overflow-hidden bg-primary-dim lg:flex">
+    <aside class="relative hidden overflow-hidden bg-neutral-900 lg:flex">
       <picture>
         <img
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaNKWU83BjSeH5JM-mF9NETJdhy3zWqQOlvvbzje0CugF7ehtJy0Hkr018ReltRh8a5PnZ3NQIeeOy4iMti-UlSJNRL0CCIhaEivYIklGcdgOrMyjvU2HlxtY_kGTIL2fEaacg_-8BErmZ1a-zJlMMD1gwYJFGVYGSHUO9yserMuaEPiNkggW0kgbXiSgsz_1YjVYrCjP6Rqayo8cKzpey22qrXR7rmtEHbmFTLtPYtNjRhplHYrmFQbkU1vyIx--MRmYALWdSKOG0"
           alt="Treinador fitness PlanoB"
-          class="absolute inset-0 h-full w-full object-cover opacity-75 mix-blend-overlay"
+          class="absolute inset-0 h-full w-full object-cover"
         />
       </picture>
 
-      <b class="absolute inset-0 bg-gradient-to-tr from-primary/90 via-primary/70 to-primary-container/20 font-normal" aria-hidden="true"></b>
+      <b class="absolute inset-0 bg-gradient-to-tr from-black/70 via-black/35 to-transparent font-normal" aria-hidden="true"></b>
 
       <header class="relative z-10 flex h-full w-full flex-col justify-end p-12 xl:p-20">
         <p class="mb-5 text-sm font-black tracking-widest text-tertiary-fixed">PLANO B</p>
@@ -295,6 +295,16 @@
             </fieldset>
           </section>
 
+          <section id="password-requirements" class="-mt-3 rounded-xl bg-surface-container-low p-4 text-xs text-on-surface-variant" aria-live="polite">
+            <p class="mb-2 font-bold">A senha deve conter:</p>
+            <ul class="space-y-1">
+              <li data-password-rule="length">○ Pelo menos 8 caracteres</li>
+              <li data-password-rule="upper">○ Uma letra maiúscula</li>
+              <li data-password-rule="lower">○ Uma letra minúscula</li>
+              <li data-password-rule="number">○ Um número</li>
+            </ul>
+          </section>
+
           <fieldset>
             <legend class="sr-only">Termos de uso</legend>
 
@@ -308,7 +318,7 @@
               />
 
               <em class="text-sm leading-relaxed text-on-surface-variant not-italic">
-                Eu aceito os <strong class="text-primary">Termos de Uso</strong> e a <strong class="text-primary">Política de Privacidade</strong>.
+                Eu aceito os <button type="button" data-open-policy="termos" class="font-bold text-primary underline">Termos de Uso</button> e a <button type="button" data-open-policy="privacidade" class="font-bold text-primary underline">Política de Privacidade</button>.
               </em>
             </label>
           </fieldset>
@@ -343,6 +353,25 @@
 
   </main>
 
+  <dialog id="policy-dialog" class="w-[min(92vw,38rem)] rounded-2xl p-0 shadow-2xl backdrop:bg-black/50">
+    <article class="p-6 md:p-8"><header class="flex items-start justify-between gap-4"><h2 id="policy-title" class="text-xl font-black text-on-surface">Termos de Uso</h2><button type="button" id="policy-close" class="rounded-full px-3 py-1 font-bold text-on-surface-variant hover:bg-surface-container" aria-label="Fechar">✕</button></header><div id="policy-content" class="mt-4 space-y-3 text-sm leading-relaxed text-on-surface-variant"></div><button type="button" id="policy-confirm" class="mt-6 w-full rounded-full bg-primary px-5 py-3 font-bold text-white">Entendi</button></article>
+  </dialog>
+  <script>
+    const policyDialog = document.getElementById('policy-dialog');
+    const policyTitle = document.getElementById('policy-title');
+    const policyContent = document.getElementById('policy-content');
+    const policies = {
+      termos: { title: 'Termos de Uso', paragraphs: ['Use o PlanoB de forma responsável e forneça informações verdadeiras no cadastro.', 'Os conteúdos de treino são informativos. Respeite seus limites e interrompa o exercício se sentir dor ou mal-estar.', 'Não compartilhe sua senha nem tente acessar dados de outros usuários. Os recursos disponíveis variam conforme o plano.'] },
+      privacidade: { title: 'Política de Privacidade', paragraphs: ['Os dados do cadastro são utilizados para autenticação, funcionamento da plataforma e acompanhamento dos treinos.', 'As informações de suporte são usadas para responder às solicitações e prestar atendimento.', 'Para dúvidas sobre seus dados, entre em contato pela página de suporte do PlanoB.'] }
+    };
+    document.querySelectorAll('[data-open-policy]').forEach(button => button.addEventListener('click', (event) => { event.preventDefault(); event.stopPropagation(); const item = policies[button.dataset.openPolicy]; policyTitle.textContent = item.title; policyContent.replaceChildren(...item.paragraphs.map(text => { const p = document.createElement('p'); p.textContent = text; return p; })); policyDialog.showModal(); }));
+    document.getElementById('policy-close')?.addEventListener('click', () => policyDialog.close());
+    document.getElementById('policy-confirm')?.addEventListener('click', () => policyDialog.close());
+    const passwordInput = document.getElementById('password');
+    const rules = { length: value => value.length >= 8, upper: value => /[A-Z]/.test(value), lower: value => /[a-z]/.test(value), number: value => /[0-9]/.test(value) };
+    function updatePasswordRules() { if (!passwordInput) return; Object.entries(rules).forEach(([key, test]) => { const item = document.querySelector('[data-password-rule="' + key + '"]'); if (!item) return; const valid = test(passwordInput.value); item.textContent = (valid ? '✓ ' : '○ ') + item.textContent.replace(/^[✓○] /, ''); item.classList.toggle('font-bold', valid); item.classList.toggle('text-green-700', valid); }); }
+    passwordInput?.addEventListener('input', updatePasswordRules); updatePasswordRules();
+  </script>
   <script>
     document.querySelectorAll('[data-password-toggle]').forEach((button) => {
       button.addEventListener('click', () => {
