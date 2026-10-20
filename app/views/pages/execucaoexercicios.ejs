@@ -488,6 +488,21 @@
       <section class="md:col-span-8 flex flex-col gap-6">
 
         <section class="video-player relative group aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
+          <% if (video.embedUrl) { %>
+          <iframe
+            class="absolute inset-0 w-full h-full"
+            src="<%= video.embedUrl %>"
+            title="<%= video.titulo %>"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+          <% } else if (video.arquivoUrl) { %>
+          <video class="absolute inset-0 w-full h-full" controls preload="metadata" poster="<%= capaVideo %>">
+            <source src="<%= video.arquivoUrl %>">
+            Seu navegador não suporta vídeo.
+          </video>
+          <% } else { %>
           <img
             alt="<%= video.titulo %>"
             class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
@@ -554,6 +569,7 @@
               </article>
             </section>
           </section>
+          <% } %>
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">

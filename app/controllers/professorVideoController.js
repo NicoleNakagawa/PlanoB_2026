@@ -1,5 +1,6 @@
 const db = require('../config/pool_conexoes')
 const { obterColunasTabela } = require('../utils/professorAluno')
+const { descreverFonte, urlVideoValida } = require('../utils/videos')
 
 // =======================
 // VÍDEOS DO PROFESSOR (listar, criar, editar e excluir)
@@ -29,7 +30,7 @@ exports.todosVideos = async (req, res) => {
                 id_video,
                 titulo,
                 descricao,
-                video_url,
+                link_video AS video_url,
                 thumbnail,
                 duracao_seg,
                 categoria,
@@ -112,7 +113,7 @@ exports.criar = async (req, res) => {
     const titulo = (req.body.titulo || '').trim()
     const descricao = (req.body.descricao || '').trim()
     const videoUrlDigitado = (req.body.video_url || '').trim()
-    const thumbnail = (req.body.thumbnail || '').trim()
+    const thumbnailDigitado = (req.body.thumbnail || '').trim()
     const categoria = (req.body.categoria || 'Treino').trim()
     const nivel = req.body.nivel || 'iniciante'
     const duracaoSeg = Number(req.body.duracao_seg) || null
@@ -129,6 +130,13 @@ exports.criar = async (req, res) => {
     if (!videoUrl) {
         return res.redirect('/todosvideos?erro=' + encodeURIComponent('Envie um arquivo de vídeo ou informe uma URL do vídeo.'))
     }
+
+    if (!urlVideoValida(videoUrl)) {
+        return res.redirect('/todosvideos?erro=' + encodeURIComponent('URL inválida. Use um link completo, começando com https://'))
+    }
+
+    // Em vídeo do YouTube, a capa é pega automaticamente quando o professor não informa uma
+    const thumbnail = thumbnailDigitado || descreverFonte(videoUrl).miniatura || ''
 
     try {
         const colunasVideo = await obterColunasTabela('video')
@@ -213,7 +221,7 @@ exports.editarForm = async (req, res) => {
                 id_video,
                 titulo,
                 descricao,
-                video_url,
+                link_video AS video_url,
                 thumbnail,
                 duracao_seg,
                 categoria,
@@ -233,9 +241,9 @@ exports.editarForm = async (req, res) => {
             return res.redirect('/todosvideos?erro=' + encodeURIComponent('Vídeo não encontrado.'))
         }
 
-        res.render('editarvideos', {
+        res.render('editarexercicios', {
             professor: req.session.professor,
-            video: rows[0],
+            video: { ...rows[0], embed_url: descreverFonte(rows[0].video_url).embedUrl },
             sucesso: req.query.sucesso || null,
             erro: req.query.erro || null
         })
@@ -253,7 +261,7 @@ exports.editarSalvar = async (req, res) => {
     const titulo = (req.body.titulo || '').trim()
     const descricao = (req.body.descricao || '').trim()
     const videoUrl = (req.body.video_url || '').trim()
-    const thumbnail = (req.body.thumbnail || '').trim()
+    const thumbnailDigitado = (req.body.thumbnail || '').trim()
     const categoria = (req.body.categoria || '').trim()
     const nivel = req.body.nivel || 'iniciante'
     const duracaoSeg = Number(req.body.duracao_seg) || null
@@ -267,20 +275,27 @@ exports.editarSalvar = async (req, res) => {
         return res.redirect('/editarvideos/' + idVideo + '?erro=' + encodeURIComponent('Informe o título do vídeo.'))
     }
 
+    // Se a URL ficar vazia, o link atual do vídeo é mantido (a coluna link_video não aceita vazio)
+    if (videoUrl && !urlVideoValida(videoUrl)) {
+        return res.redirect('/editarvideos/' + idVideo + '?erro=' + encodeURIComponent('URL inválida. Use um link completo, começando com https://'))
+    }
+
+    const thumbnail = thumbnailDigitado || descreverFonte(videoUrl).miniatura || ''
+
     try {
         const colunasVideo = await obterColunasTabela('video')
 
         const campos = ['titulo = ?', 'descricao = ?']
         const valores = [titulo, descricao || null]
 
-        if (colunasVideo.includes('video_url')) {
+        if (videoUrl && colunasVideo.includes('video_url')) {
             campos.push('video_url = ?')
-            valores.push(videoUrl || null)
+            valores.push(videoUrl)
         }
 
-        if (colunasVideo.includes('link_video')) {
+        if (videoUrl && colunasVideo.includes('link_video')) {
             campos.push('link_video = ?')
-            valores.push(videoUrl || null)
+            valores.push(videoUrl)
         }
 
         if (colunasVideo.includes('thumbnail')) {

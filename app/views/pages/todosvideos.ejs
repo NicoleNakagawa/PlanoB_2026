@@ -540,7 +540,7 @@
         <header class="mb-6">
           <h2 class="text-2xl font-extrabold headline text-on-surface">Adicionar novo vídeo</h2>
           <p class="text-sm text-on-surface-variant mt-1">
-            Arraste o arquivo do vídeo, selecione no computador ou informe uma URL externa.
+            Envie um arquivo do seu computador ou cole o link de um vídeo do YouTube (não listado).
           </p>
         </header>
 
@@ -580,7 +580,7 @@
             <video id="preview-video" class="preview-video w-full mt-5 rounded-3xl bg-black" controls></video>
 
             <p class="text-xs text-on-surface-variant mt-4 leading-relaxed">
-              Você também pode informar uma URL externa no campo ao lado. No Render, para projetos profissionais, o ideal é depois usar Cloudinary, Firebase Storage ou S3 para armazenar vídeos.
+              Arquivos enviados ficam guardados no servidor e deixam o site mais pesado. Para vídeos longos, prefira colar o link de um vídeo do YouTube marcado como NÃO LISTADO (vídeos privados não abrem no site).
             </p>
           </section>
 
@@ -615,11 +615,11 @@
 
 
             <label class="md:col-span-2">
-              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">URL do vídeo, caso não envie arquivo</span>
+              <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Link do vídeo (YouTube não listado ou URL direta), caso não envie arquivo</span>
               <input
                 name="video_url"
                 class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 focus:ring-2 focus:ring-primary"
-                placeholder="https://.../video.mp4"
+                placeholder="https://www.youtube.com/watch?v=... ou https://.../video.mp4"
               />
             </label>
 

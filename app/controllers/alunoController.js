@@ -1,6 +1,7 @@
 const db = require('../config/pool_conexoes')
 const { uploadPerfil } = require('../config/uploads')
 const videosFree = require('../data/videosFree')
+const { buscarVideosProfessores } = require('../utils/videos')
 const { redirecionarPainelAluno, redirecionarVideosAluno } = require('../utils/redirecionamentos')
 
 // =======================
@@ -592,40 +593,57 @@ exports.perfilProfParaAluno = (req, res) => {
     })
 }
 
-exports.videosFreePagina = (req, res) => {
+// Vídeos dos professores (de acordo com o plano do aluno) + vídeos fixos da plataforma.
+// Se a consulta falhar, as telas continuam funcionando só com os vídeos fixos.
+async function montarCatalogo(idPlano) {
+    try {
+        const videosProfessores = await buscarVideosProfessores(db, idPlano)
+        return [...videosProfessores, ...videosFree]
+    } catch (err) {
+        console.error('[catalogo de videos]', err)
+        return videosFree
+    }
+}
+
+exports.videosFreePagina = async (req, res) => {
     if (Number(req.session.aluno.id_plano) >= 2) {
         return res.redirect('/videos')
     }
 
+    const catalogo = await montarCatalogo(req.session.aluno.id_plano)
+
     res.render('videosfree', {
         aluno: req.session.aluno,
-        videosFree,
+        videosFree: catalogo,
         linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
         linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
 }
 
-exports.videosPagina = (req, res) => {
+exports.videosPagina = async (req, res) => {
     if (Number(req.session.aluno.id_plano) < 2) {
         return res.redirect('/videosfree')
     }
 
+    const catalogo = await montarCatalogo(req.session.aluno.id_plano)
+
     res.render('videos', {
         aluno: req.session.aluno,
-        videosFree,
+        videosFree: catalogo,
         linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
         linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
 }
 
-exports.execucaoExercicios = (req, res) => {
+exports.execucaoExercicios = async (req, res) => {
     const slug = req.query.video || 'agachamento'
-    const videoSelecionado = videosFree.find(video => video.slug === slug) || videosFree[0]
+    const catalogo = await montarCatalogo(req.session.aluno.id_plano)
+    const videoSelecionado = catalogo.find(video => video.slug === slug) || catalogo[0]
 
     res.render('execucaoexercicios', {
         aluno: req.session.aluno,
         video: videoSelecionado,
-        videosFree,
+        videosFree: catalogo,
         linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
         linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
