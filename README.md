@@ -1,13 +1,10 @@
-/*IGNORE:*/
-sudo service mysql start
-
-# PlanoB 2026 🏋️
+# PlanoB 2026 
 
 Plataforma web de treinamento físico personalizado, conectando alunos e professores com planos de assinatura, vídeos, fichas de treino e acompanhamento de progresso.
 
 ---
 
-## 🚀 Tecnologias
+## Tecnologias
 
 | Camada | Tecnologia |
 |--------|-----------|
@@ -21,7 +18,7 @@ Plataforma web de treinamento físico personalizado, conectando alunos e profess
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 PlanoB_2026/
@@ -46,7 +43,7 @@ PlanoB_2026/
 
 ---
 
-## ⚙️ Configuração e Instalação
+## Configuração e Instalação
 
 ### Pré-requisitos
 
@@ -81,8 +78,6 @@ DB_NAME=planob
 DB_PORT=3306
 ```
 
-> ⚠️ **Nunca suba o arquivo `.env` para o GitHub.** Ele já está listado no `.gitignore`.
-
 ### 4. Configure o banco de dados
 
 Acesse o MySQL e execute o script de criação:
@@ -115,7 +110,7 @@ Acesse em: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🗄️ Banco de Dados
+## Banco de Dados
 
 O schema completo está em `config/script_bd.sql`. As principais tabelas são:
 
@@ -132,7 +127,7 @@ O schema completo está em `config/script_bd.sql`. As principais tabelas são:
 
 ---
 
-## 🔐 Autenticação
+## Autenticação
 
 - Senhas armazenadas com hash **bcrypt** (12 rounds)
 - Sessões gerenciadas via `express-session`
@@ -140,7 +135,7 @@ O schema completo está em `config/script_bd.sql`. As principais tabelas são:
 
 ---
 
-## 🌐 Rotas Principais
+## Rotas Principais
 
 | Método | Rota | Descrição |
 |--------|------|-----------|
@@ -158,7 +153,7 @@ O schema completo está em `config/script_bd.sql`. As principais tabelas são:
 
 ---
 
-## ☁️ Deploy com banco MySQL na nuvem
+## Deploy com banco MySQL na nuvem
 
 Para rodar em produção com banco remoto (ex: [Railway](https://railway.app), [PlanetScale](https://planetscale.com), [Clever Cloud](https://www.clever-cloud.com)):
 
@@ -176,7 +171,7 @@ DB_PORT=3306
 
 ---
 
-## 🤝 Contribuindo
+## Contribuindo
 
 1. Fork o projeto
 2. Crie uma branch: `git checkout -b feature/minha-feature`
@@ -186,6 +181,6 @@ DB_PORT=3306
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
