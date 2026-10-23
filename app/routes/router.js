@@ -7,10 +7,10 @@ const { uploadVideo } = require('../config/uploads')
 // =======================
 // MIDDLEWARES
 // =======================
-// authAluno, authProfessor e authModerador agora vivem em
+// authAluno, authProfessor, authModerador e exigirAdmin agora vivem em
 // app/middlewares/auth.js
 
-const { authAluno, authProfessor, authModerador } = require('../middlewares/auth')
+const { authAluno, authProfessor, authModerador, exigirAdmin } = require('../middlewares/auth')
 
 // =======================
 // PÁGINAS PÚBLICAS
@@ -190,12 +190,35 @@ router.post('/feedbackaluno/responder', authAluno, alunoFeedbackController.respo
 // =======================
 
 const moderadorController = require('../controllers/moderadorController')
+const moderadorUsuariosController = require('../controllers/moderadorUsuariosController')
+const moderadorFinanceiroController = require('../controllers/moderadorFinanceiroController')
+const moderadorConteudoController = require('../controllers/moderadorConteudoController')
 
 router.get('/loginmoderador', moderadorController.loginForm)
 router.post('/loginmoderador', moderadorController.login)
+
+// Visão geral
 router.get('/moderador', authModerador, moderadorController.painel)
-router.post('/moderador/excluir/:tipo/:id', authModerador, moderadorController.excluir)
 router.get('/moderador/exportar', authModerador, moderadorController.exportar)
+
+// Alunos e professores (excluir e mudar plano exigem moderador admin)
+router.get('/moderador/alunos', authModerador, moderadorUsuariosController.alunos)
+router.get('/moderador/alunos/:id', authModerador, moderadorUsuariosController.perfilAluno)
+router.post('/moderador/alunos/:id/plano', authModerador, exigirAdmin, moderadorUsuariosController.alterarPlano)
+router.get('/moderador/professores', authModerador, moderadorUsuariosController.professores)
+router.get('/moderador/professores/:id', authModerador, moderadorUsuariosController.perfilProfessor)
+router.post('/moderador/excluir/:tipo/:id', authModerador, exigirAdmin, moderadorController.excluir)
+
+// Financeiro
+router.get('/moderador/financeiro', authModerador, moderadorFinanceiroController.financeiro)
+router.get('/moderador/financeiro/exportar', authModerador, moderadorFinanceiroController.exportar)
+
+// Vídeos, suporte e atividades
+router.get('/moderador/videos', authModerador, moderadorConteudoController.videos)
+router.post('/moderador/videos/:id/status', authModerador, moderadorConteudoController.alterarStatusVideo)
+router.get('/moderador/suporte', authModerador, moderadorConteudoController.suporte)
+router.post('/moderador/suporte/:id/status', authModerador, moderadorConteudoController.alterarStatusSuporte)
+router.get('/moderador/atividades', authModerador, moderadorConteudoController.atividades)
 
 // =======================
 // 404

@@ -1,0 +1,161 @@
+<%- include('../../partials/moderador/topo', { titulo: 'Financeiro' }) %>
+
+<%
+  const seta = function (v) { return v > 0 ? 'trending_up' : (v < 0 ? 'trending_down' : 'trending_flat') }
+  const metodos = { cartao_credito: 'Crédito', cartao_debito: 'Débito', pix: 'Pix', boleto: 'Boleto' }
+  const linkExportar = '/moderador/financeiro/exportar' + fmt.qs(filtros)
+%>
+
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <div>
+    <h1 class="text-3xl md:text-4xl font-black headline">Financeiro</h1>
+    <p class="text-on-surface-variant mt-1">Receita da plataforma, pagamentos e assinaturas.</p>
+  </div>
+  <a href="<%= linkExportar %>" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-5 py-3 text-sm font-black active:scale-95 transition-transform">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i> Exportar pagamentos (CSV)
+  </a>
+</header>
+
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+  <article class="bg-primary text-white p-6 rounded-3xl shadow-xl shadow-primary/20">
+    <p class="text-xs font-black text-white/70 uppercase tracking-widest mb-3">Receita do mês</p>
+    <p class="text-3xl font-black headline"><%= fmt.moeda(kpis.mesAtual) %></p>
+    <p class="text-sm mt-2 flex items-center gap-1 text-white/90">
+      <i class="material-symbols-outlined text-base not-italic" aria-hidden="true"><%= seta(kpis.variacao) %></i>
+      <%= kpis.variacao > 0 ? '+' : '' %><%= kpis.variacao %>% vs. mês anterior (<%= fmt.moeda(kpis.mesAnterior) %>)
+    </p>
+  </article>
+
+  <article class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-tertiary-fixed shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-3">Receita recorrente (mensal)</p>
+    <p class="text-3xl font-black headline"><%= fmt.moeda(kpis.mrr) %></p>
+    <p class="text-sm mt-2 text-on-surface-variant"><strong><%= kpis.pagantes %></strong> aluno(s) em plano pago • <strong><%= kpis.conversao %>%</strong> dos alunos</p>
+  </article>
+
+  <article class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-primary shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-3">Receita total</p>
+    <p class="text-3xl font-black headline"><%= fmt.moeda(kpis.total) %></p>
+    <p class="text-sm mt-2 text-on-surface-variant"><strong><%= kpis.aprovados %></strong> pagamento(s) aprovado(s)</p>
+  </article>
+
+  <article class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-secondary shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-3">Ticket médio</p>
+    <p class="text-3xl font-black headline"><%= fmt.moeda(kpis.ticketMedio) %></p>
+    <p class="text-sm mt-2 text-on-surface-variant">Neste mês: <strong><%= kpis.recusados %></strong> recusado(s), <strong><%= kpis.pendentes %></strong> pendente(s), <strong><%= kpis.estornados %></strong> estornado(s)</p>
+  </article>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <article class="lg:col-span-7 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <h2 class="text-xl font-black headline mb-6">Receita dos últimos 6 meses</h2>
+    <div class="flex items-end gap-3 h-56">
+      <% serie.forEach(function(mes) { %>
+        <div class="flex-1 flex flex-col items-center justify-end h-full gap-2">
+          <span class="text-[11px] font-bold text-on-surface-variant"><%= mes.valor ? fmt.moeda(mes.valor) : '—' %></span>
+          <div class="w-full flex-1 flex items-end">
+            <div class="barra-grafico w-full rounded-t-2xl <%= mes.valor ? 'bg-primary' : 'bg-surface-container-high' %>" style="height: <%= mes.valor ? mes.pct : 3 %>%"></div>
+          </div>
+          <span class="text-xs font-bold uppercase text-on-surface-variant"><%= mes.rotulo %></span>
+        </div>
+      <% }) %>
+    </div>
+  </article>
+
+  <article class="lg:col-span-5 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <h2 class="text-xl font-black headline mb-6">Receita por plano</h2>
+    <% if (porPlano.length > 0) { %>
+      <ul class="flex flex-col gap-5 list-none p-0 m-0">
+        <% porPlano.forEach(function(p) { %>
+          <li>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classePlano(p.nome) %>"><%= p.nome %></span>
+              <p class="text-sm font-bold"><%= fmt.moeda(p.total) %> <span class="text-on-surface-variant font-medium">• <%= p.qtd %> pgto(s)</span></p>
+            </div>
+            <div class="h-3 rounded-full bg-surface-container overflow-hidden">
+              <div class="h-full rounded-full <%= p.nome === 'Diamante' ? 'bg-tertiary-fixed' : 'bg-primary' %>" style="width: <%= p.pct %>%"></div>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="text-on-surface-variant py-6">Ainda não há pagamentos aprovados.</p>
+    <% } %>
+  </article>
+</section>
+
+<section class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm">
+  <form action="/moderador/financeiro" method="GET" class="flex flex-col lg:flex-row gap-3 lg:items-center">
+    <label for="periodo" class="sr-only">Período</label>
+    <select id="periodo" name="periodo" class="rounded-full border-none bg-surface-container-low px-5 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+      <% Object.keys(periodos).forEach(function(chave) { %>
+        <option value="<%= chave %>" <%= filtros.periodo === chave ? 'selected' : '' %>><%= periodos[chave].rotulo %></option>
+      <% }) %>
+    </select>
+
+    <label for="status" class="sr-only">Status</label>
+    <select id="status" name="status" class="rounded-full border-none bg-surface-container-low px-5 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+      <option value="">Todos os status</option>
+      <% statusLista.forEach(function(s) { %>
+        <option value="<%= s %>" <%= filtros.status === s ? 'selected' : '' %>><%= fmt.rotuloStatus(s) %></option>
+      <% }) %>
+    </select>
+
+    <label for="plano" class="sr-only">Plano</label>
+    <select id="plano" name="plano" class="rounded-full border-none bg-surface-container-low px-5 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+      <option value="">Todos os planos</option>
+      <% planos.forEach(function(p) { %>
+        <option value="<%= p.id_plano %>" <%= Number(filtros.plano) === p.id_plano ? 'selected' : '' %>><%= p.nome %></option>
+      <% }) %>
+    </select>
+
+    <button type="submit" class="rounded-full bg-on-surface text-white px-6 py-3 text-sm font-black active:scale-95 transition-transform">Filtrar</button>
+    <a href="/moderador/financeiro" class="text-sm font-bold text-primary hover:underline px-2">Limpar</a>
+  </form>
+</section>
+
+<section class="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+  <header class="p-6 bg-surface-container-low">
+    <h2 class="text-xl font-black headline">Pagamentos</h2>
+  </header>
+
+  <div class="overflow-x-auto rolagem-fina">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-surface-container/50">
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Data</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Aluno</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Plano</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Método</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Valor</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-surface-container-low">
+        <% if (pagamentos.length > 0) { %>
+          <% pagamentos.forEach(function(pg) { %>
+            <tr class="hover:bg-primary/5 transition-colors">
+              <td class="px-6 py-4 text-sm whitespace-nowrap"><%= fmt.dataHora(pg.data_pagamento) %></td>
+              <td class="px-6 py-4"><a href="/moderador/alunos/<%= pg.id_aluno %>" class="font-bold hover:text-primary"><%= pg.aluno %></a></td>
+              <td class="px-6 py-4"><span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classePlano(pg.plano) %>"><%= pg.plano %></span></td>
+              <td class="px-6 py-4 text-sm"><%= metodos[pg.metodo] || pg.metodo %><% if (pg.ultimos_4) { %> <span class="text-on-surface-variant">•••• <%= pg.ultimos_4 %></span><% } %></td>
+              <td class="px-6 py-4 text-sm font-black"><%= fmt.moeda(pg.valor) %></td>
+              <td class="px-6 py-4"><span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classeStatus(pg.status) %>"><%= fmt.rotuloStatus(pg.status) %></span></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" class="px-6 py-14 text-center">
+              <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">receipt_long</i>
+              <p class="font-black">Nenhum pagamento encontrado</p>
+              <p class="text-sm text-on-surface-variant mt-1">Tente mudar o período ou o status.</p>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <%- include('../../partials/moderador/paginacao', { base: '/moderador/financeiro' }) %>
+</section>
+
+<%- include('../../partials/moderador/rodape') %>

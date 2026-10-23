@@ -1,0 +1,180 @@
+<%
+  const itensMenu = [
+    { id: 'visaogeral', href: '/moderador', icone: 'dashboard', rotulo: 'Visão geral', curto: 'Início' },
+    { id: 'alunos', href: '/moderador/alunos', icone: 'group', rotulo: 'Alunos', curto: 'Alunos' },
+    { id: 'professores', href: '/moderador/professores', icone: 'school', rotulo: 'Professores', curto: 'Profs' },
+    { id: 'financeiro', href: '/moderador/financeiro', icone: 'payments', rotulo: 'Financeiro', curto: 'Receita' },
+    { id: 'videos', href: '/moderador/videos', icone: 'smart_display', rotulo: 'Vídeos', curto: 'Vídeos' },
+    { id: 'suporte', href: '/moderador/suporte', icone: 'support_agent', rotulo: 'Suporte', curto: 'Suporte', badge: suporteAberto },
+    { id: 'atividades', href: '/moderador/atividades', icone: 'history', rotulo: 'Atividades', curto: 'Log' }
+  ]
+%><!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>PlanoB - Moderador | <%= typeof titulo !== 'undefined' ? titulo : 'Painel' %></title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            surface: "#f7f5ff",
+            primary: "#0058ba",
+            "primary-container": "#6c9fff",
+            "primary-dim": "#004da4",
+            "on-primary": "#f0f2ff",
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-high": "#dde1ff",
+            "surface-container-highest": "#d5dbff",
+            outline: "#6c759e",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
+            secondary: "#00647b",
+            error: "#b31b25"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3, .headline { font-family: 'Lexend', sans-serif; }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .barra-grafico { transition: height .4s ease; }
+    .rolagem-fina::-webkit-scrollbar { height: 6px; }
+    .rolagem-fina::-webkit-scrollbar-thumb { background: #d5dbff; border-radius: 999px; }
+
+    @media (max-width: 768px) {
+      html, body { width: 100%; overflow-x: hidden; }
+      main { margin-left: 0 !important; padding: 92px 14px 130px !important; }
+      header.topo-fixo { padding: 14px 16px; min-height: 68px; }
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen">
+
+  <header class="topo-fixo fixed top-0 w-full z-50 bg-[#f7f5ff]/85 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/moderador" class="logo-font text-4xl text-primary no-underline">PlanoB</a>
+      <p class="hidden md:block text-xs font-black uppercase tracking-widest text-on-surface-variant">Painel de Moderador</p>
+    </nav>
+
+    <menu class="flex items-center gap-3 p-0 m-0 list-none">
+      <li class="hidden md:block text-right leading-tight">
+        <p class="text-sm font-bold text-on-surface"><%= moderador.nome || 'Moderador' %></p>
+        <p class="text-xs text-on-surface-variant capitalize"><%= moderador.nivel || 'moderador' %></p>
+      </li>
+      <li>
+        <a href="/logout" class="p-2 rounded-full hover:bg-red-50 transition-colors active:scale-95 inline-flex items-center justify-center" aria-label="Sair">
+          <i class="material-symbols-outlined text-error not-italic" aria-hidden="true">logout</i>
+        </a>
+      </li>
+    </menu>
+
+    <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff]" aria-hidden="true"></b>
+  </header>
+
+  <aside class="hidden md:flex h-screen w-72 fixed left-0 top-0 bg-[#efefff] flex-col gap-2 py-8 z-40 mt-16 overflow-y-auto">
+    <div class="px-6 mb-6 flex items-center gap-3">
+      <%- include('avatar', { foto: moderador.foto, nome: moderador.nome, tam: 'w-12 h-12', texto: 'text-sm' }) %>
+      <div>
+        <p class="text-sm font-bold text-on-surface"><%= moderador.nome || 'Admin PlanoB' %></p>
+        <p class="text-xs text-on-surface-variant capitalize"><%= moderador.nivel || 'Moderador' %></p>
+      </div>
+    </div>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <% itensMenu.forEach(function(item) { const ativo = item.id === menuAtivo %>
+        <a href="<%= item.href %>"
+           class="<%= ativo ? 'bg-primary text-white shadow-lg shadow-[#0058ba]/20' : 'text-[#232c51] hover:bg-[#d5dbff]/50 hover:translate-x-1' %> rounded-full mx-2 px-4 py-3 flex items-center gap-3 transition-all active:scale-95"
+           <%- ativo ? 'aria-current="page"' : '' %>>
+          <i class="material-symbols-outlined not-italic" aria-hidden="true"><%= item.icone %></i>
+          <span class="flex-1"><%= item.rotulo %></span>
+          <% if (item.badge > 0) { %>
+            <span class="min-w-6 h-6 px-2 rounded-full bg-error text-white text-xs font-black inline-flex items-center justify-center"><%= item.badge %></span>
+          <% } %>
+        </a>
+      <% }) %>
+    </nav>
+
+    <div class="mt-auto px-4 pt-6 flex flex-col gap-2">
+      <a href="/moderador/exportar" class="w-full bg-primary text-white rounded-full py-3 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i>
+        Exportar usuários
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-error hover:bg-red-50 rounded-full transition-colors text-sm" href="/logout">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
+        Sair
+      </a>
+    </div>
+  </aside>
+
+  <nav aria-label="Navegação mobile" class="md:hidden fixed bottom-0 left-0 w-full bg-[#f7f5ff]/95 backdrop-blur-xl border-t border-[#e4e7ff] flex items-center gap-1 px-2 pb-5 pt-2 z-50 rounded-t-[28px] shadow-[0_-10px_40px_rgba(35,44,81,0.08)] overflow-x-auto rolagem-fina">
+    <% itensMenu.forEach(function(item) { const ativo = item.id === menuAtivo %>
+      <a href="<%= item.href %>" class="relative flex-1 min-w-[64px] flex flex-col items-center justify-center p-2 rounded-[18px] <%= ativo ? 'text-primary bg-[#d5dbff]' : 'text-[#232c51] opacity-70' %>">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true" <%- ativo ? 'style="font-variation-settings:\'FILL\' 1"' : '' %>><%= item.icone %></i>
+        <span class="text-[10px] font-semibold uppercase mt-1"><%= item.curto %></span>
+        <% if (item.badge > 0) { %>
+          <span class="absolute top-0 right-3 min-w-4 h-4 px-1 rounded-full bg-error text-white text-[10px] font-black inline-flex items-center justify-center"><%= item.badge %></span>
+        <% } %>
+      </a>
+    <% }) %>
+  </nav>
+
+  <main class="md:ml-72 pt-24 pb-12 px-6 min-h-screen">
+    <div class="max-w-7xl mx-auto flex flex-col gap-6">
+
+      <% if (sucesso) { %>
+        <div class="bg-green-50 text-green-800 rounded-3xl p-4 font-bold text-center" role="status"><%= sucesso %></div>
+      <% } %>
+
+      <% if (erro) { %>
+        <div class="bg-red-50 text-error rounded-3xl p-4 font-bold text-center" role="alert"><%= erro %></div>
+      <% } %>

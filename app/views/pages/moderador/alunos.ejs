@@ -1,0 +1,109 @@
+<%- include('../../partials/moderador/topo', { titulo: 'Alunos' }) %>
+
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <div>
+    <h1 class="text-3xl md:text-4xl font-black headline">Alunos</h1>
+    <p class="text-on-surface-variant mt-1"><%= totalGeral %> aluno(s) cadastrado(s) na plataforma.</p>
+  </div>
+  <a href="/moderador/exportar" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-5 py-3 text-sm font-black active:scale-95 transition-transform">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i> Exportar CSV
+  </a>
+</header>
+
+<section class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm flex flex-col gap-4">
+  <form action="/moderador/alunos" method="GET" class="flex flex-col lg:flex-row gap-3">
+    <input type="hidden" name="plano" value="<%= filtros.plano %>" />
+
+    <div class="relative flex-1">
+      <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline not-italic" aria-hidden="true">search</i>
+      <label for="busca" class="sr-only">Buscar aluno</label>
+      <input id="busca" name="busca" type="search" value="<%= filtros.busca %>" placeholder="Buscar por nome ou e-mail..."
+             class="w-full rounded-full border-none bg-surface-container-low px-12 py-3 text-sm focus:ring-2 focus:ring-primary" />
+    </div>
+
+    <label for="ordem" class="sr-only">Ordenar</label>
+    <select id="ordem" name="ordem" class="rounded-full border-none bg-surface-container-low px-5 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+      <option value="recentes" <%= filtros.ordem === 'recentes' ? 'selected' : '' %>>Mais recentes</option>
+      <option value="nome" <%= filtros.ordem === 'nome' ? 'selected' : '' %>>Nome (A-Z)</option>
+      <option value="atividade" <%= filtros.ordem === 'atividade' ? 'selected' : '' %>>Treinou há menos tempo</option>
+    </select>
+
+    <button type="submit" class="rounded-full bg-on-surface text-white px-6 py-3 text-sm font-black active:scale-95 transition-transform">Filtrar</button>
+  </form>
+
+  <nav class="flex flex-wrap gap-2" aria-label="Filtro por plano">
+    <a href="/moderador/alunos<%= fmt.qs({ busca: filtros.busca, ordem: filtros.ordem !== 'recentes' ? filtros.ordem : '' }) %>"
+       class="px-4 py-2 rounded-full text-sm font-bold <%= !filtros.plano ? 'bg-primary text-white' : 'bg-surface-container-low hover:bg-surface-container' %>">
+      Todos <span class="opacity-70">(<%= totalGeral %>)</span>
+    </a>
+    <% planos.forEach(function(plano) { %>
+      <a href="/moderador/alunos<%= fmt.qs({ plano: plano.id_plano, busca: filtros.busca, ordem: filtros.ordem !== 'recentes' ? filtros.ordem : '' }) %>"
+         class="px-4 py-2 rounded-full text-sm font-bold <%= Number(filtros.plano) === plano.id_plano ? 'bg-primary text-white' : 'bg-surface-container-low hover:bg-surface-container' %>">
+        <%= plano.nome %> <span class="opacity-70">(<%= plano.total %>)</span>
+      </a>
+    <% }) %>
+  </nav>
+</section>
+
+<section class="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+  <div class="overflow-x-auto rolagem-fina">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-surface-container/50">
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Aluno</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Plano</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Cadastro</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Treinos</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Sequência</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Último treino</th>
+          <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant text-right">Perfil</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-surface-container-low">
+        <% if (alunos.length > 0) { %>
+          <% alunos.forEach(function(aluno) { %>
+            <tr class="hover:bg-primary/5 transition-colors group">
+              <td class="px-6 py-4">
+                <a href="/moderador/alunos/<%= aluno.id_aluno %>" class="flex items-center gap-4">
+                  <%- include('../../partials/moderador/avatar', { foto: aluno.foto_perfil, nome: aluno.nome, tam: 'w-11 h-11' }) %>
+                  <div class="min-w-0">
+                    <p class="font-black group-hover:text-primary transition-colors truncate"><%= aluno.nome %></p>
+                    <p class="text-xs text-on-surface-variant truncate"><%= aluno.email %></p>
+                  </div>
+                </a>
+              </td>
+              <td class="px-6 py-4">
+                <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classePlano(aluno.plano) %>"><%= aluno.plano %></span>
+              </td>
+              <td class="px-6 py-4 text-sm text-on-surface-variant whitespace-nowrap"><%= fmt.dataCurta(aluno.criado_em) %></td>
+              <td class="px-6 py-4 text-sm font-bold"><%= aluno.total_treinos %></td>
+              <td class="px-6 py-4 text-sm font-bold whitespace-nowrap">
+                <i class="material-symbols-outlined text-base text-orange-500 not-italic" aria-hidden="true" style="font-variation-settings:'FILL' 1">local_fire_department</i>
+                <%= aluno.streak_atual || 0 %> dia(s)
+              </td>
+              <td class="px-6 py-4 text-sm text-on-surface-variant whitespace-nowrap"><%= aluno.ultimo_treino ? fmt.dataCurta(aluno.ultimo_treino) : 'Nunca treinou' %></td>
+              <td class="px-6 py-4 text-right">
+                <a href="/moderador/alunos/<%= aluno.id_aluno %>" class="inline-flex items-center gap-1 rounded-full bg-surface-container-low hover:bg-primary hover:text-white px-4 py-2 text-xs font-black transition-colors">
+                  Ver perfil <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">chevron_right</i>
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="7" class="px-6 py-14 text-center">
+              <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">search_off</i>
+              <p class="font-black">Nenhum aluno encontrado</p>
+              <p class="text-sm text-on-surface-variant mt-1">Tente mudar a busca ou o filtro.</p>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <%- include('../../partials/moderador/paginacao', { base: '/moderador/alunos' }) %>
+</section>
+
+<%- include('../../partials/moderador/rodape') %>

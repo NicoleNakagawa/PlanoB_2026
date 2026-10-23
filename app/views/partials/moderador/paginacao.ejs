@@ -1,0 +1,28 @@
+<%
+  // Espera: paginacao, base (caminho da lista) e filtros (objeto com os filtros atuais)
+  const _filtros = typeof filtros !== 'undefined' ? filtros : {}
+  const _link = function (pagina) { return base + fmt.qs(Object.assign({}, _filtros, { pagina: pagina > 1 ? pagina : '' })) }
+  const _inicio = Math.max(1, paginacao.pagina - 2)
+  const _fim = Math.min(paginacao.totalPaginas, paginacao.pagina + 2)
+%>
+<% if (paginacao.totalPaginas > 1) { %>
+  <nav class="flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 bg-surface-container-low" aria-label="Paginação">
+    <p class="text-sm text-on-surface-variant">Mostrando <strong><%= paginacao.de %></strong>–<strong><%= paginacao.ate %></strong> de <strong><%= paginacao.total %></strong></p>
+
+    <div class="flex items-center gap-1">
+      <% if (paginacao.pagina > 1) { %>
+        <a href="<%= _link(paginacao.pagina - 1) %>" class="px-4 py-2 rounded-full text-sm font-bold bg-white hover:bg-surface-container">Anterior</a>
+      <% } %>
+
+      <% for (let p = _inicio; p <= _fim; p++) { %>
+        <a href="<%= _link(p) %>" class="w-9 h-9 inline-flex items-center justify-center rounded-full text-sm font-black <%= p === paginacao.pagina ? 'bg-primary text-white' : 'bg-white hover:bg-surface-container' %>"><%= p %></a>
+      <% } %>
+
+      <% if (paginacao.pagina < paginacao.totalPaginas) { %>
+        <a href="<%= _link(paginacao.pagina + 1) %>" class="px-4 py-2 rounded-full text-sm font-bold bg-white hover:bg-surface-container">Próxima</a>
+      <% } %>
+    </div>
+  </nav>
+<% } else if (paginacao.total > 0) { %>
+  <p class="px-6 py-4 text-sm text-on-surface-variant bg-surface-container-low"><strong><%= paginacao.total %></strong> resultado(s)</p>
+<% } %>

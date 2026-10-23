@@ -1,0 +1,114 @@
+<%- include('../../partials/moderador/topo', { titulo: professor.nome }) %>
+
+<%
+  const niveis = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' }
+  const fontes = { youtube: 'YouTube', arquivo: 'Arquivo' }
+%>
+
+<nav class="text-sm text-on-surface-variant flex items-center gap-2" aria-label="Caminho">
+  <a href="/moderador/professores" class="hover:text-primary font-bold">Professores</a>
+  <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">chevron_right</i>
+  <span class="font-bold text-on-surface"><%= professor.nome %></span>
+</nav>
+
+<section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+  <div class="flex items-center gap-5">
+    <%- include('../../partials/moderador/avatar', { foto: professor.foto_perfil, nome: professor.nome, tam: 'w-20 h-20', texto: 'text-2xl' }) %>
+    <div class="min-w-0">
+      <h1 class="text-2xl md:text-3xl font-black headline truncate"><%= professor.nome %></h1>
+      <p class="text-on-surface-variant truncate"><%= professor.email %></p>
+      <div class="flex flex-wrap items-center gap-2 mt-3">
+        <span class="px-3 py-1 rounded-full text-xs font-black bg-secondary text-white">CREF <%= professor.cref %></span>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant">Professor desde <%= fmt.dataCurta(professor.criado_em) %></span>
+      </div>
+    </div>
+  </div>
+  <a href="mailto:<%= professor.email %>" class="inline-flex items-center justify-center gap-2 rounded-full bg-surface-container-low hover:bg-surface-container px-5 py-3 text-sm font-black transition-colors">
+    <i class="material-symbols-outlined not-italic" aria-hidden="true">mail</i> Enviar e-mail
+  </a>
+</section>
+
+<section class="grid grid-cols-2 xl:grid-cols-4 gap-4">
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-primary shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Alunos vinculados</p>
+    <p class="text-3xl font-black headline"><%= numeros.alunos %></p>
+  </article>
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-secondary shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Vídeos ativos</p>
+    <p class="text-3xl font-black headline"><%= numeros.videos_ativos %></p>
+    <p class="text-xs text-on-surface-variant mt-1"><%= numeros.videos_ocultos %> oculto(s)</p>
+  </article>
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-tertiary-fixed shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Fichas de treino</p>
+    <p class="text-3xl font-black headline"><%= numeros.fichas %></p>
+  </article>
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-green-500 shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Feedbacks respondidos</p>
+    <p class="text-3xl font-black headline"><%= numeros.feedbacks_respondidos %></p>
+  </article>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <header class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-black headline">Vídeos postados</h2>
+      <a href="/moderador/videos?busca=<%= encodeURIComponent(professor.nome) %>" class="text-sm font-bold text-primary hover:underline">Moderar</a>
+    </header>
+    <% if (videos.length > 0) { %>
+      <ul class="flex flex-col divide-y divide-surface-container-low list-none p-0 m-0">
+        <% videos.forEach(function(v) { %>
+          <li class="py-3 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <p class="font-bold truncate"><%= v.titulo %></p>
+              <p class="text-xs text-on-surface-variant">
+                <%= v.categoria || 'Treino' %> • <%= niveis[v.nivel] || v.nivel %> • <%= fontes[v.fonte] || 'Sem link' %> • <%= fmt.dataCurta(v.criado_em) %>
+              </p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classeStatus(v.ativo ? 'ativo' : 'oculto') %>"><%= v.ativo ? 'Ativo' : 'Oculto' %></span>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="text-on-surface-variant py-4">Este professor ainda não postou vídeos.</p>
+    <% } %>
+  </article>
+
+  <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <h2 class="text-xl font-black headline mb-4">Alunos vinculados</h2>
+    <% if (alunosVinculados.length > 0) { %>
+      <ul class="flex flex-col divide-y divide-surface-container-low list-none p-0 m-0">
+        <% alunosVinculados.forEach(function(a) { %>
+          <li>
+            <a href="/moderador/alunos/<%= a.id_aluno %>" class="py-3 flex items-center gap-3 hover:bg-surface-container-low rounded-2xl px-2 -mx-2 transition-colors">
+              <%- include('../../partials/moderador/avatar', { foto: null, nome: a.nome, tam: 'w-10 h-10' }) %>
+              <div class="flex-1 min-w-0">
+                <p class="font-bold truncate"><%= a.nome %></p>
+                <p class="text-xs text-on-surface-variant truncate">Desde <%= fmt.dataCurta(a.desde) %></p>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classePlano(a.plano) %>"><%= a.plano %></span>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="text-on-surface-variant py-4">Nenhum aluno vinculado.</p>
+    <% } %>
+  </article>
+</section>
+
+<% if (podeGerenciar) { %>
+  <section class="bg-red-50 border border-red-200 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-lg font-black headline text-error">Zona de perigo</h2>
+      <p class="text-sm text-red-900/80 mt-1">Exclui o professor, os vídeos, as fichas e as conversas de feedback dele. Os treinos dos alunos são mantidos. Não dá para desfazer.</p>
+    </div>
+    <form action="/moderador/excluir/professor/<%= professor.id_professor %>" method="POST"
+          data-confirmar="Excluir DEFINITIVAMENTE o professor <%= professor.nome %> e os dados dele? Essa ação não pode ser desfeita.">
+      <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-error text-white px-6 py-3 text-sm font-black active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">delete</i> Excluir professor
+      </button>
+    </form>
+  </section>
+<% } %>
+
+<%- include('../../partials/moderador/rodape') %>

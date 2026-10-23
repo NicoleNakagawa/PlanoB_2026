@@ -1,0 +1,179 @@
+<%- include('../../partials/moderador/topo', { titulo: 'Visão geral' }) %>
+
+<%
+  const hoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })
+  const seta = function (v) { return v > 0 ? 'trending_up' : (v < 0 ? 'trending_down' : 'trending_flat') }
+  const corVar = function (v) { return v > 0 ? 'text-green-700' : (v < 0 ? 'text-error' : 'text-on-surface-variant') }
+  const iconesAtividade = {
+    cadastro_aluno: ['person_add', 'bg-primary/10 text-primary'],
+    cadastro_professor: ['school', 'bg-secondary/10 text-secondary'],
+    pagamento: ['payments', 'bg-green-100 text-green-700'],
+    video: ['smart_display', 'bg-purple-100 text-purple-700'],
+    suporte: ['support_agent', 'bg-amber-100 text-amber-700'],
+    treino: ['fitness_center', 'bg-sky-100 text-sky-700'],
+    acao_moderador: ['shield_person', 'bg-red-100 text-red-700']
+  }
+  const rotulosAtividade = {
+    cadastro_aluno: 'Novo aluno', cadastro_professor: 'Novo professor', pagamento: 'Pagamento',
+    video: 'Vídeo postado', suporte: 'Chamado de suporte', treino: 'Treino registrado', acao_moderador: 'Ação de moderador'
+  }
+%>
+
+<!-- Cabeçalho -->
+<section class="relative overflow-hidden rounded-3xl bg-primary p-8 md:p-10 text-white shadow-2xl">
+  <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div>
+      <p class="inline-block px-4 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-widest mb-3 capitalize"><%= hoje %></p>
+      <h1 class="text-3xl md:text-5xl font-black headline leading-tight">Olá, <%= (moderador.nome || 'Moderador').split(' ')[0] %>.</h1>
+      <p class="text-white/85 mt-2 max-w-2xl">Resumo da plataforma PlanoB com dados em tempo real do banco.</p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <a href="/moderador/financeiro" class="inline-flex items-center gap-2 rounded-full bg-white text-primary px-5 py-3 text-sm font-black active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">payments</i> Financeiro
+      </a>
+      <a href="/moderador/exportar" class="inline-flex items-center gap-2 rounded-full bg-white/15 text-white px-5 py-3 text-sm font-black active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">download</i> Exportar CSV
+      </a>
+    </div>
+  </div>
+  <b class="absolute -right-20 -bottom-20 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl" aria-hidden="true"></b>
+</section>
+
+<!-- Alertas -->
+<% if (alertas.suporteAberto > 0 || alertas.pagamentosRecusados > 0) { %>
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <% if (alertas.suporteAberto > 0) { %>
+      <a href="/moderador/suporte?status=aberto" class="flex items-center gap-4 bg-amber-50 border border-amber-200 text-amber-900 rounded-3xl p-5 hover:bg-amber-100 transition-colors">
+        <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">support_agent</i>
+        <p class="font-bold"><%= alertas.suporteAberto %> chamado(s) de suporte aguardando atendimento</p>
+      </a>
+    <% } %>
+    <% if (alertas.pagamentosRecusados > 0) { %>
+      <a href="/moderador/financeiro?status=recusado&periodo=mes" class="flex items-center gap-4 bg-red-50 border border-red-200 text-red-900 rounded-3xl p-5 hover:bg-red-100 transition-colors">
+        <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">credit_card_off</i>
+        <p class="font-bold"><%= alertas.pagamentosRecusados %> pagamento(s) recusado(s) neste mês</p>
+      </a>
+    <% } %>
+  </section>
+<% } %>
+
+<!-- Indicadores -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+  <a href="/moderador/alunos" class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-primary shadow-sm hover:shadow-md transition-shadow">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-3">Alunos</p>
+    <p class="text-4xl font-black headline"><%= fmt.numero(resumo.alunos) %></p>
+    <p class="text-sm mt-2 flex items-center gap-1 <%= corVar(novosVariacao) %>">
+      <i class="material-symbols-outlined text-base not-italic" aria-hidden="true"><%= seta(novosVariacao) %></i>
+      <strong><%= resumo.novos_mes %></strong> novo(s) neste mês
+    </p>
+  </a>
+
+  <a href="/moderador/professores" class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-secondary shadow-sm hover:shadow-md transition-shadow">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-3">Professores</p>
+    <p class="text-4xl font-black headline"><%= fmt.numero(resumo.professores) %></p>
+    <p class="text-sm mt-2 text-on-surface-variant"><strong><%= resumo.videos %></strong> vídeo(s) ativo(s)</p>
+  </a>
+
+  <a href="/moderador/financeiro" class="bg-primary text-white p-6 rounded-3xl shadow-xl shadow-primary/20">
+    <p class="text-xs font-black text-white/70 uppercase tracking-widest mb-3">Receita do mês</p>
+    <p class="text-3xl font-black headline"><%= fmt.moeda(receita.mesAtual) %></p>
+    <p class="text-sm mt-2 flex items-center gap-1 text-white/90">
+      <i class="material-symbols-outlined text-base not-italic" aria-hidden="true"><%= seta(receita.variacao) %></i>
+      <%= receita.variacao > 0 ? '+' : '' %><%= receita.variacao %>% vs. mês anterior
+    </p>
+  </a>
+
+  <a href="/moderador/financeiro" class="bg-surface-container-lowest p-6 rounded-3xl border-b-4 border-tertiary-fixed shadow-sm hover:shadow-md transition-shadow">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-3">Receita recorrente</p>
+    <p class="text-3xl font-black headline"><%= fmt.moeda(receita.mrr) %></p>
+    <p class="text-sm mt-2 text-on-surface-variant"><strong><%= receita.pagantes %></strong> aluno(s) em plano pago</p>
+  </a>
+</section>
+
+<!-- Gráficos -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <article class="lg:col-span-7 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <header class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-black headline">Receita dos últimos 6 meses</h2>
+      <a href="/moderador/financeiro" class="text-sm font-bold text-primary hover:underline">Detalhes</a>
+    </header>
+    <div class="flex items-end gap-3 h-56">
+      <% serieReceita.forEach(function(mes) { %>
+        <div class="flex-1 flex flex-col items-center justify-end h-full gap-2">
+          <span class="text-[11px] font-bold text-on-surface-variant"><%= mes.valor ? fmt.moeda(mes.valor) : '—' %></span>
+          <div class="w-full flex-1 flex items-end">
+            <div class="barra-grafico w-full rounded-t-2xl <%= mes.valor ? 'bg-primary' : 'bg-surface-container-high' %>" style="height: <%= mes.valor ? mes.pct : 3 %>%"></div>
+          </div>
+          <span class="text-xs font-bold uppercase text-on-surface-variant"><%= mes.rotulo %></span>
+        </div>
+      <% }) %>
+    </div>
+  </article>
+
+  <article class="lg:col-span-5 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <header class="mb-6">
+      <h2 class="text-xl font-black headline">Alunos por plano</h2>
+    </header>
+    <ul class="flex flex-col gap-5 list-none p-0 m-0">
+      <% planos.forEach(function(plano) { %>
+        <li>
+          <div class="flex items-center justify-between mb-2">
+            <a href="/moderador/alunos?plano=<%= plano.id_plano %>" class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classePlano(plano.nome) %>"><%= plano.nome %></a>
+            <p class="text-sm font-bold"><%= plano.total %> <span class="text-on-surface-variant font-medium">(<%= plano.pct %>%)</span></p>
+          </div>
+          <div class="h-3 rounded-full bg-surface-container overflow-hidden">
+            <div class="h-full rounded-full <%= plano.nome === 'Diamante' ? 'bg-tertiary-fixed' : (plano.nome === 'Lazuli' ? 'bg-primary' : 'bg-outline-variant') %>" style="width: <%= plano.pct %>%"></div>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <p class="text-xs text-on-surface-variant mt-6"><%= resumo.treinos_7d %> treino(s) registrado(s) nos últimos 7 dias.</p>
+  </article>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <article class="lg:col-span-5 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <header class="mb-6">
+      <h2 class="text-xl font-black headline">Novos alunos por mês</h2>
+    </header>
+    <div class="flex items-end gap-3 h-48">
+      <% serieCadastros.forEach(function(mes) { %>
+        <div class="flex-1 flex flex-col items-center justify-end h-full gap-2">
+          <span class="text-xs font-bold text-on-surface-variant"><%= mes.valor %></span>
+          <div class="w-full flex-1 flex items-end">
+            <div class="barra-grafico w-full rounded-t-2xl <%= mes.valor ? 'bg-secondary' : 'bg-surface-container-high' %>" style="height: <%= mes.valor ? mes.pct : 3 %>%"></div>
+          </div>
+          <span class="text-xs font-bold uppercase text-on-surface-variant"><%= mes.rotulo %></span>
+        </div>
+      <% }) %>
+    </div>
+  </article>
+
+  <article class="lg:col-span-7 bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+    <header class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-black headline">Atividades recentes</h2>
+      <a href="/moderador/atividades" class="text-sm font-bold text-primary hover:underline">Ver tudo</a>
+    </header>
+
+    <% if (atividades.length > 0) { %>
+      <ul class="flex flex-col divide-y divide-surface-container list-none p-0 m-0">
+        <% atividades.forEach(function(item) { const info = iconesAtividade[item.tipo] || ['bolt', 'bg-surface-container text-primary'] %>
+          <li class="flex items-center gap-4 py-3">
+            <span class="w-10 h-10 rounded-full <%= info[1] %> flex items-center justify-center shrink-0">
+              <i class="material-symbols-outlined not-italic" aria-hidden="true"><%= info[0] %></i>
+            </span>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold truncate"><%= item.titulo %></p>
+              <p class="text-xs text-on-surface-variant truncate"><%= rotulosAtividade[item.tipo] || item.tipo %> • <%= item.detalhe %></p>
+            </div>
+            <p class="text-xs text-on-surface-variant whitespace-nowrap"><%= fmt.tempoRelativo(item.quando) %></p>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="py-10 text-center text-on-surface-variant">Nenhuma atividade registrada ainda.</p>
+    <% } %>
+  </article>
+</section>
+
+<%- include('../../partials/moderador/rodape') %>

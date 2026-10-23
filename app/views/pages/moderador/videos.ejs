@@ -1,0 +1,107 @@
+<%- include('../../partials/moderador/topo', { titulo: 'Vídeos' }) %>
+
+<%
+  const niveis = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' }
+  const fontes = { youtube: 'YouTube', arquivo: 'Arquivo' }
+  const voltar = '/moderador/videos' + fmt.qs(Object.assign({}, filtros, { pagina: paginacao.pagina > 1 ? paginacao.pagina : '' }))
+%>
+
+<header>
+  <h1 class="text-3xl md:text-4xl font-black headline">Vídeos</h1>
+  <p class="text-on-surface-variant mt-1">Modere o conteúdo postado pelos professores. Vídeo oculto deixa de aparecer para os alunos.</p>
+</header>
+
+<section class="grid grid-cols-3 gap-4">
+  <a href="/moderador/videos" class="bg-surface-container-lowest p-5 rounded-3xl shadow-sm border-b-4 border-primary text-center">
+    <p class="text-3xl font-black headline"><%= resumo.total %></p>
+    <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-1">Total</p>
+  </a>
+  <a href="/moderador/videos?status=ativo" class="bg-surface-container-lowest p-5 rounded-3xl shadow-sm border-b-4 border-green-500 text-center">
+    <p class="text-3xl font-black headline"><%= resumo.ativos %></p>
+    <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-1">Ativos</p>
+  </a>
+  <a href="/moderador/videos?status=oculto" class="bg-surface-container-lowest p-5 rounded-3xl shadow-sm border-b-4 border-red-400 text-center">
+    <p class="text-3xl font-black headline"><%= resumo.ocultos %></p>
+    <p class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-1">Ocultos</p>
+  </a>
+</section>
+
+<section class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm">
+  <form action="/moderador/videos" method="GET" class="flex flex-col lg:flex-row gap-3">
+    <div class="relative flex-1">
+      <i class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline not-italic" aria-hidden="true">search</i>
+      <label for="busca" class="sr-only">Buscar vídeo</label>
+      <input id="busca" name="busca" type="search" value="<%= filtros.busca %>" placeholder="Buscar por título ou professor..."
+             class="w-full rounded-full border-none bg-surface-container-low px-12 py-3 text-sm focus:ring-2 focus:ring-primary" />
+    </div>
+
+    <label for="status" class="sr-only">Status</label>
+    <select id="status" name="status" class="rounded-full border-none bg-surface-container-low px-5 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+      <option value="">Todos</option>
+      <option value="ativo" <%= filtros.status === 'ativo' ? 'selected' : '' %>>Ativos</option>
+      <option value="oculto" <%= filtros.status === 'oculto' ? 'selected' : '' %>>Ocultos</option>
+    </select>
+
+    <button type="submit" class="rounded-full bg-on-surface text-white px-6 py-3 text-sm font-black active:scale-95 transition-transform">Filtrar</button>
+  </form>
+</section>
+
+<section class="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+  <% if (videos.length > 0) { %>
+    <ul class="flex flex-col divide-y divide-surface-container-low list-none p-0 m-0">
+      <% videos.forEach(function(v) { %>
+        <li class="p-5 flex flex-col md:flex-row md:items-center gap-4">
+          <div class="w-full md:w-40 aspect-video rounded-2xl overflow-hidden bg-surface-container shrink-0 flex items-center justify-center">
+            <% if (v.capa) { %>
+              <img src="<%= v.capa %>" alt="Capa de <%= v.titulo %>" class="w-full h-full object-cover" loading="lazy" />
+            <% } else { %>
+              <i class="material-symbols-outlined text-primary text-4xl not-italic" aria-hidden="true">smart_display</i>
+            <% } %>
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <p class="font-black text-lg truncate"><%= v.titulo %></p>
+              <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classeStatus(v.ativo ? 'ativo' : 'oculto') %>"><%= v.ativo ? 'Ativo' : 'Oculto' %></span>
+              <% if (v.exclusivo) { %><span class="px-3 py-1 rounded-full text-xs font-black bg-tertiary-fixed text-on-tertiary-fixed">Exclusivo</span><% } %>
+            </div>
+            <p class="text-sm text-on-surface-variant">
+              <a href="/moderador/professores/<%= v.id_professor %>" class="font-bold hover:text-primary"><%= v.professor %></a>
+              • <%= v.categoria || 'Treino' %> • <%= niveis[v.nivel] || v.nivel %> • <%= fontes[v.fonte] || 'Sem link' %> • <%= fmt.dataCurta(v.criado_em) %>
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <% if (v.link_video && /^(https?:\/\/|\/uploads\/)/.test(v.link_video)) { %>
+              <a href="<%= v.link_video %>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-full bg-surface-container-low hover:bg-surface-container px-4 py-2 text-xs font-black transition-colors">
+                <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">open_in_new</i> Abrir
+              </a>
+            <% } %>
+
+            <form action="/moderador/videos/<%= v.id_video %>/status" method="POST"
+                  data-confirmar="<%= v.ativo ? 'Ocultar este vídeo? Ele deixa de aparecer para os alunos.' : 'Reativar este vídeo para os alunos?' %>">
+              <input type="hidden" name="ativo" value="<%= v.ativo ? '0' : '1' %>" />
+              <input type="hidden" name="voltar" value="<%= voltar %>" />
+              <button type="submit" class="inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-black transition-colors <%= v.ativo ? 'bg-red-50 text-error hover:bg-red-100' : 'bg-green-50 text-green-800 hover:bg-green-100' %>">
+                <i class="material-symbols-outlined text-base not-italic" aria-hidden="true"><%= v.ativo ? 'visibility_off' : 'visibility' %></i>
+                <%= v.ativo ? 'Ocultar' : 'Reativar' %>
+              </button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <div class="px-6 py-14 text-center">
+      <i class="material-symbols-outlined text-primary text-5xl not-italic mb-3" aria-hidden="true">smart_display</i>
+      <p class="font-black">Nenhum vídeo encontrado</p>
+      <p class="text-sm text-on-surface-variant mt-1">Os vídeos postados pelos professores aparecem aqui.</p>
+    </div>
+  <% } %>
+
+  <%- include('../../partials/moderador/paginacao', { base: '/moderador/videos' }) %>
+</section>
+
+<p class="text-xs text-on-surface-variant">Obs.: vídeos que o próprio professor excluiu também aparecem como ocultos.</p>
+
+<%- include('../../partials/moderador/rodape') %>

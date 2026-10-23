@@ -1,0 +1,264 @@
+<%- include('../../partials/moderador/topo', { titulo: aluno.nome }) %>
+
+<%
+  const horas = function (min) {
+    const m = Number(min) || 0
+    return m >= 60 ? Math.floor(m / 60) + 'h ' + (m % 60) + 'min' : m + ' min'
+  }
+  const campo = function (valor) { return valor || 'Não informado' }
+  const endereco = [aluno.rua, aluno.bairro, [aluno.cidade, aluno.uf].filter(Boolean).join('/')].filter(Boolean).join(', ')
+  const metodos = { cartao_credito: 'Cartão de crédito', cartao_debito: 'Cartão de débito', pix: 'Pix', boleto: 'Boleto' }
+  const niveis = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' }
+%>
+
+<nav class="text-sm text-on-surface-variant flex items-center gap-2" aria-label="Caminho">
+  <a href="/moderador/alunos" class="hover:text-primary font-bold">Alunos</a>
+  <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">chevron_right</i>
+  <span class="font-bold text-on-surface"><%= aluno.nome %></span>
+</nav>
+
+<!-- Cabeçalho do perfil -->
+<section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+  <div class="flex items-center gap-5">
+    <%- include('../../partials/moderador/avatar', { foto: aluno.foto_perfil, nome: aluno.nome, tam: 'w-20 h-20', texto: 'text-2xl' }) %>
+    <div class="min-w-0">
+      <h1 class="text-2xl md:text-3xl font-black headline truncate"><%= aluno.nome %></h1>
+      <p class="text-on-surface-variant truncate"><%= aluno.email %></p>
+      <div class="flex flex-wrap items-center gap-2 mt-3">
+        <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classePlano(aluno.plano) %>"><%= aluno.plano %></span>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant">Aluno desde <%= fmt.dataCurta(aluno.criado_em) %></span>
+        <span class="px-3 py-1 rounded-full text-xs font-bold <%= aluno.dados_completos ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800' %>">
+          <%= aluno.dados_completos ? 'Cadastro completo' : 'Cadastro incompleto' %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <% if (podeGerenciar) { %>
+    <form action="/moderador/alunos/<%= aluno.id_aluno %>/plano" method="POST"
+          data-confirmar="Alterar o plano deste aluno? É um ajuste manual: nenhuma cobrança será gerada."
+          class="flex flex-col sm:flex-row gap-2 sm:items-center">
+      <label for="id_plano" class="sr-only">Plano</label>
+      <select id="id_plano" name="id_plano" class="rounded-full border-none bg-surface-container-low px-5 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+        <% todosPlanos.forEach(function(plano) { %>
+          <option value="<%= plano.id_plano %>" <%= plano.id_plano === aluno.id_plano ? 'selected' : '' %>><%= plano.nome %> (<%= fmt.moeda(plano.valor_mensal) %>)</option>
+        <% }) %>
+      </select>
+      <button type="submit" class="rounded-full bg-primary text-white px-5 py-3 text-sm font-black active:scale-95 transition-transform">Alterar plano</button>
+    </form>
+  <% } %>
+</section>
+
+<!-- Indicadores -->
+<section class="grid grid-cols-2 xl:grid-cols-4 gap-4">
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-primary shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Treinos</p>
+    <p class="text-3xl font-black headline"><%= treinos.total %></p>
+    <p class="text-xs text-on-surface-variant mt-1">Último: <%= treinos.ultimo ? fmt.dataCurta(treinos.ultimo) : 'nunca' %></p>
+  </article>
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-secondary shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Tempo treinado</p>
+    <p class="text-3xl font-black headline"><%= horas(treinos.minutos) %></p>
+    <p class="text-xs text-on-surface-variant mt-1"><%= fmt.numero(Math.round(Number(treinos.calorias))) %> kcal registradas</p>
+  </article>
+  <article class="bg-surface-container-lowest p-5 rounded-3xl border-b-4 border-orange-400 shadow-sm">
+    <p class="text-xs font-black text-on-surface-variant uppercase tracking-widest mb-2">Sequência</p>
+    <p class="text-3xl font-black headline"><%= streak ? streak.streak_atual : 0 %> <span class="text-base font-bold">dia(s)</span></p>
+    <p class="text-xs text-on-surface-variant mt-1">Recorde: <%= streak ? streak.streak_maximo : 0 %> dia(s)</p>
+  </article>
+  <article class="bg-primary text-white p-5 rounded-3xl shadow-xl shadow-primary/20">
+    <p class="text-xs font-black text-white/70 uppercase tracking-widest mb-2">Total pago</p>
+    <p class="text-2xl font-black headline"><%= fmt.moeda(totalPago) %></p>
+    <p class="text-xs text-white/80 mt-1">Plano atual: <%= fmt.moeda(aluno.valor_mensal) %>/mês</p>
+  </article>
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+  <!-- Coluna principal -->
+  <div class="lg:col-span-7 flex flex-col gap-6">
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Pagamentos</h2>
+      <% if (pagamentos.length > 0) { %>
+        <div class="overflow-x-auto rolagem-fina">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="text-xs uppercase tracking-widest text-on-surface-variant">
+                <th class="py-2 pr-4 font-black">Data</th>
+                <th class="py-2 pr-4 font-black">Método</th>
+                <th class="py-2 pr-4 font-black">Valor</th>
+                <th class="py-2 font-black">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-surface-container-low">
+              <% pagamentos.forEach(function(pg) { %>
+                <tr>
+                  <td class="py-3 pr-4 whitespace-nowrap"><%= fmt.dataHora(pg.data_pagamento) %></td>
+                  <td class="py-3 pr-4"><%= metodos[pg.metodo] || pg.metodo %><% if (pg.ultimos_4) { %> <span class="text-on-surface-variant">•••• <%= pg.ultimos_4 %></span><% } %></td>
+                  <td class="py-3 pr-4 font-bold"><%= fmt.moeda(pg.valor) %></td>
+                  <td class="py-3"><span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classeStatus(pg.status) %>"><%= fmt.rotuloStatus(pg.status) %></span></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <p class="text-on-surface-variant py-4">Este aluno ainda não fez nenhum pagamento.</p>
+      <% } %>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Assinaturas</h2>
+      <% if (assinaturas.length > 0) { %>
+        <ul class="flex flex-col divide-y divide-surface-container-low list-none p-0 m-0">
+          <% assinaturas.forEach(function(ass) { %>
+            <li class="py-3 flex items-center justify-between gap-3">
+              <div>
+                <p class="font-bold"><%= ass.plano %> <span class="text-on-surface-variant font-medium">• <%= fmt.moeda(ass.valor_cobrado) %> / <%= ass.periodicidade %></span></p>
+                <p class="text-xs text-on-surface-variant">Início em <%= fmt.dataCurta(ass.data_inicio) %><%= ass.data_fim ? ' • fim em ' + fmt.dataCurta(ass.data_fim) : '' %></p>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classeStatus(ass.status) %>"><%= fmt.rotuloStatus(ass.status) %></span>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="text-on-surface-variant py-4">Sem assinaturas registradas (aluno no plano gratuito).</p>
+      <% } %>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Progresso semanal</h2>
+      <% if (semanas.length > 0) { %>
+        <div class="flex items-end gap-3 h-40">
+          <% semanas.forEach(function(sem) { const pct = sem.meta_dias ? Math.min(100, Math.round((sem.dias_treinados / sem.meta_dias) * 100)) : 0 %>
+            <div class="flex-1 flex flex-col items-center justify-end h-full gap-1" title="<%= sem.dias_treinados %> de <%= sem.meta_dias %> dias • <%= horas(sem.tempo_total_min) %>">
+              <span class="text-xs font-bold text-on-surface-variant"><%= sem.dias_treinados %>/<%= sem.meta_dias %></span>
+              <div class="w-full flex-1 flex items-end">
+                <div class="barra-grafico w-full rounded-t-xl <%= pct >= 100 ? 'bg-green-500' : 'bg-primary' %>" style="height: <%= pct ? Math.max(pct, 4) : 3 %>%"></div>
+              </div>
+              <span class="text-[10px] font-bold text-on-surface-variant"><%= new Date(sem.semana_inicio).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) %></span>
+            </div>
+          <% }) %>
+        </div>
+        <p class="text-xs text-on-surface-variant mt-3">Dias treinados por semana em relação à meta.</p>
+      <% } else { %>
+        <p class="text-on-surface-variant py-4">Sem dados de progresso semanal ainda.</p>
+      <% } %>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Últimos treinos</h2>
+      <% if (sessoes.length > 0) { %>
+        <ul class="flex flex-col divide-y divide-surface-container-low list-none p-0 m-0">
+          <% sessoes.forEach(function(sessao) { %>
+            <li class="py-3 flex items-center gap-4">
+              <span class="w-10 h-10 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+                <i class="material-symbols-outlined not-italic" aria-hidden="true">fitness_center</i>
+              </span>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold truncate"><%= sessao.observacao || 'Treino registrado' %></p>
+                <p class="text-xs text-on-surface-variant"><%= fmt.dataCurta(sessao.data_treino) %> • <%= sessao.duracao_min %> min<%= sessao.nome_ficha ? ' • ' + sessao.nome_ficha : '' %></p>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="text-on-surface-variant py-4">Nenhum treino registrado.</p>
+      <% } %>
+    </article>
+  </div>
+
+  <!-- Coluna lateral -->
+  <div class="lg:col-span-5 flex flex-col gap-6">
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Dados pessoais</h2>
+      <dl class="grid grid-cols-3 gap-y-3 text-sm m-0">
+        <dt class="text-on-surface-variant font-bold col-span-1">E-mail</dt><dd class="col-span-2 m-0 break-all"><%= aluno.email %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">CPF</dt><dd class="col-span-2 m-0"><%= fmt.mascararCpf(aluno.cpf) %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Endereço</dt><dd class="col-span-2 m-0"><%= endereco || 'Não informado' %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">CEP</dt><dd class="col-span-2 m-0"><%= campo(aluno.cep) %></dd>
+      </dl>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Perfil de treino</h2>
+      <dl class="grid grid-cols-3 gap-y-3 text-sm m-0">
+        <dt class="text-on-surface-variant font-bold col-span-1">Objetivo</dt><dd class="col-span-2 m-0"><%= campo(aluno.objetivo) %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Tipo</dt><dd class="col-span-2 m-0"><%= campo(aluno.tipo_treino) %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Nível</dt><dd class="col-span-2 m-0"><%= niveis[aluno.nivel_treino] || campo(aluno.nivel_treino) %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Local</dt><dd class="col-span-2 m-0"><%= campo(aluno.local_treino) %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Dias/semana</dt><dd class="col-span-2 m-0"><%= aluno.dias_semana || 'Não informado' %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Equipamentos</dt><dd class="col-span-2 m-0"><%= campo(aluno.equipamentos) %></dd>
+        <dt class="text-on-surface-variant font-bold col-span-1">Limitações</dt><dd class="col-span-2 m-0"><%= campo(aluno.limitacoes) %></dd>
+      </dl>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Professor responsável</h2>
+      <% if (professor) { %>
+        <a href="/moderador/professores/<%= professor.id_professor %>" class="flex items-center gap-4 rounded-2xl p-3 hover:bg-surface-container-low transition-colors">
+          <%- include('../../partials/moderador/avatar', { foto: null, nome: professor.nome, tam: 'w-12 h-12' }) %>
+          <div class="min-w-0">
+            <p class="font-black truncate"><%= professor.nome %></p>
+            <p class="text-xs text-on-surface-variant truncate">CREF <%= professor.cref %> • ficha "<%= professor.nome_ficha %>"</p>
+            <p class="text-xs text-on-surface-variant">Desde <%= fmt.dataCurta(professor.data_inicio) %></p>
+          </div>
+        </a>
+      <% } else { %>
+        <p class="text-on-surface-variant">Nenhum professor vinculado a este aluno.</p>
+      <% } %>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Descontos por sequência</h2>
+      <% if (descontos.length > 0) { %>
+        <ul class="flex flex-col gap-2 list-none p-0 m-0">
+          <% descontos.forEach(function(d) { %>
+            <li class="flex items-center justify-between text-sm">
+              <span><strong><%= d.codigo %></strong> <span class="text-on-surface-variant">• <%= Number(d.percentual) %>% • <%= d.dias_streak %> dias</span></span>
+              <span class="px-3 py-1 rounded-full text-xs font-black <%= d.usado ? 'bg-surface-container-highest text-on-surface-variant' : 'bg-green-100 text-green-800' %>"><%= d.usado ? 'Usado' : 'Disponível' %></span>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="text-on-surface-variant">Nenhum desconto gerado.</p>
+      <% } %>
+    </article>
+
+    <article class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+      <h2 class="text-xl font-black headline mb-4">Feedback e suporte</h2>
+      <p class="text-sm mb-3"><strong><%= feedback.total %></strong> mensagem(ns) de feedback enviada(s) ao professor<%= feedback.ultima ? ' • última ' + fmt.tempoRelativo(feedback.ultima) : '' %>.</p>
+      <% if (chamados.length > 0) { %>
+        <ul class="flex flex-col gap-2 list-none p-0 m-0">
+          <% chamados.forEach(function(c) { %>
+            <li class="flex items-center justify-between gap-3 text-sm">
+              <span class="truncate"><%= c.assunto || 'Sem assunto' %> <span class="text-on-surface-variant">• <%= fmt.dataCurta(c.criado_em) %></span></span>
+              <span class="px-3 py-1 rounded-full text-xs font-black <%= fmt.classeStatus(c.status) %>"><%= fmt.rotuloStatus(c.status) %></span>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="text-sm text-on-surface-variant">Nenhum chamado de suporte.</p>
+      <% } %>
+    </article>
+  </div>
+</section>
+
+<% if (podeGerenciar) { %>
+  <section class="bg-red-50 border border-red-200 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-lg font-black headline text-error">Zona de perigo</h2>
+      <p class="text-sm text-red-900/80 mt-1">Exclui o aluno e todos os dados dele (pagamentos, treinos, progresso, feedbacks). Não dá para desfazer.</p>
+    </div>
+    <form action="/moderador/excluir/aluno/<%= aluno.id_aluno %>" method="POST"
+          data-confirmar="Excluir DEFINITIVAMENTE <%= aluno.nome %> e todos os dados dele? Essa ação não pode ser desfeita.">
+      <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-error text-white px-6 py-3 text-sm font-black active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">delete</i> Excluir aluno
+      </button>
+    </form>
+  </section>
+<% } %>
+
+<%- include('../../partials/moderador/rodape') %>

@@ -1,0 +1,6 @@
+<%
+  const _tam = typeof tam !== 'undefined' ? tam : 'w-12 h-12'
+  const _texto = typeof texto !== 'undefined' ? texto : 'text-sm'
+  const _foto = typeof foto !== 'undefined' ? foto : null
+  const _nome = typeof nome !== 'undefined' ? nome : ''
+%><% if (_foto) { %><img class="<%= _tam %> rounded-full object-cover shrink-0" src="<%= _foto %>" alt="Foto de <%= _nome %>" /><% } else { %><span class="<%= _tam %> <%= _texto %> rounded-full avatar-placeholder flex items-center justify-center font-black shrink-0" aria-label="Sem foto"><%= fmt.iniciais(_nome) %></span><% } %>
