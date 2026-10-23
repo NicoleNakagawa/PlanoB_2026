@@ -184,3 +184,7 @@ DB_PORT=3306
 ## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+
+/*IGNORE*/
+sudo service mysql start
