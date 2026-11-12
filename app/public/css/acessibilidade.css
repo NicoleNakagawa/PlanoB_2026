@@ -1,0 +1,378 @@
+/* =====================================================================
+   PlanoB - Menu de acessibilidade (todas as páginas)
+   O botão e o painel são criados por /js/acessibilidade.js.
+   As preferências ficam salvas no navegador (localStorage "planob-a11y").
+   ===================================================================== */
+
+/* ---------- Preferências aplicadas na página ---------- */
+
+/* Modo escuro: inverte as cores da página inteira e desfaz a inversão nas mídias */
+html.a11y-escuro {
+  filter: invert(1) hue-rotate(180deg);
+  background: #ffffff;
+}
+
+html.a11y-contraste {
+  filter: contrast(1.35) saturate(1.1);
+}
+
+html.a11y-escuro.a11y-contraste {
+  filter: invert(1) hue-rotate(180deg) contrast(1.35) saturate(1.1);
+}
+
+html.a11y-escuro img,
+html.a11y-escuro video,
+html.a11y-escuro iframe,
+html.a11y-escuro canvas,
+html.a11y-escuro [style*="background-image"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Fonte pensada para leitura (dislexia/baixa visão). Ícones e logo ficam como estão. */
+html.a11y-fonte-legivel body,
+html.a11y-fonte-legivel body *:not(.material-symbols-outlined):not(.logo-font):not([class*="logo"]) {
+  font-family: 'Atkinson Hyperlegible', 'Lexend', Verdana, sans-serif !important;
+}
+
+/* Mais espaço entre letras, palavras e linhas */
+html.a11y-espacamento body *:not(.material-symbols-outlined) {
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.16em !important;
+}
+
+html.a11y-espacamento body p,
+html.a11y-espacamento body li,
+html.a11y-espacamento body label,
+html.a11y-espacamento body summary,
+html.a11y-espacamento body td,
+html.a11y-espacamento body h1,
+html.a11y-espacamento body h2,
+html.a11y-espacamento body h3,
+html.a11y-espacamento body h4 {
+  line-height: 1.8 !important;
+}
+
+/* Destacar links */
+html.a11y-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  outline: 2px dashed currentColor;
+  outline-offset: 2px;
+}
+
+/* Pausar animações */
+html.a11y-sem-animacao *,
+html.a11y-sem-animacao *::before,
+html.a11y-sem-animacao *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---------- Botão e painel ---------- */
+
+.a11y-raiz {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9990;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: #232c51;
+}
+
+.a11y-raiz *,
+.a11y-raiz *::before,
+.a11y-raiz *::after {
+  box-sizing: border-box;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+.a11y-fab {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: #0058ba;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 88, 186, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.a11y-fab:hover {
+  transform: scale(1.06);
+}
+
+.a11y-fab:active {
+  transform: scale(0.95);
+}
+
+.a11y-fab i {
+  font-size: 26px;
+  font-style: normal;
+  color: #ffffff;
+}
+
+.a11y-raiz button:focus-visible {
+  outline: 3px solid #ffd709;
+  outline-offset: 2px;
+}
+
+.a11y-painel {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  width: min(21rem, calc(100vw - 24px));
+  max-height: calc(100vh - var(--a11y-topo, 12px) - 76px);
+  max-height: calc(100dvh - var(--a11y-topo, 12px) - 76px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 20px;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #232c51;
+  box-shadow: 0 24px 60px rgba(35, 44, 81, 0.25);
+  border: 1px solid #d5dbff;
+}
+
+.a11y-painel[hidden] {
+  display: none;
+}
+
+.a11y-cab {
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: transparent;
+}
+
+.a11y-titulo {
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #232c51;
+}
+
+.a11y-fechar {
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: #efefff;
+  color: #232c51;
+  cursor: pointer;
+}
+
+.a11y-fechar:hover {
+  background: #d5dbff;
+}
+
+.a11y-fechar i {
+  font-size: 20px;
+  font-style: normal;
+}
+
+.a11y-grupo {
+  margin: 0 0 14px;
+  padding: 14px;
+  border: 0;
+  border-radius: 20px;
+  background: #efefff;
+}
+
+.a11y-grupo legend {
+  float: left;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  color: #505a81;
+}
+
+.a11y-fonte {
+  clear: both;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.a11y-fonte button {
+  flex: 0 0 auto;
+  min-width: 52px;
+  height: 40px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #0058ba;
+  font-family: 'Lexend', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(35, 44, 81, 0.08);
+}
+
+.a11y-fonte button:hover:not(:disabled) {
+  background: #d5dbff;
+}
+
+.a11y-fonte button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.a11y-fonte output {
+  flex: 1 1 auto;
+  text-align: center;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #232c51;
+}
+
+.a11y-lista {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.a11y-lista li {
+  margin: 0;
+  padding: 0;
+}
+
+.a11y-opcao {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background: #efefff;
+  color: #232c51;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.a11y-opcao:hover {
+  background: #e4e7ff;
+}
+
+.a11y-opcao i {
+  flex: 0 0 auto;
+  font-size: 22px;
+  font-style: normal;
+  color: #0058ba;
+}
+
+.a11y-opcao strong {
+  flex: 1 1 auto;
+  font-weight: 700;
+}
+
+.a11y-opcao small {
+  flex: 0 0 auto;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: #d5dbff;
+  color: #505a81;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.a11y-opcao[aria-checked="true"] {
+  border-color: #0058ba;
+  background: #ffffff;
+}
+
+.a11y-opcao[aria-checked="true"] small {
+  background: #0058ba;
+  color: #ffffff;
+}
+
+.a11y-rodape {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.a11y-restaurar {
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 9999px;
+  background: #0058ba;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.a11y-restaurar:hover {
+  background: #004da4;
+}
+
+.a11y-restaurar i {
+  font-size: 20px;
+  font-style: normal;
+}
+
+@media (max-width: 767px) {
+  .a11y-raiz {
+    right: 10px;
+  }
+
+  .a11y-fab {
+    width: 40px;
+    height: 40px;
+  }
+
+  .a11y-painel {
+    top: 50px;
+    padding: 16px;
+  }
+}

@@ -1,0 +1,122 @@
+<%- include('../../partials/moderador/topo', { titulo: 'Chamado #' + chamado.id_suporte }) %>
+
+<%
+  const ehProfessor = chamado.tipo_usuario === 'professor'
+  const urlUsuario = ehProfessor && chamado.id_professor
+    ? '/moderador/professores/' + chamado.id_professor
+    : (chamado.id_aluno ? '/moderador/alunos/' + chamado.id_aluno : null)
+  const voltarChamado = '/moderador/suporte/' + chamado.id_suporte
+%>
+
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <hgroup>
+    <p class="text-sm font-bold text-on-surface-variant">
+      <a href="/moderador/suporte" class="hover:text-primary inline-flex items-center gap-1">
+        <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">arrow_back</i> Voltar para Suporte
+      </a>
+    </p>
+    <h1 class="text-3xl md:text-4xl font-black headline mt-2"><%= chamado.assunto || 'Sem assunto' %></h1>
+    <p class="text-on-surface-variant mt-1">Chamado #<%= chamado.id_suporte %> • aberto em <%= fmt.dataHora(chamado.criado_em) %> (<%= fmt.tempoRelativo(chamado.criado_em) %>)</p>
+  </hgroup>
+
+  <mark class="px-4 py-2 rounded-full text-sm font-black self-start <%= fmt.classeStatus(chamado.status) %>"><%= fmt.rotuloStatus(chamado.status) %></mark>
+</header>
+
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6" aria-label="Detalhes do chamado">
+
+  <aside class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm h-fit">
+    <h2 class="text-sm font-black uppercase tracking-widest text-on-surface-variant mb-4">Quem enviou</h2>
+
+    <dl class="flex flex-col gap-3 text-sm">
+      <dt class="text-on-surface-variant font-bold">Nome</dt>
+      <dd class="font-black text-base -mt-2">
+        <% if (urlUsuario) { %>
+          <a href="<%= urlUsuario %>" class="hover:text-primary underline underline-offset-4"><%= chamado.nome %></a>
+        <% } else { %><%= chamado.nome %><% } %>
+      </dd>
+
+      <dt class="text-on-surface-variant font-bold">Tipo de conta</dt>
+      <dd class="font-black -mt-2"><%= ehProfessor ? 'Professor' : (chamado.id_aluno ? 'Aluno' : 'Visitante') %></dd>
+
+      <dt class="text-on-surface-variant font-bold">E-mail</dt>
+      <dd class="font-black -mt-2 break-all"><%= chamado.email %></dd>
+
+      <% if (!ehProfessor && chamado.nome_plano) { %>
+        <dt class="text-on-surface-variant font-bold">Plano</dt>
+        <dd class="font-black -mt-2"><%= chamado.nome_plano %></dd>
+      <% } %>
+
+      <% if (ehProfessor && chamado.cref_professor) { %>
+        <dt class="text-on-surface-variant font-bold">CREF</dt>
+        <dd class="font-black -mt-2"><%= chamado.cref_professor %></dd>
+      <% } %>
+    </dl>
+
+    <hr class="my-5 border-outline-variant/30" />
+
+    <h2 class="text-sm font-black uppercase tracking-widest text-on-surface-variant mb-3">Alterar status</h2>
+    <ul class="flex flex-col gap-2" role="list">
+      <% statusLista.filter(function(s) { return s !== chamado.status }).forEach(function(s) { %>
+        <li>
+          <form action="/moderador/suporte/<%= chamado.id_suporte %>/status" method="POST">
+            <input type="hidden" name="status" value="<%= s %>" />
+            <input type="hidden" name="voltar" value="<%= voltarChamado %>" />
+            <button type="submit" class="w-full rounded-full bg-surface-container-low hover:bg-surface-container px-4 py-2 text-xs font-black transition-colors">
+              Marcar como <%= fmt.rotuloStatus(s).toLowerCase() %>
+            </button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+  </aside>
+
+  <article class="lg:col-span-2 bg-surface-container-lowest rounded-3xl p-6 md:p-8 shadow-sm">
+    <h2 class="text-sm font-black uppercase tracking-widest text-on-surface-variant mb-5">Conversa</h2>
+
+    <ol class="flex flex-col gap-4 mb-8" role="list">
+      <li class="max-w-[92%] self-start rounded-3xl rounded-bl-md bg-surface-container px-5 py-4">
+        <p class="whitespace-pre-line leading-relaxed text-sm"><%= chamado.mensagem %></p>
+        <p class="mt-2 text-xs text-on-surface-variant"><%= chamado.nome %> • <%= fmt.dataHora(chamado.criado_em) %></p>
+      </li>
+
+      <% mensagens.forEach(function(m) { %>
+        <% if (m.autor === 'moderador') { %>
+          <li class="max-w-[92%] self-end rounded-3xl rounded-br-md bg-primary text-white px-5 py-4">
+            <p class="whitespace-pre-line leading-relaxed text-sm"><%= m.mensagem %></p>
+            <p class="mt-2 text-xs opacity-80">Equipe • <%= m.nome_autor %> • <%= fmt.dataHora(m.criado_em) %></p>
+          </li>
+        <% } else { %>
+          <li class="max-w-[92%] self-start rounded-3xl rounded-bl-md bg-surface-container px-5 py-4">
+            <p class="whitespace-pre-line leading-relaxed text-sm"><%= m.mensagem %></p>
+            <p class="mt-2 text-xs text-on-surface-variant"><%= m.nome_autor %> • <%= fmt.dataHora(m.criado_em) %></p>
+          </li>
+        <% } %>
+      <% }) %>
+    </ol>
+
+    <% if (chamado.status === 'fechado') { %>
+      <p class="rounded-2xl bg-surface-container-low px-5 py-4 text-sm text-on-surface-variant">
+        Este chamado está fechado e o usuário não pode mais responder. Para responder, mude o status para outro.
+      </p>
+    <% } else { %>
+      <form action="/moderador/suporte/<%= chamado.id_suporte %>/responder" method="POST" class="flex flex-col gap-3">
+        <label for="resposta-moderador" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Sua resposta</label>
+        <textarea id="resposta-moderador" name="mensagem" rows="5" maxlength="3000" required
+                  placeholder="Escreva a resposta que o usuário vai ver em Meus chamados..."
+                  class="w-full rounded-2xl border-none bg-surface-container-low px-5 py-4 font-medium focus:ring-2 focus:ring-primary resize-y"></textarea>
+
+        <label class="inline-flex items-center gap-2 text-sm font-bold">
+          <input type="checkbox" name="resolver" value="1" class="rounded border-outline-variant text-primary focus:ring-primary" />
+          Marcar chamado como resolvido ao enviar
+        </label>
+
+        <button type="submit" class="w-full sm:w-auto sm:self-start rounded-full bg-primary text-white px-8 py-3 font-black active:scale-95 transition-transform">
+          Enviar resposta
+        </button>
+      </form>
+    <% } %>
+  </article>
+
+</section>
+
+<%- include('../../partials/moderador/rodape') %>

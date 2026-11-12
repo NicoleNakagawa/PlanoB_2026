@@ -28,10 +28,6 @@ router.get('/planos', (req, res) => {
     res.render('planos')
 })
 
-router.get('/suporte', (req, res) => {
-    res.render('suporte')
-})
-
 router.get('/cadastroaluno', (req, res) => {
     res.render('cadastroaluno')
 })
@@ -140,7 +136,16 @@ router.post('/pagamento', authAluno, pagamentoController.processar)
 const suporteController = require('../controllers/suporteController')
 const treinoController = require('../controllers/treinoController')
 
+// Suporte: a página é pública, mas abrir chamado e ver respostas exige login (aluno ou professor)
+router.get('/suporte', suporteController.exibir)
 router.post('/suporte', suporteController.enviar)
+router.get('/suporte/chamados', suporteController.meusChamados)
+router.post('/suporte/chamados/:id/responder', suporteController.responder)
+
+// Tutorial de primeiro acesso (aluno e professor)
+const tutorialController = require('../controllers/tutorialController')
+
+router.post('/api/tutorial/concluir', tutorialController.concluir)
 router.post('/api/aluno/registrar-treino', authAluno, treinoController.registrar)
 
 // =======================
@@ -217,6 +222,8 @@ router.get('/moderador/financeiro/exportar', authModerador, moderadorFinanceiroC
 router.get('/moderador/videos', authModerador, moderadorConteudoController.videos)
 router.post('/moderador/videos/:id/status', authModerador, moderadorConteudoController.alterarStatusVideo)
 router.get('/moderador/suporte', authModerador, moderadorConteudoController.suporte)
+router.get('/moderador/suporte/:id', authModerador, moderadorConteudoController.chamado)
+router.post('/moderador/suporte/:id/responder', authModerador, moderadorConteudoController.responderChamado)
 router.post('/moderador/suporte/:id/status', authModerador, moderadorConteudoController.alterarStatusSuporte)
 router.get('/moderador/atividades', authModerador, moderadorConteudoController.atividades)
 
