@@ -376,6 +376,7 @@
   </style>
 
   <link rel="stylesheet" href="/css/transicao-paginas.css">
+  <%- include('../partials/acessibilidade') %>
 </head>
 
 <body class="bg-surface text-on-surface">
@@ -503,7 +504,7 @@
     <b class="absolute bottom-0 left-0 w-full h-[1px] bg-[#d5dbff] font-normal" aria-hidden="true"></b>
   </header>
 
-  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+  <aside class="hidden md:flex h-[calc(100vh-4rem)] overflow-y-auto w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
 
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
@@ -559,18 +560,14 @@
       </a>
     </nav>
 
-    <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+  <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
       <a href="/todosvideos" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
         Novo Conteúdo
       </a>
 
-      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error rounded-full hover:bg-surface-container transition-colors text-sm"
-         href="/logout">
-        <i class="material-symbols-outlined not-italic" aria-hidden="true">logout</i>
-        <em class="not-italic">Sair</em>
-      </a>
-    </footer>
+      <%- include('../partials/sair-menu') %>
+  </footer>
   </aside>
 
   <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
@@ -578,21 +575,83 @@
 
       <article class="hero-professor md:col-span-12 relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white shadow-2xl">
 
-        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <section class="relative z-10 flex flex-col md:flex-row items-center justify-between          <section class="w-full max-w-2xl">
+            <hgroup>
+              <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
+                Perfil do Professor
+              </mark>
 
-          <hgroup class="max-w-2xl">
-            <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
-              Perfil do Professor
-            </mark>
+              <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
+                OLÁ, <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0].toUpperCase() : 'PROFESSOR' %>.
+              </h1>
 
-            <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
-              OLÁ, <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0].toUpperCase() : 'PROFESSOR' %>.
-            </h1>
+              <p class="text-lg opacity-90 max-w-xl">
+                Gerencie seus dados profissionais, acompanhe seus conteúdos, alunos vinculados e feedbacks recebidos dentro do PlanoB.
+              </p>
+            </hgroup>
 
-            <p class="text-lg opacity-90 max-w-xl">
-              Gerencie seus dados profissionais, acompanhe seus conteúdos, alunos vinculados e feedbacks recebidos dentro do PlanoB.
-            </p>
-          </hgroup>
+            <details class="mt-6 w-full max-w-xl rounded-2xl border border-white/20 bg-white/10 p-4 group">
+              <summary class="cursor-pointer list-none flex items-center justify-between gap-3 font-black text-white">
+                <span class="inline-flex items-center gap-2">
+                  <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
+                  Alterar dados do perfil
+                </span>
+                <i class="material-symbols-outlined not-italic transition-transform group-open:rotate-180" aria-hidden="true">expand_more</i>
+              </summary>
+
+              <form action="/perfilprofessor/dados" method="POST" class="mt-5 flex flex-col gap-4">
+                <fieldset class="flex flex-col gap-2">
+                  <legend class="sr-only">Alterar nome, e-mail e CREF</legend>
+
+                  <label for="nome-perfil" class="text-xs font-black uppercase tracking-widest text-white/80">
+                    Nome
+                  </label>
+
+                  <input
+                    id="nome-perfil"
+                    name="nome"
+                    type="text"
+                    value="<%= professorSeguro.nome || '' %>"
+                    class="w-full rounded-2xl border-none bg-white px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary"
+                    required
+                  />
+
+                  <label for="email-perfil" class="text-xs font-black uppercase tracking-widest text-white/80 mt-2">
+                    E-mail
+                  </label>
+
+                  <input
+                    id="email-perfil"
+                    name="email"
+                    type="email"
+                    value="<%= professorSeguro.email || '' %>"
+                    class="w-full rounded-2xl border-none bg-white px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary"
+                    required
+                  />
+
+                  <label for="cref-perfil" class="text-xs font-black uppercase tracking-widest text-white/80 mt-2">
+                    CREF
+                  </label>
+
+                  <input
+                    id="cref-perfil"
+                    name="cref"
+                    type="text"
+                    value="<%= professorSeguro.cref || '' %>"
+                    placeholder="Ex: 123456-G/SP"
+                    class="w-full rounded-2xl border-none bg-white px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary"
+                    required
+                  />
+                </fieldset>
+
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto sm:self-start bg-white text-primary px-6 py-3 rounded-full font-bold shadow-lg hover:bg-surface-container-low transition-colors">
+                  Salvar alterações
+                </button>
+              </form>
+            </details>
+          </section>
 
           <figure class="relative w-40 h-40 md:w-44 md:h-44 rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/10 p-3 m-0 group">
             <% if (professorSeguro.foto) { %>
@@ -681,69 +740,6 @@
             </p>
           </li>
         </ul>
-
-        <details class="bg-surface-container-low rounded-3xl p-4 group">
-          <summary class="cursor-pointer list-none flex items-center justify-between gap-3 font-black text-primary">
-            <strong>Alterar dados do perfil</strong>
-            <i class="material-symbols-outlined not-italic transition-transform group-open:rotate-180" aria-hidden="true">expand_more</i>
-          </summary>
-
-          <section class="mt-5 flex flex-col gap-6">
-
-            <form action="/perfilprofessor/dados" method="POST" class="flex flex-col gap-4">
-              <fieldset class="flex flex-col gap-2">
-                <legend class="sr-only">Alterar nome, e-mail e CREF</legend>
-
-                <label for="nome-professor" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">
-                  Nome
-                </label>
-
-                <input
-                  id="nome-professor"
-                  name="nome"
-                  type="text"
-                  value="<%= professorSeguro.nome || '' %>"
-                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
-                  required
-                />
-
-                <label for="email-professor" class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-2">
-                  E-mail
-                </label>
-
-                <input
-                  id="email-professor"
-                  name="email"
-                  type="email"
-                  value="<%= professorSeguro.email || '' %>"
-                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
-                  required
-                />
-
-                <label for="cref-professor" class="text-xs font-black uppercase tracking-widest text-on-surface-variant mt-2">
-                  CREF
-                </label>
-
-                <input
-                  id="cref-professor"
-                  name="cref"
-                  type="text"
-                  value="<%= professorSeguro.cref || '' %>"
-                  placeholder="Ex: 123456-G/SP"
-                  class="w-full rounded-2xl border-none bg-surface-container-lowest px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary"
-                  required
-                />
-              </fieldset>
-
-              <button
-                type="submit"
-                class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
-                Salvar dados profissionais
-              </button>
-            </form>
-
-          </section>
-        </details>
 
         <a href="/painelprofessor" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">
           Voltar ao Painel

@@ -1,0 +1,18 @@
+<%# Tutorial de primeiro acesso. Vai no fim do <body> dos painéis (aluno free/lazuli/diamante e professor).
+    Só aparece se a conta ainda não viu o tutorial (tutorial_visto = 0). Depois de concluído, nunca mais. %>
+<%
+  const alunoTut = typeof aluno !== 'undefined' && aluno ? aluno : null
+  const professorTut = typeof professor !== 'undefined' && professor ? professor : null
+  let tutorialConfig = null
+
+  if (alunoTut && alunoTut.tutorial_visto !== undefined && Number(alunoTut.tutorial_visto) === 0) {
+    tutorialConfig = { tipo: 'aluno', nome: alunoTut.nome || '', plano: Number(alunoTut.id_plano) || 1 }
+  } else if (professorTut && professorTut.tutorial_visto !== undefined && Number(professorTut.tutorial_visto) === 0) {
+    tutorialConfig = { tipo: 'professor', nome: professorTut.nome || '', plano: 0 }
+  }
+%>
+<% if (tutorialConfig) { %>
+  <link rel="stylesheet" href="/css/tutorial.css" />
+  <script type="application/json" id="tutorial-config"><%- JSON.stringify(tutorialConfig).replace(/</g, '\\u003c') %></script>
+  <script src="/js/tutorial.js" defer></script>
+<% } %>

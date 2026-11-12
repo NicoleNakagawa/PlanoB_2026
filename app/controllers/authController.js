@@ -8,9 +8,22 @@ const SALT_ROUNDS = 12
 // LOGIN ÚNICO (aluno, professor e moderador)
 // =======================
 
+// Depois do login, volta para a página de onde a pessoa veio (ex.: /suporte#chamado).
+// Só aceita caminhos internos do suporte, para ninguém ser mandado para um site de fora.
+function proximoSeguro(valor) {
+    const texto = String(valor || '')
+
+    if (texto.startsWith('/suporte') && !texto.startsWith('//') && !texto.includes('\\')) {
+        return texto
+    }
+
+    return ''
+}
+
 exports.exibirLogin = (req, res) => {
     res.render('login', {
-        sucesso: req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null
+        sucesso: req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null,
+        next: proximoSeguro(req.query.next)
     })
 }
 
@@ -26,9 +39,11 @@ exports.redirecionarParaLoginPost = (req, res) => {
 
 exports.login = async (req, res) => {
     const { email, password, remember } = req.body
+    const proximo = proximoSeguro(req.body.next)
 
     if (!email || !password) {
         return res.render('login', {
+            next: proximo,
             erro: 'Informe e-mail e senha.'
         })
     }
@@ -45,7 +60,8 @@ exports.login = async (req, res) => {
                 senha_hash,
                 id_plano,
                 foto_perfil,
-                dados_completos
+                dados_completos,
+                tutorial_visto
              FROM aluno
              WHERE email = ?
              LIMIT 1`,
@@ -58,6 +74,7 @@ exports.login = async (req, res) => {
 
             if (!senhaCorreta) {
                 return res.render('login', {
+            next: proximo,
                     erro: 'E-mail ou senha inválidos.'
                 })
             }
@@ -72,14 +89,15 @@ exports.login = async (req, res) => {
                 email: aluno.email,
                 id_plano: aluno.id_plano,
                 foto: aluno.foto_perfil,
-                dados_completos: aluno.dados_completos
+                dados_completos: aluno.dados_completos,
+                tutorial_visto: aluno.tutorial_visto
             }
 
             if (!aluno.dados_completos) {
                 return res.redirect('/dadosaluno')
             }
 
-            return res.redirect(redirecionarPainelAluno(aluno.id_plano))
+            return res.redirect(proximo || redirecionarPainelAluno(aluno.id_plano))
         }
 
         // TENTA LOGIN COMO PROFESSOR
@@ -90,7 +108,8 @@ exports.login = async (req, res) => {
                 email,
                 senha_hash,
                 cref,
-                foto_perfil
+                foto_perfil,
+                tutorial_visto
              FROM professor
              WHERE email = ?
              LIMIT 1`,
@@ -103,6 +122,7 @@ exports.login = async (req, res) => {
 
             if (!senhaCorreta) {
                 return res.render('login', {
+            next: proximo,
                     erro: 'E-mail ou senha inválidos.'
                 })
             }
@@ -116,10 +136,11 @@ exports.login = async (req, res) => {
                 nome: professor.nome,
                 email: professor.email,
                 cref: professor.cref,
-                foto: professor.foto_perfil
+                foto: professor.foto_perfil,
+                tutorial_visto: professor.tutorial_visto
             }
 
-            return res.redirect('/painelprofessor')
+            return res.redirect(proximo || '/painelprofessor')
         }
 
         // TENTA LOGIN COMO MODERADOR
@@ -143,6 +164,7 @@ exports.login = async (req, res) => {
 
             if (Number(moderador.ativo) !== 1) {
                 return res.render('login', {
+            next: proximo,
                     erro: 'Este moderador está desativado.'
                 })
             }
@@ -151,6 +173,7 @@ exports.login = async (req, res) => {
 
             if (!senhaCorreta) {
                 return res.render('login', {
+            next: proximo,
                     erro: 'E-mail ou senha inválidos.'
                 })
             }
@@ -171,12 +194,14 @@ exports.login = async (req, res) => {
         }
 
         return res.render('login', {
+            next: proximo,
             erro: 'E-mail ou senha inválidos.'
         })
     } catch (err) {
         console.error('[login único]', err)
 
         return res.render('login', {
+            next: proximo,
             erro: 'Erro interno. Tente novamente.'
         })
     }
@@ -232,7 +257,8 @@ exports.cadastrarAluno = async (req, res) => {
             email: emailLimpo,
             id_plano: 1,
             foto: null,
-            dados_completos: 0
+            dados_completos: 0,
+            tutorial_visto: 0
         }
 
         res.redirect('/dadosaluno')
@@ -308,7 +334,8 @@ exports.cadastrarProfessor = async (req, res) => {
             nome: nomeLimpo,
             email: emailLimpo,
             cref: crefLimpo,
-            foto: null
+            foto: null,
+            tutorial_visto: 0
         }
 
         res.redirect('/painelprofessor')

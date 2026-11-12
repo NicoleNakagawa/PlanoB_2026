@@ -309,7 +309,7 @@
         gap: 1rem !important;
       }
 
-      section[aria-labelledby="faq-heading"] summary h3 {
+      section[aria-labelledby="faq-heading"] summary h4 {
         font-size: 1rem !important;
         line-height: 1.4 !important;
       }
@@ -455,7 +455,7 @@
         padding: 1.2rem !important;
       }
 
-      section[aria-labelledby="faq-heading"] summary h3 {
+      section[aria-labelledby="faq-heading"] summary h4 {
         font-size: 0.95rem !important;
       }
 
@@ -484,8 +484,12 @@
         transform: scale(1.05) !important;
       }
     }
+
+    .faq-bloco { border-radius: 2rem; transition: box-shadow 0.4s ease; }
+    .faq-bloco-destaque { box-shadow: 0 0 0 6px rgba(0, 88, 186, 0.18); }
   </style>
   <link rel="stylesheet" href="/css/transicao-paginas.css">
+  <%- include('../partials/acessibilidade') %>
 </head>
 
 <body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
@@ -509,6 +513,21 @@
         </li>
       </ul>
 
+      <%
+        const painelUsuario = aluno
+          ? ({ 2: '/painellazuli', 3: '/paineldiamante' }[Number(aluno.id_plano)] || '/painelfree')
+          : (professor ? '/painelprofessor' : null)
+      %>
+      <% if (painelUsuario) { %>
+      <nav class="flex items-center gap-8" aria-label="Ações do usuário">
+        <a href="/logout" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+          Sair
+        </a>
+        <a href="<%= painelUsuario %>" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+          Meu painel
+        </a>
+      </nav>
+      <% } else { %>
       <nav class="flex items-center gap-8" aria-label="Ações do usuário">
         <a href="/loginaluno" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
           Login
@@ -517,6 +536,7 @@
           Começar Agora
         </a>
       </nav>
+      <% } %>
 
     </nav>
   </header>
@@ -553,44 +573,108 @@
 
     </section>
 
+<%
+  const faq = [
+    { id: 'primeiros-passos', titulo: 'Primeiros passos', icone: 'rocket_launch', resumo: 'Criar conta, preencher seus dados e se localizar no site.', itens: [
+      ['Como crio minha conta de aluno?', 'Clique em <strong>Começar Agora</strong>, informe nome, e-mail e senha e confirme. Logo depois você preenche o formulário com seus dados de treino (objetivo, nível, local e dias por semana) e já cai no seu painel.'],
+      ['Por que preciso preencher o formulário de dados de treino?', 'Ele diz ao PlanoB qual é o seu objetivo, seu nível, onde você treina, quais equipamentos tem e se possui alguma limitação. Com isso os treinos e as orientações ficam mais adequados a você. O preenchimento é feito uma vez e depois você pode atualizar o que mudar.'],
+      ['Existe um tutorial para me ajudar a me localizar?', 'Sim. Na primeira vez que você entra no painel, um tour rápido mostra onde fica cada coisa. Ele aparece só uma vez. Depois, o menu lateral (ou o menu inferior no celular) leva você a todas as áreas.'],
+      ['Qual a diferença entre conta de aluno e de professor?', 'O <strong>aluno</strong> treina, acompanha o progresso e conversa com professores. O <strong>professor</strong> publica vídeos, vincula alunos, monta treinos e responde feedbacks. Cada tipo tem seu próprio cadastro, e o login é o mesmo para todos.'],
+      ['Posso usar o PlanoB no celular?', 'Sim. O site se adapta a telas de celular, tablet e computador. No celular, o menu fica na barra inferior.'],
+      ['Preciso instalar algum aplicativo?', 'Não. O PlanoB funciona direto no navegador, sem instalar nada.']
+    ]},
+    { id: 'plano', titulo: 'Meu Plano', icone: 'account_circle', resumo: 'Free, Lazuli e Diamante: o que cada um oferece.', itens: [
+      ['Quais são os planos do PlanoB?', '<strong>Free</strong> (R$ 0, teste de 1 semana com alguns vídeos demonstrativos), <strong>Lazuli</strong> (R$ 59/mês, todos os vídeos e ofensiva com descontos) e <strong>Diamante</strong> (R$ 149/mês, tudo do Lazuli e treinos montados pelo professor).'],
+      ['Como descubro qual é o meu plano atual?', 'Seu plano aparece no menu lateral, abaixo do seu nome (por exemplo, "Plano Free ativo"), e também na página de Perfil.'],
+      ['Como faço upgrade para Lazuli ou Diamante?', 'No painel do plano Free, vá até a seção de planos e escolha <strong>Lazuli</strong> ou <strong>Diamante</strong>. Você será levado à tela de pagamento. Quando o pagamento é aprovado, seu painel muda para o novo plano.'],
+      ['O que muda no meu painel quando troco de plano?', 'Cada plano tem seu painel. No Lazuli e no Diamante você libera todos os vídeos, o progresso semanal, a ofensiva e o feedback com professores. No Diamante, ainda recebe treinos montados pelo professor.'],
+      ['O plano Free tem prazo?', 'Sim, ele é um teste de 1 semana, pensado para você conhecer a metodologia do PlanoB com vídeos demonstrativos.'],
+      ['Como cancelo minha assinatura?', 'Abra um chamado em <strong>Abrir chamado</strong> (assunto "Pagamento ou plano") pedindo o cancelamento. A equipe confirma por lá e você acompanha a resposta em "Meus chamados".']
+    ]},
+    { id: 'login', titulo: 'Acesso e Login', icone: 'lock_open', resumo: 'Entrar, sair e resolver problemas de acesso.', itens: [
+      ['Como faço login?', 'Clique em <strong>Login</strong>, informe e-mail e senha. O mesmo login serve para alunos e professores, e o site leva você ao painel correto.'],
+      ['Esqueci minha senha. O que faço?', 'Por enquanto a recuperação automática de senha ainda não está disponível. Fale com a equipe pelo <strong>e-mail de suporte</strong> ou pelo <strong>WhatsApp</strong> (veja "Ainda precisa de ajuda?") informando o e-mail da sua conta.'],
+      ['Diz que meu e-mail ou senha estão inválidos. E agora?', 'Confira se o e-mail está escrito corretamente, sem espaços, e se o Caps Lock está desligado. Se ainda não funcionar, entre em contato pelo e-mail ou WhatsApp de suporte.'],
+      ['O que é a opção "Lembrar de mim"?', 'Ela mantém você conectado por mais tempo (até 7 dias) neste navegador. Não use em computadores compartilhados.'],
+      ['Como saio da minha conta?', 'Clique em <strong>Sair</strong>, no canto inferior esquerdo do menu lateral.'],
+      ['Posso usar a mesma conta em mais de um dispositivo?', 'Sim, você pode entrar com o mesmo e-mail e senha em celular, tablet e computador.'],
+      ['Meu e-mail já está cadastrado, mas não lembro de ter criado a conta.', 'Tente fazer login com ele. Se não conseguir acessar, fale com a equipe de suporte pelo e-mail ou WhatsApp para verificarmos.']
+    ]},
+    { id: 'pagamento', titulo: 'Pagamentos', icone: 'payments', resumo: 'Cobrança, descontos e comprovantes.', itens: [
+      ['Quais formas de pagamento são aceitas?', 'Atualmente o pagamento da assinatura é feito com <strong>cartão de crédito</strong>, direto na tela de pagamento.'],
+      ['Meu pagamento foi recusado. O que fazer?', 'Confira o número, a validade e o nome do titular no cartão. Se estiver tudo certo, tente outro cartão ou fale com o seu banco. Persistindo o problema, abra um chamado com o assunto "Pagamento ou plano".'],
+      ['Meus dados de cartão ficam salvos?', 'O PlanoB registra apenas informações básicas do pagamento, como a bandeira e os 4 últimos dígitos, para identificar a cobrança. O número completo do cartão não fica guardado.'],
+      ['Como uso o desconto da ofensiva?', 'Quando você atinge uma meta de ofensiva, um código de desconto é liberado e aparece na sua página de ofensiva. Na hora de assinar um plano, o maior desconto disponível é aplicado automaticamente.'],
+      ['Os descontos de ofensiva têm validade?', 'Sim. Cada desconto liberado tem prazo de validade e só pode ser usado uma vez. A data aparece na página de ofensiva.'],
+      ['Como altero meu método de pagamento?', 'Na próxima cobrança você informa os dados do novo cartão na tela de pagamento. Se precisar de ajuda com isso, abra um chamado.'],
+      ['Preciso de reembolso ou comprovante. Como peço?', 'Abra um chamado com o assunto "Pagamento ou plano" explicando o que precisa. A equipe responde por lá.']
+    ]},
+    { id: 'treino', titulo: 'Treinos e Vídeos', icone: 'exercise', resumo: 'Assistir, executar e registrar seus treinos.', itens: [
+      ['Onde encontro os vídeos de treino?', 'No menu lateral, em <strong>Vídeos</strong>. No plano Free você vê vídeos demonstrativos; nos planos Lazuli e Diamante, toda a biblioteca.'],
+      ['Como faço um treino?', 'Escolha um vídeo, abra a tela de execução, siga os exercícios e, ao terminar, <strong>registre o treino</strong>. Esse registro alimenta seu progresso e sua ofensiva.'],
+      ['Por que não consigo ver alguns vídeos?', 'Alguns vídeos são exclusivos de planos pagos. Se o vídeo exige um plano maior, ele aparece bloqueado ou indisponível no seu plano.'],
+      ['O vídeo não carrega. O que faço?', 'Recarregue a página, verifique sua conexão e tente outro navegador. Se o problema continuar só em um vídeo, abra um chamado informando o título dele.'],
+      ['O que são os treinos montados pelo professor?', 'No plano Diamante, o professor cria uma ficha de treino personalizada para você, de acordo com os dados que você preencheu.'],
+      ['Esqueci de registrar meu treino. Dá para registrar depois?', 'O registro é feito no dia do treino. Procure registrar logo ao terminar, para manter a ofensiva em dia.'],
+      ['Preciso de equipamentos para treinar?', 'Depende do treino. Ao preencher seus dados você informa onde treina e quais equipamentos tem, para as orientações combinarem com a sua realidade.']
+    ]},
+    { id: 'professores', titulo: 'Professores e Feedback', icone: 'forum', resumo: 'Conversar com professores e receber orientações.', itens: [
+      ['Como falo com um professor?', 'Nos planos pagos, pela área de <strong>Feedback</strong> no menu. Você envia sua mensagem e acompanha a conversa por lá.'],
+      ['Onde vejo as respostas do professor?', 'Na mesma tela de Feedback, dentro da conversa. Quando ele responde, a mensagem aparece no histórico.'],
+      ['Como vejo os professores disponíveis?', 'Você encontra o perfil dos professores dentro do painel, com as informações profissionais de cada um, inclusive o CREF.'],
+      ['Posso trocar de professor?', 'O vínculo é feito entre o professor e o aluno. Se precisar mudar, abra um chamado explicando o motivo.'],
+      ['Quanto tempo o professor demora para responder?', 'Cada professor responde no seu tempo. Procure ser claro na mensagem para agilizar a orientação.'],
+      ['O plano Free tem contato com professores?', 'A conversa por feedback faz parte dos planos pagos (Lazuli e Diamante).']
+    ]},
+    { id: 'progresso', titulo: 'Progresso e Ofensiva', icone: 'monitoring', resumo: 'Acompanhar evolução e ganhar descontos.', itens: [
+      ['O que é a ofensiva?', 'É a sequência de dias seguidos em que você registra treino. Quanto maior a sequência, maiores os descontos que você desbloqueia.'],
+      ['Quais descontos a ofensiva libera?', 'Com 10 dias seguidos: 5%. Com 40 dias: 20%. Com 50 dias: 35%. Com 90 dias: 50%.'],
+      ['Perdi minha ofensiva. Por quê?', 'A ofensiva é contada por dias consecutivos com treino registrado. Se um dia passa sem registro, a sequência recomeça. Seu recorde máximo continua guardado.'],
+      ['Onde vejo meu progresso semanal?', 'Em <strong>Progresso</strong>, no menu lateral (planos Lazuli e Diamante). Lá aparecem treinos feitos, dias treinados, tempo total e comparação com a semana anterior.'],
+      ['Meu treino registrado não apareceu no progresso.', 'Atualize a página. Se continuar sem aparecer, abra um chamado informando o dia e o horário do registro.']
+    ]},
+    { id: 'perfil', titulo: 'Perfil e Conta', icone: 'person', resumo: 'Alterar nome, e-mail e foto.', itens: [
+      ['Como altero meu nome ou e-mail?', 'Vá em <strong>Perfil</strong>, abra "Alterar dados do perfil", edite e clique em <strong>Salvar alterações</strong>.'],
+      ['Como troco minha foto de perfil?', 'No Perfil, passe o mouse sobre a foto (ou toque nela no celular) e escolha <strong>Alterar foto</strong>. Aceitamos JPG, PNG ou WEBP de até 3 MB.'],
+      ['Posso atualizar meus dados de treino?', 'Sim. Se o seu objetivo, nível ou rotina mudaram, fale com a equipe de suporte ou com o seu professor para ajustar suas informações.'],
+      ['Como excluo minha conta?', 'Abra um chamado com o assunto "Outro assunto" pedindo a exclusão. A equipe cuida do processo com você.']
+    ]},
+    { id: 'professor', titulo: 'Para Professores', icone: 'school', resumo: 'Cadastro, alunos, vídeos e feedbacks.', itens: [
+      ['Como me cadastro como professor?', 'Em "Começar Agora", escolha o cadastro de professor e informe nome, e-mail, <strong>CREF</strong> e senha. O CREF deve seguir o formato 123456-G/SP.'],
+      ['Meu CREF foi recusado. O que fazer?', 'Confira o formato: de 4 a 6 números, hífen, uma letra, barra e a sigla do estado (ex.: 123456-G/SP). Se o CREF já estiver cadastrado em outra conta, fale com o suporte.'],
+      ['Como vinculo alunos ao meu perfil?', 'Em <strong>Meus Alunos</strong>, use "Vincular aluno" para escolher um aluno ou vincule os alunos disponíveis. Você também pode desvincular quando precisar.'],
+      ['Como publico um vídeo?', 'Em <strong>Meus Vídeos</strong>, clique em "Novo Vídeo". Você pode enviar um arquivo (MP4, WEBM, OGG ou MOV, até 300 MB) ou informar o link do vídeo.'],
+      ['Posso editar ou excluir um vídeo meu?', 'Sim. Na lista de Meus Vídeos você edita as informações ou exclui o vídeo.'],
+      ['Como monto um treino para um aluno?', 'Abra o perfil do aluno em Meus Alunos e use "Novo Treino" para criar a ficha de exercícios dele.'],
+      ['Como respondo os feedbacks dos alunos?', 'Em <strong>Feedbacks</strong>, selecione a conversa e envie sua resposta. O aluno vê a mensagem na área de Feedback dele.']
+    ]},
+    { id: 'acessibilidade', titulo: 'Acessibilidade', icone: 'accessibility_new', resumo: 'Modo escuro, tamanho do texto e mais.', itens: [
+      ['Onde fica o menu de acessibilidade?', 'No botão azul no <strong>canto superior direito</strong> de todas as páginas, logo abaixo do cabeçalho.'],
+      ['Como ativo o modo escuro?', 'Abra o menu de acessibilidade e ligue <strong>Modo escuro</strong>. Ele vale para o site inteiro e fica salvo neste navegador.'],
+      ['Como aumento o tamanho das letras?', 'No menu de acessibilidade, use os botões <strong>A+</strong> e <strong>A−</strong> em "Tamanho do texto".'],
+      ['Que outros recursos existem?', 'Alto contraste, fonte para leitura, espaçamento do texto, destaque de links e pausa de animações. Você liga e desliga cada um quando quiser.'],
+      ['Como volto ao visual original?', 'No fim do menu de acessibilidade, clique em <strong>Restaurar padrão</strong>.']
+    ]}
+  ]
+%>
+
+    <% const logado = typeof usuarioSuporte !== 'undefined' && usuarioSuporte %>
+    <% const novas = typeof respostasNovas !== 'undefined' ? Number(respostasNovas) : 0 %>
+
     <section class="px-8 py-16 bg-surface-container-low" aria-labelledby="categorias-heading">
       <h2 id="categorias-heading" class="sr-only">Categorias de suporte</h2>
 
       <article class="max-w-7xl mx-auto">
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
-
-          <li data-support-quick="plano" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
-            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
-              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">account_circle</i>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5" role="list">
+          <% faq.forEach(bloco => { %>
+          <li data-support-quick="<%= bloco.id %>" role="link" tabindex="0" class="support-quick group p-6 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-1">
+            <figure class="w-12 h-12 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
+              <i class="material-symbols-outlined text-primary text-2xl group-hover:text-white not-italic" aria-hidden="true"><%= bloco.icone %></i>
             </figure>
-            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Meu Plano</h3>
-            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Gerencie sua assinatura, renovações e upgrades.</p>
+            <h3 class="font-headline text-lg font-bold mb-1 group-hover:text-white"><%= bloco.titulo %></h3>
+            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm"><%= bloco.resumo %></p>
           </li>
-
-          <li data-support-quick="login" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
-            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
-              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">lock_open</i>
-            </figure>
-            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Acesso e Login</h3>
-            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Problemas para entrar? Recupere sua senha aqui.</p>
-          </li>
-
-          <li data-support-quick="pagamento" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
-            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
-              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">payments</i>
-            </figure>
-            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Pagamentos</h3>
-            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Faturas, métodos de pagamento e reembolsos.</p>
-          </li>
-
-          <li data-support-quick="treino" role="link" tabindex="0" class="support-quick group p-8 bg-surface-container-lowest rounded-3xl hover:bg-primary transition-all duration-300 cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2">
-            <figure class="w-14 h-14 rounded-2xl bg-primary-container/20 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
-              <i class="material-symbols-outlined text-primary text-3xl group-hover:text-white not-italic" aria-hidden="true">exercise</i>
-            </figure>
-            <h3 class="font-headline text-xl font-bold mb-2 group-hover:text-white">Treinos e Professores</h3>
-            <p class="font-body text-on-surface-variant group-hover:text-white/80 text-sm">Dúvidas sobre rotinas, exercícios e mentores.</p>
-          </li>
-
+          <% }) %>
         </ul>
       </article>
     </section>
@@ -598,56 +682,44 @@
     <section class="px-8 py-24" aria-labelledby="faq-heading">
       <article class="max-w-4xl mx-auto">
 
-        <header class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <section>
-            <h2 id="faq-heading" class="font-headline text-4xl font-black tracking-tight text-on-surface mb-4">Perguntas Frequentes</h2>
-            <p class="font-body text-on-surface-variant text-lg">As respostas mais rápidas para suas dúvidas cotidianas.</p>
-          </section>
-          <a href="#faq-plano" class="text-primary font-bold flex items-center gap-2 group font-headline">
-            Ver todo o FAQ
-            <i class="material-symbols-outlined transition-transform group-hover:translate-x-1 not-italic" aria-hidden="true">arrow_forward</i>
-          </a>
+        <header class="mb-12">
+          <h2 id="faq-heading" class="font-headline text-4xl font-black tracking-tight text-on-surface mb-4">Perguntas Frequentes</h2>
+          <p class="font-body text-on-surface-variant text-lg">Respostas para as dúvidas mais comuns sobre como usar o PlanoB. Use a busca ou escolha um tema.</p>
         </header>
 
-        <ul class="space-y-4" role="list">
+        <% faq.forEach(bloco => { %>
+        <section id="faq-bloco-<%= bloco.id %>" data-faq-bloco class="faq-bloco mb-14 scroll-mt-28" aria-labelledby="faq-titulo-<%= bloco.id %>">
+          <header class="flex items-center gap-4 mb-6">
+            <figure class="w-12 h-12 rounded-2xl bg-primary-container/20 flex items-center justify-center shrink-0">
+              <i class="material-symbols-outlined text-primary text-2xl not-italic" aria-hidden="true"><%= bloco.icone %></i>
+            </figure>
+            <hgroup>
+              <h3 id="faq-titulo-<%= bloco.id %>" class="font-headline text-2xl font-black text-on-surface"><%= bloco.titulo %></h3>
+              <p class="font-body text-sm text-on-surface-variant"><%= bloco.resumo %></p>
+            </hgroup>
+          </header>
 
-          <li id="faq-plano" data-faq-item>
-            <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-              <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
-                <h3 class="font-headline text-xl font-bold text-on-surface">Como faço para cancelar minha assinatura?</h3>
-                <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic" aria-hidden="true">expand_more</i>
-              </summary>
-              <p class="px-8 pb-8 font-body text-on-surface-variant leading-relaxed">
-                Você pode cancelar sua assinatura a qualquer momento através das configurações de perfil em "Assinatura". O acesso permanecerá ativo até o final do período já pago. Não há taxas de cancelamento ocultas.
-              </p>
-            </details>
-          </li>
+          <ul class="space-y-3" role="list">
+            <% bloco.itens.forEach((item, n) => { %>
+            <li id="faq-<%= bloco.id %>-<%= n + 1 %>" data-faq-item>
+              <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+                <summary class="flex items-center justify-between gap-4 p-6 md:p-7 cursor-pointer select-none">
+                  <h4 class="font-headline text-lg font-bold text-on-surface"><%= item[0] %></h4>
+                  <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic shrink-0" aria-hidden="true">expand_more</i>
+                </summary>
+                <p class="px-6 md:px-7 pb-7 font-body text-on-surface-variant leading-relaxed"><%- item[1] %></p>
+              </details>
+            </li>
+            <% }) %>
+          </ul>
+        </section>
+        <% }) %>
 
-          <li id="faq-login" data-faq-item>
-            <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-              <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
-                <h3 class="font-headline text-xl font-bold text-on-surface">Posso treinar em mais de um dispositivo ao mesmo tempo?</h3>
-                <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic" aria-hidden="true">expand_more</i>
-              </summary>
-              <p class="px-8 pb-8 font-body text-on-surface-variant leading-relaxed">
-                Sim, o PlanoB permite que você acesse sua conta em múltiplos dispositivos. No entanto, dependendo do seu plano, pode haver um limite de transmissões simultâneas de vídeos de treino.
-              </p>
-            </details>
-          </li>
+        <p id="faq-vazio" class="hidden text-center font-body text-on-surface-variant text-lg py-12" role="status">
+          Nenhuma dúvida encontrada para essa busca. Tente outras palavras ou
+          <a href="#chamado" class="text-primary font-bold underline">abra um chamado</a>.
+        </p>
 
-          <li id="faq-pagamento" data-faq-item>
-            <details class="group bg-surface-container rounded-3xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-              <summary class="flex items-center justify-between p-8 cursor-pointer select-none">
-                <h3 class="font-headline text-xl font-bold text-on-surface">Como altero meu método de pagamento?</h3>
-                <i class="material-symbols-outlined text-primary transition-transform group-open:rotate-180 not-italic" aria-hidden="true">expand_more</i>
-              </summary>
-              <p class="px-8 pb-8 font-body text-on-surface-variant leading-relaxed">
-                Acesse a aba "Pagamentos" no seu painel de controle. Lá você poderá adicionar novos cartões de crédito, configurar Pix ou boleto bancário como sua forma preferencial de cobrança.
-              </p>
-            </details>
-          </li>
-
-        </ul>
       </article>
     </section>
 
@@ -655,7 +727,7 @@
 
       <figure class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkTPKmS6JuzYtDwVJ94ybSMEgBr1po7o3p4VwLips83ehdGjxNHK2WAlogc7GNSM3wykFbGoqeIifzgUw1xVv6dO5QjEC3nVBFdjYR43JNrbMQlBMF6AtTuynTNJ7aPKl8ijd3X_FJFUAbNmm3-QnMdKtUQ5hfTUuFi1lpX2pzRob9YbbDuIUjoQGvuPeZodPKkSFyMYX6ZjubYSXoMnxC4AaSObGgpKoQzlF5d94qUKYd1hVQ10exsa3ruyVMBuionrvrl9JgsGpQ"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkTPKmS6JuzYtDwVJ94ybSMEgBr1po7o3p4VwLips83ehdGjxNHK2WAlogc7GNSM3wykFbGoqeIifzgUw1xVv6dO5QjEC3nVBFdjYR43JNrbMQlBMF6AtTuynTNJ7aPKl8ijd3X_FJFUAbN
           alt=""
           class="w-full h-full object-cover"
         />
@@ -665,13 +737,34 @@
 
         <h2 id="contato-heading" class="font-headline text-4xl md:text-5xl font-black mb-12 italic">Ainda precisa de ajuda?</h2>
 
-        <ul class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-3xl mx-auto" role="list">
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center max-w-5xl mx-auto" role="list">
+
+          <li class="bg-surface/10 backdrop-blur-md p-10 rounded-3xl border border-white/10 hover:border-primary transition-colors flex flex-col items-center text-center">
+            <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">support_agent</i>
+            <h3 class="font-headline text-2xl font-bold mb-4">Abrir chamado</h3>
+            <p class="font-body text-surface/70 mb-8">Fale direto com a nossa equipe. A resposta chega aqui no site, em "Meus chamados".</p>
+            <% if (logado) { %>
+              <a href="#chamado" class="w-full py-4 bg-primary text-on-primary rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                Abrir chamado
+              </a>
+              <a href="/suporte/chamados" class="mt-3 w-full py-3 border border-white/30 text-surface rounded-full font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+                Meus chamados
+                <% if (novas > 0) { %>
+                  <mark class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-surface text-xs font-black"><%= novas %> nova<%= novas > 1 ? 's' : '' %></mark>
+                <% } %>
+              </a>
+            <% } else { %>
+              <a href="/login?next=%2Fsuporte%23chamado" class="w-full py-4 bg-primary text-on-primary rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                Entrar para abrir chamado
+              </a>
+            <% } %>
+          </li>
 
           <li class="bg-surface/10 backdrop-blur-md p-10 rounded-3xl border border-white/10 hover:border-primary transition-colors flex flex-col items-center text-center">
             <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">mail</i>
             <h3 class="font-headline text-2xl font-bold mb-4">E-mail de Suporte</h3>
             <p class="font-body text-surface/70 mb-8">Para questões mais complexas. Respondemos em até 24 horas úteis.</p>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=planobacademia@gmail.com" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-surface-container-lowest text-on-surface rounded-full font-bold hover:scale-[1.02] transition-transform font-label text-center block">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=planobacademia@gmail.com" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-surface-container-lowest text-on-surface rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
               Enviar E-mail
             </a>
           </li>
@@ -680,12 +773,73 @@
             <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">forum</i>
             <h3 class="font-headline text-2xl font-bold mb-4">WhatsApp</h3>
             <p class="font-body text-surface/70 mb-8">Suporte rápido direto no seu celular. Disponível das 08h às 22h.</p>
-            <a href="https://wa.me/5519900000000" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-[#25D366] text-white rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 font-label">
+            <a href="https://wa.me/5519900000000" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-[#25D366] text-white rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
               Acessar Central WhatsApp
             </a>
           </li>
 
         </ul>
+      </article>
+    </section>
+
+    <section id="chamado" class="px-8 py-24 scroll-mt-24" aria-labelledby="chamado-heading">
+      <article class="max-w-3xl mx-auto bg-surface-container-lowest rounded-[2rem] p-8 md:p-12 shadow-xl shadow-on-surface/5">
+
+        <header class="mb-8">
+          <h2 id="chamado-heading" class="font-headline text-3xl md:text-4xl font-black tracking-tight text-on-surface mb-3">Abrir um chamado</h2>
+          <p class="font-body text-on-surface-variant">Conte o que precisa. Nossa equipe de moderação recebe o seu chamado e responde por aqui mesmo.</p>
+        </header>
+
+        <% if (typeof erro !== 'undefined' && erro) { %>
+          <p class="mb-6 rounded-2xl bg-error-container/20 text-error px-5 py-4 font-bold" role="alert"><%= erro %></p>
+        <% } %>
+
+        <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+          <p class="mb-6 rounded-2xl bg-primary-container/20 text-primary px-5 py-4 font-bold" role="status"><%= sucesso %></p>
+        <% } %>
+
+        <% if (logado) { %>
+          <form action="/suporte" method="POST" class="flex flex-col gap-6" novalidate>
+            <fieldset class="flex flex-col gap-5">
+              <legend class="sr-only">Dados do chamado</legend>
+
+              <p class="font-body text-sm text-on-surface-variant">
+                Enviando como <strong class="text-on-surface"><%= usuarioSuporte.nome %></strong>
+                (<%= usuarioSuporte.tipo === 'professor' ? 'professor' : 'aluno' %>) · <%= usuarioSuporte.email %>
+              </p>
+
+              <section class="flex flex-col gap-2">
+                <label for="assunto-chamado" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Assunto</label>
+                <select id="assunto-chamado" name="assunto" required class="w-full rounded-2xl border-none bg-surface-container px-5 py-4 font-medium text-on-surface focus:ring-2 focus:ring-primary">
+                  <option value="">Selecione o assunto</option>
+                  <% assuntos.forEach(a => { %>
+                    <option value="<%= a %>" <%= (typeof assuntoEscolhido !== 'undefined' && assuntoEscolhido === a) ? 'selected' : '' %>><%= a %></option>
+                  <% }) %>
+                </select>
+              </section>
+
+              <section class="flex flex-col gap-2">
+                <label for="mensagem-chamado" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Mensagem</label>
+                <textarea id="mensagem-chamado" name="mensagem" rows="6" minlength="10" maxlength="3000" required placeholder="Descreva o que aconteceu ou a sua dúvida com o máximo de detalhes." class="w-full rounded-2xl border-none bg-surface-container px-5 py-4 font-medium text-on-surface focus:ring-2 focus:ring-primary resize-y"><%= typeof mensagemDigitada !== 'undefined' ? mensagemDigitada : '' %></textarea>
+                <small class="text-xs text-on-surface-variant">Mínimo de 10 caracteres.</small>
+              </section>
+            </fieldset>
+
+            <button type="submit" class="w-full sm:w-auto sm:self-start bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:bg-primary-dim transition-colors">
+              Enviar chamado
+            </button>
+          </form>
+        <% } else { %>
+          <section class="flex flex-col items-start gap-5">
+            <p class="font-body text-on-surface-variant text-lg">
+              Para enviar um chamado você precisa estar logado, assim a equipe sabe quem você é e consegue responder.
+            </p>
+            <a href="/login?next=%2Fsuporte%23chamado" class="bg-primary text-on-primary px-10 py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:bg-primary-dim transition-colors">
+              Fazer login para abrir chamado
+            </a>
+          </section>
+        <% } %>
+
       </article>
     </section>
 
@@ -697,19 +851,49 @@
       const input = document.getElementById('busca-suporte');
       const searchButton = input?.parentElement?.querySelector('button[type="submit"]');
       const faqItems = [...document.querySelectorAll('[data-faq-item]')];
+      const faqBlocos = [...document.querySelectorAll('[data-faq-bloco]')];
       const quickCards = [...document.querySelectorAll('[data-support-quick]')];
-      function searchSupport() {
-        const query = (input?.value || '').trim().toLocaleLowerCase('pt-BR');
+      const vazio = document.getElementById('faq-vazio');
+      const normalizar = texto => (texto || '').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      function searchSupport(rolar) {
+        const query = normalizar((input?.value || '').trim());
         let matches = 0;
-        faqItems.forEach(item => { const match = !query || item.innerText.toLocaleLowerCase('pt-BR').includes(query); item.hidden = !match; if (match) matches++; });
-        quickCards.forEach(card => { card.hidden = !!query && !card.innerText.toLocaleLowerCase('pt-BR').includes(query); });
-        const faqHeading = document.getElementById('faq-heading');
-        if (query && matches > 0) faqHeading?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        faqItems.forEach(item => {
+          const match = !query || normalizar(item.textContent).includes(query);
+          item.hidden = !match;
+          if (match) matches++;
+          const detalhes = item.querySelector('details');
+          if (detalhes) detalhes.open = !!query && match && matches <= 3;
+        });
+
+        faqBlocos.forEach(bloco => {
+          bloco.hidden = ![...bloco.querySelectorAll('[data-faq-item]')].some(i => !i.hidden);
+        });
+
+        quickCards.forEach(card => {
+          card.hidden = !!query && !normalizar(card.textContent).includes(query) && !document.querySelector('#faq-bloco-' + card.dataset.supportQuick + ' [data-faq-item]:not([hidden])');
+        });
+
+        vazio?.classList.toggle('hidden', matches > 0);
+
+        if (rolar && query) document.getElementById('faq-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      input?.addEventListener('input', searchSupport);
-      searchButton?.addEventListener('click', event => { event.preventDefault(); searchSupport(); });
+
+      input?.addEventListener('input', () => searchSupport(false));
+      input?.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); searchSupport(true); } });
+      searchButton?.addEventListener('click', event => { event.preventDefault(); searchSupport(true); });
+
       quickCards.forEach(card => {
-        const openTarget = () => { const target = card.dataset.supportQuick === 'plano' ? 'faq-plano' : card.dataset.supportQuick === 'login' ? 'faq-login' : card.dataset.supportQuick === 'pagamento' ? 'faq-pagamento' : 'faq-login'; const item = document.getElementById(target); if (item) { item.hidden = false; const details = item.querySelector('details'); if (details) details.open = true; item.scrollIntoView({ behavior: 'smooth', block: 'center' }); } };
+        const openTarget = () => {
+          if (input && input.value) { input.value = ''; searchSupport(false); }
+          const alvo = document.getElementById('faq-bloco-' + card.dataset.supportQuick);
+          if (!alvo) return;
+          alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          alvo.classList.add('faq-bloco-destaque');
+          setTimeout(() => alvo.classList.remove('faq-bloco-destaque'), 1600);
+        };
         card.addEventListener('click', openTarget);
         card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openTarget(); } });
       });

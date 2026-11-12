@@ -113,10 +113,14 @@ exports.suporte = async (req, res) => {
     const paginacao = paginar(contagem.total, req.query.pagina, POR_PAGINA)
 
     const [chamados] = await db.query(
-        `SELECT s.id_suporte, s.id_aluno, s.nome, s.email, s.assunto, s.mensagem, s.status, s.criado_em
+        `SELECT s.id_suporte, s.id_aluno, s.id_professor, s.tipo_usuario, s.nome, s.email, s.assunto,
+                s.mensagem, s.status, s.criado_em, s.atualizado_em,
+                (SELECT COUNT(*) FROM suporte_mensagem m WHERE m.id_suporte = s.id_suporte) AS total_mensagens,
+                (SELECT m.autor FROM suporte_mensagem m WHERE m.id_suporte = s.id_suporte
+                 ORDER BY m.criado_em DESC, m.id_mensagem DESC LIMIT 1) AS ultimo_autor
          FROM suporte s
          ${where}
-         ORDER BY FIELD(s.status, 'aberto', 'em_atendimento', 'resolvido', 'fechado'), s.criado_em DESC
+         ORDER BY FIELD(s.status, 'aberto', 'em_atendimento', 'resolvido', 'fechado'), s.atualizado_em DESC
          LIMIT ? OFFSET ?`,
         [...parametros, paginacao.porPagina, paginacao.offset]
     )
@@ -133,6 +137,87 @@ exports.suporte = async (req, res) => {
         filtros: { status },
         paginacao
     }, 'suporte')
+}
+
+// Tela de um chamado: quem enviou, a conversa inteira e o formulário de resposta
+exports.chamado = async (req, res) => {
+    const id = Number(req.params.id)
+
+    if (!id) return res.redirect('/moderador/suporte')
+
+    const [chamados] = await db.query(
+        `SELECT s.id_suporte, s.id_aluno, s.id_professor, s.tipo_usuario, s.nome, s.email, s.assunto,
+                s.mensagem, s.status, s.criado_em, s.atualizado_em,
+                a.id_plano AS plano_aluno, pl.nome AS nome_plano, p.cref AS cref_professor
+         FROM suporte s
+         LEFT JOIN aluno a ON a.id_aluno = s.id_aluno
+         LEFT JOIN plano pl ON pl.id_plano = a.id_plano
+         LEFT JOIN professor p ON p.id_professor = s.id_professor
+         WHERE s.id_suporte = ?
+         LIMIT 1`,
+        [id]
+    )
+
+    if (chamados.length === 0) {
+        return res.redirect('/moderador/suporte?erro=' + encodeURIComponent('Chamado não encontrado.'))
+    }
+
+    const [mensagens] = await db.query(
+        `SELECT autor, nome_autor, mensagem, criado_em
+         FROM suporte_mensagem
+         WHERE id_suporte = ?
+         ORDER BY criado_em ASC, id_mensagem ASC`,
+        [id]
+    )
+
+    await renderizarModerador(req, res, 'moderador/suporte-chamado', {
+        chamado: chamados[0],
+        mensagens,
+        statusLista: STATUS_SUPORTE
+    }, 'suporte')
+}
+
+// O moderador responde: a resposta aparece para o usuário em "Meus chamados"
+exports.responderChamado = async (req, res) => {
+    const id = Number(req.params.id)
+    const mensagem = String(req.body.mensagem || '').trim()
+    const marcarResolvido = req.body.resolver === '1'
+    const voltar = '/moderador/suporte/' + id
+
+    if (!id) return res.redirect('/moderador/suporte')
+
+    if (mensagem.length < 2 || mensagem.length > 3000) {
+        return res.redirect(voltar + '?erro=' + encodeURIComponent('Escreva uma resposta de até 3000 caracteres.'))
+    }
+
+    const [chamados] = await db.query('SELECT id_suporte, status, assunto FROM suporte WHERE id_suporte = ? LIMIT 1', [id])
+
+    if (chamados.length === 0) {
+        return res.redirect('/moderador/suporte?erro=' + encodeURIComponent('Chamado não encontrado.'))
+    }
+
+    const novoStatus = marcarResolvido
+        ? 'resolvido'
+        : (chamados[0].status === 'aberto' || chamados[0].status === 'resolvido' ? 'em_atendimento' : chamados[0].status)
+
+    await db.query(
+        `INSERT INTO suporte_mensagem (id_suporte, autor, id_moderador, nome_autor, mensagem)
+         VALUES (?, 'moderador', ?, ?, ?)`,
+        [id, req.session.moderador.id || null, String(req.session.moderador.nome || 'Equipe PlanoB').slice(0, 100), mensagem]
+    )
+
+    await db.query(
+        `UPDATE suporte
+         SET status = ?, resposta_nao_lida = 1, atualizado_em = NOW()
+         WHERE id_suporte = ?`,
+        [novoStatus, id]
+    )
+
+    await registrarLog(req.session.moderador, 'respondeu chamado', 'suporte', id, chamados[0].assunto || 'Sem assunto')
+
+    res.redirect(voltar + '?sucesso=' + encodeURIComponent(
+        marcarResolvido ? 'Resposta enviada e chamado marcado como resolvido.' : 'Resposta enviada ao usuário.'
+    ))
 }
 
 exports.alterarStatusSuporte = async (req, res) => {

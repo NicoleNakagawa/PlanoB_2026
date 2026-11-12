@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meus chamados | PlanoB</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary": "#6c5a00",
+            "error-container": "#fb5151",
+            "background": "#f7f5ff",
+            "on-primary": "#f0f2ff",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-container": "#5b4b00",
+            "on-secondary-fixed": "#003a48",
+            "surface-bright": "#f7f5ff",
+            "on-error-container": "#570008",
+            "surface-tint": "#0058ba",
+            "secondary-container": "#80deff",
+            "error": "#b31b25",
+            "on-secondary-fixed-variant": "#00586d",
+            "primary-fixed-dim": "#5091ff",
+            "on-secondary-container": "#004e61",
+            "on-secondary": "#e2f6ff",
+            "surface": "#f7f5ff",
+            "inverse-primary": "#4a8eff",
+            "inverse-on-surface": "#929bc6",
+            "tertiary-dim": "#5e4e00",
+            "primary-container": "#6c9fff",
+            "inverse-surface": "#020a2f",
+            "on-primary-container": "#00214e",
+            "on-error": "#ffefee",
+            "outline-variant": "#a2abd7",
+            "on-primary-fixed": "#000000",
+            "on-tertiary-fixed-variant": "#665500",
+            "secondary-fixed-dim": "#37d4ff",
+            "on-primary-fixed-variant": "#002a60",
+            "surface-dim": "#cad2ff",
+            "on-surface": "#232c51",
+            "surface-container-highest": "#d5dbff",
+            "surface-variant": "#d5dbff",
+            "secondary": "#00647b",
+            "error-dim": "#9f0519",
+            "surface-container-low": "#efefff",
+            "primary-dim": "#004da4",
+            "outline": "#6c759e",
+            "secondary-dim": "#00576c",
+            "on-tertiary": "#fff2cd",
+            "surface-container-high": "#dde1ff",
+            "secondary-fixed": "#80deff",
+            "on-surface-variant": "#505a81",
+            "primary-fixed": "#6c9fff",
+            "on-tertiary-fixed": "#453900",
+            "on-background": "#232c51",
+            "tertiary-container": "#ffd709",
+            "tertiary-fixed": "#ffd709",
+            "tertiary-fixed-dim": "#efc900",
+            "surface-container": "#e4e7ff",
+            "primary": "#0058ba"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline": ["Lexend"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+      text-transform: none !important;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .font-headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .primary-gradient {
+      background: #0058ba;
+    }
+
+    article,
+    section,
+    aside {
+      display: block;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+  
+    @media (max-width: 768px) {
+      body {
+        padding-bottom: 7rem !important;
+      }
+
+      header nav[aria-label="Navegação principal"] {
+        height: 80px !important;
+        padding: 0 1.25rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        flex-wrap: nowrap !important;
+      }
+
+      header nav[aria-label="Navegação principal"] > a.logo-header {
+        font-size: 2rem !important;
+        width: auto !important;
+        text-align: left !important;
+        white-space: nowrap;
+      }
+
+      header ul[role="list"] {
+        display: none !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 0.7rem !important;
+        width: auto !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] a {
+        white-space: nowrap;
+        font-size: 0.9rem !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] a:first-child {
+        padding: 0 !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] a:last-child {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.85rem !important;
+      }
+
+      main {
+        padding-top: 80px !important;
+      }
+
+      section[aria-labelledby="suporte-heading"] {
+        padding: 4rem 1.25rem 3rem !important;
+      }
+
+      section[aria-labelledby="suporte-heading"] article {
+        max-width: 100% !important;
+      }
+
+      section[aria-labelledby="suporte-heading"] p.inline-flex {
+        margin-bottom: 1.8rem !important;
+        padding: 0.6rem 1rem !important;
+      }
+
+      section[aria-labelledby="suporte-heading"] p.inline-flex em {
+        font-size: 0.8rem !important;
+      }
+
+      #suporte-heading {
+        font-size: clamp(2.8rem, 13vw, 4.5rem) !important;
+        line-height: 1 !important;
+        margin-bottom: 2rem !important;
+      }
+
+      search {
+        width: 100% !important;
+        display: block !important;
+        position: relative !important;
+      }
+
+      search input {
+        width: 100% !important;
+        padding: 1.2rem 1.2rem 1.2rem 3.3rem !important;
+        font-size: 0.95rem !important;
+        border-radius: 1.5rem !important;
+      }
+
+      search i {
+        position: absolute !important;
+        left: 1.2rem !important;
+        top: 1.35rem !important;
+        bottom: auto !important;
+        transform: none !important;
+        display: block !important;
+        line-height: 1 !important;
+        z-index: 2 !important;
+      }
+
+      search button {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        margin-top: 0.8rem !important;
+        padding: 1rem !important;
+        border-radius: 1.5rem !important;
+      }
+
+      section[aria-labelledby="suporte-heading"] > b {
+        display: none !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] {
+        padding: 4rem 1.25rem !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] ul {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] li {
+        padding: 1.6rem !important;
+        border-radius: 1.6rem !important;
+        transform: none !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] li:hover {
+        transform: none !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] figure {
+        width: 3rem !important;
+        height: 3rem !important;
+        margin-bottom: 1.2rem !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] h3 {
+        font-size: 1.2rem !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] p {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+      }
+
+      section[aria-labelledby="faq-heading"] {
+        padding: 4rem 1.25rem !important;
+      }
+
+      section[aria-labelledby="faq-heading"] header {
+        margin-bottom: 2.5rem !important;
+        gap: 1rem !important;
+      }
+
+      #faq-heading {
+        font-size: 2.2rem !important;
+        line-height: 1.1 !important;
+      }
+
+      #faq-heading + p {
+        font-size: 1rem !important;
+        line-height: 1.6 !important;
+      }
+
+      section[aria-labelledby="faq-heading"] summary {
+        padding: 1.4rem !important;
+        gap: 1rem !important;
+      }
+
+      section[aria-labelledby="faq-heading"] summary h4 {
+        font-size: 1rem !important;
+        line-height: 1.4 !important;
+      }
+
+      section[aria-labelledby="faq-heading"] details p {
+        padding-left: 1.4rem !important;
+        padding-right: 1.4rem !important;
+        padding-bottom: 1.4rem !important;
+        font-size: 0.95rem !important;
+      }
+
+      section[aria-labelledby="faq-heading"] details {
+        border-radius: 1.5rem !important;
+      }
+
+      section[aria-labelledby="contato-heading"] {
+        padding: 4rem 1.25rem !important;
+      }
+
+      #contato-heading {
+        font-size: 2.2rem !important;
+        line-height: 1.1 !important;
+        margin-bottom: 2.5rem !important;
+      }
+
+      section[aria-labelledby="contato-heading"] ul {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+
+      section[aria-labelledby="contato-heading"] li {
+        padding: 2rem !important;
+        border-radius: 1.6rem !important;
+      }
+
+      section[aria-labelledby="contato-heading"] h3 {
+        font-size: 1.5rem !important;
+      }
+
+      section[aria-labelledby="contato-heading"] p {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+      }
+
+      section[aria-labelledby="contato-heading"] a {
+        padding: 1rem 1.2rem !important;
+        font-size: 0.95rem !important;
+      }
+
+      footer {
+        padding: 3rem 1.25rem 8rem !important;
+        text-align: center !important;
+      }
+
+      footer section {
+        align-items: center !important;
+      }
+
+      footer nav[aria-label="Links do rodapé"] {
+        gap: 1rem !important;
+        flex-direction: column !important;
+      }
+
+      footer nav[aria-label="Redes sociais"] {
+        justify-content: center !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        padding-bottom: 1rem !important;
+        padding-top: 0.5rem !important;
+        border-radius: 1.5rem 1.5rem 0 0 !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        padding: 0.65rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 0.6rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] i {
+        font-size: 1.5rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a.ativo {
+        background-color: #0058ba !important;
+        color: white !important;
+        opacity: 1 !important;
+        border-radius: 1rem !important;
+        margin-bottom: 0.5rem !important;
+        transform: scale(1.1) !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a.ativo i,
+      nav[aria-label="Navegação mobile"] a.ativo em {
+        color: white !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      header nav[aria-label="Navegação principal"] {
+        padding: 0 0.9rem !important;
+        gap: 0.6rem !important;
+      }
+
+      header nav[aria-label="Navegação principal"] > a.logo-header {
+        font-size: 1.7rem !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] {
+        gap: 0.5rem !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] a:first-child {
+        font-size: 0.8rem !important;
+      }
+
+      header nav[aria-label="Ações do usuário"] a:last-child {
+        padding: 0.65rem 0.75rem !important;
+        font-size: 0.75rem !important;
+      }
+
+      #suporte-heading {
+        font-size: 2.6rem !important;
+      }
+
+      search input {
+        font-size: 0.85rem !important;
+      }
+
+      section[aria-labelledby="categorias-heading"] li {
+        padding: 1.4rem !important;
+      }
+
+      #faq-heading {
+        font-size: 2rem !important;
+      }
+
+      section[aria-labelledby="faq-heading"] summary {
+        padding: 1.2rem !important;
+      }
+
+      section[aria-labelledby="faq-heading"] summary h4 {
+        font-size: 0.95rem !important;
+      }
+
+      #contato-heading {
+        font-size: 2rem !important;
+      }
+
+      section[aria-labelledby="contato-heading"] li {
+        padding: 1.5rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] {
+        padding-left: 0.4rem !important;
+        padding-right: 0.4rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a {
+        padding: 0.55rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] em {
+        font-size: 0.52rem !important;
+      }
+
+      nav[aria-label="Navegação mobile"] a.ativo {
+        transform: scale(1.05) !important;
+      }
+    }
+
+    .faq-bloco { border-radius: 2rem; transition: box-shadow 0.4s ease; }
+    .faq-bloco-destaque { box-shadow: 0 0 0 6px rgba(0, 88, 186, 0.18); }
+  </style>
+  <link rel="stylesheet" href="/css/transicao-paginas.css">
+  <%- include('../partials/acessibilidade') %>
+</head>
+
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+
+  <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transition-all duration-300">
+    <nav class="flex justify-between items-center max-w-[90rem] mx-auto px-8 lg:px-12 h-24" aria-label="Navegação principal">
+
+      <a href="/home" class="logo-font logo-header text-blue-800 dark:text-blue-200 no-underline" aria-label="PlanoB - Página Inicial">
+        PlanoB
+      </a>
+
+      <ul class="hidden md:flex items-center gap-12" role="list">
+        <li>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="/home">Início</a>
+        </li>
+        <li>
+          <a class="text-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-all duration-300" href="/planos">Planos</a>
+        </li>
+        <li>
+          <a class="text-lg text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 py-1 transition-all duration-300" href="/suporte" aria-current="page">Suporte</a>
+        </li>
+      </ul>
+
+      <%
+        const painelUsuario = aluno
+          ? ({ 2: '/painellazuli', 3: '/paineldiamante' }[Number(aluno.id_plano)] || '/painelfree')
+          : (professor ? '/painelprofessor' : null)
+      %>
+      <% if (painelUsuario) { %>
+      <nav class="flex items-center gap-8" aria-label="Ações do usuário">
+        <a href="/logout" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+          Sair
+        </a>
+        <a href="<%= painelUsuario %>" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+          Meu painel
+        </a>
+      </nav>
+      <% } else { %>
+      <nav class="flex items-center gap-8" aria-label="Ações do usuário">
+        <a href="/loginaluno" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+          Login
+        </a>
+        <a href="/cadastroaluno" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+          Começar Agora
+        </a>
+      </nav>
+      <% } %>
+
+    </nav>
+  </header>
+
+  <main class="pt-24 min-h-screen pb-24">
+
+    <section class="px-8 py-12 md:py-16" aria-labelledby="chamados-heading">
+      <article class="max-w-4xl mx-auto">
+
+        <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <hgroup>
+            <h1 id="chamados-heading" class="font-headline text-4xl md:text-5xl font-black tracking-tighter text-on-surface mb-3">
+              Meus <em class="text-primary italic">chamados</em>
+            </h1>
+            <p class="font-body text-on-surface-variant text-lg">
+              Acompanhe as respostas da equipe do PlanoB e continue a conversa por aqui.
+            </p>
+          </hgroup>
+
+          <a href="/suporte#chamado" class="inline-flex items-center justify-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:bg-primary-dim transition-colors">
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">add</i>
+            Novo chamado
+          </a>
+        </header>
+
+        <% if (typeof erro !== 'undefined' && erro) { %>
+          <p class="mb-6 rounded-2xl bg-error-container/20 text-error px-5 py-4 font-bold" role="alert"><%= erro %></p>
+        <% } %>
+
+        <% if (typeof sucesso !== 'undefined' && sucesso) { %>
+          <p class="mb-6 rounded-2xl bg-primary-container/20 text-primary px-5 py-4 font-bold" role="status"><%= sucesso %></p>
+        <% } %>
+
+        <% const rotulos = { aberto: 'Aberto', em_atendimento: 'Em atendimento', resolvido: 'Resolvido', fechado: 'Fechado' } %>
+        <% const cores = { aberto: 'bg-tertiary-container text-on-surface', em_atendimento: 'bg-primary-container/30 text-primary', resolvido: 'bg-secondary-container text-on-surface', fechado: 'bg-surface-container-high text-on-surface-variant' } %>
+        <% const fmtData = d => new Date(d).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }) %>
+
+        <% if (chamados.length === 0) { %>
+          <article class="bg-surface-container-lowest rounded-[2rem] p-10 text-center shadow-xl shadow-on-surface/5">
+            <i class="material-symbols-outlined text-5xl text-primary mb-4 not-italic" aria-hidden="true">inbox</i>
+            <h2 class="font-headline text-2xl font-bold text-on-surface mb-2">Você ainda não abriu chamados</h2>
+            <p class="font-body text-on-surface-variant mb-6">Quando precisar de ajuda, abra um chamado e acompanhe tudo por aqui.</p>
+            <a href="/suporte#chamado" class="inline-flex bg-primary text-on-primary px-8 py-4 rounded-full font-bold hover:bg-primary-dim transition-colors">Abrir chamado</a>
+          </article>
+        <% } %>
+
+        <ul class="flex flex-col gap-6" role="list">
+          <% chamados.forEach(c => { %>
+            <% const conversa = conversas[c.id_suporte] || [] %>
+            <li id="chamado-<%= c.id_suporte %>" class="scroll-mt-28">
+              <article class="bg-surface-container-lowest rounded-[2rem] p-6 md:p-8 shadow-xl shadow-on-surface/5">
+
+                <header class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-5">
+                  <hgroup>
+                    <h2 class="font-headline text-xl font-black text-on-surface"><%= c.assunto || 'Sem assunto' %></h2>
+                    <p class="font-body text-sm text-on-surface-variant">Chamado #<%= c.id_suporte %> · aberto em <time datetime="<%= new Date(c.criado_em).toISOString() %>"><%= fmtData(c.criado_em) %></time></p>
+                  </hgroup>
+
+                  <p class="flex flex-wrap items-center gap-2">
+                    <% if (Number(c.resposta_nao_lida) === 1) { %>
+                      <mark class="px-3 py-1 rounded-full bg-tertiary-container text-on-surface text-xs font-black uppercase">Nova resposta</mark>
+                    <% } %>
+                    <mark class="px-3 py-1 rounded-full text-xs font-black uppercase <%= cores[c.status] || cores.aberto %>"><%= rotulos[c.status] || c.status %></mark>
+                  </p>
+                </header>
+
+                <ol class="flex flex-col gap-4 mb-6" role="list">
+                  <li class="max-w-[90%] self-end rounded-3xl rounded-br-md bg-primary text-on-primary px-5 py-4">
+                    <p class="whitespace-pre-line leading-relaxed"><%= c.mensagem %></p>
+                    <p class="mt-2 text-xs opacity-80">Você</p>
+                  </li>
+
+                  <% conversa.forEach(m => { %>
+                    <% if (m.autor === 'moderador') { %>
+                      <li class="max-w-[90%] self-start rounded-3xl rounded-bl-md bg-surface-container px-5 py-4 text-on-surface">
+                        <p class="whitespace-pre-line leading-relaxed"><%= m.mensagem %></p>
+                        <p class="mt-2 text-xs text-on-surface-variant">Equipe PlanoB · <%= m.nome_autor %> · <time datetime="<%= new Date(m.criado_em).toISOString() %>"><%= fmtData(m.criado_em) %></time></p>
+                      </li>
+                    <% } else { %>
+                      <li class="max-w-[90%] self-end rounded-3xl rounded-br-md bg-primary text-on-primary px-5 py-4">
+                        <p class="whitespace-pre-line leading-relaxed"><%= m.mensagem %></p>
+                        <p class="mt-2 text-xs opacity-80">Você · <time datetime="<%= new Date(m.criado_em).toISOString() %>"><%= fmtData(m.criado_em) %></time></p>
+                      </li>
+                    <% } %>
+                  <% }) %>
+                </ol>
+
+                <% if (c.status === 'fechado') { %>
+                  <p class="rounded-2xl bg-surface-container px-5 py-4 text-sm text-on-surface-variant">
+                    Este chamado foi fechado. Se precisar de ajuda novamente, <a href="/suporte#chamado" class="text-primary font-bold underline">abra um novo chamado</a>.
+                  </p>
+                <% } else { %>
+                  <form action="/suporte/chamados/<%= c.id_suporte %>/responder" method="POST" class="flex flex-col gap-3">
+                    <label for="resposta-<%= c.id_suporte %>" class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Responder</label>
+                    <textarea id="resposta-<%= c.id_suporte %>" name="mensagem" rows="3" maxlength="3000" required placeholder="Escreva sua mensagem para a equipe..." class="w-full rounded-2xl border-none bg-surface-container px-5 py-4 font-medium text-on-surface focus:ring-2 focus:ring-primary resize-y"></textarea>
+                    <button type="submit" class="w-full sm:w-auto sm:self-start bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-dim transition-colors">Enviar mensagem</button>
+                  </form>
+                <% } %>
+
+              </article>
+            </li>
+          <% }) %>
+        </ul>
+
+      </article>
+    </section>
+
+  </main>
+
+  <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
+
+    <a href="/home" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="home">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">home</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+    </a>
+
+    <a href="/planos" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="planos">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">stars</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Planos</em>
+    </a>
+
+    <a href="/suporte" class="mobile-link flex flex-col items-center justify-center text-[#232c51] dark:text-[#d5dbff] opacity-60 p-3 hover:opacity-100 transition-opacity" data-page="suporte">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">support_agent</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Suporte</em>
+    </a>
+
+  </nav>
+
+  <script>
+    const paginaAtual = window.location.pathname.split("/").pop().replace(".html", "") || "home"
+    const linksMobile = document.querySelectorAll(".mobile-link")
+
+    linksMobile.forEach(link => {
+      const paginaDoLink = link.dataset.page
+
+      if (paginaAtual === paginaDoLink) {
+        link.classList.add("ativo")
+        link.setAttribute("aria-current", "page")
+      }
+    })
+  </script>
+  
+<script src="/js/transicao-paginas.js"></script>
+  
+</body>
+</html>
