@@ -505,6 +505,7 @@
     }
   </style>
   <link rel="stylesheet" href="/css/transicao-paginas.css">
+  <%- include('../partials/acessibilidade') %>
 </head>
 
 <body class="bg-surface text-on-surface min-h-screen pb-32 lg:pb-0">
@@ -528,6 +529,21 @@
         </li>
       </ul>
 
+      <%
+        const painelUsuario = aluno
+          ? ({ 2: '/painellazuli', 3: '/paineldiamante' }[Number(aluno.id_plano)] || '/painelfree')
+          : (professor ? '/painelprofessor' : null)
+      %>
+      <% if (painelUsuario) { %>
+      <nav class="flex items-center gap-8" aria-label="Ações do usuário">
+        <a href="/logout" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+          Sair
+        </a>
+        <a href="<%= painelUsuario %>" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
+          Meu painel
+        </a>
+      </nav>
+      <% } else { %>
       <nav class="flex items-center gap-8" aria-label="Ações do usuário">
         <a href="/loginaluno" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
           Login
@@ -536,6 +552,7 @@
           Começar Agora
         </a>
       </nav>
+      <% } %>
 
     </nav>
   </header>

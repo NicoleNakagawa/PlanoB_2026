@@ -1,0 +1,20 @@
+<%# Menu de acessibilidade. Vai dentro do <head> de TODAS as páginas.
+    O script abaixo aplica as preferências salvas antes da página aparecer (sem "piscar"). %>
+<link rel="stylesheet" href="/css/acessibilidade.css" />
+<script>
+  (function () {
+    try {
+      var p = JSON.parse(localStorage.getItem('planob-a11y') || '{}') || {}
+      var h = document.documentElement
+      var niveis = [90, 100, 115, 130, 145]
+      if (p.escuro) h.classList.add('a11y-escuro')
+      if (p.contraste) h.classList.add('a11y-contraste')
+      if (p.fonteLegivel) h.classList.add('a11y-fonte-legivel')
+      if (p.espacamento) h.classList.add('a11y-espacamento')
+      if (p.links) h.classList.add('a11y-links')
+      if (p.semAnimacao) h.classList.add('a11y-sem-animacao')
+      if (niveis[p.fonte] && niveis[p.fonte] !== 100) h.style.fontSize = niveis[p.fonte] + '%'
+    } catch (e) {}
+  })()
+</script>
+<script src="/js/acessibilidade.js" defer></script>

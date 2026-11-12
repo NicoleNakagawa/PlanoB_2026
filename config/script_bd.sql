@@ -14,6 +14,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Apagar primeiro as tabelas filhas, depois as tabelas principais
 DROP TABLE IF EXISTS `mensagem_feedback`;
 DROP TABLE IF EXISTS `chat_feedback`;
+DROP TABLE IF EXISTS `suporte_mensagem`;
 DROP TABLE IF EXISTS `suporte`;
 DROP TABLE IF EXISTS `sessao_treino`;
 DROP TABLE IF EXISTS `progresso_semanal`;
@@ -58,6 +59,7 @@ CREATE TABLE `professor` (
   `senha_hash` VARCHAR(255) NOT NULL,
   `cref` VARCHAR(15) NOT NULL,
   `foto_perfil` VARCHAR(255) DEFAULT NULL,
+  `tutorial_visto` TINYINT(1) NOT NULL DEFAULT 0,
   `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `atualizado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_professor`),
@@ -91,6 +93,7 @@ CREATE TABLE `aluno` (
   `dias_semana` INT DEFAULT NULL,
   `limitacoes` TEXT DEFAULT NULL,
   `dados_completos` TINYINT(1) NOT NULL DEFAULT 0,
+  `tutorial_visto` TINYINT(1) NOT NULL DEFAULT 0,
 
   `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `atualizado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -340,13 +343,35 @@ CREATE TABLE `mensagem_feedback` (
 CREATE TABLE `suporte` (
   `id_suporte` INT NOT NULL AUTO_INCREMENT,
   `id_aluno` INT DEFAULT NULL,
+  `id_professor` INT DEFAULT NULL,
+  `tipo_usuario` ENUM('aluno','professor') DEFAULT NULL,
   `nome` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `assunto` VARCHAR(150) DEFAULT NULL,
   `mensagem` TEXT NOT NULL,
   `status` ENUM('aberto','em_atendimento','resolvido','fechado') NOT NULL DEFAULT 'aberto',
+  `resposta_nao_lida` TINYINT(1) NOT NULL DEFAULT 0,
   `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `atualizado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_suporte`),
   KEY `idx_suporte_aluno` (`id_aluno`),
-  CONSTRAINT `fk_suporte_aluno` FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id_aluno`)
+  KEY `idx_suporte_professor` (`id_professor`),
+  CONSTRAINT `fk_suporte_aluno` FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id_aluno`),
+  CONSTRAINT `fk_suporte_professor` FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id_professor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================================
+--  17. SUPORTE - CONVERSA DO CHAMADO (respostas do moderador e do usuário)
+-- ============================================================
+CREATE TABLE `suporte_mensagem` (
+  `id_mensagem` INT NOT NULL AUTO_INCREMENT,
+  `id_suporte` INT NOT NULL,
+  `autor` ENUM('usuario','moderador') NOT NULL,
+  `id_moderador` INT DEFAULT NULL,
+  `nome_autor` VARCHAR(100) NOT NULL,
+  `mensagem` TEXT NOT NULL,
+  `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_mensagem`),
+  KEY `idx_suporte_msg_chamado` (`id_suporte`, `criado_em`),
+  CONSTRAINT `fk_suporte_msg_chamado` FOREIGN KEY (`id_suporte`) REFERENCES `suporte` (`id_suporte`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -100,6 +100,7 @@
       .hide-mobile { display: none !important; }
     }
 </style>
+  <%- include('../partials/acessibilidade') %>
 </head>
 <body class="bg-surface font-body text-on-surface">
 <!-- TopAppBar -->
@@ -148,12 +149,15 @@
 <strong class="font-headline font-bold">Configurações</strong>
 </a>
 </nav>
-<section class="mt-auto px-4">
+<section class="px-4">
 <a class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full font-headline font-bold shadow-lg hover:scale-105 transition-transform duration-200 flex items-center justify-center gap-2 text-center" href="videos">
 <i aria-hidden="true" class="material-symbols-outlined not-italic">calendar_today</i>
                 Agendar Treino
             
 </a></section>
+<footer class="mt-auto px-4 pb-8 flex flex-col gap-2 pt-4">
+<%- include('../partials/sair-menu') %>
+</footer>
 </aside>
 <!-- Main Content -->
 <main class="ml-64 pt-24 px-8 pb-12">

@@ -1,0 +1,235 @@
+/* =====================================================================
+   PlanoB - Tutorial de primeiro acesso (aluno e professor)
+   Aparece uma única vez, na primeira vez que a pessoa entra no painel.
+   ===================================================================== */
+
+.tut-raiz {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #232c51;
+}
+
+.tut-raiz *,
+.tut-raiz *::before,
+.tut-raiz *::after {
+  box-sizing: border-box;
+}
+
+/* Fundo escurecido (passos sem elemento destacado) */
+.tut-fundo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: rgba(10, 16, 46, 0.66);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.tut-fundo.tut-visivel {
+  opacity: 1;
+}
+
+/* Destaque do elemento do passo: "recorta" um buraco no escurecimento */
+.tut-foco {
+  position: fixed;
+  display: block;
+  border-radius: 18px;
+  box-shadow: 0 0 0 9999px rgba(10, 16, 46, 0.66), 0 0 0 3px #ffd709;
+  opacity: 0;
+  pointer-events: none;
+  transition: top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+}
+
+.tut-foco.tut-visivel {
+  opacity: 1;
+}
+
+.tut-card {
+  position: fixed;
+  width: min(23rem, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 22px;
+  border-radius: 28px;
+  background: #ffffff;
+  color: #232c51;
+  box-shadow: 0 30px 80px rgba(10, 16, 46, 0.45);
+  transition: top 0.25s ease, left 0.25s ease;
+}
+
+.tut-cab {
+  margin: 0 0 12px;
+  padding: 0;
+  background: transparent;
+}
+
+.tut-passo {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: #d5dbff;
+  color: #0058ba;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tut-titulo-linha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tut-icone {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #0058ba;
+  color: #ffffff;
+}
+
+.tut-icone i {
+  font-size: 24px;
+  font-style: normal;
+  color: #ffffff;
+}
+
+.tut-titulo {
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #232c51;
+}
+
+.tut-texto {
+  margin: 0 0 16px;
+  font-size: 14.5px;
+  color: #505a81;
+}
+
+.tut-texto strong {
+  color: #232c51;
+}
+
+.tut-progresso {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin: 0 0 16px;
+  border: 0;
+  border-radius: 9999px;
+  background: #e4e7ff;
+  appearance: none;
+  -webkit-appearance: none;
+  overflow: hidden;
+}
+
+.tut-progresso::-webkit-progress-bar {
+  background: #e4e7ff;
+  border-radius: 9999px;
+}
+
+.tut-progresso::-webkit-progress-value {
+  background: #0058ba;
+  border-radius: 9999px;
+}
+
+.tut-progresso::-moz-progress-bar {
+  background: #0058ba;
+  border-radius: 9999px;
+}
+
+.tut-acoes {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+}
+
+.tut-acoes button {
+  margin: 0;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.tut-acoes button:active {
+  transform: scale(0.95);
+}
+
+.tut-acoes button:focus-visible {
+  outline: 3px solid #ffd709;
+  outline-offset: 2px;
+}
+
+.tut-btn-principal {
+  margin-left: auto !important;
+  background: #0058ba;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 88, 186, 0.3);
+}
+
+.tut-btn-principal:hover {
+  background: #004da4;
+}
+
+.tut-btn-voltar {
+  background: #efefff;
+  color: #232c51;
+}
+
+.tut-btn-voltar:hover {
+  background: #d5dbff;
+}
+
+.tut-btn-pular {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  background: transparent;
+  color: #505a81;
+  font-weight: 700 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tut-btn-pular:hover {
+  color: #b31b25;
+}
+
+@media (max-width: 480px) {
+  .tut-card {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .tut-acoes button {
+    padding: 10px 14px;
+  }
+}

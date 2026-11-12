@@ -298,6 +298,7 @@
       }
     }
   </style>
+  <%- include('../partials/acessibilidade') %>
 </head>
 
 <body class="bg-surface text-on-surface">
@@ -386,7 +387,7 @@
   </header>
 
   <!-- Sidebar Desktop -->
-  <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+  <aside class="hidden md:flex h-[calc(100vh-4rem)] overflow-y-auto w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
 
     <header class="px-6 mb-8">
       <figure class="flex items-center gap-3 mb-2 m-0">
@@ -448,6 +449,9 @@
       </a>
     </nav>
 
+  <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <%- include('../partials/sair-menu') %>
+  </footer>
   </aside>
 
   <!-- Main -->
