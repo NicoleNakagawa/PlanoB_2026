@@ -69,6 +69,7 @@ router.get('/perfilaluno', authAluno, alunoController.perfilAluno)
 // =======================
 
 router.post('/perfilaluno/dados', authAluno, alunoController.atualizarDados)
+router.post('/perfilaluno/cancelar-plano', authAluno, alunoController.cancelarPlano)
 router.post('/perfilaluno/foto', authAluno, alunoController.atualizarFoto)
 router.get('/perfilprofparaaluno', authAluno, alunoController.perfilProfParaAluno)
 router.get('/videosfree', authAluno, alunoController.videosFreePagina)
@@ -221,6 +222,7 @@ router.get('/moderador/financeiro/exportar', authModerador, moderadorFinanceiroC
 // Vídeos, suporte e atividades
 router.get('/moderador/videos', authModerador, moderadorConteudoController.videos)
 router.post('/moderador/videos/:id/status', authModerador, moderadorConteudoController.alterarStatusVideo)
+router.post('/moderador/videos/:id/excluir', authModerador, moderadorConteudoController.excluirVideo)
 router.get('/moderador/suporte', authModerador, moderadorConteudoController.suporte)
 router.get('/moderador/suporte/:id', authModerador, moderadorConteudoController.chamado)
 router.post('/moderador/suporte/:id/responder', authModerador, moderadorConteudoController.responderChamado)

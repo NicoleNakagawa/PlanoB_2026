@@ -218,19 +218,6 @@
         padding: 5px 10px !important;
       }
 
-      section.video-player button.play-button {
-        width: 70px !important;
-        height: 70px !important;
-      }
-
-      section.video-player button.play-button i {
-        font-size: 2.4rem !important;
-      }
-
-      section.video-player section.video-controls {
-        display: none !important;
-      }
-
       section.info-card,
       aside.sequence-card {
         padding: 22px !important;
@@ -278,11 +265,6 @@
         font-size: 1.75rem !important;
       }
 
-      section.video-player button.play-button {
-        width: 62px !important;
-        height: 62px !important;
-      }
-
       nav[aria-label="Navegação mobile"] {
         padding-left: 6px !important;
         padding-right: 6px !important;
@@ -298,6 +280,8 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/css/player.css" />
+  <script src="/js/player.js" defer></script>
   <%- include('../partials/acessibilidade') %>
 </head>
 
@@ -491,7 +475,7 @@
       <!-- Player -->
       <section class="md:col-span-8 flex flex-col gap-6">
 
-        <section class="video-player relative group aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
+        <section data-pb-player class="video-player relative group aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
           <% if (video.embedUrl) { %>
           <iframe
             class="absolute inset-0 w-full h-full"
@@ -502,18 +486,18 @@
             referrerpolicy="strict-origin-when-cross-origin"
           ></iframe>
           <% } else if (video.arquivoUrl) { %>
-          <video class="absolute inset-0 w-full h-full" controls preload="metadata" poster="<%= capaVideo %>">
-            <source src="<%= video.arquivoUrl %>">
+          <video data-pb-video class="absolute inset-0 w-full h-full bg-black" controls playsinline preload="metadata" poster="<%= capaVideo %>">
+            <source src="<%= video.arquivoUrl %>" />
             Seu navegador não suporta vídeo.
           </video>
           <% } else { %>
           <img
             alt="<%= video.titulo %>"
-            class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
+            class="w-full h-full object-cover opacity-90"
             src="<%= capaVideo %>"
           />
 
-          <section class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-50 group-hover:opacity-60 transition-opacity duration-500"></section>
+          <section class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-60"></section>
 
           <article class="video-top-info absolute top-6 left-8 flex items-center gap-3">
             <section class="bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-black tracking-widest uppercase">
@@ -521,58 +505,16 @@
             </section>
 
             <article class="glass-dark text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
-              <strong class="w-2 h-2 bg-error rounded-full animate-pulse"></strong>
+              <i aria-hidden="true" class="material-symbols-outlined text-sm not-italic">schedule</i>
               <%= video.duracao %>
             </article>
           </article>
 
-          <article class="absolute inset-0 flex items-center justify-center">
-            <button
-              type="button"
-              class="play-button w-24 h-24 bg-primary/90 hover:bg-primary text-white rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(0,88,186,0.4)] transform transition-all hover:scale-110 active:scale-95"
-              aria-label="Reproduzir vídeo"
-            >
-              <i aria-hidden="true" class="material-symbols-outlined text-5xl translate-x-1 not-italic" style="font-variation-settings: 'FILL' 1;">play_arrow</i>
-            </button>
+          <article class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center text-white">
+            <i aria-hidden="true" class="material-symbols-outlined text-5xl not-italic" style="font-variation-settings: 'FILL' 1;">hourglass_top</i>
+            <strong class="font-headline text-xl font-black">Vídeo em breve</strong>
+            <p class="text-sm text-white/80 max-w-sm">Este vídeo demonstrativo ainda está sendo preparado. Enquanto isso, leia a execução abaixo ou escolha outro vídeo da lista.</p>
           </article>
-
-          <section class="video-controls absolute bottom-0 left-0 w-full p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-            <section class="flex flex-col gap-4">
-              <section class="w-full h-1.5 bg-white/20 rounded-full relative cursor-pointer overflow-hidden">
-                <section class="absolute left-0 top-0 h-full w-2/3 bg-primary rounded-full"></section>
-              </section>
-
-              <article class="flex items-center justify-between">
-                <article class="flex items-center gap-6">
-                  <button class="text-white hover:text-primary transition-colors" type="button">
-                    <i aria-hidden="true" class="material-symbols-outlined text-3xl not-italic">pause</i>
-                  </button>
-
-                  <article class="flex items-center gap-3">
-                    <button class="text-white hover:text-primary transition-colors" type="button">
-                      <i aria-hidden="true" class="material-symbols-outlined not-italic">volume_up</i>
-                    </button>
-
-                    <section class="w-24 h-1 bg-white/20 rounded-full hidden sm:block">
-                      <section class="w-1/2 h-full bg-white rounded-full"></section>
-                    </section>
-                  </article>
-
-                  <strong class="text-white/90 text-sm font-medium tracking-tight">00:00 / <%= video.duracao %></strong>
-                </article>
-
-                <article class="flex items-center gap-6">
-                  <a class="text-white hover:text-primary transition-colors" href="/perfilaluno">
-                    <i aria-hidden="true" class="material-symbols-outlined not-italic">settings</i>
-                  </a>
-
-                  <button class="text-white hover:text-primary transition-colors" type="button">
-                    <i aria-hidden="true" class="material-symbols-outlined not-italic">fullscreen</i>
-                  </button>
-                </article>
-              </article>
-            </section>
-          </section>
           <% } %>
         </section>
 

@@ -1,0 +1,290 @@
+/* =====================================================================
+   PlanoB - Player de vídeo (arquivos enviados pelos professores)
+   O JS (/js/player.js) troca os controles nativos por estes, no padrão do site.
+   ===================================================================== */
+
+.pb-player {
+  position: relative;
+  background: #000;
+}
+
+.pb-player video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+.pb-player *,
+.pb-player *::before,
+.pb-player *::after {
+  box-sizing: border-box;
+}
+
+/* Botão grande de play no meio (some enquanto o vídeo toca) */
+.pb-play-grande {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(0, 88, 186, 0.92);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 50px rgba(0, 88, 186, 0.45);
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+  z-index: 3;
+}
+
+.pb-play-grande:hover {
+  background: #0058ba;
+  transform: scale(1.08);
+}
+
+.pb-play-grande:active {
+  transform: scale(0.95);
+}
+
+.pb-play-grande i {
+  font-size: 48px;
+  font-style: normal;
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.pb-player.pb-tocando .pb-play-grande {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Barra de controles */
+.pb-controles {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  margin: 0;
+  padding: 36px 20px 14px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Enquanto toca, os controles escondem quando o mouse sai (e voltam no hover/foco) */
+.pb-player.pb-tocando:not(:hover):not(:focus-within) .pb-controles {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.pb-player.pb-ocioso .pb-controles {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.pb-linha {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+}
+
+.pb-linha + .pb-linha {
+  margin-top: 8px;
+}
+
+.pb-grupo {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pb-grupo-direita {
+  margin-left: auto;
+}
+
+.pb-btn {
+  flex: 0 0 auto;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pb-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.pb-btn:focus-visible,
+.pb-play-grande:focus-visible,
+.pb-velocidade:focus-visible {
+  outline: 3px solid #ffd709;
+  outline-offset: 2px;
+}
+
+.pb-btn i {
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+  font-size: 28px;
+  font-style: normal;
+  color: #fff;
+}
+
+.pb-velocidade {
+  min-width: 52px;
+  height: 36px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pb-velocidade:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.pb-tempo {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Barras (progresso e volume) */
+.pb-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  margin: 0;
+  padding: 0;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #0058ba var(--pb-pct, 0%), rgba(255, 255, 255, 0.28) var(--pb-pct, 0%));
+  cursor: pointer;
+  outline: none;
+}
+
+.pb-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 0;
+  box-shadow: 0 0 0 3px rgba(0, 88, 186, 0.55);
+}
+
+.pb-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 0;
+  box-shadow: 0 0 0 3px rgba(0, 88, 186, 0.55);
+}
+
+.pb-range:focus-visible {
+  outline: 3px solid #ffd709;
+  outline-offset: 4px;
+}
+
+.pb-progresso {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.pb-volume {
+  width: 84px;
+}
+
+/* Mensagem de erro */
+.pb-erro {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.82);
+  color: #fff;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+}
+
+.pb-erro[hidden] {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .pb-play-grande {
+    width: 68px;
+    height: 68px;
+    margin: -34px 0 0 -34px;
+  }
+
+  .pb-play-grande i {
+    font-size: 40px;
+  }
+
+  .pb-controles {
+    padding: 28px 12px 10px;
+  }
+
+  .pb-volume {
+    display: none;
+  }
+
+  .pb-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .pb-btn i {
+    font-size: 24px;
+  }
+
+  .pb-tempo {
+    font-size: 12px;
+  }
+}

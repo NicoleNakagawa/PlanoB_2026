@@ -1,8 +1,14 @@
 // Lista fixa de vídeos gratuitos (plano Free), extraída do router.js
+//
+// Para o vídeo TOCAR no site, preencha o campo videoUrl de cada item com:
+//   - um link do YouTube (de preferência "não listado"), ex.: 'https://youtu.be/XXXXXXXXXXX'
+//   - ou um arquivo enviado para o servidor, ex.: '/uploads/videos/agachamento.mp4'
+// Enquanto estiver vazio, a tela mostra "Vídeo em breve".
 
 const videosFree = [
     {
         slug: 'agachamento',
+        videoUrl: '',
         titulo: 'Fundamentos do Agachamento',
         categoria: 'Fundamentos',
         nivel: 'Iniciante',
@@ -15,6 +21,7 @@ const videosFree = [
     },
     {
         slug: 'cardio-10-minutos',
+        videoUrl: '',
         titulo: 'Cardio de 10 minutos',
         categoria: 'Cardio',
         nivel: 'Iniciante',
@@ -27,6 +34,7 @@ const videosFree = [
     },
     {
         slug: 'mobilidade-basica',
+        videoUrl: '',
         titulo: 'Mobilidade Básica',
         categoria: 'Flexibilidade',
         nivel: 'Iniciante',
@@ -39,6 +47,7 @@ const videosFree = [
     },
     {
         slug: 'flexao-perfeita',
+        videoUrl: '',
         titulo: 'Flexão Perfeita',
         categoria: 'Braços',
         nivel: 'Iniciante',
@@ -51,6 +60,7 @@ const videosFree = [
     },
     {
         slug: 'afundo-explosivo',
+        videoUrl: '',
         titulo: 'Afundo Explosivo',
         categoria: 'Pernas',
         nivel: 'Iniciante',
@@ -63,6 +73,7 @@ const videosFree = [
     },
     {
         slug: 'prancha-isometrica',
+        videoUrl: '',
         titulo: 'Prancha Isométrica',
         categoria: 'Core',
         nivel: 'Iniciante',

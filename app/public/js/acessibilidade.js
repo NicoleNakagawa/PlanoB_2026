@@ -100,6 +100,48 @@
 
     atualizarControles()
     posicionar()
+    marcarAreasEscuras()
+  }
+
+  // No modo escuro a página é invertida. Áreas que já são escuras (fundo preto, azul-marinho...)
+  // ficariam brancas, então marcamos essas áreas para manterem a cor original.
+  function luminancia(cor) {
+    var m = /rgba?\(([^)]+)\)/.exec(cor || '')
+
+    if (!m) return null
+
+    var p = m[1].split(',').map(function (n) { return parseFloat(n) })
+    var alfa = p.length > 3 ? p[3] : 1
+
+    if (isNaN(alfa) || alfa < 0.85) return null
+
+    return (0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2]) / 255
+  }
+
+  function marcarAreasEscuras() {
+    var marcadas = document.querySelectorAll('.a11y-manter')
+
+    Array.prototype.forEach.call(marcadas, function (e) { e.classList.remove('a11y-manter') })
+
+    if (!estado.escuro) return
+
+    var tags = { SECTION: 1, ARTICLE: 1, FOOTER: 1, HEADER: 1, ASIDE: 1, NAV: 1, FIGURE: 1, DIV: 1 }
+    var todos = document.body.querySelectorAll('*')
+
+    for (var i = 0; i < todos.length; i++) {
+      var e = todos[i]
+
+      if (!tags[e.tagName]) continue
+      if (e.closest('.a11y-raiz, .tut-raiz, .a11y-manter')) continue
+
+      var r = e.getBoundingClientRect()
+
+      if (r.width < 240 || r.height < 100) continue
+
+      var lum = luminancia(window.getComputedStyle(e).backgroundColor)
+
+      if (lum !== null && lum < 0.3) e.classList.add('a11y-manter')
+    }
   }
 
   function atualizarControles() {
@@ -305,7 +347,7 @@
     })
 
     window.addEventListener('resize', posicionar)
-    window.addEventListener('load', posicionar)
+    window.addEventListener('load', function () { posicionar(); marcarAreasEscuras() })
 
     aplicar()
   }

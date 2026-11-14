@@ -1,7 +1,7 @@
 const db = require('../config/pool_conexoes')
 const { uploadPerfil } = require('../config/uploads')
 const videosFree = require('../data/videosFree')
-const { buscarVideosProfessores } = require('../utils/videos')
+const { buscarVideosProfessores, descreverFonte } = require('../utils/videos')
 const { redirecionarPainelAluno, redirecionarVideosAluno } = require('../utils/redirecionamentos')
 
 // =======================
@@ -445,8 +445,19 @@ exports.perfilAluno = async (req, res) => {
             [idAluno]
         )
 
+        const [assinaturaRows] = await db.query(
+            `SELECT a.id_assinatura, a.valor_cobrado, a.data_inicio, p.nome AS nome_plano
+             FROM assinatura a
+             JOIN plano p ON p.id_plano = a.id_plano
+             WHERE a.id_aluno = ? AND a.status = 'ativa'
+             ORDER BY a.id_assinatura DESC
+             LIMIT 1`,
+            [idAluno]
+        )
+
         res.render('perfilaluno', {
             aluno: req.session.aluno,
+            assinatura: assinaturaRows[0] || null,
             historicoTreinos,
             resumoTreinos: resumoRows[0] || {
                 total_treinos: 0,
@@ -491,6 +502,34 @@ exports.perfilAluno = async (req, res) => {
 // =======================
 // ALTERAR PERFIL, VÍDEOS E PROGRESSO DO ALUNO
 // =======================
+
+// Cancelar plano: a assinatura fica "cancelada" e o aluno volta para o plano Free
+exports.cancelarPlano = async (req, res) => {
+    const idAluno = req.session.aluno.id
+
+    if (Number(req.session.aluno.id_plano) < 2) {
+        return res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Você não tem um plano pago para cancelar.'))
+    }
+
+    try {
+        await db.query(
+            `UPDATE assinatura
+             SET status = 'cancelada', renovacao_auto = 0, data_fim = CURDATE()
+             WHERE id_aluno = ? AND status = 'ativa'`,
+            [idAluno]
+        )
+
+        await db.query('UPDATE aluno SET id_plano = 1 WHERE id_aluno = ?', [idAluno])
+
+        req.session.aluno.id_plano = 1
+
+        res.redirect('/perfilaluno?sucesso=' + encodeURIComponent('Plano cancelado. Sua conta voltou para o plano Free. Você pode assinar de novo quando quiser.'))
+    } catch (err) {
+        console.error('[cancelar plano]', err)
+
+        res.redirect('/perfilaluno?erroPerfil=' + encodeURIComponent('Não foi possível cancelar o plano agora. Tente novamente.'))
+    }
+}
 
 exports.atualizarDados = async (req, res) => {
     const idAluno = req.session.aluno.id
@@ -595,13 +634,27 @@ exports.perfilProfParaAluno = (req, res) => {
 
 // Vídeos dos professores (de acordo com o plano do aluno) + vídeos fixos da plataforma.
 // Se a consulta falhar, as telas continuam funcionando só com os vídeos fixos.
+// Os vídeos fixos (data/videosFree.js) tocam quando têm videoUrl preenchido
+function videosFixosComFonte() {
+    return videosFree.map(video => {
+        const fonte = descreverFonte(video.videoUrl)
+
+        return {
+            ...video,
+            tipoFonte: fonte.tipo,
+            embedUrl: fonte.embedUrl,
+            arquivoUrl: fonte.arquivoUrl
+        }
+    })
+}
+
 async function montarCatalogo(idPlano) {
     try {
         const videosProfessores = await buscarVideosProfessores(db, idPlano)
-        return [...videosProfessores, ...videosFree]
+        return [...videosProfessores, ...videosFixosComFonte()]
     } catch (err) {
         console.error('[catalogo de videos]', err)
-        return videosFree
+        return videosFixosComFonte()
     }
 }
 

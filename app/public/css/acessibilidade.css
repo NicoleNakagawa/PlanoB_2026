@@ -20,12 +20,48 @@ html.a11y-escuro.a11y-contraste {
   filter: invert(1) hue-rotate(180deg) contrast(1.35) saturate(1.1);
 }
 
+/* Imagens e vídeos mantêm as cores originais (desfaz a inversão).
+   !important porque efeitos de hover da página (ex.: grayscale-0) também usam "filter"
+   e, sem isso, a imagem ficava negativa ao passar o mouse ou tocar. */
 html.a11y-escuro img,
 html.a11y-escuro video,
 html.a11y-escuro iframe,
 html.a11y-escuro canvas,
 html.a11y-escuro [style*="background-image"] {
-  filter: invert(1) hue-rotate(180deg);
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Imagens com efeito preto e branco (grayscale) continuam com o efeito */
+html.a11y-escuro img.grayscale {
+  filter: invert(1) hue-rotate(180deg) grayscale(1) !important;
+}
+
+html.a11y-escuro img.grayscale:hover,
+html.a11y-escuro img.hover\:grayscale-0:hover {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Áreas que JÁ são escuras (ex.: "SEM DESCULPAS", rodapé, faixas escuras) ficam com as
+   cores originais. O JS marca essas áreas com a classe a11y-manter. */
+html.a11y-escuro .a11y-manter {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+html.a11y-escuro .a11y-manter img,
+html.a11y-escuro .a11y-manter video,
+html.a11y-escuro .a11y-manter iframe,
+html.a11y-escuro .a11y-manter canvas,
+html.a11y-escuro .a11y-manter [style*="background-image"] {
+  filter: none !important;
+}
+
+html.a11y-escuro .a11y-manter img.grayscale {
+  filter: grayscale(1) !important;
+}
+
+html.a11y-escuro .a11y-manter img.grayscale:hover,
+html.a11y-escuro .a11y-manter img.hover\:grayscale-0:hover {
+  filter: none !important;
 }
 
 /* Fonte pensada para leitura (dislexia/baixa visão). Ícones e logo ficam como estão. */

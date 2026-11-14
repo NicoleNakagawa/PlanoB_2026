@@ -487,6 +487,14 @@
 
     .faq-bloco { border-radius: 2rem; transition: box-shadow 0.4s ease; }
     .faq-bloco-destaque { box-shadow: 0 0 0 6px rgba(0, 88, 186, 0.18); }
+
+    .seta-contato { transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease; }
+    .seta-contato.seta-oculta { opacity: 0; pointer-events: none; transform: translateY(12px); }
+    .seta-contato-icone { animation: seta-pulo 1.6s ease-in-out infinite; }
+    @keyframes seta-pulo {
+      0%, 100% { transform: translateY(-2px); }
+      50% { transform: translateY(3px); }
+    }
   </style>
   <link rel="stylesheet" href="/css/transicao-paginas.css">
   <%- include('../partials/acessibilidade') %>
@@ -589,7 +597,7 @@
       ['Como faço upgrade para Lazuli ou Diamante?', 'No painel do plano Free, vá até a seção de planos e escolha <strong>Lazuli</strong> ou <strong>Diamante</strong>. Você será levado à tela de pagamento. Quando o pagamento é aprovado, seu painel muda para o novo plano.'],
       ['O que muda no meu painel quando troco de plano?', 'Cada plano tem seu painel. No Lazuli e no Diamante você libera todos os vídeos, o progresso semanal, a ofensiva e o feedback com professores. No Diamante, ainda recebe treinos montados pelo professor.'],
       ['O plano Free tem prazo?', 'Sim, ele é um teste de 1 semana, pensado para você conhecer a metodologia do PlanoB com vídeos demonstrativos.'],
-      ['Como cancelo minha assinatura?', 'Abra um chamado em <strong>Abrir chamado</strong> (assunto "Pagamento ou plano") pedindo o cancelamento. A equipe confirma por lá e você acompanha a resposta em "Meus chamados".']
+      ['Como cancelo minha assinatura?', 'Vá em <strong>Perfil</strong>, role até <strong>Minha Assinatura</strong>, abra <strong>Cancelar plano</strong> e confirme. A conta volta para o plano Free na hora, e você pode assinar de novo quando quiser.']
     ]},
     { id: 'login', titulo: 'Acesso e Login', icone: 'lock_open', resumo: 'Entrar, sair e resolver problemas de acesso.', itens: [
       ['Como faço login?', 'Clique em <strong>Login</strong>, informe e-mail e senha. O mesmo login serve para alunos e professores, e o site leva você ao painel correto.'],
@@ -723,7 +731,7 @@
       </article>
     </section>
 
-    <section class="px-8 py-24 bg-on-surface text-surface relative overflow-hidden" aria-labelledby="contato-heading">
+    <section id="contato" class="px-8 py-24 bg-on-surface text-surface relative overflow-hidden scroll-mt-20" aria-labelledby="contato-heading">
 
       <figure class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
         <img
@@ -897,8 +905,34 @@
         card.addEventListener('click', openTarget);
         card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openTarget(); } });
       });
+      document.addEventListener('DOMContentLoaded', () => {
+      const seta = document.getElementById('seta-contato');
+      const contato = document.getElementById('contato');
+
+      if (seta && contato) {
+        seta.addEventListener('click', event => {
+          event.preventDefault();
+          contato.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(entries => {
+            seta.classList.toggle('seta-oculta', entries[0].isIntersecting);
+          }, { threshold: 0.15 }).observe(contato);
+        }
+      }
+      });
     })();
   </script>
+
+  <a
+    id="seta-contato"
+    href="#contato"
+    class="seta-contato fixed right-4 md:right-8 bottom-24 lg:bottom-8 z-40 inline-flex items-center gap-2 rounded-full bg-primary text-on-primary pl-5 pr-4 py-3 font-bold shadow-xl shadow-primary/30 hover:bg-primary-dim active:scale-95 transition-all duration-300"
+    aria-label="Descer até a seção Ainda precisa de ajuda?">
+    <em class="not-italic hidden sm:inline text-sm">Ainda precisa de ajuda?</em>
+    <i class="material-symbols-outlined not-italic seta-contato-icone" aria-hidden="true">keyboard_double_arrow_down</i>
+  </a>
 
   <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f7f5ff]/90 dark:bg-[#1a1b26]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]" aria-label="Navegação mobile">
 

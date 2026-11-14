@@ -87,6 +87,15 @@
                 <%= v.ativo ? 'Ocultar' : 'Reativar' %>
               </button>
             </form>
+
+            <form action="/moderador/videos/<%= v.id_video %>/excluir" method="POST"
+                  data-confirmar="Excluir DEFINITIVAMENTE este vídeo? Ele será apagado do site e não poderá ser recuperado.">
+              <input type="hidden" name="voltar" value="<%= voltar %>" />
+              <button type="submit" class="inline-flex items-center gap-1 rounded-full bg-error text-white hover:opacity-90 px-4 py-2 text-xs font-black transition-opacity">
+                <i class="material-symbols-outlined text-base not-italic" aria-hidden="true">delete</i>
+                Excluir
+              </button>
+            </form>
           </div>
         </li>
       <% }) %>

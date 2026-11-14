@@ -1,3 +1,5 @@
+const path = require('path')
+const fs = require('fs')
 const db = require('../config/pool_conexoes')
 const {
     paginar,
@@ -91,6 +93,49 @@ exports.alterarStatusVideo = async (req, res) => {
     res.redirect(voltar + separador + 'sucesso=' + encodeURIComponent(
         ativo ? 'Vídeo reativado.' : 'Vídeo ocultado. Ele deixa de aparecer para os alunos.'
     ))
+}
+
+// Exclui o vídeo de vez (diferente de ocultar, que só tira dos alunos).
+// Se o vídeo for um arquivo enviado para o servidor, o arquivo também é apagado.
+exports.excluirVideo = async (req, res) => {
+    const id = Number(req.params.id)
+    const voltar = destinoSeguro((req.body || {}).voltar, '/moderador/videos')
+    const separador = voltar.includes('?') ? '&' : '?'
+
+    if (!id) return res.redirect(voltar)
+
+    const [videos] = await db.query('SELECT titulo, link_video, thumbnail FROM video WHERE id_video = ?', [id])
+
+    if (videos.length === 0) {
+        return res.redirect('/moderador/videos?erro=' + encodeURIComponent('Vídeo não encontrado.'))
+    }
+
+    try {
+        await db.query('DELETE FROM video WHERE id_video = ?', [id])
+    } catch (err) {
+        console.error('[moderador excluir video]', err)
+
+        return res.redirect(voltar + separador + 'erro=' + encodeURIComponent(
+            'Não foi possível excluir o vídeo. Você pode ocultá-lo para os alunos.'
+        ))
+    }
+
+    // Apaga o arquivo físico só se estiver dentro de public/uploads (nunca fora dela)
+    const pastaUploads = path.join(__dirname, '..', 'public', 'uploads')
+
+    for (const caminho of [videos[0].link_video, videos[0].thumbnail]) {
+        if (!caminho || !String(caminho).startsWith('/uploads/')) continue
+
+        const arquivo = path.join(pastaUploads, path.normalize(String(caminho).slice('/uploads/'.length)))
+
+        if (!arquivo.startsWith(pastaUploads + path.sep)) continue
+
+        fs.unlink(arquivo, () => {})
+    }
+
+    await registrarLog(req.session.moderador, 'excluiu vídeo', 'video', id, videos[0].titulo)
+
+    res.redirect(voltar + separador + 'sucesso=' + encodeURIComponent('Vídeo excluído definitivamente.'))
 }
 
 // =======================

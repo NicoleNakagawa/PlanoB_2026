@@ -703,6 +703,67 @@
 
       </section>
 
+      <% const planoPerfil = Number(aluno.id_plano) || 1 %>
+      <% if (planoPerfil >= 2) { %>
+      <section id="assinatura" class="md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6" aria-labelledby="assinatura-heading">
+
+        <header class="flex items-center gap-4">
+          <figure class="w-12 h-12 rounded-2xl bg-primary-container/20 flex items-center justify-center shrink-0 m-0">
+            <i class="material-symbols-outlined text-primary text-2xl not-italic" aria-hidden="true">workspace_premium</i>
+          </figure>
+
+          <hgroup>
+            <h2 id="assinatura-heading" class="text-2xl font-extrabold headline text-on-surface">Minha Assinatura</h2>
+            <p class="text-sm text-on-surface-variant">Plano <%= planoPerfil === 3 ? 'Diamante' : 'Lazuli' %> ativo</p>
+          </hgroup>
+        </header>
+
+        <% if (typeof assinatura !== 'undefined' && assinatura) { %>
+        <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <section class="bg-surface-container-low rounded-3xl p-5">
+            <dt class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Plano</dt>
+            <dd class="font-black text-lg text-on-surface"><%= assinatura.nome_plano %></dd>
+          </section>
+
+          <section class="bg-surface-container-low rounded-3xl p-5">
+            <dt class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Valor mensal</dt>
+            <dd class="font-black text-lg text-on-surface">R$ <%= Number(assinatura.valor_cobrado).toFixed(2).replace('.', ',') %></dd>
+          </section>
+
+          <section class="bg-surface-container-low rounded-3xl p-5">
+            <dt class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Assinante desde</dt>
+            <dd class="font-black text-lg text-on-surface"><%= new Date(assinatura.data_inicio).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) %></dd>
+          </section>
+        </dl>
+        <% } %>
+
+        <details class="group max-w-2xl rounded-3xl bg-surface-container-low p-5">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-3 font-black text-on-surface">
+            <em class="not-italic inline-flex items-center gap-2">
+              <i class="material-symbols-outlined not-italic text-error" aria-hidden="true">cancel</i>
+              Cancelar plano
+            </em>
+            <i class="material-symbols-outlined not-italic transition-transform group-open:rotate-180" aria-hidden="true">expand_more</i>
+          </summary>
+
+          <article class="mt-4 flex flex-col gap-4">
+            <p class="text-on-surface-variant leading-relaxed">
+              Ao cancelar, a sua assinatura é encerrada e a conta <strong class="text-on-surface">volta para o plano Free na hora</strong>.
+              Você perde o acesso aos recursos do plano atual, mas seu histórico de treinos continua guardado.
+              Se quiser, é possível assinar novamente depois.
+            </p>
+
+            <form action="/perfilaluno/cancelar-plano" method="POST" data-confirmar-cancelamento>
+              <button type="submit" class="w-full sm:w-auto bg-error text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-error/20 hover:opacity-90 active:scale-95 transition-all">
+                Confirmar cancelamento
+              </button>
+            </form>
+          </article>
+        </details>
+
+      </section>
+      <% } %>
+
       <section class="training-data-card md:col-span-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm flex flex-col gap-6">
 
         <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -928,5 +989,12 @@
 
   </nav>
 
+  <script>
+    document.querySelectorAll('[data-confirmar-cancelamento]').forEach(function (f) {
+      f.addEventListener('submit', function (e) {
+        if (!window.confirm('Tem certeza que deseja cancelar o seu plano? Sua conta voltará para o plano Free.')) e.preventDefault()
+      })
+    })
+  </script>
 </body>
 </html>
