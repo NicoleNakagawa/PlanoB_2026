@@ -13,9 +13,8 @@ const pool = mysql.createPool({
     queueLimit: 0,
     connectTimeout: 30000,
 
-    // Railway normalmente funciona sem isso no proxy TCP,
-    // mas se der erro de SSL, troque para:
-    // ssl: { rejectUnauthorized: false }
+    // Defina DB_SSL=true no .env se o Railway exigir SSL
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined
 })
 
 pool.getConnection((err, conn) => {
