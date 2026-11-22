@@ -211,7 +211,11 @@
 
   <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
     <nav class="flex items-center gap-4" aria-label="Navegação principal">
-      <a href="/dadosaluno" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+      <%
+        const planoDoAluno = Number(aluno && aluno.id_plano)
+        const painelDoAluno = planoDoAluno === 3 ? '/paineldiamante' : planoDoAluno === 2 ? '/painellazuli' : '/painelfree'
+      %>
+      <a href="<%= painelDoAluno %>" class="font-headline logo-font logo-header text-primary no-underline" aria-label="PlanoB - Ir para o painel">PlanoB</a>
     </nav>
 
 

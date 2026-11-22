@@ -537,7 +537,7 @@
       </nav>
       <% } else { %>
       <nav class="flex items-center gap-8" aria-label="Ações do usuário">
-        <a href="/loginaluno" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+        <a href="/login" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
           Login
         </a>
         <a href="/cadastroaluno" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
@@ -601,12 +601,12 @@
     ]},
     { id: 'login', titulo: 'Acesso e Login', icone: 'lock_open', resumo: 'Entrar, sair e resolver problemas de acesso.', itens: [
       ['Como faço login?', 'Clique em <strong>Login</strong>, informe e-mail e senha. O mesmo login serve para alunos e professores, e o site leva você ao painel correto.'],
-      ['Esqueci minha senha. O que faço?', 'Por enquanto a recuperação automática de senha ainda não está disponível. Fale com a equipe pelo <strong>e-mail de suporte</strong> ou pelo <strong>WhatsApp</strong> (veja "Ainda precisa de ajuda?") informando o e-mail da sua conta.'],
-      ['Diz que meu e-mail ou senha estão inválidos. E agora?', 'Confira se o e-mail está escrito corretamente, sem espaços, e se o Caps Lock está desligado. Se ainda não funcionar, entre em contato pelo e-mail ou WhatsApp de suporte.'],
+      ['Esqueci minha senha. O que faço?', 'Na tela de login, clique em <strong>Esqueceu a senha?</strong>, informe o e-mail da sua conta e enviaremos um link para criar uma nova senha. O link vale por 1 hora. Se o e-mail não chegar, confira a caixa de spam ou abra um chamado aqui no suporte.'],
+      ['Diz que meu e-mail ou senha estão inválidos. E agora?', 'Confira se o e-mail está escrito corretamente, sem espaços, e se o Caps Lock está desligado. Se ainda não funcionar, use <strong>Esqueceu a senha?</strong> na tela de login ou fale com o suporte.'],
       ['O que é a opção "Lembrar de mim"?', 'Ela mantém você conectado por mais tempo (até 7 dias) neste navegador. Não use em computadores compartilhados.'],
       ['Como saio da minha conta?', 'Clique em <strong>Sair</strong>, no canto inferior esquerdo do menu lateral.'],
       ['Posso usar a mesma conta em mais de um dispositivo?', 'Sim, você pode entrar com o mesmo e-mail e senha em celular, tablet e computador.'],
-      ['Meu e-mail já está cadastrado, mas não lembro de ter criado a conta.', 'Tente fazer login com ele. Se não conseguir acessar, fale com a equipe de suporte pelo e-mail ou WhatsApp para verificarmos.']
+      ['Meu e-mail já está cadastrado, mas não lembro de ter criado a conta.', 'Tente fazer login com ele. Se não conseguir acessar, fale com a equipe de suporte pelo e-mail ou abrindo um chamado para verificarmos.']
     ]},
     { id: 'pagamento', titulo: 'Pagamentos', icone: 'payments', resumo: 'Cobrança, descontos e comprovantes.', itens: [
       ['Quais formas de pagamento são aceitas?', 'Atualmente o pagamento da assinatura é feito com <strong>cartão de crédito</strong>, direto na tela de pagamento.'],
@@ -745,7 +745,7 @@
 
         <h2 id="contato-heading" class="font-headline text-4xl md:text-5xl font-black mb-12 italic">Ainda precisa de ajuda?</h2>
 
-        <ul class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center max-w-5xl mx-auto" role="list">
+        <ul class="grid grid-cols-1 <%= whatsappSuporte ? 'md:grid-cols-3' : 'md:grid-cols-2' %> gap-8 justify-center max-w-5xl mx-auto" role="list">
 
           <li class="bg-surface/10 backdrop-blur-md p-10 rounded-3xl border border-white/10 hover:border-primary transition-colors flex flex-col items-center text-center">
             <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">support_agent</i>
@@ -777,14 +777,16 @@
             </a>
           </li>
 
+          <% if (whatsappSuporte) { %>
           <li class="bg-surface/10 backdrop-blur-md p-10 rounded-3xl border border-white/10 hover:border-primary transition-colors flex flex-col items-center text-center">
             <i class="material-symbols-outlined text-5xl mb-6 text-primary-fixed not-italic" aria-hidden="true">forum</i>
             <h3 class="font-headline text-2xl font-bold mb-4">WhatsApp</h3>
             <p class="font-body text-surface/70 mb-8">Suporte rápido direto no seu celular. Disponível das 08h às 22h.</p>
-            <a href="https://wa.me/5519900000000" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-[#25D366] text-white rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+            <a href="https://wa.me/<%= whatsappSuporte %>" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-[#25D366] text-white rounded-full font-bold hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
               Acessar Central WhatsApp
             </a>
           </li>
+          <% } %>
 
         </ul>
       </article>

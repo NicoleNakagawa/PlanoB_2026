@@ -22,7 +22,9 @@ function proximoSeguro(valor) {
 
 exports.exibirLogin = (req, res) => {
     res.render('login', {
-        sucesso: req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null,
+        sucesso: req.query.sucesso === 'senha-redefinida'
+            ? 'Senha alterada com sucesso! Entre com a nova senha.'
+            : req.query.sucesso ? 'Cadastro realizado! Agora faça login.' : null,
         next: proximoSeguro(req.query.next)
     })
 }

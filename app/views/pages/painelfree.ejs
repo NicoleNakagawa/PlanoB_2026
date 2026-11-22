@@ -462,7 +462,7 @@
               viewBox="0 0 128 128"
               fill="none"
               role="img"
-              aria-label="6 de 7 dias restantes"
+              aria-label="<%= diasRestantes %> de <%= diasTotais %> dias restantes"
             >
               <circle
                 class="text-white/20"
@@ -482,7 +482,7 @@
                 stroke-width="8"
                 stroke-linecap="round"
                 stroke-dasharray="339.3"
-                stroke-dashoffset="48.5"
+                stroke-dashoffset="<%= (339.3 * (1 - diasRestantes / diasTotais)).toFixed(1) %>"
               />
 
               <text
@@ -496,7 +496,7 @@
                 font-family="Lexend"
                 transform="rotate(90, 64, 64)"
               >
-                6
+                <%= diasRestantes %>
               </text>
 
               <text
@@ -511,11 +511,11 @@
                 letter-spacing="1"
                 transform="rotate(90, 64, 64)"
               >
-                DIAS RESTANTES
+                <%= diasRestantes === 1 ? 'DIA RESTANTE' : 'DIAS RESTANTES' %>
               </text>
             </svg>
 
-            <p class="text-sm font-medium opacity-80 italic text-center">de 7 dias totais</p>
+            <p class="text-sm font-medium opacity-80 italic text-center">de <%= diasTotais %> dias totais</p>
           </figure>
 
         </section>
@@ -531,10 +531,22 @@
           <i class="material-symbols-outlined text-error text-4xl opacity-20 not-italic absolute top-0 right-0 p-4" aria-hidden="true">warning</i>
 
           <hgroup class="flex flex-col gap-2">
-            <h2 class="text-2xl font-extrabold headline text-on-surface">Aviso de Encerramento</h2>
-            <p class="text-on-surface-variant leading-relaxed">
-              Seu acesso gratuito expira em breve. Após este período, suas métricas e planos personalizados ficarão bloqueados.
-            </p>
+            <% if (diasRestantes === 0) { %>
+              <h2 class="text-2xl font-extrabold headline text-on-surface">Teste gratuito encerrado</h2>
+              <p class="text-on-surface-variant leading-relaxed">
+                Seus <%= diasTotais %> dias de teste terminaram. Faça upgrade para continuar com métricas, planos personalizados e todos os vídeos.
+              </p>
+            <% } else if (diasRestantes <= 2) { %>
+              <h2 class="text-2xl font-extrabold headline text-on-surface">Aviso de Encerramento</h2>
+              <p class="text-on-surface-variant leading-relaxed">
+                Seu acesso gratuito expira em breve: <%= diasRestantes === 1 ? 'resta 1 dia' : 'restam ' + diasRestantes + ' dias' %>. Depois disso, suas métricas e planos personalizados ficarão bloqueados.
+              </p>
+            <% } else { %>
+              <h2 class="text-2xl font-extrabold headline text-on-surface">Seu teste gratuito</h2>
+              <p class="text-on-surface-variant leading-relaxed">
+                Você ainda tem <%= diasRestantes %> dias de acesso gratuito. Quando quiser, faça upgrade para liberar métricas, planos personalizados e todos os vídeos.
+              </p>
+            <% } %>
           </hgroup>
 
           <a href="/painelfree#planos" class="w-full bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all text-center">

@@ -12,6 +12,8 @@ USE `railway`;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Apagar primeiro as tabelas filhas, depois as tabelas principais
+DROP TABLE IF EXISTS `redefinicao_senha`;
+DROP TABLE IF EXISTS `sessoes`;
 DROP TABLE IF EXISTS `mensagem_feedback`;
 DROP TABLE IF EXISTS `chat_feedback`;
 DROP TABLE IF EXISTS `suporte_mensagem`;
@@ -374,4 +376,29 @@ CREATE TABLE `suporte_mensagem` (
   PRIMARY KEY (`id_mensagem`),
   KEY `idx_suporte_msg_chamado` (`id_suporte`, `criado_em`),
   CONSTRAINT `fk_suporte_msg_chamado` FOREIGN KEY (`id_suporte`) REFERENCES `suporte` (`id_suporte`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================================
+--  RECUPERAÇÃO DE SENHA E SESSÕES
+--  (o servidor também cria estas tabelas sozinho ao iniciar)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS `redefinicao_senha` (
+  `id_redefinicao` INT NOT NULL AUTO_INCREMENT,
+  `tipo_usuario` ENUM('aluno','professor','moderador') NOT NULL,
+  `id_usuario` INT NOT NULL,
+  `token_hash` CHAR(64) NOT NULL,
+  `expira_em` DATETIME NOT NULL,
+  `usado_em` DATETIME DEFAULT NULL,
+  `criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_redefinicao`),
+  UNIQUE KEY `uk_redefinicao_token` (`token_hash`),
+  KEY `idx_redefinicao_usuario` (`tipo_usuario`, `id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `sessoes` (
+  `sid` VARCHAR(128) NOT NULL,
+  `expira_em` BIGINT NOT NULL,
+  `dados` MEDIUMTEXT NOT NULL,
+  PRIMARY KEY (`sid`),
+  KEY `idx_sessoes_expira` (`expira_em`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

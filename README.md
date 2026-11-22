@@ -188,3 +188,28 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 /*IGNORE*/
 sudo service mysql start
+
+---
+
+## Variáveis de ambiente novas
+
+Veja `.env.example` para a lista completa.
+
+| Variável | Para que serve |
+|----------|----------------|
+| `APP_URL` | Endereço público do site, usado no link do e-mail de recuperação de senha |
+| `WHATSAPP_SUPORTE` | Número do WhatsApp do suporte (só dígitos, com DDI). Vazio = o botão some |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Envio de e-mail. Sem `SMTP_HOST`, o link de recuperação aparece só no terminal |
+
+## Sessões e tabelas automáticas
+
+O login fica salvo no MySQL (tabela `sessoes`), então não se perde quando o servidor reinicia.
+As tabelas `sessoes` e `redefinicao_senha` são criadas sozinhas ao iniciar o servidor.
+
+Depois de atualizar o código, rode `npm install` (nova dependência: `nodemailer`).
+
+## Vídeos demonstrativos
+
+Para os vídeos do plano gratuito tocarem, preencha o campo `videoUrl` de cada item em
+`app/data/videosFree.js` com um link do YouTube (de preferência "não listado") ou com um
+arquivo em `/uploads/videos/...`. Enquanto estiver vazio, a tela mostra "Vídeo em breve".

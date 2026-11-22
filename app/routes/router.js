@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 
 const { uploadVideo } = require('../config/uploads')
+const naoEncontrado = require('../utils/naoEncontrado')
 
 // =======================
 // MIDDLEWARES
@@ -25,7 +26,7 @@ router.get('/home', (req, res) => {
 })
 
 router.get('/planos', (req, res) => {
-    res.render('planos')
+    res.render('planos', { erro: req.query.erro || null })
 })
 
 router.get('/cadastroaluno', (req, res) => {
@@ -34,6 +35,15 @@ router.get('/cadastroaluno', (req, res) => {
 
 router.get('/cadastroprofessor', (req, res) => {
     res.render('cadastroprofessor')
+})
+
+// Páginas legais (linkadas no login, nos cadastros, no checkout e no rodapé)
+router.get('/termos', (req, res) => {
+    res.render('legal', { documento: 'termos' })
+})
+
+router.get('/privacidade', (req, res) => {
+    res.render('legal', { documento: 'privacidade' })
 })
 
 // =======================
@@ -50,6 +60,14 @@ router.get('/loginmoderador', authController.redirecionarParaLogin)
 router.post('/login', authController.login)
 router.post('/loginaluno', authController.redirecionarParaLoginPost)
 router.post('/loginprofessor', authController.redirecionarParaLoginPost)
+
+// Recuperação de senha (aluno, professor e moderador)
+const senhaController = require('../controllers/senhaController')
+
+router.get('/esqueci-senha', senhaController.exibirEsqueci)
+router.post('/esqueci-senha', senhaController.enviarEsqueci)
+router.get('/redefinir-senha', senhaController.exibirRedefinir)
+router.post('/redefinir-senha', senhaController.processarRedefinir)
 
 // =======================
 // ALUNO
@@ -234,39 +252,7 @@ router.get('/moderador/atividades', authModerador, moderadorConteudoController.a
 // =======================
 
 router.use((req, res) => {
-    res.status(404).send(`
-        <style>
-            body {
-                font-family: sans-serif;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100vh;
-                background: #f7f5ff;
-                color: #232c51;
-                gap: 16px;
-            }
-
-            h1 {
-                font-size: 4rem;
-                margin: 0;
-            }
-
-            a {
-                background: #0058ba;
-                color: #fff;
-                padding: 12px 28px;
-                border-radius: 999px;
-                font-weight: 700;
-                text-decoration: none;
-            }
-        </style>
-
-        <h1>404</h1>
-        <p>A página <strong>${req.originalUrl}</strong> não existe.</p>
-        <a href="/home">Voltar para Home</a>
-    `)
+    naoEncontrado(req, res)
 })
 
 module.exports = router

@@ -203,6 +203,8 @@
                   placeholder="Como impresso no cartão"
                   type="text"
                   autocomplete="cc-name"
+                  required
+                  aria-required="true"
                 />
 
                 <small class="field-error" id="error-card-name"></small>
@@ -221,6 +223,8 @@
                     placeholder="0000 0000 0000 0000"
                     type="text"
                     autocomplete="cc-number"
+                  required
+                  aria-required="true"
                     inputmode="numeric"
                     maxlength="19"
                   />
@@ -247,6 +251,8 @@
                     placeholder="MM/AA"
                     type="text"
                     autocomplete="cc-exp"
+                  required
+                  aria-required="true"
                     inputmode="numeric"
                     maxlength="5"
                   />
@@ -266,6 +272,8 @@
                     placeholder="123"
                     type="text"
                     autocomplete="cc-csc"
+                  required
+                  aria-required="true"
                     inputmode="numeric"
                     maxlength="4"
                   />
@@ -287,6 +295,9 @@
                   type="text"
                   inputmode="numeric"
                   maxlength="14"
+                  autocomplete="off"
+                  required
+                  aria-required="true"
                 />
 
                 <small class="field-error" id="error-card-cpf"></small>
@@ -378,13 +389,13 @@
 
         <footer class="mt-6 px-4 flex flex-col gap-2">
           <nav class="flex gap-4 justify-center" aria-label="Links legais">
-            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Termos de Uso</a>
-            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidade</a>
+            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="/termos" target="_blank" rel="noopener">Termos de Uso</a>
+            <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="/privacidade" target="_blank" rel="noopener">Privacidade</a>
             <a class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" href="/suporte">Suporte</a>
           </nav>
 
           <small class="text-[10px] text-center text-on-surface-variant opacity-50 mt-1 not-italic">
-            © 2024 PlanoB. Todos os direitos reservados.
+            © <%= anoAtual %> PlanoB. Todos os direitos reservados.
           </small>
         </footer>
       </aside>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PlanoB">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0058ba"/>
+      <stop offset="1" stop-color="#6c9fff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <path d="M22 16h13a9 9 0 0 1 4.6 16.7A9.5 9.5 0 0 1 36 50H22V16zm8 7v7h4.5a3.5 3.5 0 0 0 0-7H30zm0 14v6h5a3 3 0 0 0 0-6h-5z" fill="#ffffff" fill-rule="evenodd"/>
+</svg>

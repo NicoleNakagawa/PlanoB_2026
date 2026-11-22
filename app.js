@@ -4,6 +4,11 @@ const express = require('express')
 const session = require('express-session')
 const path = require('path')
 
+const db = require('./app/config/pool_conexoes')
+const SessaoMysql = require('./app/config/sessaoMysql')
+const garantirTabelas = require('./app/config/garantirTabelas')
+const mensagens = require('./app/middlewares/mensagens')
+
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -12,17 +17,34 @@ app.use(express.json())
 
 app.set('trust proxy', 1)
 
+if (!process.env.SESSION_SECRET) {
+    console.warn('[aviso] SESSION_SECRET não definido no .env. Usando um valor padrão; defina um segredo próprio em produção.')
+}
+
+// Sessões ficam no MySQL: o login sobrevive quando o servidor reinicia ou "dorme".
 app.use(session({
+    store: new SessaoMysql(db),
     secret: process.env.SESSION_SECRET || 'academia-em-casa-secret-key-2024',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false,
+        // 'auto' = cookie seguro quando a conexão é HTTPS (Render, Railway), normal no localhost
+        secure: 'auto',
+        sameSite: 'lax',
+        httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000
     }
 }))
 
 app.use(express.static(path.join(__dirname, 'app', 'public')))
+
+// Navegadores pedem /favicon.ico sozinhos; servimos o mesmo ícone do site.
+app.get('/favicon.ico', (req, res) => {
+    res.type('image/svg+xml').sendFile(path.join(__dirname, 'app', 'public', 'favicon.svg'))
+})
+
+// Mensagens de sucesso/erro saem da URL e aparecem uma única vez
+app.use(mensagens)
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'app', 'views', 'pages'))
@@ -35,6 +57,11 @@ app.use((req, res, next) => {
     res.locals.aluno = req.session.aluno || null
     res.locals.professor = req.session.professor || null
     res.locals.moderador = req.session.moderador || null
+    res.locals.anoAtual = new Date().getFullYear()
+
+    // Número do WhatsApp do suporte (só dígitos, com DDI). Ex.: 5511912345678
+    // Se não estiver no .env, o botão de WhatsApp some do site.
+    res.locals.whatsappSuporte = String(process.env.WHATSAPP_SUPORTE || '').replace(/\D/g, '')
     next()
 })
 
@@ -86,6 +113,8 @@ app.use((err, req, res, next) => {
         <a href="/home">Voltar para Home</a>
     `)
 })
+
+garantirTabelas()
 
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`)

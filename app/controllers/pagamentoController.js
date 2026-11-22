@@ -54,11 +54,45 @@ function validadeValida(valor) {
 }
 
 // =======================
+// PLANOS COBRÁVEIS
+// =======================
+// Só Lazuli (2) e Diamante (3) passam pelo checkout.
+// O plano gratuito (1) não tem pagamento, e qualquer outro valor é inválido.
+
+const PLANOS_PAGOS = [2, 3]
+
+function planoPadrao(idPlano) {
+    return idPlano === 3
+        ? { id_plano: 3, nome: 'Diamante', valor_mensal: 149.00 }
+        : { id_plano: 2, nome: 'Lazuli', valor_mensal: 59.00 }
+}
+
+function voltarParaPlanos(res, mensagem) {
+    return res.redirect('/planos?erro=' + encodeURIComponent(mensagem))
+}
+
+// Sem ?plano= o checkout abre no Lazuli. Com ?plano= só aceita número inteiro.
+function lerIdPlano(valor) {
+    if (valor === undefined) return 2
+    if (typeof valor !== 'string' || !/^\d+$/.test(valor.trim())) return NaN
+
+    return Number(valor)
+}
+
+// =======================
 // EXIBIR TELA DE PAGAMENTO
 // =======================
 
 exports.exibir = async (req, res) => {
-    const idPlano = Number(req.query.plano) || 2
+    const idPlano = lerIdPlano(req.query.plano)
+
+    if (idPlano === 1) {
+        return voltarParaPlanos(res, 'O Plano Comum é gratuito e não precisa de pagamento.')
+    }
+
+    if (!PLANOS_PAGOS.includes(idPlano)) {
+        return voltarParaPlanos(res, 'Plano inválido. Escolha um dos planos disponíveis.')
+    }
 
     try {
         const [rows] = await db.query(
@@ -66,24 +100,20 @@ exports.exibir = async (req, res) => {
             [idPlano]
         )
 
+        if (rows.length === 0) {
+            return voltarParaPlanos(res, 'Plano não encontrado. Escolha um dos planos disponíveis.')
+        }
+
         res.render('pagamento', {
             aluno: req.session.aluno,
-            planoSelecionado: rows[0] || {
-                id_plano: 2,
-                nome: 'Lazuli',
-                valor_mensal: 59.00
-            }
+            planoSelecionado: rows[0]
         })
     } catch (err) {
         console.error('[pagamento GET]', err)
 
         res.render('pagamento', {
             aluno: req.session.aluno,
-            planoSelecionado: {
-                id_plano: 2,
-                nome: 'Lazuli',
-                valor_mensal: 59.00
-            },
+            planoSelecionado: planoPadrao(idPlano),
             erro: 'Não foi possível carregar o plano. Tente novamente.'
         })
     }
@@ -95,7 +125,12 @@ exports.exibir = async (req, res) => {
 
 exports.processar = async (req, res) => {
     const idAluno = req.session.aluno.id
-    const idPlano = Number(req.body['id-plano']) || 2
+    const idPlano = lerIdPlano(String(req.body['id-plano'] === undefined ? '' : req.body['id-plano']))
+
+    // Plano ausente ou inválido não vira Lazuli em silêncio: volta para a escolha de planos
+    if (!PLANOS_PAGOS.includes(idPlano)) {
+        return voltarParaPlanos(res, 'Plano inválido. Escolha um dos planos disponíveis.')
+    }
 
     const nomeTitular = req.body['card-name'] || ''
     const numeroRaw = req.body['card-number'] || ''
@@ -117,11 +152,7 @@ exports.processar = async (req, res) => {
 
             return res.render('pagamento', {
                 aluno: req.session.aluno,
-                planoSelecionado: rows[0] || {
-                    id_plano: idPlano,
-                    nome: idPlano === 3 ? 'Diamante' : 'Lazuli',
-                    valor_mensal: idPlano === 3 ? 149.00 : 59.00
-                },
+                planoSelecionado: rows[0] || planoPadrao(idPlano),
                 erro: mensagem
             })
         } catch (err) {
@@ -129,18 +160,10 @@ exports.processar = async (req, res) => {
 
             return res.render('pagamento', {
                 aluno: req.session.aluno,
-                planoSelecionado: {
-                    id_plano: idPlano,
-                    nome: idPlano === 3 ? 'Diamante' : 'Lazuli',
-                    valor_mensal: idPlano === 3 ? 149.00 : 59.00
-                },
+                planoSelecionado: planoPadrao(idPlano),
                 erro: mensagem
             })
         }
-    }
-
-    if (![2, 3].includes(idPlano)) {
-        return renderizarErroPagamento('Plano inválido.')
     }
 
     if (!nomeTitular.trim() || nomeTitular.trim().length < 5 || !nomeTitular.trim().includes(' ')) {

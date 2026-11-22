@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title><%= documento === 'termos' ? 'PlanoB - Termos de Uso' : 'PlanoB - Política de Privacidade' %></title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0058ba",
+            "primary-container": "#6c9fff",
+            "primary-dim": "#004da4",
+            "on-primary": "#f0f2ff",
+            surface: "#f7f5ff",
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container": "#e4e7ff",
+            "surface-container-low": "#efefff",
+            "surface-container-high": "#dde1ff",
+            "surface-container-highest": "#d5dbff",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#a2abd7",
+            outline: "#6c759e",
+            "tertiary-fixed": "#ffd709",
+            error: "#b31b25"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .headline {
+      font-family: "Lexend", sans-serif;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 1023px) {
+      main {
+        min-height: 100vh;
+      }
+    }
+
+    @media (max-width: 640px) {
+      section.form-area {
+        padding: 2rem 1.25rem !important;
+      }
+
+      h1.page-title {
+        font-size: 2.25rem !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="/css/transicao-paginas.css">
+  <%- include('../partials/acessibilidade') %>
+</head>
+
+<body class="min-h-screen bg-surface text-on-surface">
+
+  <%
+    const ehTermos = documento === 'termos'
+    const titulo = ehTermos ? 'Termos de Uso' : 'Política de Privacidade'
+  %>
+
+  <header class="mx-auto flex w-full max-w-3xl items-center justify-between px-6 py-8">
+    <a href="/home" class="logo-font text-3xl text-primary md:text-4xl" aria-label="PlanoB - Página inicial">PlanoB</a>
+
+    <nav aria-label="Navegação de retorno">
+      <a href="/home" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary transition-opacity hover:opacity-80">
+        <i class="material-symbols-outlined text-lg not-italic" aria-hidden="true">arrow_back</i>
+        Página inicial
+      </a>
+    </nav>
+  </header>
+
+  <main class="mx-auto w-full max-w-3xl px-6 pb-16">
+    <article class="rounded-[2rem] bg-surface-container-lowest p-8 shadow-xl shadow-on-surface/5 md:p-12">
+
+      <header class="mb-8">
+        <h1 class="headline text-3xl font-black tracking-tight text-on-surface md:text-4xl"><%= titulo %></h1>
+        <p class="mt-3 text-sm font-semibold text-on-surface-variant">Última atualização: novembro de 2026</p>
+      </header>
+
+      <% if (ehTermos) { %>
+
+      <section class="mb-8" aria-labelledby="t1">
+        <h2 id="t1" class="headline mb-3 text-xl font-black text-on-surface">1. Aceitação</h2>
+        <p class="leading-relaxed text-on-surface-variant">Ao criar uma conta ou usar o PlanoB, você declara que leu e concorda com estes Termos de Uso e com a nossa <a href="/privacidade" class="font-bold text-primary underline underline-offset-4">Política de Privacidade</a>. Se não concordar, não utilize a plataforma.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t2">
+        <h2 id="t2" class="headline mb-3 text-xl font-black text-on-surface">2. O que é o PlanoB</h2>
+        <p class="leading-relaxed text-on-surface-variant">O PlanoB é uma plataforma de treinos físicos online que conecta alunos e professores. Alunos acessam vídeos, acompanham o próprio progresso e se comunicam com professores; professores publicam conteúdo e acompanham os alunos vinculados a eles.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t3">
+        <h2 id="t3" class="headline mb-3 text-xl font-black text-on-surface">3. Conta e senha</h2>
+        <ul class="list-disc space-y-2 pl-6 leading-relaxed text-on-surface-variant">
+          <li>Informe dados verdadeiros e mantenha-os atualizados.</li>
+          <li>Sua senha é pessoal: não a compartilhe e avise o suporte se suspeitar de acesso indevido.</li>
+          <li>Você é responsável pelas atividades feitas na sua conta.</li>
+          <li>É proibido tentar acessar contas ou dados de outras pessoas.</li>
+        </ul>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t4">
+        <h2 id="t4" class="headline mb-3 text-xl font-black text-on-surface">4. Planos e pagamento</h2>
+        <ul class="list-disc space-y-2 pl-6 leading-relaxed text-on-surface-variant">
+          <li>O Plano Comum é gratuito, com acesso a alguns vídeos demonstrativos por tempo limitado.</li>
+          <li>Os planos Lazuli e Diamante são pagos e cobrados mensalmente, com os valores e recursos exibidos na página de <a href="/planos" class="font-bold text-primary underline underline-offset-4">planos</a>.</li>
+          <li>Você pode cancelar o plano pago a qualquer momento pelo seu perfil.</li>
+          <li>Descontos obtidos pela ofensiva (sequência de treinos) são pessoais, têm validade e valem uma única vez.</li>
+        </ul>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t5">
+        <h2 id="t5" class="headline mb-3 text-xl font-black text-on-surface">5. Saúde e segurança</h2>
+        <p class="leading-relaxed text-on-surface-variant">Os treinos e vídeos têm caráter informativo e não substituem avaliação médica ou acompanhamento profissional presencial. Consulte um profissional de saúde antes de começar qualquer atividade física, respeite seus limites e interrompa o exercício se sentir dor, tontura ou mal-estar.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t6">
+        <h2 id="t6" class="headline mb-3 text-xl font-black text-on-surface">6. Professores</h2>
+        <ul class="list-disc space-y-2 pl-6 leading-relaxed text-on-surface-variant">
+          <li>O número de CREF informado no cadastro deve ser verdadeiro e estar regular.</li>
+          <li>O professor é responsável pelos vídeos e orientações que publica, e declara ter direito de usar esse conteúdo.</li>
+          <li>A moderação pode ocultar ou remover conteúdos que violem estes termos.</li>
+        </ul>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t7">
+        <h2 id="t7" class="headline mb-3 text-xl font-black text-on-surface">7. Uso adequado</h2>
+        <p class="leading-relaxed text-on-surface-variant">Não é permitido publicar conteúdo ofensivo, ilegal ou que viole direitos de terceiros, usar a plataforma para fraudes, nem tentar prejudicar o funcionamento do serviço. Contas que descumprirem estas regras podem ser suspensas ou excluídas.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t8">
+        <h2 id="t8" class="headline mb-3 text-xl font-black text-on-surface">8. Propriedade intelectual</h2>
+        <p class="leading-relaxed text-on-surface-variant">A marca, o layout e o código do PlanoB pertencem aos seus criadores. O conteúdo enviado por professores continua sendo de quem o criou. Você não pode copiar ou redistribuir os vídeos da plataforma sem autorização.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="t9">
+        <h2 id="t9" class="headline mb-3 text-xl font-black text-on-surface">9. Alterações destes termos</h2>
+        <p class="leading-relaxed text-on-surface-variant">Podemos atualizar estes termos. A data da última atualização fica no topo desta página, e o uso continuado do PlanoB após a mudança significa que você concorda com a nova versão.</p>
+      </section>
+
+      <section aria-labelledby="t10">
+        <h2 id="t10" class="headline mb-3 text-xl font-black text-on-surface">10. Contato</h2>
+        <p class="leading-relaxed text-on-surface-variant">Dúvidas sobre estes termos? Fale com a gente pela página de <a href="/suporte" class="font-bold text-primary underline underline-offset-4">suporte</a>.</p>
+      </section>
+
+      <% } else { %>
+
+      <section class="mb-8" aria-labelledby="p1">
+        <h2 id="p1" class="headline mb-3 text-xl font-black text-on-surface">1. Quais dados coletamos</h2>
+        <ul class="list-disc space-y-2 pl-6 leading-relaxed text-on-surface-variant">
+          <li><strong>Conta:</strong> nome, e-mail e senha. A senha é guardada de forma criptografada (hash), nunca em texto puro.</li>
+          <li><strong>Professores:</strong> número do CREF e, se você enviar, foto de perfil e vídeos.</li>
+          <li><strong>Treino:</strong> objetivo, tipo e nível de treino, local, equipamentos, dias por semana e limitações que você informar, além do histórico de treinos, progresso e ofensiva.</li>
+          <li><strong>Comunicação:</strong> feedbacks trocados com professores e chamados abertos no suporte.</li>
+          <li><strong>Pagamento:</strong> nome do titular, CPF, bandeira e os 4 últimos dígitos do cartão. O número completo, a validade e o CVV não são armazenados.</li>
+        </ul>
+      </section>
+
+      <section class="mb-8" aria-labelledby="p2">
+        <h2 id="p2" class="headline mb-3 text-xl font-black text-on-surface">2. Para que usamos</h2>
+        <p class="leading-relaxed text-on-surface-variant">Usamos os dados para autenticar você, montar e acompanhar seus treinos, processar assinaturas, responder chamados e manter a plataforma segura e funcionando. Não vendemos seus dados.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="p3">
+        <h2 id="p3" class="headline mb-3 text-xl font-black text-on-surface">3. Quem pode ver seus dados</h2>
+        <ul class="list-disc space-y-2 pl-6 leading-relaxed text-on-surface-variant">
+          <li>O professor ao qual você estiver vinculado vê seu perfil de treino, progresso e feedbacks.</li>
+          <li>A equipe de moderação acessa dados quando necessário para suporte, segurança e gestão da plataforma.</li>
+          <li>Não compartilhamos dados com terceiros para fins alheios ao funcionamento do serviço, salvo obrigação legal.</li>
+        </ul>
+      </section>
+
+      <section class="mb-8" aria-labelledby="p4">
+        <h2 id="p4" class="headline mb-3 text-xl font-black text-on-surface">4. Cookies e armazenamento no navegador</h2>
+        <p class="leading-relaxed text-on-surface-variant">Usamos um cookie de sessão para manter você conectado e o armazenamento local do navegador para lembrar suas preferências de acessibilidade (como modo escuro e tamanho da fonte). Não usamos cookies de publicidade.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="p5">
+        <h2 id="p5" class="headline mb-3 text-xl font-black text-on-surface">5. Segurança e retenção</h2>
+        <p class="leading-relaxed text-on-surface-variant">Adotamos medidas técnicas para proteger seus dados, como senhas criptografadas e sessões protegidas. Mantemos as informações enquanto sua conta existir ou pelo tempo necessário para cumprir obrigações legais.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="p6">
+        <h2 id="p6" class="headline mb-3 text-xl font-black text-on-surface">6. Seus direitos</h2>
+        <p class="leading-relaxed text-on-surface-variant">Conforme a Lei Geral de Proteção de Dados (LGPD), você pode pedir acesso, correção ou exclusão dos seus dados, e informações sobre o uso deles. Parte dos dados você mesmo corrige no seu perfil; para o restante, abra um chamado no <a href="/suporte" class="font-bold text-primary underline underline-offset-4">suporte</a>.</p>
+      </section>
+
+      <section class="mb-8" aria-labelledby="p7">
+        <h2 id="p7" class="headline mb-3 text-xl font-black text-on-surface">7. Alterações desta política</h2>
+        <p class="leading-relaxed text-on-surface-variant">Esta política pode ser atualizada. A data da última atualização fica no topo da página.</p>
+      </section>
+
+      <section aria-labelledby="p8">
+        <h2 id="p8" class="headline mb-3 text-xl font-black text-on-surface">8. Contato</h2>
+        <p class="leading-relaxed text-on-surface-variant">Para falar sobre privacidade, use a página de <a href="/suporte" class="font-bold text-primary underline underline-offset-4">suporte</a> ou escreva para planobacademia@gmail.com.</p>
+      </section>
+
+      <% } %>
+
+    </article>
+  </main>
+
+  <footer class="mx-auto w-full max-w-3xl px-6 pb-12 text-center">
+    <nav class="mb-3 flex justify-center gap-5" aria-label="Links legais">
+      <a href="/termos" class="text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary" <%- ehTermos ? 'aria-current="page"' : '' %>>Termos de Uso</a>
+      <a href="/privacidade" class="text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary" <%- !ehTermos ? 'aria-current="page"' : '' %>>Privacidade</a>
+      <a href="/suporte" class="text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:text-primary">Suporte</a>
+    </nav>
+    <small class="text-xs text-on-surface-variant">© <%= anoAtual %> PlanoB. Todos os direitos reservados.</small>
+  </footer>
+
+  <script src="/js/transicao-paginas.js"></script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@ const db = require('../config/pool_conexoes')
 const { uploadPerfil } = require('../config/uploads')
 const videosFree = require('../data/videosFree')
 const { buscarVideosProfessores, descreverFonte } = require('../utils/videos')
+const naoEncontrado = require('../utils/naoEncontrado')
 const { redirecionarPainelAluno, redirecionarVideosAluno } = require('../utils/redirecionamentos')
 
 // =======================
@@ -9,13 +10,43 @@ const { redirecionarPainelAluno, redirecionarVideosAluno } = require('../utils/r
 // =======================
 
 
-exports.painelFree = (req, res) => {
+// Duração do teste gratuito (o plano Comum dura 1 semana)
+const DIAS_TESTE_GRATUITO = 7
+const DIA_MS = 24 * 60 * 60 * 1000
+
+function calcularDiasTeste(criadoEm) {
+    const inicio = criadoEm ? new Date(criadoEm).getTime() : NaN
+
+    // Sem data de cadastro válida, não inventa contagem: mostra o teste inteiro
+    if (!Number.isFinite(inicio)) return DIAS_TESTE_GRATUITO
+
+    const diasPassados = Math.max(0, Math.floor((Date.now() - inicio) / DIA_MS))
+
+    return Math.max(0, DIAS_TESTE_GRATUITO - diasPassados)
+}
+
+exports.painelFree = async (req, res) => {
     if (Number(req.session.aluno.id_plano) !== 1) {
         return res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
     }
 
+    let diasRestantes = DIAS_TESTE_GRATUITO
+
+    try {
+        const [rows] = await db.query(
+            'SELECT criado_em FROM aluno WHERE id_aluno = ? LIMIT 1',
+            [req.session.aluno.id]
+        )
+
+        if (rows.length > 0) diasRestantes = calcularDiasTeste(rows[0].criado_em)
+    } catch (err) {
+        console.error('[painelfree dias do teste]', err)
+    }
+
     res.render('painelfree', {
         aluno: req.session.aluno,
+        diasRestantes,
+        diasTotais: DIAS_TESTE_GRATUITO,
         linkPainelAluno: redirecionarPainelAluno(req.session.aluno.id_plano),
         linkVideosAluno: redirecionarVideosAluno(req.session.aluno.id_plano)
     })
@@ -689,9 +720,26 @@ exports.videosPagina = async (req, res) => {
 }
 
 exports.execucaoExercicios = async (req, res) => {
-    const slug = req.query.video || 'agachamento'
     const catalogo = await montarCatalogo(req.session.aluno.id_plano)
-    const videoSelecionado = catalogo.find(video => video.slug === slug) || catalogo[0]
+    const slugPedido = typeof req.query.video === 'string' ? req.query.video.trim() : ''
+
+    // Sem ?video= abre o primeiro vídeo (agachamento, se existir).
+    // Com ?video= que não existe, responde 404 em vez de mostrar outro vídeo.
+    let videoSelecionado
+
+    if (slugPedido) {
+        videoSelecionado = catalogo.find(video => video.slug === slugPedido)
+
+        if (!videoSelecionado) {
+            return naoEncontrado(req, res, 'Este vídeo não existe ou não está disponível no seu plano.')
+        }
+    } else {
+        videoSelecionado = catalogo.find(video => video.slug === 'agachamento') || catalogo[0]
+    }
+
+    if (!videoSelecionado) {
+        return naoEncontrado(req, res, 'Ainda não há vídeos disponíveis.')
+    }
 
     res.render('execucaoexercicios', {
         aluno: req.session.aluno,

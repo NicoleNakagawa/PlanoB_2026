@@ -545,7 +545,7 @@
       </nav>
       <% } else { %>
       <nav class="flex items-center gap-8" aria-label="Ações do usuário">
-        <a href="/loginaluno" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
+        <a href="/login" class="text-lg text-slate-600 dark:text-slate-400 font-bold hover:opacity-80 transition-transform active:scale-100 scale-95">
           Login
         </a>
         <a href="/cadastroaluno" class="primary-gradient text-white px-10 py-4 rounded-full font-extrabold text-lg shadow-lg shadow-blue-500/20 hover:opacity-90 transition-transform active:scale-100 scale-95">
@@ -568,6 +568,12 @@
       </p>
     </header>
 
+    <% if (locals.erro) { %>
+      <p class="mx-auto mb-8 max-w-3xl rounded-2xl bg-red-50 px-4 py-3 text-center text-sm font-bold text-error" role="alert">
+        <%= erro %>
+      </p>
+    <% } %>
+
     <section class="mx-auto mb-10 max-w-3xl" aria-label="Pesquisa e acessos rápidos">
       <nav class="mt-4 flex flex-wrap justify-center gap-3" aria-label="Acessos rápidos">
         <a href="#plano-comum" class="rounded-full bg-surface-container px-4 py-2 text-sm font-bold text-primary hover:bg-surface-container-high">Plano gratuito</a>
@@ -580,7 +586,7 @@
 
     <ul class="grid grid-cols-1 gap-8 items-stretch mx-auto max-w-7xl lg:grid-cols-3" role="list" aria-label="Planos disponíveis">
 
-      <li class="plan-card-clickable bg-surface-container-low border-2 border-outline-variant/30 rounded-[40px] p-10 flex flex-col justify-between transition-all hover:scale-[1.02] duration-300 opacity-90" data-href="/painelfree" role="link" tabindex="0" aria-label="Acessar Plano Comum" id="plano-comum">
+      <li class="plan-card-clickable bg-surface-container-low border-2 border-outline-variant/30 rounded-[40px] p-10 flex flex-col justify-between transition-all hover:scale-[1.02] duration-300 opacity-90" data-href="/painelfree" id="plano-comum">
 
         <section>
           <header class="flex justify-between items-start mb-12">
@@ -607,14 +613,14 @@
             <strong class="text-5xl font-black text-on-surface">R$ 0</strong>
             <em class="text-on-surface-variant font-bold not-italic">/grátis</em>
           </p>
-          <a href="/painelfree" class="w-full py-5 rounded-full bg-outline-variant/20 text-on-surface-variant font-black text-lg hover:bg-outline-variant/30 transition-colors block text-center">
+          <a href="/painelfree" aria-label="Fazer teste gratuito do Plano Comum" class="w-full py-5 rounded-full bg-outline-variant/20 text-on-surface-variant font-black text-lg hover:bg-outline-variant/30 transition-colors block text-center">
             Fazer teste
           </a>
         </section>
 
       </li>
 
-      <li class="plan-card-clickable relative bg-primary text-white rounded-[40px] p-10 flex flex-col justify-between shadow-2xl overflow-hidden transition-all hover:scale-[1.02] duration-300" data-href="/pagamento?plano=2" role="link" tabindex="0" aria-label="Selecionar Plano Lazuli" id="plano-lazuli">
+      <li class="plan-card-clickable relative bg-primary text-white rounded-[40px] p-10 flex flex-col justify-between shadow-2xl overflow-hidden transition-all hover:scale-[1.02] duration-300" data-href="/pagamento?plano=2" id="plano-lazuli">
 
         <b class="absolute -top-20 -right-20 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl block font-normal" aria-hidden="true"></b>
 
@@ -655,7 +661,7 @@
 
       </li>
 
-      <li class="plan-card-clickable bg-surface-container-lowest rounded-[40px] p-10 flex flex-col justify-between shadow-[0_12px_40px_rgba(35,44,81,0.08)] transition-all hover:scale-[1.02] duration-300" data-href="/pagamento?plano=3" role="link" tabindex="0" aria-label="Selecionar Plano Diamante" id="plano-diamante">
+      <li class="plan-card-clickable bg-surface-container-lowest rounded-[40px] p-10 flex flex-col justify-between shadow-[0_12px_40px_rgba(35,44,81,0.08)] transition-all hover:scale-[1.02] duration-300" data-href="/pagamento?plano=3" id="plano-diamante">
 
         <section>
           <header class="flex justify-between items-start mb-12">
@@ -767,6 +773,8 @@
       })
 
       card.addEventListener("keydown", event => {
+        if (event.target.closest("a, button")) return
+
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault()
 
