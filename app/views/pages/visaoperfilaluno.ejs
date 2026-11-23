@@ -563,7 +563,7 @@
     </nav>
 
   <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
-      <a href="/editarexercicios?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+      <a href="/professor/treino/<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
         <i class="material-symbols-outlined not-italic" aria-hidden="true">add_circle</i>
         Novo Treino
       </a>
@@ -616,11 +616,11 @@
           </hgroup>
 
           <aside class="w-full md:w-auto flex flex-col gap-3">
-            <a href="/editarexercicios?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-white text-primary px-6 py-4 rounded-full font-black text-center shadow-lg active:scale-95 transition-transform">
+            <a href="/professor/treino/<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-white text-primary px-6 py-4 rounded-full font-black text-center shadow-lg active:scale-95 transition-transform">
               Montar treino
             </a>
 
-            <a href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-white/15 text-white px-6 py-4 rounded-full font-black text-center border border-white/20 active:scale-95 transition-transform">
+            <a href="/feedbackprofessor" class="bg-white/15 text-white px-6 py-4 rounded-full font-black text-center border border-white/20 active:scale-95 transition-transform">
               Enviar resposta
             </a>
           </aside>
@@ -862,7 +862,7 @@
             <p class="text-on-surface-variant mt-2 max-w-xl">Treinos registrados pelo aluno e informações da sessão.</p>
           </hgroup>
 
-          <a href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="bg-primary text-white px-6 py-3 rounded-full font-bold text-center active:scale-95 transition-transform">
+          <a href="/feedbackprofessor" class="bg-primary text-white px-6 py-3 rounded-full font-bold text-center active:scale-95 transition-transform">
             Responder aluno
           </a>
         </header>
@@ -899,11 +899,11 @@
                 </blockquote>
 
                 <nav class="md:col-span-2 flex md:justify-end gap-2" aria-label="Ações da atividade">
-                  <a class="p-2 hover:bg-primary/10 rounded-lg text-primary" href="/editarexercicios?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" aria-label="Editar treino">
+                  <a class="p-2 hover:bg-primary/10 rounded-lg text-primary" href="/professor/treino/<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" aria-label="Editar treino">
                     <i class="material-symbols-outlined not-italic" aria-hidden="true">edit</i>
                   </a>
 
-                  <a class="p-2 hover:bg-primary/10 rounded-lg text-primary" href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" aria-label="Responder feedback">
+                  <a class="p-2 hover:bg-primary/10 rounded-lg text-primary" href="/feedbackprofessor" aria-label="Responder feedback">
                     <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
                   </a>
                 </nav>
@@ -926,7 +926,7 @@
             <p class="text-on-surface-variant mt-1">Mensagens recentes enviadas por este aluno.</p>
           </hgroup>
 
-          <a href="/feedbackresposta?aluno=<%= alunoSeguro.id_aluno || alunoSeguro.id || '' %>" class="text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
+          <a href="/feedbackprofessor" class="text-primary font-bold text-sm flex items-center gap-2 hover:translate-x-1 transition-transform">
             Abrir conversa
             <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
           </a>

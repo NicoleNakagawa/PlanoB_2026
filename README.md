@@ -213,3 +213,46 @@ Depois de atualizar o código, rode `npm install` (nova dependência: `nodemaile
 Para os vídeos do plano gratuito tocarem, preencha o campo `videoUrl` de cada item em
 `app/data/videosFree.js` com um link do YouTube (de preferência "não listado") ou com um
 arquivo em `/uploads/videos/...`. Enquanto estiver vazio, a tela mostra "Vídeo em breve".
+
+---
+
+## E-mail de recuperação de senha (Gmail)
+
+Sem configurar, o link de recuperação aparece só no terminal. Para enviar de verdade:
+
+1. Na conta Google, ative a verificação em duas etapas e crie uma **senha de app** (Conta Google > Segurança > Senhas de app).
+2. No `.env`:
+   ```
+   APP_URL=https://seu-site.onrender.com
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_SECURE=false
+   SMTP_USER=seu-email@gmail.com
+   SMTP_PASS=a-senha-de-app-de-16-letras
+   SMTP_FROM="PlanoB <seu-email@gmail.com>"
+   ```
+3. No Render, coloque as mesmas variáveis em Environment. Reinicie o servidor.
+
+`APP_URL` precisa ser o endereço público do site, senão o link do e-mail sai errado (por exemplo `https://localhost:3000`).
+
+## Mercado Pago (modo demonstração, sem cobrança real)
+
+O checkout tem o botão **Pagar com Mercado Pago** quando existe `MP_ACCESS_TOKEN` no `.env`.
+Sem a variável, o botão não aparece e só o formulário simulado funciona.
+
+1. Em [mercadopago.com.br/developers](https://www.mercadopago.com.br/developers), crie uma aplicação (Checkout Pro).
+2. Em **Suas integrações > Contas de teste**, crie duas contas de teste: **vendedor** e **comprador**.
+3. Entre com a conta de teste **vendedora**, crie uma aplicação e copie o **Access Token** dela.
+4. No `.env`:
+   ```
+   MP_ACCESS_TOKEN=access-token-da-conta-de-teste-vendedora
+   APP_URL=https://seu-site.onrender.com
+   MODO_DEMONSTRACAO=true
+   ```
+5. Na apresentação, use uma janela anônima, entre no Mercado Pago com a conta de teste **compradora** e pague com um cartão de teste (veja **Suas integrações > Cartões de teste**; para aprovar, o nome do titular é `APRO`).
+
+Importante:
+- Use **sempre** o token da conta de teste. Com o token da sua conta real, o pagamento é cobrado de verdade.
+- O plano só muda depois que o servidor confirma o pagamento na API do Mercado Pago (status aprovado, valor e referência conferem).
+- Para o Mercado Pago voltar sozinho ao site depois de pagar, `APP_URL` precisa ser `https://`. Em `http://localhost`, ele mostra um botão "Voltar ao site".
+- `MODO_DEMONSTRACAO=false` esconde o aviso "Ambiente de demonstração" do checkout.

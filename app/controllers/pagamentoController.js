@@ -1,5 +1,7 @@
 const db = require('../config/pool_conexoes')
+const { calcularCobranca, ativarPlano } = require('../utils/assinatura')
 const { redirecionarPainelAluno } = require('../utils/redirecionamentos')
+const mp = require('../utils/mercadopago')
 
 // =======================
 // VALIDADORES INTERNOS
@@ -84,6 +86,8 @@ function lerIdPlano(valor) {
 // =======================
 
 exports.exibir = async (req, res) => {
+    res.locals.mercadoPagoAtivo = mp.habilitado()
+    res.locals.modoDemonstracao = mp.modoDemonstracao()
     const idPlano = lerIdPlano(req.query.plano)
 
     if (idPlano === 1) {
@@ -106,7 +110,8 @@ exports.exibir = async (req, res) => {
 
         res.render('pagamento', {
             aluno: req.session.aluno,
-            planoSelecionado: rows[0]
+            planoSelecionado: rows[0],
+            erro: req.query.erro || null
         })
     } catch (err) {
         console.error('[pagamento GET]', err)
@@ -124,6 +129,8 @@ exports.exibir = async (req, res) => {
 // =======================
 
 exports.processar = async (req, res) => {
+    res.locals.mercadoPagoAtivo = mp.habilitado()
+    res.locals.modoDemonstracao = mp.modoDemonstracao()
     const idAluno = req.session.aluno.id
     const idPlano = lerIdPlano(String(req.body['id-plano'] === undefined ? '' : req.body['id-plano']))
 
@@ -195,67 +202,23 @@ exports.processar = async (req, res) => {
             : 'outro'
 
     try {
-        const [planoRows] = await db.query(
-            'SELECT id_plano, nome, valor_mensal FROM plano WHERE id_plano = ?',
-            [idPlano]
-        )
+        const cobranca = await calcularCobranca(idAluno, idPlano)
 
-        if (planoRows.length === 0) {
+        if (!cobranca) {
             return renderizarErroPagamento('Plano inválido.')
         }
 
-        const plano = planoRows[0]
-        const valorPlano = parseFloat(plano.valor_mensal)
-
-        const [descontoRows] = await db.query(
-            `SELECT id_desconto, percentual 
-             FROM desconto
-             WHERE id_aluno = ? 
-             AND usado = 0
-             AND (validade IS NULL OR validade >= CURDATE())
-             ORDER BY percentual DESC 
-             LIMIT 1`,
-            [idAluno]
-        )
-
-        let valorFinal = valorPlano
-        let idDesconto = null
-
-        if (descontoRows.length > 0) {
-            const percentual = parseFloat(descontoRows[0].percentual)
-            valorFinal = valorPlano * (1 - percentual / 100)
-            idDesconto = descontoRows[0].id_desconto
-        }
-
-        const dataInicio = new Date().toISOString().slice(0, 10)
-
-        const [assinaturaResult] = await db.query(
-            `INSERT INTO assinatura
-             (id_aluno, id_plano, status, valor_cobrado, data_inicio, periodicidade)
-             VALUES (?, ?, 'ativa', ?, ?, 'mensal')`,
-            [idAluno, idPlano, valorFinal.toFixed(2), dataInicio]
-        )
-
-        const idAssinatura = assinaturaResult.insertId
-
-        await db.query(
-            `INSERT INTO pagamento
-             (id_assinatura, id_aluno, valor, status, metodo, nome_titular, ultimos_4, bandeira)
-             VALUES (?, ?, ?, 'aprovado', 'cartao_credito', ?, ?, ?)`,
-            [idAssinatura, idAluno, valorFinal.toFixed(2), nomeTitular.trim(), ultimos4, bandeira]
-        )
-
-        await db.query(
-            'UPDATE aluno SET id_plano = ?, cpf = ? WHERE id_aluno = ?',
-            [idPlano, cpfLimpo, idAluno]
-        )
-
-        if (idDesconto) {
-            await db.query(
-                'UPDATE desconto SET usado = 1, id_assinatura = ? WHERE id_desconto = ?',
-                [idAssinatura, idDesconto]
-            )
-        }
+        await ativarPlano({
+            idAluno,
+            idPlano,
+            valorFinal: cobranca.valorFinal,
+            idDesconto: cobranca.idDesconto,
+            metodo: 'cartao_credito',
+            nomeTitular: nomeTitular.trim(),
+            ultimos4,
+            bandeira,
+            cpf: cpfLimpo
+        })
 
         req.session.aluno.id_plano = idPlano
 

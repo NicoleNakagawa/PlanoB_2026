@@ -69,7 +69,7 @@
       SELETOR_MENU)
 
     passo('fitness_center', 'Início: seu painel',
-      'Na tela inicial você acompanha o seu plano e os atalhos principais para treinar.',
+      'Na tela inicial você acompanha o seu plano e os atalhos principais. Quando um professor monta um treino para você, aparece aqui o card <strong>Treino do seu professor</strong>, com a recomendação dele e o acesso à página <strong>Meu Treino</strong>.',
       menu(plano === 3 ? '/paineldiamante' : plano === 2 ? '/painellazuli' : '/painelfree'))
 
     passo('play_circle', 'Vídeos de treino',
@@ -85,7 +85,7 @@
 
       passo('forum', plano === 3 ? 'Feedback com o seu professor' : 'Feedback',
         plano === 3
-          ? 'Converse com o professor, tire dúvidas e receba orientações. Os <strong>treinos montados pelo professor</strong> do plano Diamante aparecem no seu painel.'
+          ? 'Converse com o professor, tire dúvidas e receba orientações. O <strong>treino personalizado</strong> que o professor montar para você aparece no seu painel, na página <strong>Meu Treino</strong>.'
           : 'Converse com os professores e envie suas dúvidas sobre os treinos.',
         menu('/feedbackaluno'))
     } else {
@@ -110,30 +110,39 @@
       'Agora é com você. Bons treinos! Você não verá este tutorial novamente.')
   } else {
     passo('waving_hand', 'Bem-vindo ao PlanoB' + (primeiroNome ? ', professor ' + primeiroNome : '') + '!',
-      'Vamos fazer um tour rápido para você saber <strong>onde fica cada coisa</strong> no painel do professor. Ele aparece <strong>só desta vez</strong>.')
+      'Este tour mostra <strong>tudo o que você pode fazer</strong> como professor: acompanhar alunos, <strong>montar treinos personalizados</strong>, publicar vídeos e responder feedbacks. Leva 1 minuto e você pode revê-lo quando quiser em <strong>Rever tutorial</strong>, no menu lateral.')
 
     passo('menu', 'Seu menu de navegação',
-      'É por aqui que você vai para <strong>Dashboard, Meus Alunos, Meus Vídeos, Feedbacks e Perfil</strong>.',
+      'É por aqui que você vai para <strong>Dashboard, Meus Alunos, Meus Vídeos, Feedbacks e Perfil</strong>. No celular, o menu fica na parte de baixo da tela.',
       SELETOR_MENU)
 
-    passo('dashboard', 'Dashboard',
-      'Uma visão geral: alunos vinculados, vídeos publicados e feedbacks que estão esperando resposta.',
+    passo('dashboard', 'Dashboard: sua visão geral',
+      'Veja de relance <strong>quantos alunos</strong> estão vinculados, <strong>quantos vídeos</strong> você publicou, os <strong>feedbacks esperando resposta</strong> e a <strong>progressão média</strong> da sua turma. Também mostra alunos recentes, vídeos em destaque e atalhos.',
       menu('/painelprofessor'))
 
-    passo('groups', 'Meus Alunos',
-      '<strong>Vincule alunos</strong> para acompanhar a evolução de cada um, abrir o perfil e montar treinos personalizados.',
+    passo('person_add', 'Vincular alunos',
+      'Em <strong>Meus Alunos</strong> clique em <strong>Vincular aluno</strong>, escolha quem você vai acompanhar e confirme. Só alunos vinculados a você aparecem na sua lista, e você pode <strong>desvincular</strong> quando quiser.',
       menu('/todosalunos'))
 
-    passo('video_library', 'Meus Vídeos',
-      '<strong>Publique vídeos de treino</strong> enviando um arquivo ou informando o link. Também dá para editar e excluir os seus vídeos.',
+    passo('edit_note', 'Montar treino para cada aluno',
+      'Na lista de alunos, o botão de <strong>lápis</strong> abre a montagem de treino. Você vê o <strong>perfil do aluno</strong> (objetivo, nível, local, equipamentos, dias por semana e limitações), escreve a <strong>recomendação</strong> e adiciona os exercícios com <strong>dia (Treino A, B, C...), séries, repetições, carga, descanso e observações</strong>. Dá para reordenar com as setas e editar sempre que precisar.')
+
+    passo('assignment_ind', 'O que o aluno enxerga',
+      'Ao salvar, o aluno recebe um card no painel e a página <strong>Meu Treino</strong>, com a <strong>sua recomendação em destaque</strong>, os exercícios por dia e o botão para registrar que concluiu o treino. Cada aluno tem o <strong>seu</strong> treino, separado dos demais.')
+
+    passo('monitoring', 'Acompanhar a evolução',
+      'O botão de <strong>olho</strong> abre o perfil do aluno: treinos feitos, tempo, ofensiva (dias seguidos), frequência semanal e feedbacks. Use isso para ajustar o treino com base no que ele realmente está fazendo.')
+
+    passo('video_library', 'Publicar e gerenciar vídeos',
+      'Em <strong>Meus Vídeos</strong> você <strong>lança um vídeo</strong> enviando um arquivo ou colando um link (como o do YouTube), com título, categoria, nível e descrição. Também pode <strong>editar</strong> ou <strong>excluir</strong> os seus vídeos. Depois, vincule-os aos exercícios do treino.',
       menu('/todosvideos'))
 
-    passo('forum', 'Feedbacks',
-      'Aqui chegam as mensagens dos seus alunos. <strong>Responda</strong> para orientar e manter o acompanhamento em dia.',
+    passo('forum', 'Feedbacks dos alunos',
+      'Aqui chegam as mensagens dos alunos. <strong>Responda</strong> para tirar dúvidas, ajustar treinos e manter o acompanhamento em dia. As novas mensagens também aparecem no <strong>sininho</strong> do topo.',
       menu('/feedbackprofessor'))
 
-    passo('person', 'Perfil',
-      'Atualize seus <strong>dados profissionais</strong> (nome, e-mail e CREF) e sua foto.',
+    passo('person', 'Seu perfil profissional',
+      'Atualize <strong>nome, e-mail, CREF</strong> e sua <strong>foto</strong>. Seus dados aparecem para os alunos vinculados a você.',
       menu('/perfilprofessor'))
 
     passo('accessibility_new', 'Acessibilidade',
@@ -145,7 +154,7 @@
       SELETOR_SUPORTE)
 
     passo('task_alt', 'Tudo pronto!',
-      'Agora é com você. Bom trabalho! Você não verá este tutorial novamente.')
+      'Comece vinculando seu primeiro aluno e montando o treino dele. Bom trabalho! Para ver este tour de novo, use <strong>Rever tutorial</strong> no menu lateral.')
   }
 
   var atual = 0

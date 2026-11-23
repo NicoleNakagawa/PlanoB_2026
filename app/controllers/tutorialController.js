@@ -1,4 +1,5 @@
 const db = require('../config/pool_conexoes')
+const { redirecionarPainelAluno } = require('../utils/redirecionamentos')
 
 // =======================
 // TUTORIAL DE PRIMEIRO ACESSO
@@ -25,5 +26,27 @@ exports.concluir = async (req, res) => {
     } catch (err) {
         console.error('[tutorial concluir]', err)
         res.status(500).json({ ok: false })
+    }
+}
+
+// Rever o tutorial: zera "visto" e leva a pessoa ao painel, onde o tour recomeça.
+exports.reiniciar = async (req, res) => {
+    try {
+        if (req.session && req.session.aluno) {
+            await db.query('UPDATE aluno SET tutorial_visto = 0 WHERE id_aluno = ?', [req.session.aluno.id])
+            req.session.aluno.tutorial_visto = 0
+            return res.redirect(redirecionarPainelAluno(req.session.aluno.id_plano))
+        }
+
+        if (req.session && req.session.professor) {
+            await db.query('UPDATE professor SET tutorial_visto = 0 WHERE id_professor = ?', [req.session.professor.id])
+            req.session.professor.tutorial_visto = 0
+            return res.redirect('/painelprofessor')
+        }
+
+        res.redirect('/login')
+    } catch (err) {
+        console.error('[tutorial reiniciar]', err)
+        res.redirect('/home')
     }
 }

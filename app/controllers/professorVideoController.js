@@ -386,5 +386,12 @@ exports.excluir = async (req, res) => {
 }
 
 exports.editarExercicios = (req, res) => {
-    res.redirect('/todosvideos')
+    const idAluno = Number(req.query.aluno)
+
+    // Links antigos "Montar treino" apontavam para cá: agora abrem a montagem de treino do aluno
+    if (Number.isInteger(idAluno) && idAluno > 0) {
+        return res.redirect('/professor/treino/' + idAluno)
+    }
+
+    res.redirect('/todosalunos')
 }

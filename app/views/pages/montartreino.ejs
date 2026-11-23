@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>PlanoB - Montar treino</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f7f5ff",
+            "primary": "#0058ba",
+            "secondary": "#00647b",
+            "on-primary": "#f0f2ff",
+            "on-surface": "#232c51",
+            "on-surface-variant": "#505a81",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#efefff",
+            "surface-container": "#e4e7ff",
+            "surface-container-highest": "#d5dbff",
+            "outline": "#6c759e",
+            "outline-variant": "#a2abd7",
+            "tertiary-fixed": "#ffd709",
+            "on-tertiary-fixed": "#453900",
+            "error": "#b31b25"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Lexend"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Baumans';
+      src: url('/fonts/Baumans-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .logo-font {
+      font-family: 'Baumans', sans-serif !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-header {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .headline {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .avatar-placeholder {
+      background: linear-gradient(180deg, #ffffff 0%, #d5dbff 100%);
+      color: #0058ba;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(0, 88, 186, 0.08);
+    }
+
+    .avatar-placeholder .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
+
+    progress {
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    progress::-webkit-progress-bar {
+      background: #d5dbff;
+      border-radius: 999px;
+    }
+
+    progress::-webkit-progress-value {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    progress::-moz-progress-bar {
+      background: #0058ba;
+      border-radius: 999px;
+    }
+
+    .campo {
+      width: 100%;
+      border: 0;
+      border-radius: 1rem;
+      background: #d5dbff;
+      padding: 0.75rem 1rem;
+      color: #232c51;
+      font-size: 0.95rem;
+      transition: box-shadow .15s, background .15s;
+    }
+
+    .campo:focus {
+      outline: none;
+      background: #ffffff;
+      box-shadow: 0 0 0 2px #0058ba;
+    }
+
+    .campo::placeholder {
+      color: #6c759e;
+    }
+
+    .rotulo {
+      display: block;
+      margin: 0 0 0.35rem 0.25rem;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #505a81;
+    }
+
+    .btn-icone {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: #e4e7ff;
+      color: #0058ba;
+      transition: transform .15s, background .15s;
+    }
+
+    .btn-icone:hover:not(:disabled) {
+      background: #d5dbff;
+    }
+
+    .btn-icone:active:not(:disabled) {
+      transform: scale(.92);
+    }
+
+    .btn-icone:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    .btn-icone--perigo {
+      color: #b31b25;
+    }
+
+    .exercicio-card {
+      animation: entra .18s ease-out;
+    }
+
+    @keyframes entra {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .exercicio-card { animation: none; }
+    }
+
+    @media (max-width: 768px) {
+      html,
+      body {
+        width: 100%;
+        overflow-x: hidden;
+      }
+    }
+  </style>
+  <%- include('../partials/acessibilidade') %>
+</head>
+
+<body class="bg-surface text-on-surface">
+
+  <%
+    const professorSeguro = typeof professor !== 'undefined' && professor ? professor : {}
+    const alunoTreino = aluno || {}
+    const fichaTreino = ficha || {}
+    const listaExercicios = exercicios || []
+    const listaVideos = videos || []
+    const primeiroNome = String(alunoTreino.nome || 'Aluno').split(' ')[0]
+
+    const dadosIniciais = {
+      exercicios: listaExercicios.map(item => ({
+        titulo: item.titulo || '',
+        dia: item.dia_treino || 'A',
+        series: item.series === null ? '' : item.series,
+        repeticoes: item.repeticoes === null ? '' : item.repeticoes,
+        carga_kg: item.carga_kg === null ? '' : Number(item.carga_kg),
+        descanso_seg: item.descanso_seg === null ? '' : item.descanso_seg,
+        observacao: item.observacao || '',
+        id_video: item.id_video || ''
+      })),
+      videos: listaVideos.map(video => ({ id: video.id_video, titulo: video.titulo }))
+    }
+
+    const nivelAtual = fichaTreino.nivel || 'iniciante'
+  %>
+
+  <header class="fixed top-0 w-full z-50 bg-[#f7f5ff]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+    <nav class="flex items-center gap-4" aria-label="Navegação principal">
+      <a href="/painelprofessor" class="font-headline logo-font logo-header text-primary no-underline">PlanoB</a>
+    </nav>
+
+    <nav aria-label="Voltar">
+      <a href="/todosalunos" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary hover:opacity-80">
+        <i class="material-symbols-outlined not-italic text-lg" aria-hidden="true">arrow_back</i>
+        Alunos
+      </a>
+    </nav>
+  </header>
+
+  <aside class="hidden md:flex h-[calc(100vh-4rem)] overflow-y-auto w-64 fixed left-0 top-0 bg-[#efefff] dark:bg-[#12141c] flex-col gap-2 py-8 z-40 mt-16">
+
+    <header class="px-6 mb-8">
+      <figure class="flex items-center gap-3 mb-2 m-0">
+        <picture>
+          <% if (professorSeguro.foto) { %>
+            <img
+              class="w-12 h-12 rounded-full object-cover"
+              src="<%= professorSeguro.foto %>"
+              alt="Foto de perfil do professor"
+            />
+          <% } else { %>
+            <figure class="m-0 w-12 h-12 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden" aria-label="Professor sem foto">
+              <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+            </figure>
+          <% } %>
+        </picture>
+
+        <figcaption>
+          <p class="text-sm font-bold text-on-surface">
+            <%= professorSeguro.nome ? professorSeguro.nome.split(' ')[0] : 'Professor' %>
+          </p>
+          <p class="text-xs text-on-surface-variant">
+            <%= professorSeguro.cref ? 'CREF ' + professorSeguro.cref : 'Professor PlanoB' %>
+          </p>
+        </figcaption>
+      </figure>
+    </header>
+
+    <nav class="flex flex-col gap-1" aria-label="Menu lateral">
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/painelprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+        <em class="not-italic">Dashboard</em>
+      </a>
+
+      <a class="bg-primary text-white rounded-full mx-2 shadow-lg shadow-[#0058ba]/20 px-4 py-3 flex items-center gap-3 active:scale-95" href="/todosalunos" aria-current="page">
+        <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">groups</i>
+        <em class="not-italic">Meus Alunos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/todosvideos">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
+        <em class="not-italic">Meus Vídeos</em>
+      </a>
+
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/feedbackprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+        <em class="not-italic">Feedbacks</em>
+      </a>
+      <a class="text-[#232c51] dark:text-[#a2abd7] hover:bg-[#d5dbff]/50 dark:hover:bg-[#232c51] rounded-full mx-2 px-4 py-3 flex items-center gap-3 hover:translate-x-1 transition-all active:scale-95" href="/perfilprofessor">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">person</i>
+        <em class="not-italic">Perfil</em>
+      </a>
+
+
+    </nav>
+
+  <footer class="mt-auto px-4 pb-8 flex flex-col gap-2">
+      <a href="/todosalunos" class="w-full bg-primary text-on-primary rounded-full py-4 font-bold shadow-lg shadow-primary/30 flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_back</i>
+        Meus alunos
+      </a>
+
+      <%- include('../partials/sair-menu') %>
+  </footer>
+  </aside>
+
+  <main class="md:ml-64 pt-24 pb-32 md:pb-12 px-6 min-h-screen">
+    <section class="max-w-5xl mx-auto flex flex-col gap-8">
+
+      <header class="flex flex-col gap-2">
+        <p class="text-xs font-black uppercase tracking-widest text-primary">Treino personalizado</p>
+        <h1 class="headline text-3xl md:text-5xl font-black tracking-tight text-on-surface">
+          Treino de <%= primeiroNome %>
+        </h1>
+        <p class="text-on-surface-variant font-semibold max-w-2xl">
+          Monte um treino feito para este aluno. Tudo o que você escrever aqui aparece para ele na página <strong>Meu Treino</strong>, com a sua recomendação em destaque.
+        </p>
+      </header>
+
+      <% if (locals.sucesso) { %>
+        <p class="rounded-2xl bg-green-50 px-4 py-3 text-sm font-bold text-green-700" role="status"><%= sucesso %></p>
+      <% } %>
+
+      <% if (locals.erro) { %>
+        <p class="rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-error" role="alert"><%= erro %></p>
+      <% } %>
+
+      <details class="rounded-3xl bg-surface-container-low p-6">
+        <summary class="cursor-pointer headline font-extrabold text-on-surface flex items-center gap-2">
+          <i class="material-symbols-outlined not-italic text-primary" aria-hidden="true">help</i>
+          Como montar o treino
+        </summary>
+        <ol class="mt-4 list-decimal space-y-2 pl-6 text-sm leading-relaxed text-on-surface-variant">
+          <li>Confira à esquerda o <strong>perfil do aluno</strong>: objetivo, nível, local, equipamentos, dias por semana e limitações.</li>
+          <li>Dê um <strong>nome</strong> ao treino e escreva a sua <strong>recomendação</strong>: é a mensagem que o aluno lê primeiro.</li>
+          <li>Clique em <strong>Adicionar exercício</strong>. Escolha o dia (Treino A, B, C...), séries, repetições, carga e descanso.</li>
+          <li>Se quiser, vincule um <strong>vídeo seu</strong> ao exercício: o aluno abre o vídeo direto do treino.</li>
+          <li>Use as setas para mudar a ordem e clique em <strong>Salvar treino</strong>. Você pode editar quando quiser.</li>
+        </ol>
+      </details>
+
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-6" aria-label="Dados do aluno">
+        <article class="lg:col-span-1 rounded-3xl bg-surface-container-lowest p-6 shadow-sm flex flex-col gap-4">
+          <header class="flex items-center gap-3">
+            <% if (alunoTreino.foto_perfil) { %>
+              <img class="w-14 h-14 rounded-full object-cover" src="<%= alunoTreino.foto_perfil %>" alt="Foto de <%= alunoTreino.nome %>" />
+            <% } else { %>
+              <figure class="m-0 w-14 h-14 rounded-full avatar-placeholder flex items-center justify-center overflow-hidden">
+                <i class="material-symbols-outlined text-4xl not-italic" aria-hidden="true">account_circle</i>
+              </figure>
+            <% } %>
+            <hgroup>
+              <h2 class="headline text-lg font-extrabold text-on-surface"><%= alunoTreino.nome %></h2>
+              <p class="text-xs font-bold uppercase tracking-wider text-primary">Plano <%= alunoTreino.plano %></p>
+            </hgroup>
+          </header>
+
+          <% if (Number(alunoTreino.dados_completos) === 1) { %>
+            <dl class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+              <dt class="rotulo m-0">Objetivo</dt>
+              <dd class="m-0 font-bold capitalize"><%= alunoTreino.objetivo || '-' %></dd>
+              <dt class="rotulo m-0">Tipo</dt>
+              <dd class="m-0 font-bold capitalize"><%= alunoTreino.tipo_treino || '-' %></dd>
+              <dt class="rotulo m-0">Nível</dt>
+              <dd class="m-0 font-bold capitalize"><%= alunoTreino.nivel_treino || '-' %></dd>
+              <dt class="rotulo m-0">Local</dt>
+              <dd class="m-0 font-bold capitalize"><%= alunoTreino.local_treino || '-' %></dd>
+              <dt class="rotulo m-0">Dias/semana</dt>
+              <dd class="m-0 font-bold"><%= alunoTreino.dias_semana || '-' %></dd>
+              <dt class="rotulo m-0">Equipamentos</dt>
+              <dd class="m-0 font-bold"><%= alunoTreino.equipamentos || '-' %></dd>
+            </dl>
+
+            <% if (alunoTreino.limitacoes) { %>
+              <p class="rounded-2xl bg-tertiary-fixed/40 p-3 text-sm text-on-tertiary-fixed">
+                <strong>Limitações:</strong> <%= alunoTreino.limitacoes %>
+              </p>
+            <% } %>
+          <% } else { %>
+            <p class="rounded-2xl bg-surface-container-low p-4 text-sm text-on-surface-variant">
+              Este aluno ainda não preencheu os dados de treino. Você pode montar o treino mesmo assim e ajustar depois, ou pedir as informações pelo <a class="font-bold text-primary underline" href="/feedbackprofessor">feedback</a>.
+            </p>
+          <% } %>
+
+          <a href="/visaoperfilaluno/<%= alunoTreino.id_aluno %>" class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline">
+            <i class="material-symbols-outlined not-italic text-lg" aria-hidden="true">monitoring</i>
+            Ver evolução do aluno
+          </a>
+        </article>
+
+        <form id="form-treino" class="lg:col-span-2 flex flex-col gap-6" method="POST" action="/professor/treino/<%= alunoTreino.id_aluno %>" novalidate>
+
+          <article class="rounded-3xl bg-surface-container-lowest p-6 shadow-sm flex flex-col gap-5">
+            <h2 class="headline text-xl font-extrabold text-on-surface">Dados do treino</h2>
+
+            <section class="grid grid-cols-1 md:grid-cols-6 gap-4">
+              <fieldset class="md:col-span-6 border-0 p-0 m-0">
+                <label for="nome_ficha" class="rotulo">Nome do treino</label>
+                <input id="nome_ficha" name="nome_ficha" class="campo" type="text" maxlength="100" required
+                  value="<%= fichaTreino.nome_ficha && fichaTreino.nome_ficha.indexOf('Ficha principal') !== 0 ? fichaTreino.nome_ficha : '' %>"
+                  placeholder="Ex.: Hipertrofia em casa - fase 1" />
+              </fieldset>
+
+              <fieldset class="md:col-span-3 border-0 p-0 m-0">
+                <label for="categoria" class="rotulo">Foco</label>
+                <input id="categoria" name="categoria" class="campo" type="text" maxlength="50" list="focos"
+                  value="<%= fichaTreino.categoria && fichaTreino.categoria !== 'Treino personalizado' ? fichaTreino.categoria : '' %>"
+                  placeholder="Ex.: Hipertrofia" />
+                <datalist id="focos">
+                  <option value="Hipertrofia"></option>
+                  <option value="Emagrecimento"></option>
+                  <option value="Condicionamento"></option>
+                  <option value="Força"></option>
+                  <option value="Mobilidade"></option>
+                  <option value="Funcional"></option>
+                  <option value="Reabilitação"></option>
+                </datalist>
+              </fieldset>
+
+              <fieldset class="md:col-span-3 border-0 p-0 m-0">
+                <label for="nivel" class="rotulo">Nível</label>
+                <select id="nivel" name="nivel" class="campo">
+                  <option value="iniciante" <%= nivelAtual === 'iniciante' ? 'selected' : '' %>>Iniciante</option>
+                  <option value="intermediario" <%= nivelAtual === 'intermediario' ? 'selected' : '' %>>Intermediário</option>
+                  <option value="avancado" <%= nivelAtual === 'avancado' ? 'selected' : '' %>>Avançado</option>
+                </select>
+              </fieldset>
+
+              <fieldset class="md:col-span-6 border-0 p-0 m-0">
+                <label for="recomendacao" class="rotulo">Sua recomendação para <%= primeiroNome %></label>
+                <textarea id="recomendacao" name="recomendacao" class="campo" rows="5" maxlength="1500"
+                  placeholder="Ex.: Foque na execução lenta e controlada. Descanse 1 min entre as séries e beba água. Se sentir dor no joelho, pare e me avise."><%= fichaTreino.recomendacao || '' %></textarea>
+                <p class="mt-1 ml-1 text-xs text-on-surface-variant"><output id="contador-recomendacao">0</output>/1500 caracteres</p>
+              </fieldset>
+            </section>
+          </article>
+
+          <article class="rounded-3xl bg-surface-container-lowest p-6 shadow-sm flex flex-col gap-5">
+            <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <hgroup>
+                <h2 class="headline text-xl font-extrabold text-on-surface">Exercícios</h2>
+                <p class="text-sm text-on-surface-variant"><output id="contador-exercicios">0</output> exercício(s) neste treino</p>
+              </hgroup>
+
+              <button type="button" id="btn-adicionar" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-on-primary shadow-lg shadow-primary/25 transition-transform active:scale-95">
+                <i class="material-symbols-outlined not-italic" aria-hidden="true">add</i>
+                Adicionar exercício
+              </button>
+            </header>
+
+            <ol id="lista-exercicios" class="flex flex-col gap-4 m-0 p-0 list-none" aria-live="polite"></ol>
+
+            <p id="vazio-exercicios" class="rounded-2xl bg-surface-container-low p-6 text-center text-sm text-on-surface-variant" hidden>
+              Nenhum exercício ainda. Clique em <strong>Adicionar exercício</strong> para começar.
+            </p>
+
+            <datalist id="sugestoes-exercicios">
+              <option value="Agachamento livre"></option>
+              <option value="Agachamento sumô"></option>
+              <option value="Afundo"></option>
+              <option value="Flexão de braço"></option>
+              <option value="Supino reto"></option>
+              <option value="Remada curvada"></option>
+              <option value="Desenvolvimento de ombros"></option>
+              <option value="Elevação lateral"></option>
+              <option value="Rosca direta"></option>
+              <option value="Tríceps banco"></option>
+              <option value="Levantamento terra"></option>
+              <option value="Stiff"></option>
+              <option value="Ponte de glúteos"></option>
+              <option value="Prancha"></option>
+              <option value="Abdominal"></option>
+              <option value="Polichinelo"></option>
+              <option value="Burpee"></option>
+              <option value="Corrida estacionária"></option>
+            </datalist>
+          </article>
+
+          <input type="hidden" name="exercicios_json" id="exercicios_json" value="[]" />
+
+          <footer class="sticky bottom-24 md:bottom-4 z-30 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 rounded-3xl bg-surface-container-lowest/95 p-4 shadow-xl backdrop-blur">
+            <p id="erro-cliente" class="text-sm font-bold text-error m-0" role="alert" hidden></p>
+
+            <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-secondary px-8 py-4 text-lg font-black text-on-primary shadow-lg shadow-primary/25 transition-transform active:scale-95 sm:ml-auto">
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">save</i>
+              Salvar treino
+            </button>
+          </footer>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-[#f7f5ff]/90 backdrop-blur-lg shadow-[0_-10px_40px_rgba(35,44,81,0.08)] rounded-t-[32px]"
+       aria-label="Navegação mobile">
+
+    <a href="/painelprofessor"
+       class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">dashboard</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Início</em>
+    </a>
+
+    <a href="/todosalunos"
+       class="flex flex-col items-center justify-center text-[#0058ba] opacity-100 p-3 rounded-[18px] bg-[#d5dbff]"
+       aria-current="page">
+      <i class="material-symbols-outlined not-italic" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24" aria-hidden="true">groups</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Alunos</em>
+    </a>
+
+    <a href="/todosalunos#vincular-aluno"
+       class="bg-primary text-white w-14 h-14 rounded-full shadow-lg shadow-primary/40 -mt-8 flex items-center justify-center active:scale-95 transition-transform"
+       aria-label="Vincular aluno">
+      <i class="material-symbols-outlined text-3xl not-italic" aria-hidden="true">person_add</i>
+    </a>
+
+    <a href="/todosvideos"
+       class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">video_library</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Vídeos</em>
+    </a>
+
+    <a href="/feedbackprofessor"
+       class="flex flex-col items-center justify-center text-[#232c51] opacity-60 p-3 hover:opacity-100 transition-opacity">
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">forum</i>
+      <em class="text-[10px] font-semibold tracking-wide uppercase mt-1 not-italic">Feedback</em>
+    </a>
+
+  </nav>
+
+  <script type="application/json" id="dados-treino"><%- JSON.stringify(dadosIniciais).replace(/</g, '\\u003c') %></script>
+
+  <script>
+    (function () {
+      'use strict'
+
+      var dados = JSON.parse(document.getElementById('dados-treino').textContent)
+      var lista = document.getElementById('lista-exercicios')
+      var vazio = document.getElementById('vazio-exercicios')
+      var contador = document.getElementById('contador-exercicios')
+      var form = document.getElementById('form-treino')
+      var campoJson = document.getElementById('exercicios_json')
+      var erroCliente = document.getElementById('erro-cliente')
+      var DIAS = ['A', 'B', 'C', 'D', 'E']
+      var MAX = 40
+
+      function el(tag, classe, texto) {
+        var e = document.createElement(tag)
+        if (classe) e.className = classe
+        if (texto !== undefined) e.textContent = texto
+        return e
+      }
+
+      function campo(rotulo, id, input, classeColuna) {
+        var f = el('fieldset', (classeColuna || '') + ' border-0 p-0 m-0')
+        var l = el('label', 'rotulo', rotulo)
+        l.setAttribute('for', id)
+        input.id = id
+        f.appendChild(l)
+        f.appendChild(input)
+        return f
+      }
+
+      function inputNumero(nome, min, max, passo, valor, placeholder) {
+        var i = el('input', 'campo')
+        i.type = 'number'
+        i.inputMode = 'decimal'
+        i.min = min
+        i.max = max
+        i.step = passo
+        i.value = valor
+        i.placeholder = placeholder || ''
+        i.setAttribute('data-campo', nome)
+        return i
+      }
+
+      function botaoIcone(icone, rotulo, classeExtra) {
+        var b = el('button', 'btn-icone' + (classeExtra ? ' ' + classeExtra : ''))
+        b.type = 'button'
+        b.setAttribute('aria-label', rotulo)
+        b.title = rotulo
+        var i = el('i', 'material-symbols-outlined not-italic', icone)
+        i.setAttribute('aria-hidden', 'true')
+        b.appendChild(i)
+        return b
+      }
+
+      var contadorId = 0
+
+      function criarCard(item) {
+        contadorId++
+        var n = contadorId
+
+        var li = el('li')
+        var card = el('article', 'exercicio-card rounded-2xl bg-surface-container-low p-4 flex flex-col gap-3')
+
+        var topo = el('header', 'flex items-center justify-between gap-2')
+        var titulo = el('h3', 'headline text-sm font-extrabold text-primary uppercase tracking-wider')
+        titulo.setAttribute('data-titulo-card', '')
+
+        var acoes = el('p', 'flex items-center gap-1 m-0')
+        var subir = botaoIcone('arrow_upward', 'Mover exercício para cima')
+        var descer = botaoIcone('arrow_downward', 'Mover exercício para baixo')
+        var remover = botaoIcone('delete', 'Remover exercício', 'btn-icone--perigo')
+        acoes.appendChild(subir)
+        acoes.appendChild(descer)
+        acoes.appendChild(remover)
+        topo.appendChild(titulo)
+        topo.appendChild(acoes)
+
+        var linha1 = el('section', 'grid grid-cols-1 sm:grid-cols-6 gap-3')
+
+        var selDia = el('select', 'campo')
+        selDia.setAttribute('data-campo', 'dia')
+        DIAS.forEach(function (d) {
+          var o = el('option', '', 'Treino ' + d)
+          o.value = d
+          if (d === (item.dia || 'A')) o.selected = true
+          selDia.appendChild(o)
+        })
+
+        var nome = el('input', 'campo')
+        nome.type = 'text'
+        nome.maxLength = 100
+        nome.value = item.titulo || ''
+        nome.placeholder = 'Ex.: Agachamento livre'
+        nome.setAttribute('list', 'sugestoes-exercicios')
+        nome.setAttribute('data-campo', 'titulo')
+
+        linha1.appendChild(campo('Dia', 'dia-' + n, selDia, 'sm:col-span-2'))
+        linha1.appendChild(campo('Exercício', 'nome-' + n, nome, 'sm:col-span-4'))
+
+        var linha2 = el('section', 'grid grid-cols-2 sm:grid-cols-4 gap-3')
+        linha2.appendChild(campo('Séries', 'series-' + n, inputNumero('series', 1, 20, 1, item.series, '3')))
+        linha2.appendChild(campo('Repetições', 'reps-' + n, inputNumero('repeticoes', 1, 200, 1, item.repeticoes, '12')))
+        linha2.appendChild(campo('Carga (kg)', 'carga-' + n, inputNumero('carga_kg', 0, 999, 0.5, item.carga_kg, 'opcional')))
+        linha2.appendChild(campo('Descanso (s)', 'descanso-' + n, inputNumero('descanso_seg', 0, 600, 5, item.descanso_seg, '60')))
+
+        var linha3 = el('section', 'grid grid-cols-1 sm:grid-cols-2 gap-3')
+
+        var selVideo = el('select', 'campo')
+        selVideo.setAttribute('data-campo', 'id_video')
+        var semVideo = el('option', '', dados.videos.length ? 'Sem vídeo' : 'Você ainda não publicou vídeos')
+        semVideo.value = ''
+        selVideo.appendChild(semVideo)
+        dados.videos.forEach(function (v) {
+          var o = el('option', '', v.titulo)
+          o.value = v.id
+          if (String(v.id) === String(item.id_video)) o.selected = true
+          selVideo.appendChild(o)
+        })
+
+        var obs = el('input', 'campo')
+        obs.type = 'text'
+        obs.maxLength = 255
+        obs.value = item.observacao || ''
+        obs.placeholder = 'Ex.: descer devagar, 3 segundos'
+        obs.setAttribute('data-campo', 'observacao')
+
+        linha3.appendChild(campo('Vídeo do exercício', 'video-' + n, selVideo))
+        linha3.appendChild(campo('Observação para o aluno', 'obs-' + n, obs))
+
+        card.appendChild(topo)
+        card.appendChild(linha1)
+        card.appendChild(linha2)
+        card.appendChild(linha3)
+        li.appendChild(card)
+
+        subir.addEventListener('click', function () {
+          var anterior = li.previousElementSibling
+          if (anterior) { lista.insertBefore(li, anterior); atualizar(); subir.focus() }
+        })
+
+        descer.addEventListener('click', function () {
+          var proximo = li.nextElementSibling
+          if (proximo) { lista.insertBefore(proximo, li); atualizar(); descer.focus() }
+        })
+
+        remover.addEventListener('click', function () {
+          lista.removeChild(li)
+          atualizar()
+        })
+
+        return li
+      }
+
+      function atualizar() {
+        var itens = lista.children
+        contador.textContent = itens.length
+        vazio.hidden = itens.length > 0
+
+        for (var i = 0; i < itens.length; i++) {
+          itens[i].querySelector('[data-titulo-card]').textContent = 'Exercício ' + (i + 1)
+          itens[i].querySelector('[aria-label="Mover exercício para cima"]').disabled = i === 0
+          itens[i].querySelector('[aria-label="Mover exercício para baixo"]').disabled = i === itens.length - 1
+        }
+      }
+
+      function adicionar(item) {
+        if (lista.children.length >= MAX) {
+          mostrarErro('O treino pode ter no máximo ' + MAX + ' exercícios.')
+          return null
+        }
+
+        var li = criarCard(item || {})
+        lista.appendChild(li)
+        atualizar()
+        return li
+      }
+
+      function mostrarErro(texto) {
+        erroCliente.textContent = texto
+        erroCliente.hidden = !texto
+      }
+
+      function ler(li) {
+        var obj = {}
+        li.querySelectorAll('[data-campo]').forEach(function (c) {
+          obj[c.getAttribute('data-campo')] = c.value
+        })
+        return obj
+      }
+
+      document.getElementById('btn-adicionar').addEventListener('click', function () {
+        // novo exercício herda o dia do último, para montar um treino por vez
+        var ultimo = lista.lastElementChild
+        var dia = ultimo ? ler(ultimo).dia : 'A'
+        var li = adicionar({ dia: dia })
+        if (li) li.querySelector('[data-campo="titulo"]').focus()
+      })
+
+      form.addEventListener('submit', function (evento) {
+        mostrarErro('')
+
+        var nomeTreino = document.getElementById('nome_ficha').value.trim()
+
+        if (nomeTreino.length < 3) {
+          evento.preventDefault()
+          mostrarErro('Dê um nome ao treino (mínimo 3 caracteres).')
+          document.getElementById('nome_ficha').focus()
+          return
+        }
+
+        var itens = Array.prototype.map.call(lista.children, ler)
+
+        if (itens.length === 0) {
+          evento.preventDefault()
+          mostrarErro('Adicione pelo menos um exercício ao treino.')
+          return
+        }
+
+        for (var i = 0; i < itens.length; i++) {
+          if (itens[i].titulo.trim().length < 2) {
+            evento.preventDefault()
+            mostrarErro('Exercício ' + (i + 1) + ': informe o nome.')
+            lista.children[i].querySelector('[data-campo="titulo"]').focus()
+            return
+          }
+        }
+
+        // agrupa por dia mantendo a ordem escolhida dentro de cada dia
+        var ordenados = itens
+          .map(function (item, indice) { return { item: item, indice: indice } })
+          .sort(function (a, b) {
+            return a.item.dia === b.item.dia ? a.indice - b.indice : a.item.dia < b.item.dia ? -1 : 1
+          })
+          .map(function (par) { return par.item })
+
+        campoJson.value = JSON.stringify(ordenados)
+      })
+
+      var recomendacao = document.getElementById('recomendacao')
+      var contadorRec = document.getElementById('contador-recomendacao')
+
+      function contarRecomendacao() { contadorRec.textContent = recomendacao.value.length }
+
+      recomendacao.addEventListener('input', contarRecomendacao)
+      contarRecomendacao()
+
+      if (dados.exercicios.length) dados.exercicios.forEach(function (item) { adicionar(item) })
+      else atualizar()
+    })()
+  </script>
+  <script src="/js/transicao-paginas.js"></script>
+</body>
+
+</html>

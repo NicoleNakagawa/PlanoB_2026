@@ -1,0 +1,26 @@
+<%# Card do painel do aluno: aparece só quando um professor já montou treino para ele (resumoTreino vem do middleware). %>
+<% if (typeof resumoTreino !== 'undefined' && resumoTreino) { %>
+  <% const trechoRecomendacao = String(resumoTreino.recomendacao || '').trim() %>
+  <article class="md:col-span-12 rounded-3xl bg-gradient-to-br from-primary to-secondary p-6 md:p-8 text-white shadow-lg shadow-primary/20 flex flex-col md:flex-row md:items-center justify-between gap-6" aria-labelledby="card-treino-titulo">
+    <hgroup class="flex flex-col gap-2 min-w-0">
+      <p class="m-0 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest opacity-90">
+        <i class="material-symbols-outlined not-italic text-base" aria-hidden="true">assignment</i>
+        Treino do seu professor
+      </p>
+      <h2 id="card-treino-titulo" class="headline text-2xl md:text-3xl font-black leading-tight"><%= resumoTreino.nome %></h2>
+      <p class="m-0 text-sm font-semibold opacity-90">
+        Prof. <%= resumoTreino.professor %> · <%= resumoTreino.totalExercicios %> exercício(s)
+      </p>
+      <% if (trechoRecomendacao) { %>
+        <p class="m-0 text-sm opacity-90 leading-relaxed max-w-2xl">
+          “<%= trechoRecomendacao.length > 160 ? trechoRecomendacao.slice(0, 160).trim() + '…' : trechoRecomendacao %>”
+        </p>
+      <% } %>
+    </hgroup>
+
+    <a href="/meutreino" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg active:scale-95 transition-transform whitespace-nowrap">
+      Abrir meu treino
+      <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+    </a>
+  </article>
+<% } %>

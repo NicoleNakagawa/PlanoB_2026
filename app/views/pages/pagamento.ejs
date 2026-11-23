@@ -179,6 +179,36 @@
           </p>
         <% } %>
 
+        <% if (locals.modoDemonstracao) { %>
+          <p class="mb-6 flex items-start gap-3 rounded-2xl bg-tertiary-fixed/40 px-4 py-3 text-sm font-semibold text-on-tertiary-fixed" role="note">
+            <i class="material-symbols-outlined not-italic" aria-hidden="true">science</i>
+            Ambiente de demonstração: nenhuma cobrança real é feita neste site.
+          </p>
+        <% } %>
+
+        <% if (locals.mercadoPagoAtivo) { %>
+          <section class="mb-8 rounded-[2rem] bg-surface-container-low p-8" aria-labelledby="mp-titulo">
+            <h2 id="mp-titulo" class="mb-2 flex items-center gap-3 text-xl font-bold">
+              <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">account_balance_wallet</i>
+              Pagar com Mercado Pago
+            </h2>
+            <p class="mb-5 text-sm text-on-surface-variant">
+              Você será levado ao Mercado Pago para concluir o pagamento com segurança e volta para o PlanoB em seguida.
+            </p>
+
+            <form action="/pagamento/mercadopago" method="POST">
+              <input type="hidden" name="id-plano" value="<%= planoAtual.id_plano %>" />
+              <button type="submit" class="w-full rounded-full bg-[#009ee3] py-4 text-lg font-black text-white shadow-lg shadow-[#009ee3]/25 transition-transform hover:scale-[1.01] active:scale-[0.98]">
+                Pagar com Mercado Pago
+              </button>
+            </form>
+          </section>
+
+          <p class="mb-6 text-center text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+            ou simule o pagamento aqui mesmo
+          </p>
+        <% } %>
+
         <form id="checkout-form" class="space-y-6" action="/pagamento" method="POST" data-form="pagamento" novalidate>
           <input type="hidden" name="id-plano" value="<%= planoAtual.id_plano %>" />
 

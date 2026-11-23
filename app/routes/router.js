@@ -75,9 +75,13 @@ router.post('/redefinir-senha', senhaController.processarRedefinir)
 
 const alunoController = require('../controllers/alunoController')
 
-router.get('/painelfree', authAluno, alunoController.painelFree)
-router.get('/painellazuli', authAluno, alunoController.painelLazuli)
-router.get('/paineldiamante', authAluno, alunoController.painelDiamante)
+const meuTreinoController = require('../controllers/meuTreinoController')
+const treinoProfessorController = require('../controllers/treinoProfessorController')
+
+router.get('/painelfree', authAluno, meuTreinoController.resumoParaPainel, alunoController.painelFree)
+router.get('/painellazuli', authAluno, meuTreinoController.resumoParaPainel, alunoController.painelLazuli)
+router.get('/paineldiamante', authAluno, meuTreinoController.resumoParaPainel, alunoController.painelDiamante)
+router.get('/meutreino', authAluno, meuTreinoController.exibir)
 router.get('/dadosaluno', authAluno, alunoController.dadosAlunoForm)
 router.post('/dadosaluno', authAluno, alunoController.dadosAlunoSalvar)
 router.get('/perfilaluno', authAluno, alunoController.perfilAluno)
@@ -107,6 +111,8 @@ router.get('/todosalunos', authProfessor, professorController.todosAlunos)
 router.post('/professor/vincular-aluno', authProfessor, professorController.vincularAluno)
 router.post('/professor/vincular-alunos-disponiveis', authProfessor, professorController.vincularAlunosDisponiveis)
 router.post('/professor/desvincular-aluno', authProfessor, professorController.desvincularAluno)
+router.get('/professor/treino/:id', authProfessor, treinoProfessorController.exibir)
+router.post('/professor/treino/:id', authProfessor, treinoProfessorController.salvar)
 
 // =======================
 // VÍDEOS DO PROFESSOR
@@ -148,6 +154,12 @@ const pagamentoController = require('../controllers/pagamentoController')
 router.get('/pagamento', authAluno, pagamentoController.exibir)
 router.post('/pagamento', authAluno, pagamentoController.processar)
 
+// Mercado Pago (modo demonstração)
+const mercadoPagoController = require('../controllers/mercadoPagoController')
+
+router.post('/pagamento/mercadopago', authAluno, mercadoPagoController.iniciar)
+router.get('/pagamento/retorno', authAluno, mercadoPagoController.retorno)
+
 // =======================
 // SUPORTE / REGISTRAR TREINO
 // =======================
@@ -165,6 +177,7 @@ router.post('/suporte/chamados/:id/responder', suporteController.responder)
 const tutorialController = require('../controllers/tutorialController')
 
 router.post('/api/tutorial/concluir', tutorialController.concluir)
+router.get('/tutorial/rever', tutorialController.reiniciar)
 router.post('/api/aluno/registrar-treino', authAluno, treinoController.registrar)
 
 // =======================

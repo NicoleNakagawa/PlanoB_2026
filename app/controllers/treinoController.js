@@ -5,7 +5,10 @@ exports.registrar = async (req, res) => {
     const idAluno = req.session.aluno.id
     const duracaoMin = Number(req.body.duracao_min) || 0
     const observacao = req.body.observacao || 'Exercício concluído.'
-    const redirectTo = req.body.redirect_to || redirecionarPainelAluno(req.session.aluno.id_plano)
+    // Só aceita caminho do próprio site (evita redirecionar o aluno para outro endereço)
+    const destinoPedido = String(req.body.redirect_to || '')
+    const destinoSeguro = destinoPedido.startsWith('/') && !destinoPedido.startsWith('//') && !destinoPedido.includes('\\')
+    const redirectTo = destinoSeguro ? destinoPedido : redirecionarPainelAluno(req.session.aluno.id_plano)
 
     try {
         let idFicha = null
@@ -15,7 +18,7 @@ exports.registrar = async (req, res) => {
              FROM aluno_ficha af
              WHERE af.id_aluno = ?
              AND af.ativo = 1
-             ORDER BY af.id_aluno_ficha DESC
+             ORDER BY af.atribuido_em DESC
              LIMIT 1`,
             [idAluno]
         ).catch(async () => {
