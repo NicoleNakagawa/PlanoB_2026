@@ -169,6 +169,13 @@
           </p>
         <% } %>
 
+        <% if (locals.linkDemo) { %>
+          <aside class="mb-5 rounded-2xl bg-tertiary-fixed/40 px-4 py-4 text-sm font-semibold text-on-tertiary-fixed" role="note">
+            <p class="mb-3">Modo demonstração: o e-mail não é enviado nesta apresentação. Use o botão abaixo para criar a nova senha.</p>
+            <a href="<%= linkDemo %>" class="inline-block rounded-full bg-primary px-6 py-3 font-black text-on-primary">Abrir link de redefinição</a>
+          </aside>
+        <% } %>
+
         <form class="space-y-6" action="/esqueci-senha" method="POST" aria-label="Formulário de recuperação de senha">
           <fieldset class="space-y-2">
             <legend class="sr-only">E-mail da conta</legend>

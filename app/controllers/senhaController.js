@@ -124,6 +124,12 @@ exports.enviarEsqueci = async (req, res) => {
 
     try {
         const conta = await buscarConta(email)
+        let linkDemo = null
+
+        if (!conta) {
+            // Só aparece no terminal; a tela continua com a mesma mensagem para qualquer e-mail
+            console.log('[esqueci-senha] nenhuma conta cadastrada com o e-mail', email, '- nenhum e-mail enviado')
+        }
 
         if (conta) {
             const token = crypto.randomBytes(32).toString('hex')
@@ -141,6 +147,10 @@ exports.enviarEsqueci = async (req, res) => {
             )
 
             const link = `${urlBase(req)}/redefinir-senha?token=${token}`
+
+            // SÓ PARA APRESENTAÇÃO: com DEMO_MOSTRAR_LINK_SENHA=true no .env, o link aparece na tela
+            // em vez de depender do e-mail. Deixe desligado em uso real (qualquer um receberia o link).
+            if (process.env.DEMO_MOSTRAR_LINK_SENHA === 'true') linkDemo = link
             const primeiroNome = String(conta.nome || '').split(' ')[0] || 'tudo bem'
 
             const texto = [
@@ -167,7 +177,7 @@ exports.enviarEsqueci = async (req, res) => {
         }
 
         // Mesma resposta exista a conta ou não
-        return res.render('esqueci-senha', { sucesso: MENSAGEM_ENVIO, erro: null })
+        return res.render('esqueci-senha', { sucesso: MENSAGEM_ENVIO, erro: null, linkDemo })
     } catch (err) {
         console.error('[esqueci-senha]', err)
 

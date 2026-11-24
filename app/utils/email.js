@@ -53,13 +53,15 @@ async function enviarEmail({ para, assunto, texto, html }) {
         return false
     }
 
-    await envio.sendMail({
+    const info = await envio.sendMail({
         from: process.env.SMTP_FROM || process.env.SMTP_USER,
         to: para,
         subject: assunto,
         text: texto,
         html
     })
+
+    console.log('[email] enviado para', para, '| aceito:', JSON.stringify(info.accepted), '| rejeitado:', JSON.stringify(info.rejected), '| resposta:', info.response)
 
     return true
 }
