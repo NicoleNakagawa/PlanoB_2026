@@ -68,6 +68,22 @@ app.use((req, res, next) => {
 const rotas = require('./app/routes/router')
 app.use('/', rotas)
 
+// Página não encontrada (rota que não existe)
+app.use((req, res) => {
+    res.status(404).send(`
+        <style>
+            body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: #f7f5ff; color: #232c51; gap: 16px; margin: 0; text-align: center; }
+            h1 { font-size: 4rem; margin: 0; }
+            p { margin: 0; font-size: 1.1rem; }
+            a { background: #0058ba; color: #fff; padding: 12px 28px; border-radius: 999px; font-weight: 700; text-decoration: none; }
+        </style>
+
+        <h1>404</h1>
+        <p>Página não encontrada.</p>
+        <a href="/home">Voltar para Home</a>
+    `)
+})
+
 // Middleware global de erro
 app.use((err, req, res, next) => {
     console.error('[ERRO GLOBAL]', err)
@@ -114,8 +130,26 @@ app.use((err, req, res, next) => {
     `)
 })
 
+// Um erro inesperado (ex.: conexão com o banco que caiu) é registrado no terminal,
+// mas não derruba o servidor.
+process.on('unhandledRejection', (motivo) => {
+    console.error('[unhandledRejection]', motivo)
+})
+
+process.on('uncaughtException', (err) => {
+    console.error('[uncaughtException]', err)
+})
+
 garantirTabelas()
 
-app.listen(port, () => {
+const servidor = app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`)
+})
+
+servidor.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`A porta ${port} já está em uso. Pare o outro "node app" (Ctrl+C) ou rode: pkill -f "node app"`)
+    } else {
+        console.error('[servidor]', err)
+    }
 })

@@ -186,12 +186,13 @@
           </p>
         <% } %>
 
-        <% if (locals.mercadoPagoAtivo) { %>
-          <section class="mb-8 rounded-[2rem] bg-surface-container-low p-8" aria-labelledby="mp-titulo">
-            <h2 id="mp-titulo" class="mb-2 flex items-center gap-3 text-xl font-bold">
-              <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">account_balance_wallet</i>
-              Pagar com Mercado Pago
-            </h2>
+        <section class="mb-8 rounded-[2rem] bg-surface-container-low p-8" aria-labelledby="mp-titulo">
+          <h2 id="mp-titulo" class="mb-2 flex items-center gap-3 text-xl font-bold">
+            <i class="material-symbols-outlined text-primary not-italic" aria-hidden="true">account_balance_wallet</i>
+            Pagar com Mercado Pago
+          </h2>
+
+          <% if (locals.mercadoPagoAtivo) { %>
             <p class="mb-5 text-sm text-on-surface-variant">
               Você será levado ao Mercado Pago para concluir o pagamento com segurança e volta para o PlanoB em seguida.
             </p>
@@ -202,12 +203,20 @@
                 Pagar com Mercado Pago
               </button>
             </form>
-          </section>
+          <% } else { %>
+            <p class="mb-5 text-sm text-on-surface-variant">
+              O pagamento pelo Mercado Pago ainda não foi ativado neste servidor. Use a simulação abaixo para trocar de plano.
+            </p>
 
-          <p class="mb-6 text-center text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-            ou simule o pagamento aqui mesmo
-          </p>
-        <% } %>
+            <button type="button" disabled class="w-full cursor-not-allowed rounded-full bg-[#009ee3] py-4 text-lg font-black text-white opacity-40" aria-disabled="true">
+              Mercado Pago indisponível
+            </button>
+          <% } %>
+        </section>
+
+        <p class="mb-6 text-center text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+          ou simule o pagamento aqui mesmo
+        </p>
 
         <form id="checkout-form" class="space-y-6" action="/pagamento" method="POST" data-form="pagamento" novalidate>
           <input type="hidden" name="id-plano" value="<%= planoAtual.id_plano %>" />

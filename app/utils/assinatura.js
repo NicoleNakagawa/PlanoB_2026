@@ -42,39 +42,66 @@ async function calcularCobranca(idAluno, idPlano) {
 }
 
 // Cria a assinatura e o pagamento aprovado, troca o plano do aluno e consome o desconto.
+// Tudo em uma transação: ou grava tudo, ou não grava nada (sem assinatura "pela metade").
 async function ativarPlano({ idAluno, idPlano, valorFinal, idDesconto, metodo, nomeTitular, ultimos4, bandeira, tokenGateway, cpf }) {
     const dataInicio = new Date().toISOString().slice(0, 10)
+    const conexao = await db.getConnection()
 
-    const [assinaturaResult] = await db.query(
-        `INSERT INTO assinatura
-         (id_aluno, id_plano, status, valor_cobrado, data_inicio, periodicidade)
-         VALUES (?, ?, 'ativa', ?, ?, 'mensal')`,
-        [idAluno, idPlano, valorFinal.toFixed(2), dataInicio]
-    )
+    try {
+        await conexao.beginTransaction()
 
-    const idAssinatura = assinaturaResult.insertId
-
-    await db.query(
-        `INSERT INTO pagamento
-         (id_assinatura, id_aluno, valor, status, metodo, nome_titular, ultimos_4, bandeira, token_gateway)
-         VALUES (?, ?, ?, 'aprovado', ?, ?, ?, ?, ?)`,
-        [idAssinatura, idAluno, valorFinal.toFixed(2), metodo, nomeTitular, ultimos4 || null, bandeira || null, tokenGateway || null]
-    )
-
-    if (cpf) {
-        await db.query('UPDATE aluno SET id_plano = ?, cpf = ? WHERE id_aluno = ?', [idPlano, cpf, idAluno])
-    } else {
-        await db.query('UPDATE aluno SET id_plano = ? WHERE id_aluno = ?', [idPlano, idAluno])
-    }
-
-    if (idDesconto) {
-        await db.query(
-            'UPDATE desconto SET usado = 1, id_assinatura = ? WHERE id_desconto = ?',
-            [idAssinatura, idDesconto]
+        const [assinaturaResult] = await conexao.query(
+            `INSERT INTO assinatura
+             (id_aluno, id_plano, status, valor_cobrado, data_inicio, periodicidade)
+             VALUES (?, ?, 'ativa', ?, ?, 'mensal')`,
+            [idAluno, idPlano, valorFinal.toFixed(2), dataInicio]
         )
-    }
 
-    return idAssinatura
+        const idAssinatura = assinaturaResult.insertId
+
+        await conexao.query(
+            `INSERT INTO pagamento
+             (id_assinatura, id_aluno, valor, status, metodo, nome_titular, ultimos_4, bandeira, token_gateway)
+             VALUES (?, ?, ?, 'aprovado', ?, ?, ?, ?, ?)`,
+            [idAssinatura, idAluno, valorFinal.toFixed(2), metodo, nomeTitular, ultimos4 || null, bandeira || null, tokenGateway || null]
+        )
+
+        // O CPF é único na tabela aluno. Se já estiver em outra conta (comum em testes
+        // com o mesmo CPF fictício), o plano é trocado do mesmo jeito, sem salvar o CPF.
+        let salvouCpf = false
+
+        if (cpf) {
+            const [outro] = await conexao.query(
+                'SELECT id_aluno FROM aluno WHERE cpf = ? AND id_aluno <> ? LIMIT 1',
+                [cpf, idAluno]
+            )
+
+            if (outro.length === 0) {
+                await conexao.query('UPDATE aluno SET id_plano = ?, cpf = ? WHERE id_aluno = ?', [idPlano, cpf, idAluno])
+                salvouCpf = true
+            }
+        }
+
+        if (!salvouCpf) {
+            await conexao.query('UPDATE aluno SET id_plano = ? WHERE id_aluno = ?', [idPlano, idAluno])
+        }
+
+        if (idDesconto) {
+            await conexao.query(
+                'UPDATE desconto SET usado = 1, id_assinatura = ? WHERE id_desconto = ?',
+                [idAssinatura, idDesconto]
+            )
+        }
+
+        await conexao.commit()
+
+        return idAssinatura
+    } catch (err) {
+        await conexao.rollback()
+        throw err
+    } finally {
+        conexao.release()
+    }
 }
 
 module.exports = { calcularCobranca, ativarPlano }

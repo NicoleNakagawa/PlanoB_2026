@@ -57,15 +57,18 @@ class SessaoMysql extends session.Store {
                 [sid, Date.now()]
             ))
             .then(([linhas]) => {
-                if (!linhas.length) return callback(null, null)
+                let sessao = null
 
-                try {
-                    callback(null, JSON.parse(linhas[0].dados))
-                } catch (err) {
-                    callback(null, null)
+                if (linhas.length) {
+                    try {
+                        sessao = JSON.parse(linhas[0].dados)
+                    } catch (err) {
+                        sessao = null
+                    }
                 }
-            })
-            .catch(err => callback(err))
+
+                callback(null, sessao)
+            }, err => callback(err))
     }
 
     set(sid, sessao, callback = () => {}) {
@@ -79,8 +82,7 @@ class SessaoMysql extends session.Store {
                  ON DUPLICATE KEY UPDATE expira_em = VALUES(expira_em), dados = VALUES(dados)`,
                 [sid, expiraEm, dados]
             ))
-            .then(() => callback(null))
-            .catch(err => callback(err))
+            .then(() => callback(null), err => callback(err))
     }
 
     touch(sid, sessao, callback = () => {}) {
@@ -89,15 +91,13 @@ class SessaoMysql extends session.Store {
                 `UPDATE \`${this.tabela}\` SET expira_em = ? WHERE sid = ?`,
                 [this.calcularExpiracao(sessao), sid]
             ))
-            .then(() => callback(null))
-            .catch(err => callback(err))
+            .then(() => callback(null), err => callback(err))
     }
 
     destroy(sid, callback = () => {}) {
         this.pronta
             .then(() => this.db.query(`DELETE FROM \`${this.tabela}\` WHERE sid = ?`, [sid]))
-            .then(() => callback(null))
-            .catch(err => callback(err))
+            .then(() => callback(null), err => callback(err))
     }
 
     limparVencidas() {
