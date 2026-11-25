@@ -321,6 +321,7 @@
 
     const iconesCategoria = {
       'Fundamentos': 'fitness_center',
+      'Força': 'fitness_center',
       'Cardio': 'directions_run',
       'Flexibilidade': 'self_improvement',
       'Braços': 'exercise',
@@ -480,21 +481,11 @@
         </header>
 
         <nav class="flex items-center gap-3" aria-label="Filtros de vídeo">
-          <button class="bg-primary text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-transform">
-            Todos
-          </button>
-          <button class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">
-            Força
-          </button>
-          <button class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">
-            Cardio
-          </button>
-          <button class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">
-            Mobilidade
-          </button>
-          <button class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">
-            Core
-          </button>
+          <button type="button" data-video-filter="todos" aria-pressed="true" class="bg-primary text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-transform">Todos</button>
+          <button type="button" data-video-filter="forca" aria-pressed="false" class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">Força</button>
+          <button type="button" data-video-filter="cardio" aria-pressed="false" class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">Cardio</button>
+          <button type="button" data-video-filter="mobilidade" aria-pressed="false" class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">Mobilidade</button>
+          <button type="button" data-video-filter="core" aria-pressed="false" class="bg-surface-container-low text-on-surface-variant px-6 py-3 rounded-full font-bold text-sm hover:bg-surface-container-highest active:scale-95 transition-transform">Core</button>
         </nav>
 
       </section>
@@ -504,7 +495,7 @@
           <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 list-none p-0 m-0" role="list" aria-label="Vídeos disponíveis">
 
             <% videosPremium.forEach(function(video, index) { %>
-              <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm border border-outline-variant/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <li class="group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm border border-outline-variant/10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300" data-video-category="<%= ['Fundamentos','Braços','Pernas','Força'].includes(video.categoria) ? 'forca' : ['Cardio'].includes(video.categoria) ? 'cardio' : ['Flexibilidade','Mobilidade'].includes(video.categoria) ? 'mobilidade' : ['Core','Abdômen'].includes(video.categoria) ? 'core' : 'outros' %>">
 
                 <a href="/execucaoexercicios?video=<%= video.slug %>" class="video-card-link">
 
@@ -628,5 +619,29 @@
 
   </nav>
 
+  <script>
+    (function () {
+      var botoes = document.querySelectorAll('[data-video-filter]');
+      var cards = document.querySelectorAll('[data-video-category]');
+      botoes.forEach(function (botao) {
+        botao.addEventListener('click', function () {
+          var filtro = botao.getAttribute('data-video-filter');
+          botoes.forEach(function (item) {
+            var ativo = item === botao;
+            item.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+            item.classList.toggle('bg-primary', ativo);
+            item.classList.toggle('text-white', ativo);
+            item.classList.toggle('shadow-lg', ativo);
+            item.classList.toggle('shadow-primary/20', ativo);
+            item.classList.toggle('bg-surface-container-low', !ativo);
+            item.classList.toggle('text-on-surface-variant', !ativo);
+          });
+          cards.forEach(function (card) {
+            card.hidden = filtro !== 'todos' && card.getAttribute('data-video-category') !== filtro;
+          });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

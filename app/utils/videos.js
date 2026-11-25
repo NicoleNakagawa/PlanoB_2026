@@ -59,7 +59,7 @@ function descreverFonte(url) {
     if (id) {
         return {
             tipo: 'youtube',
-            embedUrl: `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`,
+            embedUrl: `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&enablejsapi=1`,
             arquivoUrl: null,
             miniatura: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
         }

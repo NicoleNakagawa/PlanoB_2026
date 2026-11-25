@@ -83,7 +83,21 @@ const videosFree = [
         descricao: 'Apoie os antebraços no chão, mantenha o corpo reto e contraia o abdômen. Segure a posição sem deixar o quadril cair.',
         atencao1: 'Não levante demais o quadril.',
         atencao2: 'Não relaxe o abdômen durante a execução.'
+    },
+    {
+        slug: 'treino-corpo-inteiro',
+        videoUrl: 'https://www.youtube.com/watch?v=Ylpt0A1sQq4',
+        titulo: 'Treino de Força para o Corpo Inteiro',
+        categoria: 'Força',
+        nivel: 'Iniciante',
+        duracao: '16:00',
+        duracaoMin: 16,
+        capa: 'https://img.youtube.com/vi/Ylpt0A1sQq4/hqdefault.jpg',
+        descricao: 'Treino geral em casa, sem equipamentos, combinando movimentos para desenvolver força, mobilidade e resistência. Acompanhe no seu ritmo e respeite as pausas.',
+        atencao1: 'Mantenha os movimentos controlados e adapte a amplitude ao seu condicionamento.',
+        atencao2: 'Faça pausas quando necessário e interrompa se sentir dor.'
     }
+
 ]
 
 module.exports = videosFree

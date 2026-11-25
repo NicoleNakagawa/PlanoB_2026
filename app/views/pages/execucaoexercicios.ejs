@@ -281,7 +281,7 @@
     }
   </style>
   <link rel="stylesheet" href="/css/player.css" />
-  <script src="/js/player.js" defer></script>
+  <script src="/js/player.js" defer></script>\n  <script src="/js/progresso-execucao.js" defer></script>
   <%- include('../partials/acessibilidade') %>
 </head>
 
@@ -342,6 +342,9 @@
           }
         })
       : []
+
+    const indiceVideoAtual = videosLista.findIndex(function(item) { return item.slug === video.slug })
+    const proximoVideo = indiceVideoAtual >= 0 ? videosLista[indiceVideoAtual + 1] : null
   %>
 
   <!-- Header -->
@@ -478,6 +481,8 @@
         <section data-pb-player class="video-player relative group aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl ring-1 ring-white/10">
           <% if (video.embedUrl) { %>
           <iframe
+            id="pb-youtube-player"
+            data-pb-youtube
             class="absolute inset-0 w-full h-full"
             src="<%= video.embedUrl %>"
             title="<%= video.titulo %>"
@@ -516,6 +521,20 @@
             <p class="text-sm text-white/80 max-w-sm">Este vídeo demonstrativo ainda está sendo preparado. Enquanto isso, leia a execução abaixo ou escolha outro vídeo da lista.</p>
           </article>
           <% } %>
+        </section>
+
+        <section class="bg-surface-container-lowest p-6 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm" data-pb-completion data-required-percent="80">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <div>
+              <h2 class="font-black text-lg">Progresso do exercício</h2>
+              <p class="text-sm text-on-surface-variant" data-pb-progress-message>Assista a pelo menos 80% do vídeo para concluir.</p>
+            </div>
+            <strong class="text-primary text-xl tabular-nums" data-pb-progress-label>0%</strong>
+          </div>
+          <div class="w-full h-3 rounded-full bg-surface-container-high overflow-hidden" role="progressbar" aria-label="Progresso assistido do exercício" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb-progressbar>
+            <div class="h-full rounded-full bg-primary transition-all duration-300" data-pb-progress-fill style="width:0%"></div>
+          </div>
+          <p class="text-xs text-on-surface-variant mt-3">O progresso considera o tempo realmente assistido; avançar o vídeo não completa a barra.</p>
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -629,18 +648,26 @@
           </section>
 
           <section class="mt-8 space-y-3">
-            <form action="/api/aluno/registrar-treino" method="POST">
+            <form action="/api/aluno/registrar-treino" method="POST" data-pb-completion-form>
   <input type="hidden" name="duracao_min" value="<%= video.duracaoMin %>">
   <input type="hidden" name="observacao" value="<%= video.titulo %> concluído pela tela de execução.">
   <input type="hidden" name="redirect_to" value="<%= painelCorreto %>">
 
               <button
                 type="submit"
-                class="w-full py-5 bg-primary text-white text-base font-black rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all active:scale-95 text-center block"
+                disabled
+                data-pb-complete-button
+                class="w-full py-5 bg-primary text-white text-base font-black rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all active:scale-95 text-center block disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 Concluir Exercício
               </button>
             </form>
+
+            <% if (proximoVideo) { %>
+              <a data-pb-next-video aria-disabled="true" tabindex="-1" class="w-full py-4 bg-surface-container-low text-on-surface-variant opacity-50 pointer-events-none rounded-full transition-colors text-center block font-black text-xs uppercase tracking-widest" href="/execucaoexercicios?video=<%= proximoVideo.slug %>">
+                Próximo vídeo: <%= proximoVideo.titulo %>
+              </a>
+            <% } %>
 
             <a class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-full transition-colors text-center block" href="<%= videosCorreto %>">
               Voltar para vídeos
