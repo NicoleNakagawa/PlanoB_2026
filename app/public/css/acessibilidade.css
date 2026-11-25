@@ -64,6 +64,17 @@ html.a11y-escuro .a11y-manter img.hover\:grayscale-0:hover {
   filter: none !important;
 }
 
+/* Emojis das telas de feedback: desfazem a inversão do modo escuro e ficam com as cores normais.
+   Se estiverem dentro de uma área já marcada com a11y-manter (que já desfaz a inversão), não duplica. */
+html.a11y-escuro .emoji-feedback {
+  display: inline-block;
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+html.a11y-escuro .a11y-manter .emoji-feedback {
+  filter: none !important;
+}
+
 /* Fonte pensada para leitura (dislexia/baixa visão). Ícones e logo ficam como estão. */
 html.a11y-fonte-legivel body,
 html.a11y-fonte-legivel body *:not(.material-symbols-outlined):not(.logo-font):not([class*="logo"]) {

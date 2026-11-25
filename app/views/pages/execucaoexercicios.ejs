@@ -281,7 +281,8 @@
     }
   </style>
   <link rel="stylesheet" href="/css/player.css" />
-  <script src="/js/player.js" defer></script>\n  <script src="/js/progresso-execucao.js" defer></script>
+  <script src="/js/player.js" defer></script>
+  <script src="/js/progresso-execucao.js" defer></script>
   <%- include('../partials/acessibilidade') %>
 </head>
 
@@ -345,6 +346,16 @@
 
     const indiceVideoAtual = videosLista.findIndex(function(item) { return item.slug === video.slug })
     const proximoVideo = indiceVideoAtual >= 0 ? videosLista[indiceVideoAtual + 1] : null
+
+    // Planos Lazuli e Diamante: a lista lateral mostra só os 5 exercícios do dia
+    // (blocos de 5 vídeos; o bloco exibido é o do vídeo que está aberto).
+    // O plano Free continua mostrando a biblioteca inteira.
+    const EXERCICIOS_POR_DIA = 5
+    const diaAtual = alunoPago && indiceVideoAtual >= 0 ? Math.floor(indiceVideoAtual / EXERCICIOS_POR_DIA) : 0
+    const videosDoDia = alunoPago
+      ? videosLista.slice(diaAtual * EXERCICIOS_POR_DIA, (diaAtual + 1) * EXERCICIOS_POR_DIA)
+      : videosLista
+    const totalDias = Math.max(1, Math.ceil(videosLista.length / EXERCICIOS_POR_DIA))
   %>
 
   <!-- Header -->
@@ -599,7 +610,7 @@
                 <%= alunoPago ? 'Vídeos Premium' : 'Vídeos Free' %>
               </h2>
               <p class="text-on-surface-variant text-sm font-semibold">
-                <%= alunoPago ? 'Biblioteca completa do plano ' + nomePlanoAluno : 'Biblioteca demonstrativa' %>
+                <%= alunoPago ? 'Exercícios do dia ' + (diaAtual + 1) + ' de ' + totalDias + ' • plano ' + nomePlanoAluno : 'Biblioteca demonstrativa' %>
               </p>
             </section>
 
@@ -610,7 +621,7 @@
           </article>
 
           <section class="space-y-4 relative">
-            <% videosLista.forEach(function(item) { %>
+            <% videosDoDia.forEach(function(item) { %>
               <% if (item.slug === video.slug) { %>
 
                 <article class="flex items-center gap-4 p-5 rounded-[1.5rem] bg-primary text-white shadow-xl shadow-primary/20 ring-4 ring-primary/10 transition-transform">
