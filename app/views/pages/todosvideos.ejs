@@ -612,6 +612,8 @@
             </label>
 
 
+            <input type="hidden" id="duracao_seg" name="duracao_seg" value="" />
+
             <label class="md:col-span-2">
               <span class="text-xs font-black uppercase tracking-widest text-on-surface-variant block mb-2">Link do vídeo (YouTube não listado ou URL direta), caso não envie arquivo</span>
               <input
@@ -683,6 +685,8 @@
                   <figure class="relative aspect-video overflow-hidden m-0 bg-surface-container-highest">
                     <% if (video.thumbnail) { %>
                       <img alt="<%= video.titulo %>" class="w-full h-full object-cover transition-transform duration-500" src="<%= video.thumbnail %>">
+                    <% } else if (String(video.video_url || '').startsWith('/uploads/')) { %>
+                      <video class="w-full h-full object-cover bg-black" src="<%= video.video_url %>#t=0.5" preload="metadata" muted playsinline tabindex="-1" aria-hidden="true"></video>
                     <% } else { %>
                       <span class="w-full h-full flex items-center justify-center">
                         <i class="material-symbols-outlined text-primary text-7xl not-italic" aria-hidden="true">play_circle</i>

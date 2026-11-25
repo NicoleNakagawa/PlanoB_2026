@@ -666,8 +666,11 @@ exports.perfilProfParaAluno = (req, res) => {
 // Vídeos dos professores (de acordo com o plano do aluno) + vídeos fixos da plataforma.
 // Se a consulta falhar, as telas continuam funcionando só com os vídeos fixos.
 // Os vídeos fixos (data/videosFree.js) tocam quando têm videoUrl preenchido
-function videosFixosComFonte() {
-    return videosFree.map(video => {
+function videosFixosComFonte(idPlano) {
+    const plano = Number(idPlano) || 1
+
+    // Vídeos com planoMin (intermediário/avançado) só aparecem para quem tem esse plano ou superior
+    return videosFree.filter(video => !video.planoMin || plano >= video.planoMin).map(video => {
         const fonte = descreverFonte(video.videoUrl)
 
         return {
@@ -682,10 +685,10 @@ function videosFixosComFonte() {
 async function montarCatalogo(idPlano) {
     try {
         const videosProfessores = await buscarVideosProfessores(db, idPlano)
-        return [...videosProfessores, ...videosFixosComFonte()]
+        return [...videosProfessores, ...videosFixosComFonte(idPlano)]
     } catch (err) {
         console.error('[catalogo de videos]', err)
-        return videosFixosComFonte()
+        return videosFixosComFonte(idPlano)
     }
 }
 

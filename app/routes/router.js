@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 
-const { uploadVideo } = require('../config/uploads')
+const { uploadVideo, receberVideo } = require('../config/uploads')
 const naoEncontrado = require('../utils/naoEncontrado')
 
 // =======================
@@ -121,7 +121,7 @@ router.post('/professor/treino/:id', authProfessor, treinoProfessorController.sa
 const professorVideoController = require('../controllers/professorVideoController')
 
 router.get('/todosvideos', authProfessor, professorVideoController.todosVideos)
-router.post('/professor/videos/criar', authProfessor, uploadVideo.single('arquivo_video'), professorVideoController.criar)
+router.post('/professor/videos/criar', authProfessor, receberVideo, professorVideoController.criar)
 router.get('/editarvideos/:id', authProfessor, professorVideoController.editarForm)
 router.post('/editarvideos/:id', authProfessor, professorVideoController.editarSalvar)
 router.post('/professor/videos/:id/excluir', authProfessor, professorVideoController.excluir)
