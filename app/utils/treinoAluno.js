@@ -66,4 +66,84 @@ async function buscarTreinosDoAluno(idAluno, idPlano) {
     })
 }
 
-module.exports = { buscarTreinosDoAluno }
+// Exercícios do treino que o aluno já concluiu (hoje e em dias anteriores)
+async function buscarConclusoes(idAluno, idFicha) {
+    try {
+        const [rows] = await db.query(
+            `SELECT id_exercicio, dia_treino,
+                    DATE_FORMAT(data_conclusao, '%Y-%m-%d') AS data,
+                    (data_conclusao = CURDATE()) AS hoje
+             FROM exercicio_concluido
+             WHERE id_aluno = ? AND id_ficha = ?
+             ORDER BY concluido_em DESC`,
+            [idAluno, idFicha]
+        )
+
+        return rows
+    } catch (err) {
+        console.error('[treino aluno] conclusões:', err.message)
+        return []
+    }
+}
+
+// "Treino do dia": o professor monta Treino A, B, C... e o aluno segue em sequência.
+// - se o aluno já começou um dia hoje, continua nesse dia;
+// - senão, vai para o próximo da sequência (conta os dias em que ele treinou esta ficha).
+function escolherDia(treino, conclusoes) {
+    const dias = treino.dias.map(grupo => grupo.dia)
+
+    const deHoje = conclusoes.filter(item => Number(item.hoje) === 1)
+
+    if (deHoje.length > 0 && dias.includes(deHoje[0].dia_treino)) {
+        return deHoje[0].dia_treino
+    }
+
+    const datasAnteriores = new Set(
+        conclusoes.filter(item => Number(item.hoje) !== 1).map(item => item.data)
+    )
+
+    return dias[datasAnteriores.size % dias.length]
+}
+
+function exercicioComStatus(exercicio, conclusoes) {
+    const feitoHoje = conclusoes.some(item => Number(item.hoje) === 1 && Number(item.id_exercicio) === Number(exercicio.id_exercicio))
+
+    return { ...exercicio, feito: feitoHoje }
+}
+
+// Monta os dados do treino de uma ficha para um dia (se dia não vier, usa o treino do dia)
+async function montarTreinoDoDia(idAluno, treino, diaPedido) {
+    if (!treino || !treino.dias || treino.dias.length === 0) return null
+
+    const conclusoes = await buscarConclusoes(idAluno, treino.id_ficha)
+    const dias = treino.dias.map(grupo => grupo.dia)
+    const dia = diaPedido && dias.includes(diaPedido) ? diaPedido : escolherDia(treino, conclusoes)
+    const grupo = treino.dias.find(item => item.dia === dia)
+
+    const exercicios = grupo.exercicios.map(item => exercicioComStatus(item, conclusoes))
+    const totalFeitos = exercicios.filter(item => item.feito).length
+
+    return {
+        id_ficha: treino.id_ficha,
+        nome_ficha: treino.nome_ficha,
+        nivel: treino.nivel,
+        recomendacao: treino.recomendacao || '',
+        professor_nome: treino.professor_nome,
+        dia,
+        exercicios,
+        total: exercicios.length,
+        totalFeitos,
+        concluido: exercicios.length > 0 && totalFeitos === exercicios.length,
+        proximo: exercicios.find(item => !item.feito) || null
+    }
+}
+
+async function buscarTreinoDoDia(idAluno, idPlano) {
+    const treinos = await buscarTreinosDoAluno(idAluno, idPlano)
+
+    if (treinos.length === 0) return null
+
+    return montarTreinoDoDia(idAluno, treinos[0])
+}
+
+module.exports = { buscarTreinosDoAluno, buscarTreinoDoDia, montarTreinoDoDia }

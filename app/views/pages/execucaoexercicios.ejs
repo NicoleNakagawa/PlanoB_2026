@@ -350,9 +350,11 @@
     // Planos Lazuli e Diamante: a lista lateral mostra só os 5 exercícios do dia
     // (blocos de 5 vídeos; o bloco exibido é o do vídeo que está aberto).
     // O plano Free continua mostrando a biblioteca inteira.
+    const treinoProf = typeof modoTreino !== 'undefined' && modoTreino ? modoTreino : null
     const EXERCICIOS_POR_DIA = 5
-    const diaAtual = alunoPago && indiceVideoAtual >= 0 ? Math.floor(indiceVideoAtual / EXERCICIOS_POR_DIA) : 0
-    const videosDoDia = alunoPago
+    const diaAtual = alunoPago && !treinoProf && indiceVideoAtual >= 0 ? Math.floor(indiceVideoAtual / EXERCICIOS_POR_DIA) : 0
+    // Treino do professor mostra todos os exercícios do dia dele; os demais planos seguem a regra de 5 por dia
+    const videosDoDia = treinoProf ? videosLista : alunoPago
       ? videosLista.slice(diaAtual * EXERCICIOS_POR_DIA, (diaAtual + 1) * EXERCICIOS_POR_DIA)
       : videosLista
     const totalDias = Math.max(1, Math.ceil(videosLista.length / EXERCICIOS_POR_DIA))
@@ -367,9 +369,7 @@
 
     <menu class="flex items-center gap-4 p-0 m-0 list-none">
       <li>
-        <button class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações">
-          <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
-        </button>
+        <%- include('../partials/sino-aluno') %>
       </li>
 
       <li>
@@ -463,7 +463,7 @@
 
           <hgroup class="max-w-3xl">
             <mark class="inline-block px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-4 text-white">
-              <%= alunoPago ? 'Execução Premium' : 'Execução do Exercício' %>
+              <%= treinoProf ? 'Treino do Prof. ' + treinoProf.professor_nome + ' · Treino ' + treinoProf.dia : (alunoPago ? 'Execução Premium' : 'Execução do Exercício') %>
             </mark>
 
             <h1 class="text-4xl md:text-6xl font-black headline leading-tight mb-4 -ml-1">
@@ -471,12 +471,16 @@
             </h1>
 
             <p class="text-lg opacity-90 max-w-xl">
-              <%= video.categoria %> • <%= video.nivel %> • Duração: <%= video.duracao %>
+              <% if (treinoProf) { %>
+                <%= video.prescricaoCurta || video.categoria %><%= video.duracao && video.duracao !== '--:--' ? ' • Duração: ' + video.duracao : '' %>
+              <% } else { %>
+                <%= video.categoria %> • <%= video.nivel %> • Duração: <%= video.duracao %>
+              <% } %>
             </p>
           </hgroup>
 
-          <a href="<%= videosCorreto %>" class="inline-flex items-center justify-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
-            Voltar aos vídeos
+          <a href="<%= treinoProf ? '/meutreino' : videosCorreto %>" class="inline-flex items-center justify-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-bold active:scale-95 transition-transform">
+            <%= treinoProf ? 'Voltar ao meu treino' : 'Voltar aos vídeos' %>
             <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_back</i>
           </a>
 
@@ -528,13 +532,18 @@
 
           <article class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center text-white">
             <i aria-hidden="true" class="material-symbols-outlined text-5xl not-italic" style="font-variation-settings: 'FILL' 1;">hourglass_top</i>
-            <strong class="font-headline text-xl font-black">Vídeo em breve</strong>
-            <p class="text-sm text-white/80 max-w-sm">Este vídeo demonstrativo ainda está sendo preparado. Enquanto isso, leia a execução abaixo ou escolha outro vídeo da lista.</p>
+            <% if (treinoProf) { %>
+              <strong class="font-headline text-xl font-black">Faça este exercício</strong>
+              <p class="text-sm text-white/80 max-w-sm"><%= video.prescricaoCurta ? 'Seu professor pediu: ' + video.prescricaoCurta + '.' : 'Siga a orientação do seu professor.' %> Quando terminar, toque em “Concluir Exercício”.</p>
+            <% } else { %>
+              <strong class="font-headline text-xl font-black">Vídeo em breve</strong>
+              <p class="text-sm text-white/80 max-w-sm">Este vídeo demonstrativo ainda está sendo preparado. Enquanto isso, leia a execução abaixo ou escolha outro vídeo da lista.</p>
+            <% } %>
           </article>
           <% } %>
         </section>
 
-        <section class="bg-surface-container-lowest p-6 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm" data-pb-completion data-required-percent="80">
+        <section class="bg-surface-container-lowest p-6 md:p-8 rounded-3xl border border-outline-variant/10 shadow-sm" data-pb-completion data-required-percent="80"<%= treinoProf && treinoProf.semVideo ? ' data-pb-manual' : '' %>>
           <div class="flex items-center justify-between gap-3 mb-3">
             <div>
               <h2 class="font-black text-lg">Progresso do exercício</h2>
@@ -607,10 +616,10 @@
           <article class="flex justify-between items-end mb-8 relative">
             <section>
               <h2 class="text-2xl font-black tracking-tight headline">
-                <%= alunoPago ? 'Vídeos Premium' : 'Vídeos Free' %>
+                <%= treinoProf ? 'Treino ' + treinoProf.dia + ' do professor' : (alunoPago ? 'Vídeos Premium' : 'Vídeos Free') %>
               </h2>
               <p class="text-on-surface-variant text-sm font-semibold">
-                <%= alunoPago ? 'Exercícios do dia ' + (diaAtual + 1) + ' de ' + totalDias + ' • plano ' + nomePlanoAluno : 'Biblioteca demonstrativa' %>
+                <%= treinoProf ? treinoProf.nome_ficha + ' • ' + treinoProf.totalFeitos + ' de ' + treinoProf.total + ' feitos hoje' : (alunoPago ? 'Exercícios do dia ' + (diaAtual + 1) + ' de ' + totalDias + ' • plano ' + nomePlanoAluno : 'Biblioteca demonstrativa') %>
               </p>
             </section>
 
@@ -641,7 +650,7 @@
 
               <% } else { %>
 
-                <a href="/execucaoexercicios?video=<%= item.slug %>" class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
+                <a href="<%= item.href || '/execucaoexercicios?video=' + item.slug %>" class="flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-surface-container-low transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10">
                   <article class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary transition-colors overflow-hidden shrink-0">
                     <img src="<%= item.capaExibicao %>" alt="<%= item.titulo %>" class="w-full h-full object-cover">
                   </article>
@@ -651,7 +660,7 @@
                     <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mt-0.5"><%= item.categoria %> • <%= item.duracao %></p>
                   </section>
 
-                  <i aria-hidden="true" class="material-symbols-outlined text-outline-variant/40 group-hover:text-primary transition-colors not-italic">play_arrow</i>
+                  <i aria-hidden="true" class="material-symbols-outlined <%= item.feito ? 'text-primary' : 'text-outline-variant/40 group-hover:text-primary' %> transition-colors not-italic"><%= item.feito ? 'check_circle' : 'play_arrow' %></i>
                 </a>
 
               <% } %>
@@ -663,6 +672,10 @@
   <input type="hidden" name="duracao_min" value="<%= video.duracaoMin %>">
   <input type="hidden" name="observacao" value="<%= video.titulo %> concluído pela tela de execução.">
   <input type="hidden" name="redirect_to" value="<%= painelCorreto %>">
+  <% if (treinoProf) { %>
+  <input type="hidden" name="id_exercicio" value="<%= video.idExercicio %>">
+  <input type="hidden" name="id_ficha" value="<%= treinoProf.id_ficha %>">
+  <% } %>
 
               <button
                 type="submit"
@@ -675,13 +688,13 @@
             </form>
 
             <% if (proximoVideo) { %>
-              <a data-pb-next-video aria-disabled="true" tabindex="-1" class="w-full py-4 bg-surface-container-low text-on-surface-variant opacity-50 pointer-events-none rounded-full transition-colors text-center block font-black text-xs uppercase tracking-widest" href="/execucaoexercicios?video=<%= proximoVideo.slug %>">
+              <a data-pb-next-video aria-disabled="true" tabindex="-1" class="w-full py-4 bg-surface-container-low text-on-surface-variant opacity-50 pointer-events-none rounded-full transition-colors text-center block font-black text-xs uppercase tracking-widest" href="<%= proximoVideo.href || '/execucaoexercicios?video=' + proximoVideo.slug %>">
                 Próximo vídeo: <%= proximoVideo.titulo %>
               </a>
             <% } %>
 
-            <a class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-full transition-colors text-center block" href="<%= videosCorreto %>">
-              Voltar para vídeos
+            <a class="w-full py-4 text-primary text-xs font-black uppercase tracking-[0.2em] hover:bg-primary/5 rounded-full transition-colors text-center block" href="<%= treinoProf ? '/meutreino' : videosCorreto %>">
+              <%= treinoProf ? 'Voltar ao meu treino' : 'Voltar para vídeos' %>
             </a>
           </section>
 

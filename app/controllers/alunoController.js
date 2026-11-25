@@ -3,6 +3,8 @@ const { uploadPerfil } = require('../config/uploads')
 const videosFree = require('../data/videosFree')
 const { buscarVideosProfessores, descreverFonte } = require('../utils/videos')
 const naoEncontrado = require('../utils/naoEncontrado')
+const { buscarTreinosDoAluno, montarTreinoDoDia } = require('../utils/treinoAluno')
+const { marcarTreinoLido } = require('../utils/notificacaoAluno')
 const { redirecionarPainelAluno, redirecionarVideosAluno } = require('../utils/redirecionamentos')
 
 // =======================
@@ -722,7 +724,141 @@ exports.videosPagina = async (req, res) => {
     })
 }
 
+// ---------- Treino montado pelo professor, executado exercício por exercício ----------
+
+const CAPA_EXERCICIO_PROFESSOR = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">' +
+    '<rect width="640" height="360" fill="#0058ba"/>' +
+    '<circle cx="320" cy="180" r="64" fill="#ffffff" fill-opacity="0.15"/>' +
+    '<rect x="262" y="172" width="116" height="16" rx="8" fill="#ffffff"/>' +
+    '<rect x="248" y="150" width="16" height="60" rx="6" fill="#ffffff"/>' +
+    '<rect x="376" y="150" width="16" height="60" rx="6" fill="#ffffff"/>' +
+    '</svg>'
+)
+
+const NIVEIS_TEXTO = { iniciante: 'Iniciante', intermediario: 'Intermediário', avancado: 'Avançado' }
+
+function prescricaoCurta(ex) {
+    const partes = []
+
+    if (ex.series && ex.repeticoes) partes.push(`${ex.series} × ${ex.repeticoes}`)
+    else if (ex.series) partes.push(`${ex.series} série(s)`)
+    else if (ex.repeticoes) partes.push(`${ex.repeticoes} repetições`)
+
+    if (ex.carga_kg !== null && ex.carga_kg !== undefined && Number(ex.carga_kg) > 0) partes.push(`${Number(ex.carga_kg)} kg`)
+    if (ex.descanso_seg !== null && ex.descanso_seg !== undefined) partes.push(`descanso ${ex.descanso_seg}s`)
+
+    return partes.join(' • ')
+}
+
+// Tempo estimado (min) para registrar o treino quando o exercício não tem vídeo
+function duracaoEstimadaMin(ex) {
+    const series = Number(ex.series) || 3
+    const reps = Number(ex.repeticoes) || 10
+    const descanso = Number(ex.descanso_seg) || 45
+
+    return Math.max(1, Math.round((series * (reps * 3 + descanso)) / 60))
+}
+
+// Converte um exercício da ficha no mesmo formato dos vídeos que a tela de execução já exibe
+function exercicioParaExecucao(ex, treino, catalogo) {
+    const base = ex.id_video ? catalogo.find(video => video.slug === 'prof-' + ex.id_video) : null
+    const prescricao = prescricaoCurta(ex)
+
+    const descricao = [
+        prescricao ? 'Prescrição do professor: ' + prescricao + '.' : '',
+        ex.observacao ? 'Observação: ' + ex.observacao : '',
+        base ? base.descricao : ''
+    ].filter(Boolean).join(' ') || 'Faça o exercício conforme a orientação do seu professor.'
+
+    const item = base ? { ...base } : {
+        categoria: 'Treino do professor',
+        nivel: NIVEIS_TEXTO[treino.nivel] || 'Iniciante',
+        duracao: '--:--',
+        duracaoMin: 0,
+        capa: CAPA_EXERCICIO_PROFESSOR,
+        atencao1: 'Mantenha a postura correta durante todo o movimento.',
+        atencao2: 'Pare o exercício se sentir dor e procure orientação.',
+        tipoFonte: null,
+        embedUrl: null,
+        arquivoUrl: null
+    }
+
+    return {
+        ...item,
+        slug: 'ex-' + ex.id_exercicio,
+        titulo: ex.titulo,
+        descricao,
+        prescricaoCurta: prescricao,
+        duracaoMin: item.duracaoMin || duracaoEstimadaMin(ex),
+        idExercicio: ex.id_exercicio,
+        feito: !!ex.feito,
+        href: `/execucaoexercicios?treino=${treino.id_ficha}&dia=${treino.dia}&ex=${ex.id_exercicio}`
+    }
+}
+
+async function execucaoDoTreinoProfessor(req, res) {
+    const aluno = req.session.aluno
+    const idFicha = Number(req.query.treino)
+    const diaPedido = typeof req.query.dia === 'string' ? req.query.dia.trim().toUpperCase().slice(0, 1) : ''
+    const idExercicioPedido = Number(req.query.ex)
+
+    if (!Number.isInteger(idFicha) || idFicha <= 0) {
+        return naoEncontrado(req, res, 'Este treino não existe.')
+    }
+
+    let treinoDoDia = null
+
+    try {
+        const treinos = await buscarTreinosDoAluno(aluno.id, aluno.id_plano)
+        const treino = treinos.find(item => Number(item.id_ficha) === idFicha)
+
+        treinoDoDia = treino ? await montarTreinoDoDia(aluno.id, treino, diaPedido) : null
+    } catch (err) {
+        console.error('[execucao treino professor]', err)
+    }
+
+    if (!treinoDoDia || treinoDoDia.exercicios.length === 0) {
+        return naoEncontrado(req, res, 'Este treino não está disponível para você.')
+    }
+
+    const catalogo = await montarCatalogo(aluno.id_plano)
+    const lista = treinoDoDia.exercicios.map(ex => exercicioParaExecucao(ex, treinoDoDia, catalogo))
+
+    // Sem ?ex= abre o primeiro exercício que ainda não foi feito hoje (ou o primeiro, se tudo já foi feito)
+    const escolhido =
+        lista.find(item => Number(item.idExercicio) === idExercicioPedido) ||
+        lista.find(item => !item.feito) ||
+        lista[0]
+
+    // Abriu o treino: a notificação do sino deixa de ficar pendente
+    marcarTreinoLido(aluno.id, idFicha).catch(err => console.error('[notificacao lida]', err.message))
+
+    res.render('execucaoexercicios', {
+        aluno,
+        video: escolhido,
+        videosFree: lista,
+        modoTreino: {
+            id_ficha: treinoDoDia.id_ficha,
+            nome_ficha: treinoDoDia.nome_ficha,
+            professor_nome: treinoDoDia.professor_nome,
+            dia: treinoDoDia.dia,
+            total: treinoDoDia.total,
+            totalFeitos: treinoDoDia.totalFeitos,
+            // Exercício sem vídeo: não dá para medir assistência, então o aluno conclui manualmente
+            semVideo: !escolhido.embedUrl && !escolhido.arquivoUrl
+        },
+        linkPainelAluno: redirecionarPainelAluno(aluno.id_plano),
+        linkVideosAluno: redirecionarVideosAluno(aluno.id_plano)
+    })
+}
+
 exports.execucaoExercicios = async (req, res) => {
+    // ?treino=<id_ficha> abre o treino que o professor montou para o aluno
+    if (req.query.treino !== undefined) {
+        return execucaoDoTreinoProfessor(req, res)
+    }
+
     const catalogo = await montarCatalogo(req.session.aluno.id_plano)
     const slugPedido = typeof req.query.video === 'string' ? req.query.video.trim() : ''
 

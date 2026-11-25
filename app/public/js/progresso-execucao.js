@@ -71,6 +71,23 @@
     });
   }
 
+  // Exercício do professor sem vídeo: não há como medir assistência, então a conclusão é manual.
+  if (painel.hasAttribute('data-pb-manual')) {
+    concluido = true;
+    preenchimento.style.width = '100%';
+    rotulo.textContent = '—';
+    barra.setAttribute('aria-valuenow', '100');
+    mensagem.textContent = 'Faça o exercício como seu professor pediu e toque em Concluir Exercício.';
+    if (botaoConcluir) botaoConcluir.disabled = false;
+    if (proximo) {
+      proximo.setAttribute('aria-disabled', 'false');
+      proximo.removeAttribute('tabindex');
+      proximo.classList.remove('opacity-50', 'pointer-events-none');
+      proximo.classList.add('hover:bg-primary', 'hover:text-white');
+    }
+    return;
+  }
+
   var videoNativo = document.querySelector('video[data-pb-video]');
   if (videoNativo) {
     videoNativo.addEventListener('loadedmetadata', function () {

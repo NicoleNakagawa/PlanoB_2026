@@ -1,4 +1,5 @@
 const db = require('../config/pool_conexoes')
+const { criarNotificacaoTreino } = require('../utils/notificacaoAluno')
 
 // =======================
 // TREINO PERSONALIZADO (PROFESSOR -> ALUNO)
@@ -246,6 +247,18 @@ exports.salvar = async (req, res) => {
             throw err
         } finally {
             conexao.release()
+        }
+
+        // Avisa o aluno no sino. Se a notificação falhar, o treino continua salvo.
+        try {
+            await criarNotificacaoTreino(idAluno, {
+                idFicha: ficha.id_ficha,
+                nomeFicha: nomeFicha,
+                professorNome: req.session.professor.nome,
+                totalExercicios: exercicios.length
+            })
+        } catch (err) {
+            console.error('[montar treino] notificação do aluno:', err.message)
         }
 
         voltar(res, idAluno, 'sucesso', 'Treino salvo! O aluno já pode ver a sua recomendação.')

@@ -1,4 +1,4 @@
-const { buscarTreinosDoAluno } = require('../utils/treinoAluno')
+const { buscarTreinosDoAluno, buscarTreinoDoDia } = require('../utils/treinoAluno')
 const { redirecionarPainelAluno } = require('../utils/redirecionamentos')
 
 // Página do aluno com o treino e a recomendação feitos pelo professor
@@ -31,6 +31,7 @@ exports.exibir = async (req, res) => {
 // Middleware: deixa um resumo do treino disponível para os painéis (card "Treino do professor")
 exports.resumoParaPainel = async (req, res, next) => {
     res.locals.resumoTreino = null
+    res.locals.treinoDoDia = null
 
     try {
         const aluno = req.session.aluno
@@ -45,6 +46,9 @@ exports.resumoParaPainel = async (req, res, next) => {
                 totalExercicios: principal.totalExercicios,
                 recomendacao: principal.recomendacao || ''
             }
+
+            // Recomendação do dia: o treino (A, B, C...) que o aluno deve fazer hoje
+            res.locals.treinoDoDia = await buscarTreinoDoDia(aluno.id, aluno.id_plano)
         }
     } catch (err) {
         console.error('[resumo treino painel]', err.message)

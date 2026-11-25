@@ -189,6 +189,9 @@ const professorApiController = require('../controllers/professorApiController')
 
 router.get('/api/aluno/progresso', authAluno, alunoApiController.progresso)
 router.get('/api/aluno/streak', authAluno, alunoApiController.streak)
+router.get('/api/aluno/notificacoes', authAluno, alunoApiController.notificacoes)
+router.post('/api/aluno/notificacoes/lidas', authAluno, alunoApiController.notificacoesLidas)
+router.post('/api/aluno/notificacoes/:id/lida', authAluno, alunoApiController.notificacaoLida)
 
 router.get('/api/professor/alunos', authProfessor, professorApiController.alunos)
 router.get('/api/professor/videos', authProfessor, professorApiController.videos)

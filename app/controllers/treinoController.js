@@ -29,6 +29,40 @@ exports.registrar = async (req, res) => {
             idFicha = fichaRows[0].id_ficha
         }
 
+        // Exercício do treino montado pelo professor: confere que ele é mesmo do aluno,
+        // usa a ficha certa e guarda que foi concluído hoje (alimenta o "treino do dia").
+        const idExercicio = Number(req.body.id_exercicio)
+
+        if (Number.isInteger(idExercicio) && idExercicio > 0) {
+            try {
+                const [exercicioRows] = await db.query(
+                    `SELECT e.id_exercicio, e.id_ficha, e.dia_treino
+                     FROM exercicio e
+                     JOIN aluno_ficha af ON af.id_ficha = e.id_ficha
+                     WHERE e.id_exercicio = ?
+                     AND af.id_aluno = ?
+                     AND af.ativo = 1
+                     LIMIT 1`,
+                    [idExercicio, idAluno]
+                )
+
+                if (exercicioRows.length > 0) {
+                    const exercicio = exercicioRows[0]
+
+                    idFicha = exercicio.id_ficha
+
+                    await db.query(
+                        `INSERT INTO exercicio_concluido (id_aluno, id_exercicio, id_ficha, dia_treino, data_conclusao)
+                         VALUES (?, ?, ?, ?, CURDATE())
+                         ON DUPLICATE KEY UPDATE concluido_em = NOW()`,
+                        [idAluno, exercicio.id_exercicio, exercicio.id_ficha, exercicio.dia_treino || 'A']
+                    )
+                }
+            } catch (err) {
+                console.error('[registrar treino] exercício do professor:', err.message)
+            }
+        }
+
         await db.query(
             `INSERT INTO sessao_treino
              (id_aluno, id_ficha, data_treino, duracao_min, calorias, bpm_maximo, observacao)

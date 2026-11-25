@@ -48,6 +48,49 @@ async function garantirTabelas() {
     } catch (err) {
         console.error('[tabelas] não foi possível criar redefinicao_senha:', err.message)
     }
+
+    await garantirTabelasTreinoAluno()
+}
+
+async function garantirTabelasTreinoAluno() {
+    // Notificações do aluno (sino): ex. "seu professor montou um treino para você"
+    try {
+        await db.query(
+            `CREATE TABLE IF NOT EXISTS notificacao_aluno (
+                id_notificacao INT NOT NULL AUTO_INCREMENT,
+                id_aluno INT NOT NULL,
+                tipo VARCHAR(30) NOT NULL DEFAULT 'treino',
+                id_ficha INT DEFAULT NULL,
+                titulo VARCHAR(120) NOT NULL,
+                mensagem VARCHAR(255) DEFAULT NULL,
+                link VARCHAR(255) DEFAULT NULL,
+                lida TINYINT(1) NOT NULL DEFAULT 0,
+                criada_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id_notificacao),
+                KEY idx_notificacao_aluno (id_aluno, lida, criada_em)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`
+        )
+    } catch (err) {
+        console.error('[tabelas] não foi possível criar notificacao_aluno:', err.message)
+    }
+
+    // Exercícios do treino do professor que o aluno já concluiu (um registro por exercício por dia)
+    try {
+        await db.query(
+            `CREATE TABLE IF NOT EXISTS exercicio_concluido (
+                id_aluno INT NOT NULL,
+                id_exercicio INT NOT NULL,
+                id_ficha INT NOT NULL,
+                dia_treino CHAR(1) NOT NULL DEFAULT 'A',
+                data_conclusao DATE NOT NULL,
+                concluido_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id_aluno, id_exercicio, data_conclusao),
+                KEY idx_exconcl_ficha (id_aluno, id_ficha, data_conclusao)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`
+        )
+    } catch (err) {
+        console.error('[tabelas] não foi possível criar exercicio_concluido:', err.message)
+    }
 }
 
 module.exports = garantirTabelas

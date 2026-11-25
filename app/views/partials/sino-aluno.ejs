@@ -1,0 +1,160 @@
+<%# Sino de notificações do aluno (usa /api/aluno/notificacoes). Vai dentro do <li> do cabeçalho. %>
+<div class="relative" data-sino-aluno>
+  <button type="button" data-sino-botao class="relative p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95" aria-label="Notificações" aria-haspopup="true" aria-expanded="false">
+    <i class="material-symbols-outlined text-on-background not-italic" aria-hidden="true">notifications</i>
+    <span data-sino-contador hidden class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-error text-white text-[10px] font-black leading-[18px] text-center"></span>
+  </button>
+
+  <section data-sino-painel hidden class="absolute right-0 mt-3 w-[min(22rem,calc(100vw-2rem))] rounded-3xl bg-surface-container-lowest shadow-2xl border border-outline-variant/20 overflow-hidden z-[60]" role="region" aria-label="Lista de notificações">
+    <header class="flex items-center justify-between gap-3 px-5 py-4 border-b border-outline-variant/20">
+      <h2 class="headline text-base font-black text-on-surface m-0">Notificações</h2>
+      <button type="button" data-sino-todas class="text-xs font-black text-primary hover:underline">Marcar todas como lidas</button>
+    </header>
+
+    <ul data-sino-lista class="m-0 p-0 list-none max-h-80 overflow-y-auto"></ul>
+  </section>
+</div>
+
+<script>
+(function () {
+  var raiz = document.querySelector('[data-sino-aluno]');
+  if (!raiz || raiz.getAttribute('data-pronto')) return;
+  raiz.setAttribute('data-pronto', '1');
+
+  var botao = raiz.querySelector('[data-sino-botao]');
+  var contador = raiz.querySelector('[data-sino-contador]');
+  var painel = raiz.querySelector('[data-sino-painel]');
+  var lista = raiz.querySelector('[data-sino-lista]');
+  var todas = raiz.querySelector('[data-sino-todas]');
+
+  function quando(valor) {
+    var data = new Date(valor);
+    if (isNaN(data.getTime())) return '';
+    var min = Math.floor((Date.now() - data.getTime()) / 60000);
+    if (min < 1) return 'agora';
+    if (min < 60) return 'há ' + min + ' min';
+    var horas = Math.floor(min / 60);
+    if (horas < 24) return 'há ' + horas + ' h';
+    var dias = Math.floor(horas / 24);
+    return dias === 1 ? 'ontem' : 'há ' + dias + ' dias';
+  }
+
+  function mostrarVazio(texto) {
+    lista.innerHTML = '';
+    var li = document.createElement('li');
+    li.className = 'px-5 py-8 text-center text-sm font-semibold text-on-surface-variant';
+    li.textContent = texto;
+    lista.appendChild(li);
+  }
+
+  function atualizarContador(total) {
+    if (total > 0) {
+      contador.textContent = total > 9 ? '9+' : String(total);
+      contador.hidden = false;
+      botao.setAttribute('aria-label', 'Notificações (' + total + ' não lidas)');
+    } else {
+      contador.hidden = true;
+      botao.setAttribute('aria-label', 'Notificações');
+    }
+  }
+
+  function desenhar(dados) {
+    atualizarContador(dados.naoLidas || 0);
+
+    if (!dados.itens || dados.itens.length === 0) {
+      mostrarVazio('Você não tem notificações.');
+      return;
+    }
+
+    lista.innerHTML = '';
+
+    dados.itens.forEach(function (item) {
+      var li = document.createElement('li');
+      var link = document.createElement('a');
+      var naoLida = Number(item.lida) === 0;
+
+      link.href = item.link || '#';
+      link.className = 'flex gap-3 px-5 py-4 no-underline border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors ' + (naoLida ? 'bg-primary/5' : '');
+
+      var icone = document.createElement('i');
+      icone.className = 'material-symbols-outlined not-italic text-primary mt-0.5';
+      icone.setAttribute('aria-hidden', 'true');
+      icone.textContent = 'assignment';
+
+      var texto = document.createElement('span');
+      texto.className = 'flex flex-col gap-0.5 min-w-0';
+
+      var titulo = document.createElement('strong');
+      titulo.className = 'text-sm font-black text-on-surface';
+      titulo.textContent = item.titulo;
+
+      var msg = document.createElement('span');
+      msg.className = 'text-xs font-semibold text-on-surface-variant';
+      msg.textContent = item.mensagem || '';
+
+      var hora = document.createElement('span');
+      hora.className = 'text-[11px] font-bold text-primary';
+      hora.textContent = quando(item.criada_em);
+
+      texto.appendChild(titulo);
+      texto.appendChild(msg);
+      texto.appendChild(hora);
+      link.appendChild(icone);
+      link.appendChild(texto);
+
+      if (naoLida) {
+        var ponto = document.createElement('b');
+        ponto.className = 'ml-auto mt-1.5 w-2.5 h-2.5 rounded-full bg-primary shrink-0';
+        ponto.setAttribute('aria-hidden', 'true');
+        link.appendChild(ponto);
+      }
+
+      link.addEventListener('click', function (evento) {
+        if (!naoLida || !item.link) return;
+        evento.preventDefault();
+        fetch('/api/aluno/notificacoes/' + item.id + '/lida', { method: 'POST', credentials: 'same-origin' })
+          .catch(function () {})
+          .then(function () { window.location.href = item.link; });
+      });
+
+      li.appendChild(link);
+      lista.appendChild(li);
+    });
+  }
+
+  function carregar() {
+    fetch('/api/aluno/notificacoes', { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (dados) { if (dados && dados.ok) desenhar(dados); })
+      .catch(function () { mostrarVazio('Não foi possível carregar as notificações.'); });
+  }
+
+  function abrir(abrirPainel) {
+    painel.hidden = !abrirPainel;
+    botao.setAttribute('aria-expanded', abrirPainel ? 'true' : 'false');
+    if (abrirPainel) carregar();
+  }
+
+  botao.addEventListener('click', function (evento) {
+    evento.stopPropagation();
+    abrir(painel.hidden);
+  });
+
+  todas.addEventListener('click', function () {
+    fetch('/api/aluno/notificacoes/lidas', { method: 'POST', credentials: 'same-origin' })
+      .catch(function () {})
+      .then(carregar);
+  });
+
+  document.addEventListener('click', function (evento) {
+    if (!raiz.contains(evento.target)) abrir(false);
+  });
+
+  document.addEventListener('keydown', function (evento) {
+    if (evento.key === 'Escape' && !painel.hidden) { abrir(false); botao.focus(); }
+  });
+
+  carregar();
+  window.setInterval(function () { if (painel.hidden) carregar(); }, 60000);
+})();
+</script>

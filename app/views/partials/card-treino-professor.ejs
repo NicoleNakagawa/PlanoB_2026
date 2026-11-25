@@ -1,26 +1,96 @@
-<%# Card do painel do aluno: aparece só quando um professor já montou treino para ele (resumoTreino vem do middleware). %>
+<%# Card do painel do aluno: aparece só quando um professor já montou treino para ele (resumoTreino e treinoDoDia vêm do middleware). %>
 <% if (typeof resumoTreino !== 'undefined' && resumoTreino) { %>
   <% const trechoRecomendacao = String(resumoTreino.recomendacao || '').trim() %>
-  <article class="md:col-span-12 rounded-3xl bg-gradient-to-br from-primary to-secondary p-6 md:p-8 text-white shadow-lg shadow-primary/20 flex flex-col md:flex-row md:items-center justify-between gap-6" aria-labelledby="card-treino-titulo">
-    <hgroup class="flex flex-col gap-2 min-w-0">
-      <p class="m-0 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest opacity-90">
-        <i class="material-symbols-outlined not-italic text-base" aria-hidden="true">assignment</i>
-        Treino do seu professor
-      </p>
-      <h2 id="card-treino-titulo" class="headline text-2xl md:text-3xl font-black leading-tight"><%= resumoTreino.nome %></h2>
-      <p class="m-0 text-sm font-semibold opacity-90">
-        Prof. <%= resumoTreino.professor %> · <%= resumoTreino.totalExercicios %> exercício(s)
-      </p>
-      <% if (trechoRecomendacao) { %>
-        <p class="m-0 text-sm opacity-90 leading-relaxed max-w-2xl">
-          “<%= trechoRecomendacao.length > 160 ? trechoRecomendacao.slice(0, 160).trim() + '…' : trechoRecomendacao %>”
-        </p>
-      <% } %>
-    </hgroup>
+  <% const doDia = typeof treinoDoDia !== 'undefined' ? treinoDoDia : null %>
 
-    <a href="/meutreino" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg active:scale-95 transition-transform whitespace-nowrap">
-      Abrir meu treino
-      <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
-    </a>
-  </article>
+  <% if (doDia) { %>
+    <% const trechoDia = String(doDia.recomendacao || '').trim() %>
+    <% const linkInicio = '/execucaoexercicios?treino=' + doDia.id_ficha + '&dia=' + doDia.dia + (doDia.proximo ? '&ex=' + doDia.proximo.id_exercicio : '') %>
+    <% const percentualDia = doDia.total > 0 ? Math.round((doDia.totalFeitos / doDia.total) * 100) : 0 %>
+
+    <article class="md:col-span-12 rounded-3xl bg-gradient-to-br from-primary to-secondary p-6 md:p-8 text-white shadow-lg shadow-primary/20 flex flex-col gap-6" aria-labelledby="card-treino-titulo">
+      <section class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+        <hgroup class="flex flex-col gap-2 min-w-0">
+          <p class="m-0 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest opacity-90">
+            <i class="material-symbols-outlined not-italic text-base" aria-hidden="true">assignment</i>
+            Recomendação do dia · Prof. <%= doDia.professor_nome %>
+          </p>
+          <h2 id="card-treino-titulo" class="headline text-2xl md:text-3xl font-black leading-tight">
+            <%= doDia.nome_ficha %> · Treino <%= doDia.dia %>
+          </h2>
+          <p class="m-0 text-sm font-semibold opacity-90">
+            <%= doDia.totalFeitos %> de <%= doDia.total %> exercício(s) concluído(s) hoje
+          </p>
+          <% if (trechoDia) { %>
+            <p class="m-0 text-sm opacity-90 leading-relaxed max-w-2xl">
+              “<%= trechoDia.length > 160 ? trechoDia.slice(0, 160).trim() + '…' : trechoDia %>”
+            </p>
+          <% } %>
+        </hgroup>
+
+        <nav class="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0" aria-label="Ações do treino do dia">
+          <% if (doDia.concluido) { %>
+            <p class="m-0 inline-flex items-center justify-center gap-2 rounded-full bg-white/20 px-8 py-4 font-black whitespace-nowrap">
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">check_circle</i>
+              Treino de hoje concluído
+            </p>
+          <% } else { %>
+            <a href="<%= linkInicio %>" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg active:scale-95 transition-transform whitespace-nowrap">
+              <%= doDia.totalFeitos > 0 ? 'Continuar treino' : 'Fazer treino do dia' %>
+              <i class="material-symbols-outlined not-italic" aria-hidden="true">play_arrow</i>
+            </a>
+          <% } %>
+          <a href="/meutreino" class="inline-flex items-center justify-center gap-2 rounded-full bg-white/15 px-8 py-3 text-sm font-black text-white active:scale-95 transition-transform whitespace-nowrap">
+            Ver treino completo
+          </a>
+        </nav>
+      </section>
+
+      <div class="w-full h-2 rounded-full bg-white/20 overflow-hidden" role="progressbar" aria-label="Progresso do treino de hoje" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= percentualDia %>">
+        <div class="h-full rounded-full bg-white transition-all" style="width: <%= percentualDia %>%"></div>
+      </div>
+
+      <ol class="m-0 p-0 list-none grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <% doDia.exercicios.forEach(function (ex, i) { %>
+          <li>
+            <a href="/execucaoexercicios?treino=<%= doDia.id_ficha %>&dia=<%= doDia.dia %>&ex=<%= ex.id_exercicio %>" class="flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-3 no-underline text-white hover:bg-white/25 transition-colors">
+              <i class="material-symbols-outlined not-italic shrink-0" aria-hidden="true"><%= ex.feito ? 'check_circle' : 'radio_button_unchecked' %></i>
+              <span class="min-w-0 flex flex-col">
+                <strong class="text-sm font-black truncate"><%= i + 1 %>. <%= ex.titulo %></strong>
+                <% if (ex.series || ex.repeticoes) { %>
+                  <span class="text-xs font-semibold opacity-90">
+                    <%= ex.series && ex.repeticoes ? ex.series + ' × ' + ex.repeticoes : (ex.series ? ex.series + ' série(s)' : ex.repeticoes + ' repetições') %>
+                  </span>
+                <% } %>
+              </span>
+            </a>
+          </li>
+        <% }) %>
+      </ol>
+    </article>
+
+  <% } else { %>
+    <article class="md:col-span-12 rounded-3xl bg-gradient-to-br from-primary to-secondary p-6 md:p-8 text-white shadow-lg shadow-primary/20 flex flex-col md:flex-row md:items-center justify-between gap-6" aria-labelledby="card-treino-titulo">
+      <hgroup class="flex flex-col gap-2 min-w-0">
+        <p class="m-0 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest opacity-90">
+          <i class="material-symbols-outlined not-italic text-base" aria-hidden="true">assignment</i>
+          Treino do seu professor
+        </p>
+        <h2 id="card-treino-titulo" class="headline text-2xl md:text-3xl font-black leading-tight"><%= resumoTreino.nome %></h2>
+        <p class="m-0 text-sm font-semibold opacity-90">
+          Prof. <%= resumoTreino.professor %> · <%= resumoTreino.totalExercicios %> exercício(s)
+        </p>
+        <% if (trechoRecomendacao) { %>
+          <p class="m-0 text-sm opacity-90 leading-relaxed max-w-2xl">
+            “<%= trechoRecomendacao.length > 160 ? trechoRecomendacao.slice(0, 160).trim() + '…' : trechoRecomendacao %>”
+          </p>
+        <% } %>
+      </hgroup>
+
+      <a href="/meutreino" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-black text-primary shadow-lg active:scale-95 transition-transform whitespace-nowrap">
+        Abrir meu treino
+        <i class="material-symbols-outlined not-italic" aria-hidden="true">arrow_forward</i>
+      </a>
+    </article>
+  <% } %>
 <% } %>
